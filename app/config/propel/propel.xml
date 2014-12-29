@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<config>
+    <propel>
+        <database>
+            <connections>
+                <connection id="edigital">
+                    <adapter>pgsql</adapter>
+                    <classname>Propel\Runtime\Connection\DebugPDO</classname>
+                    <dsn>pgsql:host=localhost;dbname=edigital</dsn>
+                    <user>edigital</user>
+                    <password>edigital</password>
+                </connection>
+            </connections>
+        </database>
+        <runtime>
+            <defaultConnection>edigital</defaultConnection>
+            <connection>edigital</connection>
+        </runtime>
+        <generator>
+            <defaultConnection>edigital</defaultConnection>
+            <connection>edigital</connection>
+        </generator>
+    </propel>
+</config>
+

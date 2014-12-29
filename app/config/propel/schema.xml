@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<database name="edigital" defaultIdMethod="native" defaultPhpNamingMethod="underscore">
+  <table name="cliente" idMethod="native" phpName="Cliente">
+    <column name="ativo" phpName="Ativo" type="BOOLEAN" size="1" defaultValue="false"/>
+    <column name="senha" phpName="Senha" type="VARCHAR" size="25"/>
+    <column name="login" phpName="Login" type="VARCHAR" size="150"/>
+    <column name="nome" phpName="Nome" type="VARCHAR" size="255"/>
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+  </table>
+  <table name="idoc" idMethod="native" phpName="Idoc">
+    <column name="file" phpName="File" type="VARCHAR" size="255"/>
+    <column name="idcliente" phpName="Idcliente" type="BIGINT"/>
+    <column name="nome" phpName="Nome" type="VARCHAR" size="255"/>
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <foreign-key foreignTable="cliente" name="idoc_idcliente_fkey" onDelete="CASCADE" onUpdate="CASCADE">
+      <reference local="idcliente" foreign="id"/>
+    </foreign-key>
+  </table>
+</database>

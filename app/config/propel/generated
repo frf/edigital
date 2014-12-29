@@ -1,0 +1,6 @@
+#!/bin/bash
+
+../../../vendor/bin/propel reverse --database-name="edigital"  "pgsql:host=localhost;dbname=edigital;user=edigital;password=edigital" --output-dir="."
+../../../vendor/bin/propel model:build  --output-dir="../../models/propel"
+
+../../../artisan dump-autoload
