@@ -24,9 +24,9 @@ class TabelaUsuarioSeeder extends Seeder {
  
         if($usuarios->count() == 0) {
             Usuario::create(array(
-                'email' => 'seu@email.com',
+                'email' => 'admin@edigital.com.br',
                 'senha' => Hash::make('admin'),
-                'nome'  => 'Seu Nome',
+                'nome'  => 'Administrador',
                 'tipo'  => 'admin'
             ));
         }

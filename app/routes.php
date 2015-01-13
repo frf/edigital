@@ -21,7 +21,7 @@ Route::get('/',
             'uses' => 'HomeController@index'
             )
         );
- 
+
 Route::get('entrar', 'HomeController@getEntrar');
 Route::post('entrar', 'HomeController@postEntrar');
 Route::get('sair', 'HomeController@getSair');

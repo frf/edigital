@@ -8,3 +8,4 @@
         <p>Bem vindo {{ $nomeUsuario }}.</p>
     </div>
 @stop
+
