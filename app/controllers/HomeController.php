@@ -18,8 +18,6 @@ class HomeController extends BaseController {
 
             $header['nomeEmpresa'] = Config::get('edigital.nomeEmpresa');
             $header['nomeSistema'] = Config::get('edigital.nomeSistema');
-            $header['nomeEmpresaSoftware'] = Config::get('edigital.nomeEmpresaSoftware');
-            $header['cnpjEmpresaSoftware'] = Config::get('edigital.cnpjEmpresaSoftware');
             $header['nomeUsuario'] = ""; //Auth::user()->nome;
 
             return View::make('home', $header);
