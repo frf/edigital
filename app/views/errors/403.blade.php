@@ -6,7 +6,7 @@
       <!-- Begin page content -->
       <div class="container" style="text-align: center">
         <div class="page-header">
-          <h1>Desculpe esta página não é restrita!</h1>
+          <h1>Desculpe esta página é restrita!</h1>
         </div>
           <p class="lead"><label style="color:#e54040;padding: 50px">Você solicitou uma página com acesso restrito.</label></p>
       </div>
