@@ -48,7 +48,6 @@ Log::useFiles(storage_path().'/logs/laravel.log');
 
 App::error(function(Exception $exception, $code)
 {
-    $code = 403;
     switch ($code)
     {
         case 403:
