@@ -2,13 +2,14 @@
 
 namespace Map;
 
-use \Cliente;
-use \ClienteQuery;
+use \Migrations;
+use \MigrationsQuery;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\InstancePoolTrait;
 use Propel\Runtime\Connection\ConnectionInterface;
 use Propel\Runtime\DataFetcher\DataFetcherInterface;
+use Propel\Runtime\Exception\LogicException;
 use Propel\Runtime\Exception\PropelException;
 use Propel\Runtime\Map\RelationMap;
 use Propel\Runtime\Map\TableMap;
@@ -16,7 +17,7 @@ use Propel\Runtime\Map\TableMapTrait;
 
 
 /**
- * This class defines the structure of the 'cliente' table.
+ * This class defines the structure of the 'migrations' table.
  *
  *
  *
@@ -26,7 +27,7 @@ use Propel\Runtime\Map\TableMapTrait;
  * (i.e. if it's a text column type).
  *
  */
-class ClienteTableMap extends TableMap
+class MigrationsTableMap extends TableMap
 {
     use InstancePoolTrait;
     use TableMapTrait;
@@ -34,7 +35,7 @@ class ClienteTableMap extends TableMap
     /**
      * The (dot-path) name of this class
      */
-    const CLASS_NAME = '.Map.ClienteTableMap';
+    const CLASS_NAME = '.Map.MigrationsTableMap';
 
     /**
      * The default database name for this class
@@ -44,22 +45,22 @@ class ClienteTableMap extends TableMap
     /**
      * The table name for this class
      */
-    const TABLE_NAME = 'cliente';
+    const TABLE_NAME = 'migrations';
 
     /**
      * The related Propel class for this table
      */
-    const OM_CLASS = '\\Cliente';
+    const OM_CLASS = '\\Migrations';
 
     /**
      * A class that can be returned by this tableMap
      */
-    const CLASS_DEFAULT = 'Cliente';
+    const CLASS_DEFAULT = 'Migrations';
 
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 4;
+    const NUM_COLUMNS = 2;
 
     /**
      * The number of lazy-loaded columns
@@ -69,27 +70,17 @@ class ClienteTableMap extends TableMap
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
      */
-    const NUM_HYDRATE_COLUMNS = 4;
+    const NUM_HYDRATE_COLUMNS = 2;
 
     /**
-     * the column name for the email field
+     * the column name for the batch field
      */
-    const COL_EMAIL = 'cliente.email';
+    const COL_BATCH = 'migrations.batch';
 
     /**
-     * the column name for the ativo field
+     * the column name for the migration field
      */
-    const COL_ATIVO = 'cliente.ativo';
-
-    /**
-     * the column name for the nome field
-     */
-    const COL_NOME = 'cliente.nome';
-
-    /**
-     * the column name for the id field
-     */
-    const COL_ID = 'cliente.id';
+    const COL_MIGRATION = 'migrations.migration';
 
     /**
      * The default string format for model objects of the related table
@@ -103,11 +94,11 @@ class ClienteTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Email', 'Ativo', 'Nome', 'Id', ),
-        self::TYPE_CAMELNAME     => array('email', 'ativo', 'nome', 'id', ),
-        self::TYPE_COLNAME       => array(ClienteTableMap::COL_EMAIL, ClienteTableMap::COL_ATIVO, ClienteTableMap::COL_NOME, ClienteTableMap::COL_ID, ),
-        self::TYPE_FIELDNAME     => array('email', 'ativo', 'nome', 'id', ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, )
+        self::TYPE_PHPNAME       => array('Batch', 'Migration', ),
+        self::TYPE_CAMELNAME     => array('batch', 'migration', ),
+        self::TYPE_COLNAME       => array(MigrationsTableMap::COL_BATCH, MigrationsTableMap::COL_MIGRATION, ),
+        self::TYPE_FIELDNAME     => array('batch', 'migration', ),
+        self::TYPE_NUM           => array(0, 1, )
     );
 
     /**
@@ -117,11 +108,11 @@ class ClienteTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Email' => 0, 'Ativo' => 1, 'Nome' => 2, 'Id' => 3, ),
-        self::TYPE_CAMELNAME     => array('email' => 0, 'ativo' => 1, 'nome' => 2, 'id' => 3, ),
-        self::TYPE_COLNAME       => array(ClienteTableMap::COL_EMAIL => 0, ClienteTableMap::COL_ATIVO => 1, ClienteTableMap::COL_NOME => 2, ClienteTableMap::COL_ID => 3, ),
-        self::TYPE_FIELDNAME     => array('email' => 0, 'ativo' => 1, 'nome' => 2, 'id' => 3, ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, )
+        self::TYPE_PHPNAME       => array('Batch' => 0, 'Migration' => 1, ),
+        self::TYPE_CAMELNAME     => array('batch' => 0, 'migration' => 1, ),
+        self::TYPE_COLNAME       => array(MigrationsTableMap::COL_BATCH => 0, MigrationsTableMap::COL_MIGRATION => 1, ),
+        self::TYPE_FIELDNAME     => array('batch' => 0, 'migration' => 1, ),
+        self::TYPE_NUM           => array(0, 1, )
     );
 
     /**
@@ -134,18 +125,15 @@ class ClienteTableMap extends TableMap
     public function initialize()
     {
         // attributes
-        $this->setName('cliente');
-        $this->setPhpName('Cliente');
+        $this->setName('migrations');
+        $this->setPhpName('Migrations');
         $this->setIdentifierQuoting(false);
-        $this->setClassName('\\Cliente');
+        $this->setClassName('\\Migrations');
         $this->setPackage('');
-        $this->setUseIdGenerator(true);
-        $this->setPrimaryKeyMethodInfo('cliente_id_seq');
+        $this->setUseIdGenerator(false);
         // columns
-        $this->addColumn('email', 'Email', 'VARCHAR', false, 200, null);
-        $this->addColumn('ativo', 'Ativo', 'BOOLEAN', false, 1, false);
-        $this->addColumn('nome', 'Nome', 'VARCHAR', false, 255, null);
-        $this->addPrimaryKey('id', 'Id', 'INTEGER', true, null, null);
+        $this->addColumn('batch', 'Batch', 'INTEGER', true, null, null);
+        $this->addColumn('migration', 'Migration', 'VARCHAR', true, 255, null);
     } // initialize()
 
     /**
@@ -153,18 +141,7 @@ class ClienteTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('Idoc', '\\Idoc', RelationMap::ONE_TO_MANY, array('id' => 'idcliente', ), 'CASCADE', 'CASCADE', 'Idocs');
-        $this->addRelation('Usuarios', '\\Usuarios', RelationMap::ONE_TO_MANY, array('id' => 'idcliente', ), 'RESTRICT', 'RESTRICT', 'Usuarioss');
     } // buildRelations()
-    /**
-     * Method to invalidate the instance pool of all tables related to cliente     * by a foreign key with ON DELETE CASCADE
-     */
-    public static function clearRelatedInstancePool()
-    {
-        // Invalidate objects in related instance pools,
-        // since one or more of them may be deleted by ON DELETE CASCADE/SETNULL rule.
-        IdocTableMap::clearInstancePool();
-    }
 
     /**
      * Retrieves a string version of the primary key from the DB resultset row that can be used to uniquely identify a row in this table.
@@ -181,12 +158,7 @@ class ClienteTableMap extends TableMap
      */
     public static function getPrimaryKeyHashFromRow($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
     {
-        // If the PK cannot be derived from the row, return NULL.
-        if ($row[TableMap::TYPE_NUM == $indexType ? 3 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)] === null) {
-            return null;
-        }
-
-        return (string) $row[TableMap::TYPE_NUM == $indexType ? 3 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
+        return null;
     }
 
     /**
@@ -203,11 +175,7 @@ class ClienteTableMap extends TableMap
      */
     public static function getPrimaryKeyFromRow($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
     {
-        return (int) $row[
-            $indexType == TableMap::TYPE_NUM
-                ? 3 + $offset
-                : self::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)
-        ];
+        return '';
     }
 
     /**
@@ -223,7 +191,7 @@ class ClienteTableMap extends TableMap
      */
     public static function getOMClass($withPrefix = true)
     {
-        return $withPrefix ? ClienteTableMap::CLASS_DEFAULT : ClienteTableMap::OM_CLASS;
+        return $withPrefix ? MigrationsTableMap::CLASS_DEFAULT : MigrationsTableMap::OM_CLASS;
     }
 
     /**
@@ -237,22 +205,22 @@ class ClienteTableMap extends TableMap
      *
      * @throws PropelException Any exceptions caught during processing will be
      *                         rethrown wrapped into a PropelException.
-     * @return array           (Cliente object, last column rank)
+     * @return array           (Migrations object, last column rank)
      */
     public static function populateObject($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
     {
-        $key = ClienteTableMap::getPrimaryKeyHashFromRow($row, $offset, $indexType);
-        if (null !== ($obj = ClienteTableMap::getInstanceFromPool($key))) {
+        $key = MigrationsTableMap::getPrimaryKeyHashFromRow($row, $offset, $indexType);
+        if (null !== ($obj = MigrationsTableMap::getInstanceFromPool($key))) {
             // We no longer rehydrate the object, since this can cause data loss.
             // See http://www.propelorm.org/ticket/509
             // $obj->hydrate($row, $offset, true); // rehydrate
-            $col = $offset + ClienteTableMap::NUM_HYDRATE_COLUMNS;
+            $col = $offset + MigrationsTableMap::NUM_HYDRATE_COLUMNS;
         } else {
-            $cls = ClienteTableMap::OM_CLASS;
-            /** @var Cliente $obj */
+            $cls = MigrationsTableMap::OM_CLASS;
+            /** @var Migrations $obj */
             $obj = new $cls();
             $col = $obj->hydrate($row, $offset, false, $indexType);
-            ClienteTableMap::addInstanceToPool($obj, $key);
+            MigrationsTableMap::addInstanceToPool($obj, $key);
         }
 
         return array($obj, $col);
@@ -275,18 +243,18 @@ class ClienteTableMap extends TableMap
         $cls = static::getOMClass(false);
         // populate the object(s)
         while ($row = $dataFetcher->fetch()) {
-            $key = ClienteTableMap::getPrimaryKeyHashFromRow($row, 0, $dataFetcher->getIndexType());
-            if (null !== ($obj = ClienteTableMap::getInstanceFromPool($key))) {
+            $key = MigrationsTableMap::getPrimaryKeyHashFromRow($row, 0, $dataFetcher->getIndexType());
+            if (null !== ($obj = MigrationsTableMap::getInstanceFromPool($key))) {
                 // We no longer rehydrate the object, since this can cause data loss.
                 // See http://www.propelorm.org/ticket/509
                 // $obj->hydrate($row, 0, true); // rehydrate
                 $results[] = $obj;
             } else {
-                /** @var Cliente $obj */
+                /** @var Migrations $obj */
                 $obj = new $cls();
                 $obj->hydrate($row);
                 $results[] = $obj;
-                ClienteTableMap::addInstanceToPool($obj, $key);
+                MigrationsTableMap::addInstanceToPool($obj, $key);
             } // if key exists
         }
 
@@ -307,15 +275,11 @@ class ClienteTableMap extends TableMap
     public static function addSelectColumns(Criteria $criteria, $alias = null)
     {
         if (null === $alias) {
-            $criteria->addSelectColumn(ClienteTableMap::COL_EMAIL);
-            $criteria->addSelectColumn(ClienteTableMap::COL_ATIVO);
-            $criteria->addSelectColumn(ClienteTableMap::COL_NOME);
-            $criteria->addSelectColumn(ClienteTableMap::COL_ID);
+            $criteria->addSelectColumn(MigrationsTableMap::COL_BATCH);
+            $criteria->addSelectColumn(MigrationsTableMap::COL_MIGRATION);
         } else {
-            $criteria->addSelectColumn($alias . '.email');
-            $criteria->addSelectColumn($alias . '.ativo');
-            $criteria->addSelectColumn($alias . '.nome');
-            $criteria->addSelectColumn($alias . '.id');
+            $criteria->addSelectColumn($alias . '.batch');
+            $criteria->addSelectColumn($alias . '.migration');
         }
     }
 
@@ -328,7 +292,7 @@ class ClienteTableMap extends TableMap
      */
     public static function getTableMap()
     {
-        return Propel::getServiceContainer()->getDatabaseMap(ClienteTableMap::DATABASE_NAME)->getTable(ClienteTableMap::TABLE_NAME);
+        return Propel::getServiceContainer()->getDatabaseMap(MigrationsTableMap::DATABASE_NAME)->getTable(MigrationsTableMap::TABLE_NAME);
     }
 
     /**
@@ -336,16 +300,16 @@ class ClienteTableMap extends TableMap
      */
     public static function buildTableMap()
     {
-        $dbMap = Propel::getServiceContainer()->getDatabaseMap(ClienteTableMap::DATABASE_NAME);
-        if (!$dbMap->hasTable(ClienteTableMap::TABLE_NAME)) {
-            $dbMap->addTableObject(new ClienteTableMap());
+        $dbMap = Propel::getServiceContainer()->getDatabaseMap(MigrationsTableMap::DATABASE_NAME);
+        if (!$dbMap->hasTable(MigrationsTableMap::TABLE_NAME)) {
+            $dbMap->addTableObject(new MigrationsTableMap());
         }
     }
 
     /**
-     * Performs a DELETE on the database, given a Cliente or Criteria object OR a primary key value.
+     * Performs a DELETE on the database, given a Migrations or Criteria object OR a primary key value.
      *
-     * @param mixed               $values Criteria or Cliente object or primary key or array of primary keys
+     * @param mixed               $values Criteria or Migrations object or primary key or array of primary keys
      *              which is used to create the DELETE statement
      * @param  ConnectionInterface $con the connection to use
      * @return int             The number of affected rows (if supported by underlying database driver).  This includes CASCADE-related rows
@@ -356,27 +320,26 @@ class ClienteTableMap extends TableMap
      public static function doDelete($values, ConnectionInterface $con = null)
      {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(ClienteTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(MigrationsTableMap::DATABASE_NAME);
         }
 
         if ($values instanceof Criteria) {
             // rename for clarity
             $criteria = $values;
-        } elseif ($values instanceof \Cliente) { // it's a model object
-            // create criteria based on pk values
-            $criteria = $values->buildPkeyCriteria();
+        } elseif ($values instanceof \Migrations) { // it's a model object
+            // create criteria based on pk value
+            $criteria = $values->buildCriteria();
         } else { // it's a primary key, or an array of pks
-            $criteria = new Criteria(ClienteTableMap::DATABASE_NAME);
-            $criteria->add(ClienteTableMap::COL_ID, (array) $values, Criteria::IN);
+            throw new LogicException('The Migrations object has no primary key');
         }
 
-        $query = ClienteQuery::create()->mergeWith($criteria);
+        $query = MigrationsQuery::create()->mergeWith($criteria);
 
         if ($values instanceof Criteria) {
-            ClienteTableMap::clearInstancePool();
+            MigrationsTableMap::clearInstancePool();
         } elseif (!is_object($values)) { // it's a primary key, or an array of pks
             foreach ((array) $values as $singleval) {
-                ClienteTableMap::removeInstanceFromPool($singleval);
+                MigrationsTableMap::removeInstanceFromPool($singleval);
             }
         }
 
@@ -384,20 +347,20 @@ class ClienteTableMap extends TableMap
     }
 
     /**
-     * Deletes all rows from the cliente table.
+     * Deletes all rows from the migrations table.
      *
      * @param ConnectionInterface $con the connection to use
      * @return int The number of affected rows (if supported by underlying database driver).
      */
     public static function doDeleteAll(ConnectionInterface $con = null)
     {
-        return ClienteQuery::create()->doDeleteAll($con);
+        return MigrationsQuery::create()->doDeleteAll($con);
     }
 
     /**
-     * Performs an INSERT on the database, given a Cliente or Criteria object.
+     * Performs an INSERT on the database, given a Migrations or Criteria object.
      *
-     * @param mixed               $criteria Criteria or Cliente object containing data that is used to create the INSERT statement.
+     * @param mixed               $criteria Criteria or Migrations object containing data that is used to create the INSERT statement.
      * @param ConnectionInterface $con the ConnectionInterface connection to use
      * @return mixed           The new primary key.
      * @throws PropelException Any exceptions caught during processing will be
@@ -406,22 +369,18 @@ class ClienteTableMap extends TableMap
     public static function doInsert($criteria, ConnectionInterface $con = null)
     {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(ClienteTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(MigrationsTableMap::DATABASE_NAME);
         }
 
         if ($criteria instanceof Criteria) {
             $criteria = clone $criteria; // rename for clarity
         } else {
-            $criteria = $criteria->buildCriteria(); // build Criteria from Cliente object
-        }
-
-        if ($criteria->containsKey(ClienteTableMap::COL_ID) && $criteria->keyContainsValue(ClienteTableMap::COL_ID) ) {
-            throw new PropelException('Cannot insert a value for auto-increment primary key ('.ClienteTableMap::COL_ID.')');
+            $criteria = $criteria->buildCriteria(); // build Criteria from Migrations object
         }
 
 
         // Set the correct dbName
-        $query = ClienteQuery::create()->mergeWith($criteria);
+        $query = MigrationsQuery::create()->mergeWith($criteria);
 
         // use transaction because $criteria could contain info
         // for more than one table (I guess, conceivably)
@@ -430,7 +389,7 @@ class ClienteTableMap extends TableMap
         });
     }
 
-} // ClienteTableMap
+} // MigrationsTableMap
 // This is the static code needed to register the TableMap for this table with the main Propel class.
 //
-ClienteTableMap::buildTableMap();
+MigrationsTableMap::buildTableMap();
