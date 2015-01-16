@@ -12,11 +12,9 @@
       <th>Nome</th><td scope="row">{{ Form::text('nome',$cliente->getNome(),array('class' => 'form-control')) }}</td>             
     </tr>
     <tr>
-      <th>Login</th><td scope="row">{{ Form::text('login',$cliente->getLogin(),array('class' => 'form-control')) }}</td>             
+      <th>Email</th><td scope="row">{{ Form::text('email',$cliente->getEmail(),array('class' => 'form-control')) }}</td>             
     </tr>
-    <tr>
-      <th>Senha</th><td scope="row">{{ Form::password('senha',array('placeholder' => '*********','class' => 'form-control')) }}</td>             
-    </tr>
+ 
     
         
   </table>

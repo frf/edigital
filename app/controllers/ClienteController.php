@@ -34,19 +34,26 @@ class ClienteController extends BaseController {
             
           $id   = Input::get('id');
           $nome = Input::get('nome');
-          $login = Input::get('login');
+          $email = Input::get('email');
           $senha = Input::get('senha');
            
           $oCliente = ClienteQuery::create()->filterById($idGet)->findOne();     
            
+          
           if(!$oCliente){
               return Redirect::to('/cliente')->with('message-erro','Nenhum cliente encontrado!');
           }
           
+          if($oCliente->getUsuarioss()->count()){                
+                $loginCliente = "";
+          }
+          
+          $loginCliente = "";
+          
           if (Request::isMethod('post'))
           {
               $oCliente->setNome($nome);
-              $oCliente->setLogin($login);
+              $oCliente->setEmail($email);
               
               if($senha != ""){
                 $oCliente->setLogin($senha);
@@ -56,7 +63,7 @@ class ClienteController extends BaseController {
               return Redirect::to('/cliente')->with('message-sucess','Atualizado com sucesso!');
           }
           
-          return View::make('cliente.editar',array('cliente'=>$oCliente));
+          return View::make('cliente.editar',array('cliente'=>$oCliente,'loginCliente'=>$loginCliente));
 	}
         public function excluir($idGet)
 	{

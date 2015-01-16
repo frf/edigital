@@ -12,6 +12,7 @@ class DatabaseSeeder extends Seeder {
         Eloquent::unguard();
  
         $this->call('TabelaUsuarioSeeder');
+        $this->call('TabelaCatChamadoSeeder');
     }
  
 }
@@ -29,6 +30,30 @@ class TabelaUsuarioSeeder extends Seeder {
                 'nome'  => 'Administrador',
                 'tipo'  => 'admin'
             ));
+        }
+    }
+ 
+}
+
+class TabelaCatChamadoSeeder extends Seeder {
+ 
+    public function run()
+    {
+        $chamados = CatChamado::get();
+ 
+        if($chamados->count() == 0) {
+            CatChamado::create(array(
+                        'id' => 1,
+                        'cat_chamado' => 'Aberto',
+                    ));
+            CatChamado::create(array(
+                        'id' => 2,
+                        'cat_chamado' => 'Em Andamento',
+                    ));
+            CatChamado::create(array(
+                        'id' => 3,
+                        'cat_chamado' => 'Fechado',
+                    ));        
         }
     }
  
