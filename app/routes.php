@@ -12,7 +12,7 @@
 */
 //Route::get('/', 'HomeController@index');
 
-Route::when('*', 'csrf', array('post'));
+//Route::when('*', 'csrf', array('post'));
  
 // Visitante
 Route::get('/',array('as' => 'home','uses' => 'HomeController@index'));
@@ -30,8 +30,14 @@ Route::group(array('before' => 'auth'), function()
     Route::get('/cliente/ativar/{id}', 'ClienteController@ativar');
     Route::get('/cliente/excluir/{id}', 'ClienteController@excluir');
 
+    // Controller AtendimentoController.
+    Route::get('/atendimento', 'AtendimentoController@index');
+    Route::get('/atendimento/cadastrar', 'AtendimentoController@getCadastrar');
+    Route::post('/atendimento/cadastrar', 'AtendimentoController@postCadastrar');
+    Route::get('/atendimento/historico/{id}', 'AtendimentoController@getHistorico');
+    Route::post('/atendimento/historico/{id}', 'AtendimentoController@postHistorico');
 
-    Route::get('/atendimento', 'ClienteController@index');
+
     Route::get('/docs', 'ClienteController@index');
     Route::get('/newsletter', 'ClienteController@index');
 
