@@ -46,7 +46,7 @@ class AtendimentoController extends BaseController {
         $chamado->categoria = Input::get('categoria');
         $chamado->titulo    = Input::get('titulo');
         $chamado->status    = Input::get('status');
-        $chamado->usuario   = Input::get('no_usuario');
+        $chamado->idusuario   = Auth::user()->id;
         $chamado->mensagem  = Input::get('mensagem');
         $chamado->data      = date('d/m/Y H:i:s');
         $chamado->save();

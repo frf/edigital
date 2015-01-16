@@ -13,6 +13,7 @@ class DatabaseSeeder extends Seeder {
  
         $this->call('TabelaUsuarioSeeder');
         $this->call('TabelaCatChamadoSeeder');
+        $this->call('TabelaStatusChamadoSeeder');
     }
  
 }
@@ -44,15 +45,38 @@ class TabelaCatChamadoSeeder extends Seeder {
         if($chamados->count() == 0) {
             CatChamado::create(array(
                         'id' => 1,
-                        'cat_chamado' => 'Aberto',
+                        'cat_chamado' => 'Suporte',
                     ));
             CatChamado::create(array(
                         'id' => 2,
-                        'cat_chamado' => 'Em Andamento',
+                        'cat_chamado' => 'Dúvida',
                     ));
             CatChamado::create(array(
                         'id' => 3,
-                        'cat_chamado' => 'Fechado',
+                        'cat_chamado' => 'Solicitação',
+                    ));        
+        }
+    }
+ 
+}
+class TabelaStatusChamadoSeeder extends Seeder {
+ 
+    public function run()
+    {
+        $chamados = StatusChamado::get();
+ 
+        if($chamados->count() == 0) {
+            StatusChamado::create(array(
+                        'id' => 1,
+                        'status_chamado' => 'Aberto',
+                    ));
+            StatusChamado::create(array(
+                        'id' => 2,
+                        'status_chamado' => 'Em Andamento',
+                    ));
+            StatusChamado::create(array(
+                        'id' => 3,
+                        'status_chamado' => 'Fechado',
                     ));        
         }
     }

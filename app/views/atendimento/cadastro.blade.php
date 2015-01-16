@@ -20,7 +20,7 @@
         <br />
 
         <form method="post">
-            <input type="text" name="no_usuario" value="{{ $usuario }}"
+
             <table>
                 <tr>
                     <td><label for="cat">*Categoria: </label></td>

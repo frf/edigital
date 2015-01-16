@@ -37,7 +37,7 @@
             </tr>
             <tr>
                 <td style="background-color: #F3F3F3"><b>Usuário</b></td>
-                <td>{{ $chamado->usuario }}</td>
+                <td>{{ $chamado->usuario->nome }}</td>
             </tr>
             <tr>
                 <td style="background-color: #F3F3F3"><b>Mensagem</b></td>
