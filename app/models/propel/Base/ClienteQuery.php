@@ -20,15 +20,13 @@ use Propel\Runtime\Exception\PropelException;
  *
  *
  *
+ * @method     ChildClienteQuery orderByEmail($order = Criteria::ASC) Order by the email column
  * @method     ChildClienteQuery orderByAtivo($order = Criteria::ASC) Order by the ativo column
- * @method     ChildClienteQuery orderBySenha($order = Criteria::ASC) Order by the senha column
- * @method     ChildClienteQuery orderByLogin($order = Criteria::ASC) Order by the login column
  * @method     ChildClienteQuery orderByNome($order = Criteria::ASC) Order by the nome column
  * @method     ChildClienteQuery orderById($order = Criteria::ASC) Order by the id column
  *
+ * @method     ChildClienteQuery groupByEmail() Group by the email column
  * @method     ChildClienteQuery groupByAtivo() Group by the ativo column
- * @method     ChildClienteQuery groupBySenha() Group by the senha column
- * @method     ChildClienteQuery groupByLogin() Group by the login column
  * @method     ChildClienteQuery groupByNome() Group by the nome column
  * @method     ChildClienteQuery groupById() Group by the id column
  *
@@ -40,21 +38,23 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildClienteQuery rightJoinIdoc($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Idoc relation
  * @method     ChildClienteQuery innerJoinIdoc($relationAlias = null) Adds a INNER JOIN clause to the query using the Idoc relation
  *
- * @method     \IdocQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
+ * @method     ChildClienteQuery leftJoinUsuarios($relationAlias = null) Adds a LEFT JOIN clause to the query using the Usuarios relation
+ * @method     ChildClienteQuery rightJoinUsuarios($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Usuarios relation
+ * @method     ChildClienteQuery innerJoinUsuarios($relationAlias = null) Adds a INNER JOIN clause to the query using the Usuarios relation
+ *
+ * @method     \IdocQuery|\UsuariosQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
  * @method     ChildCliente findOne(ConnectionInterface $con = null) Return the first ChildCliente matching the query
  * @method     ChildCliente findOneOrCreate(ConnectionInterface $con = null) Return the first ChildCliente matching the query, or a new ChildCliente object populated from the query conditions when no match is found
  *
+ * @method     ChildCliente findOneByEmail(string $email) Return the first ChildCliente filtered by the email column
  * @method     ChildCliente findOneByAtivo(boolean $ativo) Return the first ChildCliente filtered by the ativo column
- * @method     ChildCliente findOneBySenha(string $senha) Return the first ChildCliente filtered by the senha column
- * @method     ChildCliente findOneByLogin(string $login) Return the first ChildCliente filtered by the login column
  * @method     ChildCliente findOneByNome(string $nome) Return the first ChildCliente filtered by the nome column
  * @method     ChildCliente findOneById(int $id) Return the first ChildCliente filtered by the id column
  *
  * @method     ChildCliente[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildCliente objects based on current ModelCriteria
+ * @method     ChildCliente[]|ObjectCollection findByEmail(string $email) Return ChildCliente objects filtered by the email column
  * @method     ChildCliente[]|ObjectCollection findByAtivo(boolean $ativo) Return ChildCliente objects filtered by the ativo column
- * @method     ChildCliente[]|ObjectCollection findBySenha(string $senha) Return ChildCliente objects filtered by the senha column
- * @method     ChildCliente[]|ObjectCollection findByLogin(string $login) Return ChildCliente objects filtered by the login column
  * @method     ChildCliente[]|ObjectCollection findByNome(string $nome) Return ChildCliente objects filtered by the nome column
  * @method     ChildCliente[]|ObjectCollection findById(int $id) Return ChildCliente objects filtered by the id column
  * @method     ChildCliente[]|\Propel\Runtime\Util\PropelModelPager paginate($page = 1, $maxPerPage = 10, ConnectionInterface $con = null) Issue a SELECT query based on the current ModelCriteria and uses a page and a maximum number of results per page to compute an offset and a limit
@@ -148,7 +148,7 @@ abstract class ClienteQuery extends ModelCriteria
      */
     protected function findPkSimple($key, ConnectionInterface $con)
     {
-        $sql = 'SELECT ativo, senha, login, nome, id FROM cliente WHERE id = :p0';
+        $sql = 'SELECT email, ativo, nome, id FROM cliente WHERE id = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -239,6 +239,35 @@ abstract class ClienteQuery extends ModelCriteria
     }
 
     /**
+     * Filter the query on the email column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByEmail('fooValue');   // WHERE email = 'fooValue'
+     * $query->filterByEmail('%fooValue%'); // WHERE email LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $email The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildClienteQuery The current query, for fluid interface
+     */
+    public function filterByEmail($email = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($email)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $email)) {
+                $email = str_replace('*', '%', $email);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(ClienteTableMap::COL_EMAIL, $email, $comparison);
+    }
+
+    /**
      * Filter the query on the ativo column
      *
      * Example usage:
@@ -263,64 +292,6 @@ abstract class ClienteQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(ClienteTableMap::COL_ATIVO, $ativo, $comparison);
-    }
-
-    /**
-     * Filter the query on the senha column
-     *
-     * Example usage:
-     * <code>
-     * $query->filterBySenha('fooValue');   // WHERE senha = 'fooValue'
-     * $query->filterBySenha('%fooValue%'); // WHERE senha LIKE '%fooValue%'
-     * </code>
-     *
-     * @param     string $senha The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return $this|ChildClienteQuery The current query, for fluid interface
-     */
-    public function filterBySenha($senha = null, $comparison = null)
-    {
-        if (null === $comparison) {
-            if (is_array($senha)) {
-                $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $senha)) {
-                $senha = str_replace('*', '%', $senha);
-                $comparison = Criteria::LIKE;
-            }
-        }
-
-        return $this->addUsingAlias(ClienteTableMap::COL_SENHA, $senha, $comparison);
-    }
-
-    /**
-     * Filter the query on the login column
-     *
-     * Example usage:
-     * <code>
-     * $query->filterByLogin('fooValue');   // WHERE login = 'fooValue'
-     * $query->filterByLogin('%fooValue%'); // WHERE login LIKE '%fooValue%'
-     * </code>
-     *
-     * @param     string $login The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return $this|ChildClienteQuery The current query, for fluid interface
-     */
-    public function filterByLogin($login = null, $comparison = null)
-    {
-        if (null === $comparison) {
-            if (is_array($login)) {
-                $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $login)) {
-                $login = str_replace('*', '%', $login);
-                $comparison = Criteria::LIKE;
-            }
-        }
-
-        return $this->addUsingAlias(ClienteTableMap::COL_LOGIN, $login, $comparison);
     }
 
     /**
@@ -464,6 +435,79 @@ abstract class ClienteQuery extends ModelCriteria
         return $this
             ->joinIdoc($relationAlias, $joinType)
             ->useQuery($relationAlias ? $relationAlias : 'Idoc', '\IdocQuery');
+    }
+
+    /**
+     * Filter the query by a related \Usuarios object
+     *
+     * @param \Usuarios|ObjectCollection $usuarios  the related object to use as filter
+     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildClienteQuery The current query, for fluid interface
+     */
+    public function filterByUsuarios($usuarios, $comparison = null)
+    {
+        if ($usuarios instanceof \Usuarios) {
+            return $this
+                ->addUsingAlias(ClienteTableMap::COL_ID, $usuarios->getIdcliente(), $comparison);
+        } elseif ($usuarios instanceof ObjectCollection) {
+            return $this
+                ->useUsuariosQuery()
+                ->filterByPrimaryKeys($usuarios->getPrimaryKeys())
+                ->endUse();
+        } else {
+            throw new PropelException('filterByUsuarios() only accepts arguments of type \Usuarios or Collection');
+        }
+    }
+
+    /**
+     * Adds a JOIN clause to the query using the Usuarios relation
+     *
+     * @param     string $relationAlias optional alias for the relation
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return $this|ChildClienteQuery The current query, for fluid interface
+     */
+    public function joinUsuarios($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    {
+        $tableMap = $this->getTableMap();
+        $relationMap = $tableMap->getRelation('Usuarios');
+
+        // create a ModelJoin object for this join
+        $join = new ModelJoin();
+        $join->setJoinType($joinType);
+        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+        if ($previousJoin = $this->getPreviousJoin()) {
+            $join->setPreviousJoin($previousJoin);
+        }
+
+        // add the ModelJoin to the current object
+        if ($relationAlias) {
+            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+            $this->addJoinObject($join, $relationAlias);
+        } else {
+            $this->addJoinObject($join, 'Usuarios');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Use the Usuarios relation Usuarios object
+     *
+     * @see useQuery()
+     *
+     * @param     string $relationAlias optional alias for the relation,
+     *                                   to be used as main alias in the secondary query
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return \UsuariosQuery A secondary query class using the current class as primary query
+     */
+    public function useUsuariosQuery($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    {
+        return $this
+            ->joinUsuarios($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'Usuarios', '\UsuariosQuery');
     }
 
     /**

@@ -6,6 +6,8 @@ use \Cliente as ChildCliente;
 use \ClienteQuery as ChildClienteQuery;
 use \Idoc as ChildIdoc;
 use \IdocQuery as ChildIdocQuery;
+use \Usuarios as ChildUsuarios;
+use \UsuariosQuery as ChildUsuariosQuery;
 use \Exception;
 use \PDO;
 use Map\ClienteTableMap;
@@ -64,23 +66,17 @@ abstract class Cliente implements ActiveRecordInterface
     protected $virtualColumns = array();
 
     /**
+     * The value for the email field.
+     * @var        string
+     */
+    protected $email;
+
+    /**
      * The value for the ativo field.
      * Note: this column has a database default value of: false
      * @var        boolean
      */
     protected $ativo;
-
-    /**
-     * The value for the senha field.
-     * @var        string
-     */
-    protected $senha;
-
-    /**
-     * The value for the login field.
-     * @var        string
-     */
-    protected $login;
 
     /**
      * The value for the nome field.
@@ -101,6 +97,12 @@ abstract class Cliente implements ActiveRecordInterface
     protected $collIdocsPartial;
 
     /**
+     * @var        ObjectCollection|ChildUsuarios[] Collection to store aggregation of ChildUsuarios objects.
+     */
+    protected $collUsuarioss;
+    protected $collUsuariossPartial;
+
+    /**
      * Flag to prevent endless save loop, if this object is referenced
      * by another object which falls in this transaction.
      *
@@ -113,6 +115,12 @@ abstract class Cliente implements ActiveRecordInterface
      * @var ObjectCollection|ChildIdoc[]
      */
     protected $idocsScheduledForDeletion = null;
+
+    /**
+     * An array of objects scheduled for deletion.
+     * @var ObjectCollection|ChildUsuarios[]
+     */
+    protected $usuariossScheduledForDeletion = null;
 
     /**
      * Applies default values to this object.
@@ -345,6 +353,16 @@ abstract class Cliente implements ActiveRecordInterface
     }
 
     /**
+     * Get the [email] column value.
+     *
+     * @return string
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
      * Get the [ativo] column value.
      *
      * @return boolean
@@ -362,26 +380,6 @@ abstract class Cliente implements ActiveRecordInterface
     public function isAtivo()
     {
         return $this->getAtivo();
-    }
-
-    /**
-     * Get the [senha] column value.
-     *
-     * @return string
-     */
-    public function getSenha()
-    {
-        return $this->senha;
-    }
-
-    /**
-     * Get the [login] column value.
-     *
-     * @return string
-     */
-    public function getLogin()
-    {
-        return $this->login;
     }
 
     /**
@@ -403,6 +401,26 @@ abstract class Cliente implements ActiveRecordInterface
     {
         return $this->id;
     }
+
+    /**
+     * Set the value of [email] column.
+     *
+     * @param  string $v new value
+     * @return $this|\Cliente The current object (for fluent API support)
+     */
+    public function setEmail($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->email !== $v) {
+            $this->email = $v;
+            $this->modifiedColumns[ClienteTableMap::COL_EMAIL] = true;
+        }
+
+        return $this;
+    } // setEmail()
 
     /**
      * Sets the value of the [ativo] column.
@@ -431,46 +449,6 @@ abstract class Cliente implements ActiveRecordInterface
 
         return $this;
     } // setAtivo()
-
-    /**
-     * Set the value of [senha] column.
-     *
-     * @param  string $v new value
-     * @return $this|\Cliente The current object (for fluent API support)
-     */
-    public function setSenha($v)
-    {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->senha !== $v) {
-            $this->senha = $v;
-            $this->modifiedColumns[ClienteTableMap::COL_SENHA] = true;
-        }
-
-        return $this;
-    } // setSenha()
-
-    /**
-     * Set the value of [login] column.
-     *
-     * @param  string $v new value
-     * @return $this|\Cliente The current object (for fluent API support)
-     */
-    public function setLogin($v)
-    {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->login !== $v) {
-            $this->login = $v;
-            $this->modifiedColumns[ClienteTableMap::COL_LOGIN] = true;
-        }
-
-        return $this;
-    } // setLogin()
 
     /**
      * Set the value of [nome] column.
@@ -552,19 +530,16 @@ abstract class Cliente implements ActiveRecordInterface
     {
         try {
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : ClienteTableMap::translateFieldName('Ativo', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : ClienteTableMap::translateFieldName('Email', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->email = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : ClienteTableMap::translateFieldName('Ativo', TableMap::TYPE_PHPNAME, $indexType)];
             $this->ativo = (null !== $col) ? (boolean) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : ClienteTableMap::translateFieldName('Senha', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->senha = (null !== $col) ? (string) $col : null;
-
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : ClienteTableMap::translateFieldName('Login', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->login = (null !== $col) ? (string) $col : null;
-
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : ClienteTableMap::translateFieldName('Nome', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : ClienteTableMap::translateFieldName('Nome', TableMap::TYPE_PHPNAME, $indexType)];
             $this->nome = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : ClienteTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : ClienteTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
             $this->id = (null !== $col) ? (int) $col : null;
             $this->resetModified();
 
@@ -574,7 +549,7 @@ abstract class Cliente implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 5; // 5 = ClienteTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 4; // 4 = ClienteTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException(sprintf('Error populating %s object', '\\Cliente'), 0, $e);
@@ -636,6 +611,8 @@ abstract class Cliente implements ActiveRecordInterface
         if ($deep) {  // also de-associate any related objects?
 
             $this->collIdocs = null;
+
+            $this->collUsuarioss = null;
 
         } // if (deep)
     }
@@ -764,6 +741,24 @@ abstract class Cliente implements ActiveRecordInterface
                 }
             }
 
+            if ($this->usuariossScheduledForDeletion !== null) {
+                if (!$this->usuariossScheduledForDeletion->isEmpty()) {
+                    foreach ($this->usuariossScheduledForDeletion as $usuarios) {
+                        // need to save related object because we set the relation to null
+                        $usuarios->save($con);
+                    }
+                    $this->usuariossScheduledForDeletion = null;
+                }
+            }
+
+            if ($this->collUsuarioss !== null) {
+                foreach ($this->collUsuarioss as $referrerFK) {
+                    if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
+                        $affectedRows += $referrerFK->save($con);
+                    }
+                }
+            }
+
             $this->alreadyInSave = false;
 
         }
@@ -799,14 +794,11 @@ abstract class Cliente implements ActiveRecordInterface
 
 
          // check the columns in natural order for more readable SQL queries
+        if ($this->isColumnModified(ClienteTableMap::COL_EMAIL)) {
+            $modifiedColumns[':p' . $index++]  = 'email';
+        }
         if ($this->isColumnModified(ClienteTableMap::COL_ATIVO)) {
             $modifiedColumns[':p' . $index++]  = 'ativo';
-        }
-        if ($this->isColumnModified(ClienteTableMap::COL_SENHA)) {
-            $modifiedColumns[':p' . $index++]  = 'senha';
-        }
-        if ($this->isColumnModified(ClienteTableMap::COL_LOGIN)) {
-            $modifiedColumns[':p' . $index++]  = 'login';
         }
         if ($this->isColumnModified(ClienteTableMap::COL_NOME)) {
             $modifiedColumns[':p' . $index++]  = 'nome';
@@ -825,14 +817,11 @@ abstract class Cliente implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
+                    case 'email':
+                        $stmt->bindValue($identifier, $this->email, PDO::PARAM_STR);
+                        break;
                     case 'ativo':
                         $stmt->bindValue($identifier, $this->ativo, PDO::PARAM_BOOL);
-                        break;
-                    case 'senha':
-                        $stmt->bindValue($identifier, $this->senha, PDO::PARAM_STR);
-                        break;
-                    case 'login':
-                        $stmt->bindValue($identifier, $this->login, PDO::PARAM_STR);
                         break;
                     case 'nome':
                         $stmt->bindValue($identifier, $this->nome, PDO::PARAM_STR);
@@ -896,18 +885,15 @@ abstract class Cliente implements ActiveRecordInterface
     {
         switch ($pos) {
             case 0:
-                return $this->getAtivo();
+                return $this->getEmail();
                 break;
             case 1:
-                return $this->getSenha();
+                return $this->getAtivo();
                 break;
             case 2:
-                return $this->getLogin();
-                break;
-            case 3:
                 return $this->getNome();
                 break;
-            case 4:
+            case 3:
                 return $this->getId();
                 break;
             default:
@@ -940,11 +926,10 @@ abstract class Cliente implements ActiveRecordInterface
         $alreadyDumpedObjects['Cliente'][$this->hashCode()] = true;
         $keys = ClienteTableMap::getFieldNames($keyType);
         $result = array(
-            $keys[0] => $this->getAtivo(),
-            $keys[1] => $this->getSenha(),
-            $keys[2] => $this->getLogin(),
-            $keys[3] => $this->getNome(),
-            $keys[4] => $this->getId(),
+            $keys[0] => $this->getEmail(),
+            $keys[1] => $this->getAtivo(),
+            $keys[2] => $this->getNome(),
+            $keys[3] => $this->getId(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -966,6 +951,21 @@ abstract class Cliente implements ActiveRecordInterface
                 }
 
                 $result[$key] = $this->collIdocs->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+            }
+            if (null !== $this->collUsuarioss) {
+
+                switch ($keyType) {
+                    case TableMap::TYPE_CAMELNAME:
+                        $key = 'usuarioss';
+                        break;
+                    case TableMap::TYPE_FIELDNAME:
+                        $key = 'usuarioss';
+                        break;
+                    default:
+                        $key = 'Usuarioss';
+                }
+
+                $result[$key] = $this->collUsuarioss->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
         }
 
@@ -1002,18 +1002,15 @@ abstract class Cliente implements ActiveRecordInterface
     {
         switch ($pos) {
             case 0:
-                $this->setAtivo($value);
+                $this->setEmail($value);
                 break;
             case 1:
-                $this->setSenha($value);
+                $this->setAtivo($value);
                 break;
             case 2:
-                $this->setLogin($value);
-                break;
-            case 3:
                 $this->setNome($value);
                 break;
-            case 4:
+            case 3:
                 $this->setId($value);
                 break;
         } // switch()
@@ -1043,19 +1040,16 @@ abstract class Cliente implements ActiveRecordInterface
         $keys = ClienteTableMap::getFieldNames($keyType);
 
         if (array_key_exists($keys[0], $arr)) {
-            $this->setAtivo($arr[$keys[0]]);
+            $this->setEmail($arr[$keys[0]]);
         }
         if (array_key_exists($keys[1], $arr)) {
-            $this->setSenha($arr[$keys[1]]);
+            $this->setAtivo($arr[$keys[1]]);
         }
         if (array_key_exists($keys[2], $arr)) {
-            $this->setLogin($arr[$keys[2]]);
+            $this->setNome($arr[$keys[2]]);
         }
         if (array_key_exists($keys[3], $arr)) {
-            $this->setNome($arr[$keys[3]]);
-        }
-        if (array_key_exists($keys[4], $arr)) {
-            $this->setId($arr[$keys[4]]);
+            $this->setId($arr[$keys[3]]);
         }
     }
 
@@ -1098,14 +1092,11 @@ abstract class Cliente implements ActiveRecordInterface
     {
         $criteria = new Criteria(ClienteTableMap::DATABASE_NAME);
 
+        if ($this->isColumnModified(ClienteTableMap::COL_EMAIL)) {
+            $criteria->add(ClienteTableMap::COL_EMAIL, $this->email);
+        }
         if ($this->isColumnModified(ClienteTableMap::COL_ATIVO)) {
             $criteria->add(ClienteTableMap::COL_ATIVO, $this->ativo);
-        }
-        if ($this->isColumnModified(ClienteTableMap::COL_SENHA)) {
-            $criteria->add(ClienteTableMap::COL_SENHA, $this->senha);
-        }
-        if ($this->isColumnModified(ClienteTableMap::COL_LOGIN)) {
-            $criteria->add(ClienteTableMap::COL_LOGIN, $this->login);
         }
         if ($this->isColumnModified(ClienteTableMap::COL_NOME)) {
             $criteria->add(ClienteTableMap::COL_NOME, $this->nome);
@@ -1199,9 +1190,8 @@ abstract class Cliente implements ActiveRecordInterface
      */
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
+        $copyObj->setEmail($this->getEmail());
         $copyObj->setAtivo($this->getAtivo());
-        $copyObj->setSenha($this->getSenha());
-        $copyObj->setLogin($this->getLogin());
         $copyObj->setNome($this->getNome());
 
         if ($deepCopy) {
@@ -1212,6 +1202,12 @@ abstract class Cliente implements ActiveRecordInterface
             foreach ($this->getIdocs() as $relObj) {
                 if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
                     $copyObj->addIdoc($relObj->copy($deepCopy));
+                }
+            }
+
+            foreach ($this->getUsuarioss() as $relObj) {
+                if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
+                    $copyObj->addUsuarios($relObj->copy($deepCopy));
                 }
             }
 
@@ -1258,6 +1254,9 @@ abstract class Cliente implements ActiveRecordInterface
     {
         if ('Idoc' == $relationName) {
             return $this->initIdocs();
+        }
+        if ('Usuarios' == $relationName) {
+            return $this->initUsuarioss();
         }
     }
 
@@ -1480,15 +1479,232 @@ abstract class Cliente implements ActiveRecordInterface
     }
 
     /**
+     * Clears out the collUsuarioss collection
+     *
+     * This does not modify the database; however, it will remove any associated objects, causing
+     * them to be refetched by subsequent calls to accessor method.
+     *
+     * @return void
+     * @see        addUsuarioss()
+     */
+    public function clearUsuarioss()
+    {
+        $this->collUsuarioss = null; // important to set this to NULL since that means it is uninitialized
+    }
+
+    /**
+     * Reset is the collUsuarioss collection loaded partially.
+     */
+    public function resetPartialUsuarioss($v = true)
+    {
+        $this->collUsuariossPartial = $v;
+    }
+
+    /**
+     * Initializes the collUsuarioss collection.
+     *
+     * By default this just sets the collUsuarioss collection to an empty array (like clearcollUsuarioss());
+     * however, you may wish to override this method in your stub class to provide setting appropriate
+     * to your application -- for example, setting the initial array to the values stored in database.
+     *
+     * @param      boolean $overrideExisting If set to true, the method call initializes
+     *                                        the collection even if it is not empty
+     *
+     * @return void
+     */
+    public function initUsuarioss($overrideExisting = true)
+    {
+        if (null !== $this->collUsuarioss && !$overrideExisting) {
+            return;
+        }
+        $this->collUsuarioss = new ObjectCollection();
+        $this->collUsuarioss->setModel('\Usuarios');
+    }
+
+    /**
+     * Gets an array of ChildUsuarios objects which contain a foreign key that references this object.
+     *
+     * If the $criteria is not null, it is used to always fetch the results from the database.
+     * Otherwise the results are fetched from the database the first time, then cached.
+     * Next time the same method is called without $criteria, the cached collection is returned.
+     * If this ChildCliente is new, it will return
+     * an empty collection or the current collection; the criteria is ignored on a new object.
+     *
+     * @param      Criteria $criteria optional Criteria object to narrow the query
+     * @param      ConnectionInterface $con optional connection object
+     * @return ObjectCollection|ChildUsuarios[] List of ChildUsuarios objects
+     * @throws PropelException
+     */
+    public function getUsuarioss(Criteria $criteria = null, ConnectionInterface $con = null)
+    {
+        $partial = $this->collUsuariossPartial && !$this->isNew();
+        if (null === $this->collUsuarioss || null !== $criteria  || $partial) {
+            if ($this->isNew() && null === $this->collUsuarioss) {
+                // return empty collection
+                $this->initUsuarioss();
+            } else {
+                $collUsuarioss = ChildUsuariosQuery::create(null, $criteria)
+                    ->filterByCliente($this)
+                    ->find($con);
+
+                if (null !== $criteria) {
+                    if (false !== $this->collUsuariossPartial && count($collUsuarioss)) {
+                        $this->initUsuarioss(false);
+
+                        foreach ($collUsuarioss as $obj) {
+                            if (false == $this->collUsuarioss->contains($obj)) {
+                                $this->collUsuarioss->append($obj);
+                            }
+                        }
+
+                        $this->collUsuariossPartial = true;
+                    }
+
+                    return $collUsuarioss;
+                }
+
+                if ($partial && $this->collUsuarioss) {
+                    foreach ($this->collUsuarioss as $obj) {
+                        if ($obj->isNew()) {
+                            $collUsuarioss[] = $obj;
+                        }
+                    }
+                }
+
+                $this->collUsuarioss = $collUsuarioss;
+                $this->collUsuariossPartial = false;
+            }
+        }
+
+        return $this->collUsuarioss;
+    }
+
+    /**
+     * Sets a collection of ChildUsuarios objects related by a one-to-many relationship
+     * to the current object.
+     * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
+     * and new objects from the given Propel collection.
+     *
+     * @param      Collection $usuarioss A Propel collection.
+     * @param      ConnectionInterface $con Optional connection object
+     * @return $this|ChildCliente The current object (for fluent API support)
+     */
+    public function setUsuarioss(Collection $usuarioss, ConnectionInterface $con = null)
+    {
+        /** @var ChildUsuarios[] $usuariossToDelete */
+        $usuariossToDelete = $this->getUsuarioss(new Criteria(), $con)->diff($usuarioss);
+
+
+        $this->usuariossScheduledForDeletion = $usuariossToDelete;
+
+        foreach ($usuariossToDelete as $usuariosRemoved) {
+            $usuariosRemoved->setCliente(null);
+        }
+
+        $this->collUsuarioss = null;
+        foreach ($usuarioss as $usuarios) {
+            $this->addUsuarios($usuarios);
+        }
+
+        $this->collUsuarioss = $usuarioss;
+        $this->collUsuariossPartial = false;
+
+        return $this;
+    }
+
+    /**
+     * Returns the number of related Usuarios objects.
+     *
+     * @param      Criteria $criteria
+     * @param      boolean $distinct
+     * @param      ConnectionInterface $con
+     * @return int             Count of related Usuarios objects.
+     * @throws PropelException
+     */
+    public function countUsuarioss(Criteria $criteria = null, $distinct = false, ConnectionInterface $con = null)
+    {
+        $partial = $this->collUsuariossPartial && !$this->isNew();
+        if (null === $this->collUsuarioss || null !== $criteria || $partial) {
+            if ($this->isNew() && null === $this->collUsuarioss) {
+                return 0;
+            }
+
+            if ($partial && !$criteria) {
+                return count($this->getUsuarioss());
+            }
+
+            $query = ChildUsuariosQuery::create(null, $criteria);
+            if ($distinct) {
+                $query->distinct();
+            }
+
+            return $query
+                ->filterByCliente($this)
+                ->count($con);
+        }
+
+        return count($this->collUsuarioss);
+    }
+
+    /**
+     * Method called to associate a ChildUsuarios object to this object
+     * through the ChildUsuarios foreign key attribute.
+     *
+     * @param  ChildUsuarios $l ChildUsuarios
+     * @return $this|\Cliente The current object (for fluent API support)
+     */
+    public function addUsuarios(ChildUsuarios $l)
+    {
+        if ($this->collUsuarioss === null) {
+            $this->initUsuarioss();
+            $this->collUsuariossPartial = true;
+        }
+
+        if (!$this->collUsuarioss->contains($l)) {
+            $this->doAddUsuarios($l);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param ChildUsuarios $usuarios The ChildUsuarios object to add.
+     */
+    protected function doAddUsuarios(ChildUsuarios $usuarios)
+    {
+        $this->collUsuarioss[]= $usuarios;
+        $usuarios->setCliente($this);
+    }
+
+    /**
+     * @param  ChildUsuarios $usuarios The ChildUsuarios object to remove.
+     * @return $this|ChildCliente The current object (for fluent API support)
+     */
+    public function removeUsuarios(ChildUsuarios $usuarios)
+    {
+        if ($this->getUsuarioss()->contains($usuarios)) {
+            $pos = $this->collUsuarioss->search($usuarios);
+            $this->collUsuarioss->remove($pos);
+            if (null === $this->usuariossScheduledForDeletion) {
+                $this->usuariossScheduledForDeletion = clone $this->collUsuarioss;
+                $this->usuariossScheduledForDeletion->clear();
+            }
+            $this->usuariossScheduledForDeletion[]= $usuarios;
+            $usuarios->setCliente(null);
+        }
+
+        return $this;
+    }
+
+    /**
      * Clears the current object, sets all attributes to their default values and removes
      * outgoing references as well as back-references (from other objects to this one. Results probably in a database
      * change of those foreign objects when you call `save` there).
      */
     public function clear()
     {
+        $this->email = null;
         $this->ativo = null;
-        $this->senha = null;
-        $this->login = null;
         $this->nome = null;
         $this->id = null;
         $this->alreadyInSave = false;
@@ -1515,9 +1731,15 @@ abstract class Cliente implements ActiveRecordInterface
                     $o->clearAllReferences($deep);
                 }
             }
+            if ($this->collUsuarioss) {
+                foreach ($this->collUsuarioss as $o) {
+                    $o->clearAllReferences($deep);
+                }
+            }
         } // if ($deep)
 
         $this->collIdocs = null;
+        $this->collUsuarioss = null;
     }
 
     /**
