@@ -1,0 +1,8 @@
+Route::get('/teste-email', function()
+    {
+        Mail::send('emails.aviso', array('key' => 'value'), function($message)
+    {
+        $message->to('fabio@fabiofarias.com.br', 'Cliente')->subject('Chamado');
+    });
+    return 'Hello World';
+});
