@@ -3,7 +3,9 @@
 
 @section('content')
 
-<h3>Informações do Cliente</h3>
+@extends('cliente.menu')
+
+<h3>Editar Cliente</h3>
 <div class="table-responsive">
     {{ Form::open() }}
   <table class="table">

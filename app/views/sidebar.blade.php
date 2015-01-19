@@ -19,7 +19,12 @@
             <li class="active"><a href="/">Principal</a></li>
             <li><a href="/docs">Meus Documentos</a></li>
             <li><a href="/atendimento">Atendimento</a></li>
-            <li><a href="/cliente">Clientes</a></li>
+            @if(Auth::user()->tipo == 'admin')
+                <li><a href="/cliente">Clientes</a></li>
+            @endif
+            @if(Auth::user()->tipo == 'cliente')
+                <li><a href="/cliente">Meus Dados</a></li>
+            @endif
             <li><a href="/newsletter">Newsletter</a></li>                
           </ul>
             <a href="{{ url('sair') }}" class="btn btn-danger navbar-btn navbar-right">Sair</a>

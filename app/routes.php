@@ -26,6 +26,10 @@ Route::group(array('before' => 'auth'), function()
     Route::get('/cliente', 'ClienteController@index');
     Route::post('/cliente/editar/{id}', 'ClienteController@editar');
     Route::get('/cliente/editar/{id}', 'ClienteController@editar');
+    Route::get('/cliente/view/{id}', 'ClienteController@view');
+    Route::get('/cliente/cadastrar-login/{id}', 'ClienteController@cadastrarLogin');
+    Route::post('/cliente/cadastrar-login/{id}', 'ClienteController@cadastrarLogin');
+    Route::get('/cliente/listar-login/{id}', 'ClienteController@listarLogin');
     Route::get('/cliente/desativar/{id}', 'ClienteController@desativar');
     Route::get('/cliente/ativar/{id}', 'ClienteController@ativar');
     Route::get('/cliente/excluir/{id}', 'ClienteController@excluir');
