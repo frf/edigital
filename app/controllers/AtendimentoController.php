@@ -19,16 +19,9 @@ class AtendimentoController extends BaseController {
 
     public function index()
 	{
-        $header['nomeEmpresa'] = Config::get('edigital.nomeEmpresa');
-        $header['nomeSistema'] = Config::get('edigital.nomeSistema');
-
-        if(Auth::check()){
-            $header['nomeUsuario'] = Auth::user()->nome;
-        }
-
         $chamados = Chamado::orderBy('id', 'ASC')->paginate(15);
 
-        return View::make('atendimento.index', compact('chamados', 'header'));
+        return View::make('atendimento.index', compact('chamados'));
 	}
 
     public function getCadastrar()
@@ -45,8 +38,9 @@ class AtendimentoController extends BaseController {
         $chamado = new Chamado();
         $chamado->categoria = Input::get('categoria');
         $chamado->titulo    = Input::get('titulo');
+        $chamado->email     = Auth::user()->email;
         $chamado->status    = Input::get('status');
-        $chamado->idusuario   = Auth::user()->id;
+        $chamado->usuario   = Auth::user()->id;
         $chamado->mensagem  = Input::get('mensagem');
         $chamado->data      = date('d/m/Y H:i:s');
         $chamado->save();
@@ -57,21 +51,38 @@ class AtendimentoController extends BaseController {
     public function getHistorico($id)
     {
         $chamado    = Chamado::find($id);
-        $mensagem   = Mensagen::get();
-        $sta        = StatusChamado::get();
+        $mensagem   = Mensagen::where('id_chamado', $id )->paginate(3);
+        $sta        = StatusChamado::orderBy('status_chamado','ASC')->get();
         $count      = count($mensagem);
         $usuario    = Auth::user()->nome;
-
-        return View::make('atendimento.historico', compact('chamado', 'sta', 'count', 'mensagem', 'usuario'));
+        $tipo_user  = Auth::user()->tipo;
+/*
+        echo "<pre>";
+        print_r($usuario);
+        exit;
+*/
+        return View::make('atendimento.historico', compact('chamado', 'sta', 'count', 'mensagem', 'usuario', 'tipo_user'));
     }
 
     public function postHistorico($id)
     {
+        $a = Input::get('avisar');
+        if($a == "on"){
+            Route::get('/teste-email', function()
+            {
+                Mail::send('emails.aviso', array('key' => 'value'), function($message)
+                {
+                    $message->to('fabio@fabiofarias.com.br', 'Cliente')->subject('Chamado');
+                });
+                return 'Hello World';
+            });
+        }
+
+
         $mensagem   = new Mensagen();
         $mensagem->mensagem     = Input::get('mensagem');
         $mensagem->no_usuario   = Input::get('no_usuario');
         $mensagem->id_chamado   = Input::get('id_chamado');
-        $mensagem->status       = Input::get('status');
         $mensagem->data         = date('d/m/Y H:i:s');
         $mensagem->save();
 
@@ -84,7 +95,7 @@ class AtendimentoController extends BaseController {
 }
 
 
-
+//fabio@fabiofarias.com.br
 /*
  * insert into cat_chamados (cat_chamado,created_at,updated_at)
 values ('Erro','2015-01-16 12:00:00','2015-01-16 12:00:00'),

@@ -13,7 +13,7 @@
 
 
 
-    <div class="jumbotron" style="padding-top: 30px; font-size: 13px">
+    <div style="padding-top: 30px; font-size: 13px">
         <h3><b>Todos os Chamados</b></h3>
 
         <a href="/atendimento/cadastrar" class="btn btn-primary">Novo Chamado</a>
@@ -25,6 +25,7 @@
                 <tr style="background-color: #B3B3B3">
                     <td width="60"><b>Id</b></td>
                     <td><b>Título</b></td>
+                    <td><b>Status</b></td>
                     <td width="150"><b>Data de Cadastro</b></td>
                     <td width="97"><b>Ações</b></td>
                 </tr>
@@ -34,6 +35,7 @@
                     <tr>
                         <td>{{ $chamado->id }}</td>
                         <td>{{ $chamado->titulo }}</td>
+                        <td class="col-lg-1">{{ StatusChamado::find($chamado->status)->status_chamado }}</td>
                         <td>{{ $chamado->data }}</td>
                         <td>
                             <a href="/atendimento/historico/{{ $chamado->id }}" class="btn btn-default btn-sm "><img width="20" src="/glyphicons-145-folder-open.png" /></a>

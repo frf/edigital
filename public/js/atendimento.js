@@ -10,3 +10,5 @@ function info_atendimento(id)
         $('#info'+id).hide();
     }
 }
+
+

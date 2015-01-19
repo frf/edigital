@@ -13,7 +13,6 @@
     <!-- Custom styles for this template -->
     <link rel="stylesheet" href="/css/theme.css">
 
-
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -22,6 +21,7 @@
     <![endif]-->
 
     <script src="/js/atendimento.js"></script>
+    <script src="/js/jquery.js"></script>
   </head>
   <body role="document">    
       
