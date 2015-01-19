@@ -2,10 +2,12 @@
 
 namespace Base;
 
-use \IdocQuery as ChildIdocQuery;
+use \Clientes as ChildClientes;
+use \ClientesQuery as ChildClientesQuery;
+use \EnderecoQuery as ChildEnderecoQuery;
 use \Exception;
 use \PDO;
-use Map\IdocTableMap;
+use Map\EnderecoTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
@@ -19,18 +21,18 @@ use Propel\Runtime\Map\TableMap;
 use Propel\Runtime\Parser\AbstractParser;
 
 /**
- * Base class that represents a row from the 'idoc' table.
+ * Base class that represents a row from the 'endereco' table.
  *
  *
  *
 * @package    propel.generator..Base
 */
-abstract class Idoc implements ActiveRecordInterface
+abstract class Endereco implements ActiveRecordInterface
 {
     /**
      * TableMap class name
      */
-    const TABLE_MAP = '\\Map\\IdocTableMap';
+    const TABLE_MAP = '\\Map\\EnderecoTableMap';
 
 
     /**
@@ -66,22 +68,21 @@ abstract class Idoc implements ActiveRecordInterface
     protected $id;
 
     /**
-     * The value for the nome field.
+     * The value for the logradouro field.
      * @var        string
      */
-    protected $nome;
+    protected $logradouro;
 
     /**
      * The value for the idcliente field.
-     * @var        string
+     * @var        int
      */
     protected $idcliente;
 
     /**
-     * The value for the file field.
-     * @var        string
+     * @var        ChildClientes
      */
-    protected $file;
+    protected $aClientes;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced
@@ -92,7 +93,7 @@ abstract class Idoc implements ActiveRecordInterface
     protected $alreadyInSave = false;
 
     /**
-     * Initializes internal state of Base\Idoc object.
+     * Initializes internal state of Base\Endereco object.
      */
     public function __construct()
     {
@@ -187,9 +188,9 @@ abstract class Idoc implements ActiveRecordInterface
     }
 
     /**
-     * Compares this with another <code>Idoc</code> instance.  If
-     * <code>obj</code> is an instance of <code>Idoc</code>, delegates to
-     * <code>equals(Idoc)</code>.  Otherwise, returns <code>false</code>.
+     * Compares this with another <code>Endereco</code> instance.  If
+     * <code>obj</code> is an instance of <code>Endereco</code>, delegates to
+     * <code>equals(Endereco)</code>.  Otherwise, returns <code>false</code>.
      *
      * @param  mixed   $obj The object to compare to.
      * @return boolean Whether equal to the object specified.
@@ -255,7 +256,7 @@ abstract class Idoc implements ActiveRecordInterface
      * @param string $name  The virtual column name
      * @param mixed  $value The value to give to the virtual column
      *
-     * @return $this|Idoc The current object, for fluid interface
+     * @return $this|Endereco The current object, for fluid interface
      */
     public function setVirtualColumn($name, $value)
     {
@@ -319,19 +320,19 @@ abstract class Idoc implements ActiveRecordInterface
     }
 
     /**
-     * Get the [nome] column value.
+     * Get the [logradouro] column value.
      *
      * @return string
      */
-    public function getNome()
+    public function getLogradouro()
     {
-        return $this->nome;
+        return $this->logradouro;
     }
 
     /**
      * Get the [idcliente] column value.
      *
-     * @return string
+     * @return int
      */
     public function getIdcliente()
     {
@@ -339,20 +340,10 @@ abstract class Idoc implements ActiveRecordInterface
     }
 
     /**
-     * Get the [file] column value.
-     *
-     * @return string
-     */
-    public function getFile()
-    {
-        return $this->file;
-    }
-
-    /**
      * Set the value of [id] column.
      *
      * @param  int $v new value
-     * @return $this|\Idoc The current object (for fluent API support)
+     * @return $this|\Endereco The current object (for fluent API support)
      */
     public function setId($v)
     {
@@ -362,71 +353,55 @@ abstract class Idoc implements ActiveRecordInterface
 
         if ($this->id !== $v) {
             $this->id = $v;
-            $this->modifiedColumns[IdocTableMap::COL_ID] = true;
+            $this->modifiedColumns[EnderecoTableMap::COL_ID] = true;
         }
 
         return $this;
     } // setId()
 
     /**
-     * Set the value of [nome] column.
+     * Set the value of [logradouro] column.
      *
      * @param  string $v new value
-     * @return $this|\Idoc The current object (for fluent API support)
+     * @return $this|\Endereco The current object (for fluent API support)
      */
-    public function setNome($v)
+    public function setLogradouro($v)
     {
         if ($v !== null) {
             $v = (string) $v;
         }
 
-        if ($this->nome !== $v) {
-            $this->nome = $v;
-            $this->modifiedColumns[IdocTableMap::COL_NOME] = true;
+        if ($this->logradouro !== $v) {
+            $this->logradouro = $v;
+            $this->modifiedColumns[EnderecoTableMap::COL_LOGRADOURO] = true;
         }
 
         return $this;
-    } // setNome()
+    } // setLogradouro()
 
     /**
      * Set the value of [idcliente] column.
      *
-     * @param  string $v new value
-     * @return $this|\Idoc The current object (for fluent API support)
+     * @param  int $v new value
+     * @return $this|\Endereco The current object (for fluent API support)
      */
     public function setIdcliente($v)
     {
         if ($v !== null) {
-            $v = (string) $v;
+            $v = (int) $v;
         }
 
         if ($this->idcliente !== $v) {
             $this->idcliente = $v;
-            $this->modifiedColumns[IdocTableMap::COL_IDCLIENTE] = true;
+            $this->modifiedColumns[EnderecoTableMap::COL_IDCLIENTE] = true;
+        }
+
+        if ($this->aClientes !== null && $this->aClientes->getId() !== $v) {
+            $this->aClientes = null;
         }
 
         return $this;
     } // setIdcliente()
-
-    /**
-     * Set the value of [file] column.
-     *
-     * @param  string $v new value
-     * @return $this|\Idoc The current object (for fluent API support)
-     */
-    public function setFile($v)
-    {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->file !== $v) {
-            $this->file = $v;
-            $this->modifiedColumns[IdocTableMap::COL_FILE] = true;
-        }
-
-        return $this;
-    } // setFile()
 
     /**
      * Indicates whether the columns in this object are only set to default values.
@@ -464,17 +439,14 @@ abstract class Idoc implements ActiveRecordInterface
     {
         try {
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : IdocTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : EnderecoTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
             $this->id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : IdocTableMap::translateFieldName('Nome', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->nome = (null !== $col) ? (string) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : EnderecoTableMap::translateFieldName('Logradouro', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->logradouro = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : IdocTableMap::translateFieldName('Idcliente', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->idcliente = (null !== $col) ? (string) $col : null;
-
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : IdocTableMap::translateFieldName('File', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->file = (null !== $col) ? (string) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : EnderecoTableMap::translateFieldName('Idcliente', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->idcliente = (null !== $col) ? (int) $col : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -483,10 +455,10 @@ abstract class Idoc implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 4; // 4 = IdocTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 3; // 3 = EnderecoTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
-            throw new PropelException(sprintf('Error populating %s object', '\\Idoc'), 0, $e);
+            throw new PropelException(sprintf('Error populating %s object', '\\Endereco'), 0, $e);
         }
     }
 
@@ -505,6 +477,9 @@ abstract class Idoc implements ActiveRecordInterface
      */
     public function ensureConsistency()
     {
+        if ($this->aClientes !== null && $this->idcliente !== $this->aClientes->getId()) {
+            $this->aClientes = null;
+        }
     } // ensureConsistency
 
     /**
@@ -528,13 +503,13 @@ abstract class Idoc implements ActiveRecordInterface
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getReadConnection(IdocTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getReadConnection(EnderecoTableMap::DATABASE_NAME);
         }
 
         // We don't need to alter the object instance pool; we're just modifying this instance
         // already in the pool.
 
-        $dataFetcher = ChildIdocQuery::create(null, $this->buildPkeyCriteria())->setFormatter(ModelCriteria::FORMAT_STATEMENT)->find($con);
+        $dataFetcher = ChildEnderecoQuery::create(null, $this->buildPkeyCriteria())->setFormatter(ModelCriteria::FORMAT_STATEMENT)->find($con);
         $row = $dataFetcher->fetch();
         $dataFetcher->close();
         if (!$row) {
@@ -544,6 +519,7 @@ abstract class Idoc implements ActiveRecordInterface
 
         if ($deep) {  // also de-associate any related objects?
 
+            $this->aClientes = null;
         } // if (deep)
     }
 
@@ -553,8 +529,8 @@ abstract class Idoc implements ActiveRecordInterface
      * @param      ConnectionInterface $con
      * @return void
      * @throws PropelException
-     * @see Idoc::setDeleted()
-     * @see Idoc::isDeleted()
+     * @see Endereco::setDeleted()
+     * @see Endereco::isDeleted()
      */
     public function delete(ConnectionInterface $con = null)
     {
@@ -563,11 +539,11 @@ abstract class Idoc implements ActiveRecordInterface
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getWriteConnection(IdocTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(EnderecoTableMap::DATABASE_NAME);
         }
 
         $con->transaction(function () use ($con) {
-            $deleteQuery = ChildIdocQuery::create()
+            $deleteQuery = ChildEnderecoQuery::create()
                 ->filterByPrimaryKey($this->getPrimaryKey());
             $ret = $this->preDelete($con);
             if ($ret) {
@@ -598,7 +574,7 @@ abstract class Idoc implements ActiveRecordInterface
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getWriteConnection(IdocTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(EnderecoTableMap::DATABASE_NAME);
         }
 
         return $con->transaction(function () use ($con) {
@@ -617,7 +593,7 @@ abstract class Idoc implements ActiveRecordInterface
                     $this->postUpdate($con);
                 }
                 $this->postSave($con);
-                IdocTableMap::addInstanceToPool($this);
+                EnderecoTableMap::addInstanceToPool($this);
             } else {
                 $affectedRows = 0;
             }
@@ -642,6 +618,18 @@ abstract class Idoc implements ActiveRecordInterface
         $affectedRows = 0; // initialize var to track total num of affected rows
         if (!$this->alreadyInSave) {
             $this->alreadyInSave = true;
+
+            // We call the save method on the following object(s) if they
+            // were passed to this object by their corresponding set
+            // method.  This object relates to these object(s) by a
+            // foreign key reference.
+
+            if ($this->aClientes !== null) {
+                if ($this->aClientes->isModified() || $this->aClientes->isNew()) {
+                    $affectedRows += $this->aClientes->save($con);
+                }
+                $this->setClientes($this->aClientes);
+            }
 
             if ($this->isNew() || $this->isModified()) {
                 // persist changes
@@ -674,13 +662,13 @@ abstract class Idoc implements ActiveRecordInterface
         $modifiedColumns = array();
         $index = 0;
 
-        $this->modifiedColumns[IdocTableMap::COL_ID] = true;
+        $this->modifiedColumns[EnderecoTableMap::COL_ID] = true;
         if (null !== $this->id) {
-            throw new PropelException('Cannot insert a value for auto-increment primary key (' . IdocTableMap::COL_ID . ')');
+            throw new PropelException('Cannot insert a value for auto-increment primary key (' . EnderecoTableMap::COL_ID . ')');
         }
         if (null === $this->id) {
             try {
-                $dataFetcher = $con->query("SELECT nextval('idoc_id_seq')");
+                $dataFetcher = $con->query("SELECT nextval('endereco_id_seq')");
                 $this->id = $dataFetcher->fetchColumn();
             } catch (Exception $e) {
                 throw new PropelException('Unable to get sequence id.', 0, $e);
@@ -689,21 +677,18 @@ abstract class Idoc implements ActiveRecordInterface
 
 
          // check the columns in natural order for more readable SQL queries
-        if ($this->isColumnModified(IdocTableMap::COL_ID)) {
+        if ($this->isColumnModified(EnderecoTableMap::COL_ID)) {
             $modifiedColumns[':p' . $index++]  = 'id';
         }
-        if ($this->isColumnModified(IdocTableMap::COL_NOME)) {
-            $modifiedColumns[':p' . $index++]  = 'nome';
+        if ($this->isColumnModified(EnderecoTableMap::COL_LOGRADOURO)) {
+            $modifiedColumns[':p' . $index++]  = 'logradouro';
         }
-        if ($this->isColumnModified(IdocTableMap::COL_IDCLIENTE)) {
+        if ($this->isColumnModified(EnderecoTableMap::COL_IDCLIENTE)) {
             $modifiedColumns[':p' . $index++]  = 'idcliente';
-        }
-        if ($this->isColumnModified(IdocTableMap::COL_FILE)) {
-            $modifiedColumns[':p' . $index++]  = 'file';
         }
 
         $sql = sprintf(
-            'INSERT INTO idoc (%s) VALUES (%s)',
+            'INSERT INTO endereco (%s) VALUES (%s)',
             implode(', ', $modifiedColumns),
             implode(', ', array_keys($modifiedColumns))
         );
@@ -715,14 +700,11 @@ abstract class Idoc implements ActiveRecordInterface
                     case 'id':
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
-                    case 'nome':
-                        $stmt->bindValue($identifier, $this->nome, PDO::PARAM_STR);
+                    case 'logradouro':
+                        $stmt->bindValue($identifier, $this->logradouro, PDO::PARAM_STR);
                         break;
                     case 'idcliente':
                         $stmt->bindValue($identifier, $this->idcliente, PDO::PARAM_INT);
-                        break;
-                    case 'file':
-                        $stmt->bindValue($identifier, $this->file, PDO::PARAM_STR);
                         break;
                 }
             }
@@ -763,7 +745,7 @@ abstract class Idoc implements ActiveRecordInterface
      */
     public function getByName($name, $type = TableMap::TYPE_PHPNAME)
     {
-        $pos = IdocTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
+        $pos = EnderecoTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
         $field = $this->getByPosition($pos);
 
         return $field;
@@ -783,13 +765,10 @@ abstract class Idoc implements ActiveRecordInterface
                 return $this->getId();
                 break;
             case 1:
-                return $this->getNome();
+                return $this->getLogradouro();
                 break;
             case 2:
                 return $this->getIdcliente();
-                break;
-            case 3:
-                return $this->getFile();
                 break;
             default:
                 return null;
@@ -808,28 +787,45 @@ abstract class Idoc implements ActiveRecordInterface
      *                    Defaults to TableMap::TYPE_PHPNAME.
      * @param     boolean $includeLazyLoadColumns (optional) Whether to include lazy loaded columns. Defaults to TRUE.
      * @param     array $alreadyDumpedObjects List of objects to skip to avoid recursion
+     * @param     boolean $includeForeignObjects (optional) Whether to include hydrated related objects. Default to FALSE.
      *
      * @return array an associative array containing the field names (as keys) and field values
      */
-    public function toArray($keyType = TableMap::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array())
+    public function toArray($keyType = TableMap::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array(), $includeForeignObjects = false)
     {
 
-        if (isset($alreadyDumpedObjects['Idoc'][$this->hashCode()])) {
+        if (isset($alreadyDumpedObjects['Endereco'][$this->hashCode()])) {
             return '*RECURSION*';
         }
-        $alreadyDumpedObjects['Idoc'][$this->hashCode()] = true;
-        $keys = IdocTableMap::getFieldNames($keyType);
+        $alreadyDumpedObjects['Endereco'][$this->hashCode()] = true;
+        $keys = EnderecoTableMap::getFieldNames($keyType);
         $result = array(
             $keys[0] => $this->getId(),
-            $keys[1] => $this->getNome(),
+            $keys[1] => $this->getLogradouro(),
             $keys[2] => $this->getIdcliente(),
-            $keys[3] => $this->getFile(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
             $result[$key] = $virtualColumn;
         }
 
+        if ($includeForeignObjects) {
+            if (null !== $this->aClientes) {
+
+                switch ($keyType) {
+                    case TableMap::TYPE_CAMELNAME:
+                        $key = 'clientes';
+                        break;
+                    case TableMap::TYPE_FIELDNAME:
+                        $key = 'clientes';
+                        break;
+                    default:
+                        $key = 'Clientes';
+                }
+
+                $result[$key] = $this->aClientes->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
+            }
+        }
 
         return $result;
     }
@@ -843,11 +839,11 @@ abstract class Idoc implements ActiveRecordInterface
      *                one of the class type constants TableMap::TYPE_PHPNAME, TableMap::TYPE_CAMELNAME
      *                TableMap::TYPE_COLNAME, TableMap::TYPE_FIELDNAME, TableMap::TYPE_NUM.
      *                Defaults to TableMap::TYPE_PHPNAME.
-     * @return $this|\Idoc
+     * @return $this|\Endereco
      */
     public function setByName($name, $value, $type = TableMap::TYPE_PHPNAME)
     {
-        $pos = IdocTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
+        $pos = EnderecoTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
 
         return $this->setByPosition($pos, $value);
     }
@@ -858,7 +854,7 @@ abstract class Idoc implements ActiveRecordInterface
      *
      * @param  int $pos position in xml schema
      * @param  mixed $value field value
-     * @return $this|\Idoc
+     * @return $this|\Endereco
      */
     public function setByPosition($pos, $value)
     {
@@ -867,13 +863,10 @@ abstract class Idoc implements ActiveRecordInterface
                 $this->setId($value);
                 break;
             case 1:
-                $this->setNome($value);
+                $this->setLogradouro($value);
                 break;
             case 2:
                 $this->setIdcliente($value);
-                break;
-            case 3:
-                $this->setFile($value);
                 break;
         } // switch()
 
@@ -899,19 +892,16 @@ abstract class Idoc implements ActiveRecordInterface
      */
     public function fromArray($arr, $keyType = TableMap::TYPE_PHPNAME)
     {
-        $keys = IdocTableMap::getFieldNames($keyType);
+        $keys = EnderecoTableMap::getFieldNames($keyType);
 
         if (array_key_exists($keys[0], $arr)) {
             $this->setId($arr[$keys[0]]);
         }
         if (array_key_exists($keys[1], $arr)) {
-            $this->setNome($arr[$keys[1]]);
+            $this->setLogradouro($arr[$keys[1]]);
         }
         if (array_key_exists($keys[2], $arr)) {
             $this->setIdcliente($arr[$keys[2]]);
-        }
-        if (array_key_exists($keys[3], $arr)) {
-            $this->setFile($arr[$keys[3]]);
         }
     }
 
@@ -932,7 +922,7 @@ abstract class Idoc implements ActiveRecordInterface
      * @param string $data The source data to import from
      * @param string $keyType The type of keys the array uses.
      *
-     * @return $this|\Idoc The current object, for fluid interface
+     * @return $this|\Endereco The current object, for fluid interface
      */
     public function importFrom($parser, $data, $keyType = TableMap::TYPE_PHPNAME)
     {
@@ -952,19 +942,16 @@ abstract class Idoc implements ActiveRecordInterface
      */
     public function buildCriteria()
     {
-        $criteria = new Criteria(IdocTableMap::DATABASE_NAME);
+        $criteria = new Criteria(EnderecoTableMap::DATABASE_NAME);
 
-        if ($this->isColumnModified(IdocTableMap::COL_ID)) {
-            $criteria->add(IdocTableMap::COL_ID, $this->id);
+        if ($this->isColumnModified(EnderecoTableMap::COL_ID)) {
+            $criteria->add(EnderecoTableMap::COL_ID, $this->id);
         }
-        if ($this->isColumnModified(IdocTableMap::COL_NOME)) {
-            $criteria->add(IdocTableMap::COL_NOME, $this->nome);
+        if ($this->isColumnModified(EnderecoTableMap::COL_LOGRADOURO)) {
+            $criteria->add(EnderecoTableMap::COL_LOGRADOURO, $this->logradouro);
         }
-        if ($this->isColumnModified(IdocTableMap::COL_IDCLIENTE)) {
-            $criteria->add(IdocTableMap::COL_IDCLIENTE, $this->idcliente);
-        }
-        if ($this->isColumnModified(IdocTableMap::COL_FILE)) {
-            $criteria->add(IdocTableMap::COL_FILE, $this->file);
+        if ($this->isColumnModified(EnderecoTableMap::COL_IDCLIENTE)) {
+            $criteria->add(EnderecoTableMap::COL_IDCLIENTE, $this->idcliente);
         }
 
         return $criteria;
@@ -982,8 +969,8 @@ abstract class Idoc implements ActiveRecordInterface
      */
     public function buildPkeyCriteria()
     {
-        $criteria = ChildIdocQuery::create();
-        $criteria->add(IdocTableMap::COL_ID, $this->id);
+        $criteria = ChildEnderecoQuery::create();
+        $criteria->add(EnderecoTableMap::COL_ID, $this->id);
 
         return $criteria;
     }
@@ -1045,16 +1032,15 @@ abstract class Idoc implements ActiveRecordInterface
      * If desired, this method can also make copies of all associated (fkey referrers)
      * objects.
      *
-     * @param      object $copyObj An object of \Idoc (or compatible) type.
+     * @param      object $copyObj An object of \Endereco (or compatible) type.
      * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
      * @param      boolean $makeNew Whether to reset autoincrement PKs and make the object new.
      * @throws PropelException
      */
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
-        $copyObj->setNome($this->getNome());
+        $copyObj->setLogradouro($this->getLogradouro());
         $copyObj->setIdcliente($this->getIdcliente());
-        $copyObj->setFile($this->getFile());
         if ($makeNew) {
             $copyObj->setNew(true);
             $copyObj->setId(NULL); // this is a auto-increment column, so set to default value
@@ -1070,7 +1056,7 @@ abstract class Idoc implements ActiveRecordInterface
      * objects.
      *
      * @param  boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
-     * @return \Idoc Clone of current object.
+     * @return \Endereco Clone of current object.
      * @throws PropelException
      */
     public function copy($deepCopy = false)
@@ -1084,16 +1070,69 @@ abstract class Idoc implements ActiveRecordInterface
     }
 
     /**
+     * Declares an association between this object and a ChildClientes object.
+     *
+     * @param  ChildClientes $v
+     * @return $this|\Endereco The current object (for fluent API support)
+     * @throws PropelException
+     */
+    public function setClientes(ChildClientes $v = null)
+    {
+        if ($v === null) {
+            $this->setIdcliente(NULL);
+        } else {
+            $this->setIdcliente($v->getId());
+        }
+
+        $this->aClientes = $v;
+
+        // Add binding for other direction of this n:n relationship.
+        // If this object has already been added to the ChildClientes object, it will not be re-added.
+        if ($v !== null) {
+            $v->addEndereco($this);
+        }
+
+
+        return $this;
+    }
+
+
+    /**
+     * Get the associated ChildClientes object
+     *
+     * @param  ConnectionInterface $con Optional Connection object.
+     * @return ChildClientes The associated ChildClientes object.
+     * @throws PropelException
+     */
+    public function getClientes(ConnectionInterface $con = null)
+    {
+        if ($this->aClientes === null && ($this->idcliente !== null)) {
+            $this->aClientes = ChildClientesQuery::create()->findPk($this->idcliente, $con);
+            /* The following can be used additionally to
+                guarantee the related object contains a reference
+                to this object.  This level of coupling may, however, be
+                undesirable since it could result in an only partially populated collection
+                in the referenced object.
+                $this->aClientes->addEnderecos($this);
+             */
+        }
+
+        return $this->aClientes;
+    }
+
+    /**
      * Clears the current object, sets all attributes to their default values and removes
      * outgoing references as well as back-references (from other objects to this one. Results probably in a database
      * change of those foreign objects when you call `save` there).
      */
     public function clear()
     {
+        if (null !== $this->aClientes) {
+            $this->aClientes->removeEndereco($this);
+        }
         $this->id = null;
-        $this->nome = null;
+        $this->logradouro = null;
         $this->idcliente = null;
-        $this->file = null;
         $this->alreadyInSave = false;
         $this->clearAllReferences();
         $this->resetModified();
@@ -1114,6 +1153,7 @@ abstract class Idoc implements ActiveRecordInterface
         if ($deep) {
         } // if ($deep)
 
+        $this->aClientes = null;
     }
 
     /**
@@ -1123,7 +1163,7 @@ abstract class Idoc implements ActiveRecordInterface
      */
     public function __toString()
     {
-        return (string) $this->exportTo(IdocTableMap::DEFAULT_STRING_FORMAT);
+        return (string) $this->exportTo(EnderecoTableMap::DEFAULT_STRING_FORMAT);
     }
 
     /**

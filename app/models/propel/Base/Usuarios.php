@@ -2,10 +2,11 @@
 
 namespace Base;
 
-use \IdocQuery as ChildIdocQuery;
+use \UsuariosQuery as ChildUsuariosQuery;
+use \DateTime;
 use \Exception;
 use \PDO;
-use Map\IdocTableMap;
+use Map\UsuariosTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
@@ -17,20 +18,21 @@ use Propel\Runtime\Exception\LogicException;
 use Propel\Runtime\Exception\PropelException;
 use Propel\Runtime\Map\TableMap;
 use Propel\Runtime\Parser\AbstractParser;
+use Propel\Runtime\Util\PropelDateTime;
 
 /**
- * Base class that represents a row from the 'idoc' table.
+ * Base class that represents a row from the 'usuarios' table.
  *
  *
  *
 * @package    propel.generator..Base
 */
-abstract class Idoc implements ActiveRecordInterface
+abstract class Usuarios implements ActiveRecordInterface
 {
     /**
      * TableMap class name
      */
-    const TABLE_MAP = '\\Map\\IdocTableMap';
+    const TABLE_MAP = '\\Map\\UsuariosTableMap';
 
 
     /**
@@ -66,22 +68,46 @@ abstract class Idoc implements ActiveRecordInterface
     protected $id;
 
     /**
+     * The value for the email field.
+     * @var        string
+     */
+    protected $email;
+
+    /**
+     * The value for the senha field.
+     * @var        string
+     */
+    protected $senha;
+
+    /**
      * The value for the nome field.
      * @var        string
      */
     protected $nome;
 
     /**
-     * The value for the idcliente field.
+     * The value for the tipo field.
      * @var        string
      */
-    protected $idcliente;
+    protected $tipo;
 
     /**
-     * The value for the file field.
+     * The value for the remember_token field.
      * @var        string
      */
-    protected $file;
+    protected $remember_token;
+
+    /**
+     * The value for the created_at field.
+     * @var        \DateTime
+     */
+    protected $created_at;
+
+    /**
+     * The value for the updated_at field.
+     * @var        \DateTime
+     */
+    protected $updated_at;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced
@@ -92,7 +118,7 @@ abstract class Idoc implements ActiveRecordInterface
     protected $alreadyInSave = false;
 
     /**
-     * Initializes internal state of Base\Idoc object.
+     * Initializes internal state of Base\Usuarios object.
      */
     public function __construct()
     {
@@ -187,9 +213,9 @@ abstract class Idoc implements ActiveRecordInterface
     }
 
     /**
-     * Compares this with another <code>Idoc</code> instance.  If
-     * <code>obj</code> is an instance of <code>Idoc</code>, delegates to
-     * <code>equals(Idoc)</code>.  Otherwise, returns <code>false</code>.
+     * Compares this with another <code>Usuarios</code> instance.  If
+     * <code>obj</code> is an instance of <code>Usuarios</code>, delegates to
+     * <code>equals(Usuarios)</code>.  Otherwise, returns <code>false</code>.
      *
      * @param  mixed   $obj The object to compare to.
      * @return boolean Whether equal to the object specified.
@@ -255,7 +281,7 @@ abstract class Idoc implements ActiveRecordInterface
      * @param string $name  The virtual column name
      * @param mixed  $value The value to give to the virtual column
      *
-     * @return $this|Idoc The current object, for fluid interface
+     * @return $this|Usuarios The current object, for fluid interface
      */
     public function setVirtualColumn($name, $value)
     {
@@ -319,6 +345,26 @@ abstract class Idoc implements ActiveRecordInterface
     }
 
     /**
+     * Get the [email] column value.
+     *
+     * @return string
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * Get the [senha] column value.
+     *
+     * @return string
+     */
+    public function getSenha()
+    {
+        return $this->senha;
+    }
+
+    /**
      * Get the [nome] column value.
      *
      * @return string
@@ -329,30 +375,70 @@ abstract class Idoc implements ActiveRecordInterface
     }
 
     /**
-     * Get the [idcliente] column value.
+     * Get the [tipo] column value.
      *
      * @return string
      */
-    public function getIdcliente()
+    public function getTipo()
     {
-        return $this->idcliente;
+        return $this->tipo;
     }
 
     /**
-     * Get the [file] column value.
+     * Get the [remember_token] column value.
      *
      * @return string
      */
-    public function getFile()
+    public function getRememberToken()
     {
-        return $this->file;
+        return $this->remember_token;
+    }
+
+    /**
+     * Get the [optionally formatted] temporal [created_at] column value.
+     *
+     *
+     * @param      string $format The date/time format string (either date()-style or strftime()-style).
+     *                            If format is NULL, then the raw DateTime object will be returned.
+     *
+     * @return string|DateTime Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL
+     *
+     * @throws PropelException - if unable to parse/validate the date/time value.
+     */
+    public function getCreatedAt($format = NULL)
+    {
+        if ($format === null) {
+            return $this->created_at;
+        } else {
+            return $this->created_at instanceof \DateTime ? $this->created_at->format($format) : null;
+        }
+    }
+
+    /**
+     * Get the [optionally formatted] temporal [updated_at] column value.
+     *
+     *
+     * @param      string $format The date/time format string (either date()-style or strftime()-style).
+     *                            If format is NULL, then the raw DateTime object will be returned.
+     *
+     * @return string|DateTime Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL
+     *
+     * @throws PropelException - if unable to parse/validate the date/time value.
+     */
+    public function getUpdatedAt($format = NULL)
+    {
+        if ($format === null) {
+            return $this->updated_at;
+        } else {
+            return $this->updated_at instanceof \DateTime ? $this->updated_at->format($format) : null;
+        }
     }
 
     /**
      * Set the value of [id] column.
      *
      * @param  int $v new value
-     * @return $this|\Idoc The current object (for fluent API support)
+     * @return $this|\Usuarios The current object (for fluent API support)
      */
     public function setId($v)
     {
@@ -362,17 +448,57 @@ abstract class Idoc implements ActiveRecordInterface
 
         if ($this->id !== $v) {
             $this->id = $v;
-            $this->modifiedColumns[IdocTableMap::COL_ID] = true;
+            $this->modifiedColumns[UsuariosTableMap::COL_ID] = true;
         }
 
         return $this;
     } // setId()
 
     /**
+     * Set the value of [email] column.
+     *
+     * @param  string $v new value
+     * @return $this|\Usuarios The current object (for fluent API support)
+     */
+    public function setEmail($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->email !== $v) {
+            $this->email = $v;
+            $this->modifiedColumns[UsuariosTableMap::COL_EMAIL] = true;
+        }
+
+        return $this;
+    } // setEmail()
+
+    /**
+     * Set the value of [senha] column.
+     *
+     * @param  string $v new value
+     * @return $this|\Usuarios The current object (for fluent API support)
+     */
+    public function setSenha($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->senha !== $v) {
+            $this->senha = $v;
+            $this->modifiedColumns[UsuariosTableMap::COL_SENHA] = true;
+        }
+
+        return $this;
+    } // setSenha()
+
+    /**
      * Set the value of [nome] column.
      *
      * @param  string $v new value
-     * @return $this|\Idoc The current object (for fluent API support)
+     * @return $this|\Usuarios The current object (for fluent API support)
      */
     public function setNome($v)
     {
@@ -382,51 +508,91 @@ abstract class Idoc implements ActiveRecordInterface
 
         if ($this->nome !== $v) {
             $this->nome = $v;
-            $this->modifiedColumns[IdocTableMap::COL_NOME] = true;
+            $this->modifiedColumns[UsuariosTableMap::COL_NOME] = true;
         }
 
         return $this;
     } // setNome()
 
     /**
-     * Set the value of [idcliente] column.
+     * Set the value of [tipo] column.
      *
      * @param  string $v new value
-     * @return $this|\Idoc The current object (for fluent API support)
+     * @return $this|\Usuarios The current object (for fluent API support)
      */
-    public function setIdcliente($v)
+    public function setTipo($v)
     {
         if ($v !== null) {
             $v = (string) $v;
         }
 
-        if ($this->idcliente !== $v) {
-            $this->idcliente = $v;
-            $this->modifiedColumns[IdocTableMap::COL_IDCLIENTE] = true;
+        if ($this->tipo !== $v) {
+            $this->tipo = $v;
+            $this->modifiedColumns[UsuariosTableMap::COL_TIPO] = true;
         }
 
         return $this;
-    } // setIdcliente()
+    } // setTipo()
 
     /**
-     * Set the value of [file] column.
+     * Set the value of [remember_token] column.
      *
      * @param  string $v new value
-     * @return $this|\Idoc The current object (for fluent API support)
+     * @return $this|\Usuarios The current object (for fluent API support)
      */
-    public function setFile($v)
+    public function setRememberToken($v)
     {
         if ($v !== null) {
             $v = (string) $v;
         }
 
-        if ($this->file !== $v) {
-            $this->file = $v;
-            $this->modifiedColumns[IdocTableMap::COL_FILE] = true;
+        if ($this->remember_token !== $v) {
+            $this->remember_token = $v;
+            $this->modifiedColumns[UsuariosTableMap::COL_REMEMBER_TOKEN] = true;
         }
 
         return $this;
-    } // setFile()
+    } // setRememberToken()
+
+    /**
+     * Sets the value of [created_at] column to a normalized version of the date/time value specified.
+     *
+     * @param  mixed $v string, integer (timestamp), or \DateTime value.
+     *               Empty strings are treated as NULL.
+     * @return $this|\Usuarios The current object (for fluent API support)
+     */
+    public function setCreatedAt($v)
+    {
+        $dt = PropelDateTime::newInstance($v, null, 'DateTime');
+        if ($this->created_at !== null || $dt !== null) {
+            if ($dt !== $this->created_at) {
+                $this->created_at = $dt;
+                $this->modifiedColumns[UsuariosTableMap::COL_CREATED_AT] = true;
+            }
+        } // if either are not null
+
+        return $this;
+    } // setCreatedAt()
+
+    /**
+     * Sets the value of [updated_at] column to a normalized version of the date/time value specified.
+     *
+     * @param  mixed $v string, integer (timestamp), or \DateTime value.
+     *               Empty strings are treated as NULL.
+     * @return $this|\Usuarios The current object (for fluent API support)
+     */
+    public function setUpdatedAt($v)
+    {
+        $dt = PropelDateTime::newInstance($v, null, 'DateTime');
+        if ($this->updated_at !== null || $dt !== null) {
+            if ($dt !== $this->updated_at) {
+                $this->updated_at = $dt;
+                $this->modifiedColumns[UsuariosTableMap::COL_UPDATED_AT] = true;
+            }
+        } // if either are not null
+
+        return $this;
+    } // setUpdatedAt()
 
     /**
      * Indicates whether the columns in this object are only set to default values.
@@ -464,17 +630,29 @@ abstract class Idoc implements ActiveRecordInterface
     {
         try {
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : IdocTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : UsuariosTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
             $this->id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : IdocTableMap::translateFieldName('Nome', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : UsuariosTableMap::translateFieldName('Email', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->email = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : UsuariosTableMap::translateFieldName('Senha', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->senha = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : UsuariosTableMap::translateFieldName('Nome', TableMap::TYPE_PHPNAME, $indexType)];
             $this->nome = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : IdocTableMap::translateFieldName('Idcliente', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->idcliente = (null !== $col) ? (string) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : UsuariosTableMap::translateFieldName('Tipo', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->tipo = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : IdocTableMap::translateFieldName('File', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->file = (null !== $col) ? (string) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : UsuariosTableMap::translateFieldName('RememberToken', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->remember_token = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 6 + $startcol : UsuariosTableMap::translateFieldName('CreatedAt', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->created_at = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 7 + $startcol : UsuariosTableMap::translateFieldName('UpdatedAt', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->updated_at = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -483,10 +661,10 @@ abstract class Idoc implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 4; // 4 = IdocTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 8; // 8 = UsuariosTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
-            throw new PropelException(sprintf('Error populating %s object', '\\Idoc'), 0, $e);
+            throw new PropelException(sprintf('Error populating %s object', '\\Usuarios'), 0, $e);
         }
     }
 
@@ -528,13 +706,13 @@ abstract class Idoc implements ActiveRecordInterface
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getReadConnection(IdocTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getReadConnection(UsuariosTableMap::DATABASE_NAME);
         }
 
         // We don't need to alter the object instance pool; we're just modifying this instance
         // already in the pool.
 
-        $dataFetcher = ChildIdocQuery::create(null, $this->buildPkeyCriteria())->setFormatter(ModelCriteria::FORMAT_STATEMENT)->find($con);
+        $dataFetcher = ChildUsuariosQuery::create(null, $this->buildPkeyCriteria())->setFormatter(ModelCriteria::FORMAT_STATEMENT)->find($con);
         $row = $dataFetcher->fetch();
         $dataFetcher->close();
         if (!$row) {
@@ -553,8 +731,8 @@ abstract class Idoc implements ActiveRecordInterface
      * @param      ConnectionInterface $con
      * @return void
      * @throws PropelException
-     * @see Idoc::setDeleted()
-     * @see Idoc::isDeleted()
+     * @see Usuarios::setDeleted()
+     * @see Usuarios::isDeleted()
      */
     public function delete(ConnectionInterface $con = null)
     {
@@ -563,11 +741,11 @@ abstract class Idoc implements ActiveRecordInterface
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getWriteConnection(IdocTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(UsuariosTableMap::DATABASE_NAME);
         }
 
         $con->transaction(function () use ($con) {
-            $deleteQuery = ChildIdocQuery::create()
+            $deleteQuery = ChildUsuariosQuery::create()
                 ->filterByPrimaryKey($this->getPrimaryKey());
             $ret = $this->preDelete($con);
             if ($ret) {
@@ -598,7 +776,7 @@ abstract class Idoc implements ActiveRecordInterface
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getWriteConnection(IdocTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(UsuariosTableMap::DATABASE_NAME);
         }
 
         return $con->transaction(function () use ($con) {
@@ -617,7 +795,7 @@ abstract class Idoc implements ActiveRecordInterface
                     $this->postUpdate($con);
                 }
                 $this->postSave($con);
-                IdocTableMap::addInstanceToPool($this);
+                UsuariosTableMap::addInstanceToPool($this);
             } else {
                 $affectedRows = 0;
             }
@@ -674,13 +852,13 @@ abstract class Idoc implements ActiveRecordInterface
         $modifiedColumns = array();
         $index = 0;
 
-        $this->modifiedColumns[IdocTableMap::COL_ID] = true;
+        $this->modifiedColumns[UsuariosTableMap::COL_ID] = true;
         if (null !== $this->id) {
-            throw new PropelException('Cannot insert a value for auto-increment primary key (' . IdocTableMap::COL_ID . ')');
+            throw new PropelException('Cannot insert a value for auto-increment primary key (' . UsuariosTableMap::COL_ID . ')');
         }
         if (null === $this->id) {
             try {
-                $dataFetcher = $con->query("SELECT nextval('idoc_id_seq')");
+                $dataFetcher = $con->query("SELECT nextval('usuarios_id_seq')");
                 $this->id = $dataFetcher->fetchColumn();
             } catch (Exception $e) {
                 throw new PropelException('Unable to get sequence id.', 0, $e);
@@ -689,21 +867,33 @@ abstract class Idoc implements ActiveRecordInterface
 
 
          // check the columns in natural order for more readable SQL queries
-        if ($this->isColumnModified(IdocTableMap::COL_ID)) {
+        if ($this->isColumnModified(UsuariosTableMap::COL_ID)) {
             $modifiedColumns[':p' . $index++]  = 'id';
         }
-        if ($this->isColumnModified(IdocTableMap::COL_NOME)) {
+        if ($this->isColumnModified(UsuariosTableMap::COL_EMAIL)) {
+            $modifiedColumns[':p' . $index++]  = 'email';
+        }
+        if ($this->isColumnModified(UsuariosTableMap::COL_SENHA)) {
+            $modifiedColumns[':p' . $index++]  = 'senha';
+        }
+        if ($this->isColumnModified(UsuariosTableMap::COL_NOME)) {
             $modifiedColumns[':p' . $index++]  = 'nome';
         }
-        if ($this->isColumnModified(IdocTableMap::COL_IDCLIENTE)) {
-            $modifiedColumns[':p' . $index++]  = 'idcliente';
+        if ($this->isColumnModified(UsuariosTableMap::COL_TIPO)) {
+            $modifiedColumns[':p' . $index++]  = 'tipo';
         }
-        if ($this->isColumnModified(IdocTableMap::COL_FILE)) {
-            $modifiedColumns[':p' . $index++]  = 'file';
+        if ($this->isColumnModified(UsuariosTableMap::COL_REMEMBER_TOKEN)) {
+            $modifiedColumns[':p' . $index++]  = 'remember_token';
+        }
+        if ($this->isColumnModified(UsuariosTableMap::COL_CREATED_AT)) {
+            $modifiedColumns[':p' . $index++]  = 'created_at';
+        }
+        if ($this->isColumnModified(UsuariosTableMap::COL_UPDATED_AT)) {
+            $modifiedColumns[':p' . $index++]  = 'updated_at';
         }
 
         $sql = sprintf(
-            'INSERT INTO idoc (%s) VALUES (%s)',
+            'INSERT INTO usuarios (%s) VALUES (%s)',
             implode(', ', $modifiedColumns),
             implode(', ', array_keys($modifiedColumns))
         );
@@ -715,14 +905,26 @@ abstract class Idoc implements ActiveRecordInterface
                     case 'id':
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
+                    case 'email':
+                        $stmt->bindValue($identifier, $this->email, PDO::PARAM_STR);
+                        break;
+                    case 'senha':
+                        $stmt->bindValue($identifier, $this->senha, PDO::PARAM_STR);
+                        break;
                     case 'nome':
                         $stmt->bindValue($identifier, $this->nome, PDO::PARAM_STR);
                         break;
-                    case 'idcliente':
-                        $stmt->bindValue($identifier, $this->idcliente, PDO::PARAM_INT);
+                    case 'tipo':
+                        $stmt->bindValue($identifier, $this->tipo, PDO::PARAM_STR);
                         break;
-                    case 'file':
-                        $stmt->bindValue($identifier, $this->file, PDO::PARAM_STR);
+                    case 'remember_token':
+                        $stmt->bindValue($identifier, $this->remember_token, PDO::PARAM_STR);
+                        break;
+                    case 'created_at':
+                        $stmt->bindValue($identifier, $this->created_at ? $this->created_at->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
+                        break;
+                    case 'updated_at':
+                        $stmt->bindValue($identifier, $this->updated_at ? $this->updated_at->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
                         break;
                 }
             }
@@ -763,7 +965,7 @@ abstract class Idoc implements ActiveRecordInterface
      */
     public function getByName($name, $type = TableMap::TYPE_PHPNAME)
     {
-        $pos = IdocTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
+        $pos = UsuariosTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
         $field = $this->getByPosition($pos);
 
         return $field;
@@ -783,13 +985,25 @@ abstract class Idoc implements ActiveRecordInterface
                 return $this->getId();
                 break;
             case 1:
-                return $this->getNome();
+                return $this->getEmail();
                 break;
             case 2:
-                return $this->getIdcliente();
+                return $this->getSenha();
                 break;
             case 3:
-                return $this->getFile();
+                return $this->getNome();
+                break;
+            case 4:
+                return $this->getTipo();
+                break;
+            case 5:
+                return $this->getRememberToken();
+                break;
+            case 6:
+                return $this->getCreatedAt();
+                break;
+            case 7:
+                return $this->getUpdatedAt();
                 break;
             default:
                 return null;
@@ -814,16 +1028,20 @@ abstract class Idoc implements ActiveRecordInterface
     public function toArray($keyType = TableMap::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array())
     {
 
-        if (isset($alreadyDumpedObjects['Idoc'][$this->hashCode()])) {
+        if (isset($alreadyDumpedObjects['Usuarios'][$this->hashCode()])) {
             return '*RECURSION*';
         }
-        $alreadyDumpedObjects['Idoc'][$this->hashCode()] = true;
-        $keys = IdocTableMap::getFieldNames($keyType);
+        $alreadyDumpedObjects['Usuarios'][$this->hashCode()] = true;
+        $keys = UsuariosTableMap::getFieldNames($keyType);
         $result = array(
             $keys[0] => $this->getId(),
-            $keys[1] => $this->getNome(),
-            $keys[2] => $this->getIdcliente(),
-            $keys[3] => $this->getFile(),
+            $keys[1] => $this->getEmail(),
+            $keys[2] => $this->getSenha(),
+            $keys[3] => $this->getNome(),
+            $keys[4] => $this->getTipo(),
+            $keys[5] => $this->getRememberToken(),
+            $keys[6] => $this->getCreatedAt(),
+            $keys[7] => $this->getUpdatedAt(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -843,11 +1061,11 @@ abstract class Idoc implements ActiveRecordInterface
      *                one of the class type constants TableMap::TYPE_PHPNAME, TableMap::TYPE_CAMELNAME
      *                TableMap::TYPE_COLNAME, TableMap::TYPE_FIELDNAME, TableMap::TYPE_NUM.
      *                Defaults to TableMap::TYPE_PHPNAME.
-     * @return $this|\Idoc
+     * @return $this|\Usuarios
      */
     public function setByName($name, $value, $type = TableMap::TYPE_PHPNAME)
     {
-        $pos = IdocTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
+        $pos = UsuariosTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
 
         return $this->setByPosition($pos, $value);
     }
@@ -858,7 +1076,7 @@ abstract class Idoc implements ActiveRecordInterface
      *
      * @param  int $pos position in xml schema
      * @param  mixed $value field value
-     * @return $this|\Idoc
+     * @return $this|\Usuarios
      */
     public function setByPosition($pos, $value)
     {
@@ -867,13 +1085,25 @@ abstract class Idoc implements ActiveRecordInterface
                 $this->setId($value);
                 break;
             case 1:
-                $this->setNome($value);
+                $this->setEmail($value);
                 break;
             case 2:
-                $this->setIdcliente($value);
+                $this->setSenha($value);
                 break;
             case 3:
-                $this->setFile($value);
+                $this->setNome($value);
+                break;
+            case 4:
+                $this->setTipo($value);
+                break;
+            case 5:
+                $this->setRememberToken($value);
+                break;
+            case 6:
+                $this->setCreatedAt($value);
+                break;
+            case 7:
+                $this->setUpdatedAt($value);
                 break;
         } // switch()
 
@@ -899,19 +1129,31 @@ abstract class Idoc implements ActiveRecordInterface
      */
     public function fromArray($arr, $keyType = TableMap::TYPE_PHPNAME)
     {
-        $keys = IdocTableMap::getFieldNames($keyType);
+        $keys = UsuariosTableMap::getFieldNames($keyType);
 
         if (array_key_exists($keys[0], $arr)) {
             $this->setId($arr[$keys[0]]);
         }
         if (array_key_exists($keys[1], $arr)) {
-            $this->setNome($arr[$keys[1]]);
+            $this->setEmail($arr[$keys[1]]);
         }
         if (array_key_exists($keys[2], $arr)) {
-            $this->setIdcliente($arr[$keys[2]]);
+            $this->setSenha($arr[$keys[2]]);
         }
         if (array_key_exists($keys[3], $arr)) {
-            $this->setFile($arr[$keys[3]]);
+            $this->setNome($arr[$keys[3]]);
+        }
+        if (array_key_exists($keys[4], $arr)) {
+            $this->setTipo($arr[$keys[4]]);
+        }
+        if (array_key_exists($keys[5], $arr)) {
+            $this->setRememberToken($arr[$keys[5]]);
+        }
+        if (array_key_exists($keys[6], $arr)) {
+            $this->setCreatedAt($arr[$keys[6]]);
+        }
+        if (array_key_exists($keys[7], $arr)) {
+            $this->setUpdatedAt($arr[$keys[7]]);
         }
     }
 
@@ -932,7 +1174,7 @@ abstract class Idoc implements ActiveRecordInterface
      * @param string $data The source data to import from
      * @param string $keyType The type of keys the array uses.
      *
-     * @return $this|\Idoc The current object, for fluid interface
+     * @return $this|\Usuarios The current object, for fluid interface
      */
     public function importFrom($parser, $data, $keyType = TableMap::TYPE_PHPNAME)
     {
@@ -952,19 +1194,31 @@ abstract class Idoc implements ActiveRecordInterface
      */
     public function buildCriteria()
     {
-        $criteria = new Criteria(IdocTableMap::DATABASE_NAME);
+        $criteria = new Criteria(UsuariosTableMap::DATABASE_NAME);
 
-        if ($this->isColumnModified(IdocTableMap::COL_ID)) {
-            $criteria->add(IdocTableMap::COL_ID, $this->id);
+        if ($this->isColumnModified(UsuariosTableMap::COL_ID)) {
+            $criteria->add(UsuariosTableMap::COL_ID, $this->id);
         }
-        if ($this->isColumnModified(IdocTableMap::COL_NOME)) {
-            $criteria->add(IdocTableMap::COL_NOME, $this->nome);
+        if ($this->isColumnModified(UsuariosTableMap::COL_EMAIL)) {
+            $criteria->add(UsuariosTableMap::COL_EMAIL, $this->email);
         }
-        if ($this->isColumnModified(IdocTableMap::COL_IDCLIENTE)) {
-            $criteria->add(IdocTableMap::COL_IDCLIENTE, $this->idcliente);
+        if ($this->isColumnModified(UsuariosTableMap::COL_SENHA)) {
+            $criteria->add(UsuariosTableMap::COL_SENHA, $this->senha);
         }
-        if ($this->isColumnModified(IdocTableMap::COL_FILE)) {
-            $criteria->add(IdocTableMap::COL_FILE, $this->file);
+        if ($this->isColumnModified(UsuariosTableMap::COL_NOME)) {
+            $criteria->add(UsuariosTableMap::COL_NOME, $this->nome);
+        }
+        if ($this->isColumnModified(UsuariosTableMap::COL_TIPO)) {
+            $criteria->add(UsuariosTableMap::COL_TIPO, $this->tipo);
+        }
+        if ($this->isColumnModified(UsuariosTableMap::COL_REMEMBER_TOKEN)) {
+            $criteria->add(UsuariosTableMap::COL_REMEMBER_TOKEN, $this->remember_token);
+        }
+        if ($this->isColumnModified(UsuariosTableMap::COL_CREATED_AT)) {
+            $criteria->add(UsuariosTableMap::COL_CREATED_AT, $this->created_at);
+        }
+        if ($this->isColumnModified(UsuariosTableMap::COL_UPDATED_AT)) {
+            $criteria->add(UsuariosTableMap::COL_UPDATED_AT, $this->updated_at);
         }
 
         return $criteria;
@@ -982,8 +1236,8 @@ abstract class Idoc implements ActiveRecordInterface
      */
     public function buildPkeyCriteria()
     {
-        $criteria = ChildIdocQuery::create();
-        $criteria->add(IdocTableMap::COL_ID, $this->id);
+        $criteria = ChildUsuariosQuery::create();
+        $criteria->add(UsuariosTableMap::COL_ID, $this->id);
 
         return $criteria;
     }
@@ -1045,16 +1299,20 @@ abstract class Idoc implements ActiveRecordInterface
      * If desired, this method can also make copies of all associated (fkey referrers)
      * objects.
      *
-     * @param      object $copyObj An object of \Idoc (or compatible) type.
+     * @param      object $copyObj An object of \Usuarios (or compatible) type.
      * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
      * @param      boolean $makeNew Whether to reset autoincrement PKs and make the object new.
      * @throws PropelException
      */
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
+        $copyObj->setEmail($this->getEmail());
+        $copyObj->setSenha($this->getSenha());
         $copyObj->setNome($this->getNome());
-        $copyObj->setIdcliente($this->getIdcliente());
-        $copyObj->setFile($this->getFile());
+        $copyObj->setTipo($this->getTipo());
+        $copyObj->setRememberToken($this->getRememberToken());
+        $copyObj->setCreatedAt($this->getCreatedAt());
+        $copyObj->setUpdatedAt($this->getUpdatedAt());
         if ($makeNew) {
             $copyObj->setNew(true);
             $copyObj->setId(NULL); // this is a auto-increment column, so set to default value
@@ -1070,7 +1328,7 @@ abstract class Idoc implements ActiveRecordInterface
      * objects.
      *
      * @param  boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
-     * @return \Idoc Clone of current object.
+     * @return \Usuarios Clone of current object.
      * @throws PropelException
      */
     public function copy($deepCopy = false)
@@ -1091,9 +1349,13 @@ abstract class Idoc implements ActiveRecordInterface
     public function clear()
     {
         $this->id = null;
+        $this->email = null;
+        $this->senha = null;
         $this->nome = null;
-        $this->idcliente = null;
-        $this->file = null;
+        $this->tipo = null;
+        $this->remember_token = null;
+        $this->created_at = null;
+        $this->updated_at = null;
         $this->alreadyInSave = false;
         $this->clearAllReferences();
         $this->resetModified();
@@ -1123,7 +1385,7 @@ abstract class Idoc implements ActiveRecordInterface
      */
     public function __toString()
     {
-        return (string) $this->exportTo(IdocTableMap::DEFAULT_STRING_FORMAT);
+        return (string) $this->exportTo(UsuariosTableMap::DEFAULT_STRING_FORMAT);
     }
 
     /**

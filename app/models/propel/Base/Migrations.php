@@ -2,10 +2,10 @@
 
 namespace Base;
 
-use \IdocQuery as ChildIdocQuery;
+use \MigrationsQuery as ChildMigrationsQuery;
 use \Exception;
 use \PDO;
-use Map\IdocTableMap;
+use Map\MigrationsTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
@@ -19,18 +19,18 @@ use Propel\Runtime\Map\TableMap;
 use Propel\Runtime\Parser\AbstractParser;
 
 /**
- * Base class that represents a row from the 'idoc' table.
+ * Base class that represents a row from the 'migrations' table.
  *
  *
  *
 * @package    propel.generator..Base
 */
-abstract class Idoc implements ActiveRecordInterface
+abstract class Migrations implements ActiveRecordInterface
 {
     /**
      * TableMap class name
      */
-    const TABLE_MAP = '\\Map\\IdocTableMap';
+    const TABLE_MAP = '\\Map\\MigrationsTableMap';
 
 
     /**
@@ -60,28 +60,16 @@ abstract class Idoc implements ActiveRecordInterface
     protected $virtualColumns = array();
 
     /**
-     * The value for the id field.
+     * The value for the migration field.
+     * @var        string
+     */
+    protected $migration;
+
+    /**
+     * The value for the batch field.
      * @var        int
      */
-    protected $id;
-
-    /**
-     * The value for the nome field.
-     * @var        string
-     */
-    protected $nome;
-
-    /**
-     * The value for the idcliente field.
-     * @var        string
-     */
-    protected $idcliente;
-
-    /**
-     * The value for the file field.
-     * @var        string
-     */
-    protected $file;
+    protected $batch;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced
@@ -92,7 +80,7 @@ abstract class Idoc implements ActiveRecordInterface
     protected $alreadyInSave = false;
 
     /**
-     * Initializes internal state of Base\Idoc object.
+     * Initializes internal state of Base\Migrations object.
      */
     public function __construct()
     {
@@ -187,9 +175,9 @@ abstract class Idoc implements ActiveRecordInterface
     }
 
     /**
-     * Compares this with another <code>Idoc</code> instance.  If
-     * <code>obj</code> is an instance of <code>Idoc</code>, delegates to
-     * <code>equals(Idoc)</code>.  Otherwise, returns <code>false</code>.
+     * Compares this with another <code>Migrations</code> instance.  If
+     * <code>obj</code> is an instance of <code>Migrations</code>, delegates to
+     * <code>equals(Migrations)</code>.  Otherwise, returns <code>false</code>.
      *
      * @param  mixed   $obj The object to compare to.
      * @return boolean Whether equal to the object specified.
@@ -255,7 +243,7 @@ abstract class Idoc implements ActiveRecordInterface
      * @param string $name  The virtual column name
      * @param mixed  $value The value to give to the virtual column
      *
-     * @return $this|Idoc The current object, for fluid interface
+     * @return $this|Migrations The current object, for fluid interface
      */
     public function setVirtualColumn($name, $value)
     {
@@ -309,124 +297,64 @@ abstract class Idoc implements ActiveRecordInterface
     }
 
     /**
-     * Get the [id] column value.
+     * Get the [migration] column value.
+     *
+     * @return string
+     */
+    public function getMigration()
+    {
+        return $this->migration;
+    }
+
+    /**
+     * Get the [batch] column value.
      *
      * @return int
      */
-    public function getId()
+    public function getBatch()
     {
-        return $this->id;
+        return $this->batch;
     }
 
     /**
-     * Get the [nome] column value.
+     * Set the value of [migration] column.
      *
-     * @return string
+     * @param  string $v new value
+     * @return $this|\Migrations The current object (for fluent API support)
      */
-    public function getNome()
+    public function setMigration($v)
     {
-        return $this->nome;
-    }
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->migration !== $v) {
+            $this->migration = $v;
+            $this->modifiedColumns[MigrationsTableMap::COL_MIGRATION] = true;
+        }
+
+        return $this;
+    } // setMigration()
 
     /**
-     * Get the [idcliente] column value.
-     *
-     * @return string
-     */
-    public function getIdcliente()
-    {
-        return $this->idcliente;
-    }
-
-    /**
-     * Get the [file] column value.
-     *
-     * @return string
-     */
-    public function getFile()
-    {
-        return $this->file;
-    }
-
-    /**
-     * Set the value of [id] column.
+     * Set the value of [batch] column.
      *
      * @param  int $v new value
-     * @return $this|\Idoc The current object (for fluent API support)
+     * @return $this|\Migrations The current object (for fluent API support)
      */
-    public function setId($v)
+    public function setBatch($v)
     {
         if ($v !== null) {
             $v = (int) $v;
         }
 
-        if ($this->id !== $v) {
-            $this->id = $v;
-            $this->modifiedColumns[IdocTableMap::COL_ID] = true;
+        if ($this->batch !== $v) {
+            $this->batch = $v;
+            $this->modifiedColumns[MigrationsTableMap::COL_BATCH] = true;
         }
 
         return $this;
-    } // setId()
-
-    /**
-     * Set the value of [nome] column.
-     *
-     * @param  string $v new value
-     * @return $this|\Idoc The current object (for fluent API support)
-     */
-    public function setNome($v)
-    {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->nome !== $v) {
-            $this->nome = $v;
-            $this->modifiedColumns[IdocTableMap::COL_NOME] = true;
-        }
-
-        return $this;
-    } // setNome()
-
-    /**
-     * Set the value of [idcliente] column.
-     *
-     * @param  string $v new value
-     * @return $this|\Idoc The current object (for fluent API support)
-     */
-    public function setIdcliente($v)
-    {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->idcliente !== $v) {
-            $this->idcliente = $v;
-            $this->modifiedColumns[IdocTableMap::COL_IDCLIENTE] = true;
-        }
-
-        return $this;
-    } // setIdcliente()
-
-    /**
-     * Set the value of [file] column.
-     *
-     * @param  string $v new value
-     * @return $this|\Idoc The current object (for fluent API support)
-     */
-    public function setFile($v)
-    {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->file !== $v) {
-            $this->file = $v;
-            $this->modifiedColumns[IdocTableMap::COL_FILE] = true;
-        }
-
-        return $this;
-    } // setFile()
+    } // setBatch()
 
     /**
      * Indicates whether the columns in this object are only set to default values.
@@ -464,17 +392,11 @@ abstract class Idoc implements ActiveRecordInterface
     {
         try {
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : IdocTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->id = (null !== $col) ? (int) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : MigrationsTableMap::translateFieldName('Migration', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->migration = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : IdocTableMap::translateFieldName('Nome', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->nome = (null !== $col) ? (string) $col : null;
-
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : IdocTableMap::translateFieldName('Idcliente', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->idcliente = (null !== $col) ? (string) $col : null;
-
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : IdocTableMap::translateFieldName('File', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->file = (null !== $col) ? (string) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : MigrationsTableMap::translateFieldName('Batch', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->batch = (null !== $col) ? (int) $col : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -483,10 +405,10 @@ abstract class Idoc implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 4; // 4 = IdocTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 2; // 2 = MigrationsTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
-            throw new PropelException(sprintf('Error populating %s object', '\\Idoc'), 0, $e);
+            throw new PropelException(sprintf('Error populating %s object', '\\Migrations'), 0, $e);
         }
     }
 
@@ -528,13 +450,13 @@ abstract class Idoc implements ActiveRecordInterface
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getReadConnection(IdocTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getReadConnection(MigrationsTableMap::DATABASE_NAME);
         }
 
         // We don't need to alter the object instance pool; we're just modifying this instance
         // already in the pool.
 
-        $dataFetcher = ChildIdocQuery::create(null, $this->buildPkeyCriteria())->setFormatter(ModelCriteria::FORMAT_STATEMENT)->find($con);
+        $dataFetcher = ChildMigrationsQuery::create(null, $this->buildPkeyCriteria())->setFormatter(ModelCriteria::FORMAT_STATEMENT)->find($con);
         $row = $dataFetcher->fetch();
         $dataFetcher->close();
         if (!$row) {
@@ -553,8 +475,8 @@ abstract class Idoc implements ActiveRecordInterface
      * @param      ConnectionInterface $con
      * @return void
      * @throws PropelException
-     * @see Idoc::setDeleted()
-     * @see Idoc::isDeleted()
+     * @see Migrations::setDeleted()
+     * @see Migrations::isDeleted()
      */
     public function delete(ConnectionInterface $con = null)
     {
@@ -563,11 +485,11 @@ abstract class Idoc implements ActiveRecordInterface
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getWriteConnection(IdocTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(MigrationsTableMap::DATABASE_NAME);
         }
 
         $con->transaction(function () use ($con) {
-            $deleteQuery = ChildIdocQuery::create()
+            $deleteQuery = ChildMigrationsQuery::create()
                 ->filterByPrimaryKey($this->getPrimaryKey());
             $ret = $this->preDelete($con);
             if ($ret) {
@@ -598,7 +520,7 @@ abstract class Idoc implements ActiveRecordInterface
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getWriteConnection(IdocTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(MigrationsTableMap::DATABASE_NAME);
         }
 
         return $con->transaction(function () use ($con) {
@@ -617,7 +539,7 @@ abstract class Idoc implements ActiveRecordInterface
                     $this->postUpdate($con);
                 }
                 $this->postSave($con);
-                IdocTableMap::addInstanceToPool($this);
+                MigrationsTableMap::addInstanceToPool($this);
             } else {
                 $affectedRows = 0;
             }
@@ -674,36 +596,17 @@ abstract class Idoc implements ActiveRecordInterface
         $modifiedColumns = array();
         $index = 0;
 
-        $this->modifiedColumns[IdocTableMap::COL_ID] = true;
-        if (null !== $this->id) {
-            throw new PropelException('Cannot insert a value for auto-increment primary key (' . IdocTableMap::COL_ID . ')');
-        }
-        if (null === $this->id) {
-            try {
-                $dataFetcher = $con->query("SELECT nextval('idoc_id_seq')");
-                $this->id = $dataFetcher->fetchColumn();
-            } catch (Exception $e) {
-                throw new PropelException('Unable to get sequence id.', 0, $e);
-            }
-        }
-
 
          // check the columns in natural order for more readable SQL queries
-        if ($this->isColumnModified(IdocTableMap::COL_ID)) {
-            $modifiedColumns[':p' . $index++]  = 'id';
+        if ($this->isColumnModified(MigrationsTableMap::COL_MIGRATION)) {
+            $modifiedColumns[':p' . $index++]  = 'migration';
         }
-        if ($this->isColumnModified(IdocTableMap::COL_NOME)) {
-            $modifiedColumns[':p' . $index++]  = 'nome';
-        }
-        if ($this->isColumnModified(IdocTableMap::COL_IDCLIENTE)) {
-            $modifiedColumns[':p' . $index++]  = 'idcliente';
-        }
-        if ($this->isColumnModified(IdocTableMap::COL_FILE)) {
-            $modifiedColumns[':p' . $index++]  = 'file';
+        if ($this->isColumnModified(MigrationsTableMap::COL_BATCH)) {
+            $modifiedColumns[':p' . $index++]  = 'batch';
         }
 
         $sql = sprintf(
-            'INSERT INTO idoc (%s) VALUES (%s)',
+            'INSERT INTO migrations (%s) VALUES (%s)',
             implode(', ', $modifiedColumns),
             implode(', ', array_keys($modifiedColumns))
         );
@@ -712,17 +615,11 @@ abstract class Idoc implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-                    case 'id':
-                        $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
+                    case 'migration':
+                        $stmt->bindValue($identifier, $this->migration, PDO::PARAM_STR);
                         break;
-                    case 'nome':
-                        $stmt->bindValue($identifier, $this->nome, PDO::PARAM_STR);
-                        break;
-                    case 'idcliente':
-                        $stmt->bindValue($identifier, $this->idcliente, PDO::PARAM_INT);
-                        break;
-                    case 'file':
-                        $stmt->bindValue($identifier, $this->file, PDO::PARAM_STR);
+                    case 'batch':
+                        $stmt->bindValue($identifier, $this->batch, PDO::PARAM_INT);
                         break;
                 }
             }
@@ -763,7 +660,7 @@ abstract class Idoc implements ActiveRecordInterface
      */
     public function getByName($name, $type = TableMap::TYPE_PHPNAME)
     {
-        $pos = IdocTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
+        $pos = MigrationsTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
         $field = $this->getByPosition($pos);
 
         return $field;
@@ -780,16 +677,10 @@ abstract class Idoc implements ActiveRecordInterface
     {
         switch ($pos) {
             case 0:
-                return $this->getId();
+                return $this->getMigration();
                 break;
             case 1:
-                return $this->getNome();
-                break;
-            case 2:
-                return $this->getIdcliente();
-                break;
-            case 3:
-                return $this->getFile();
+                return $this->getBatch();
                 break;
             default:
                 return null;
@@ -814,16 +705,14 @@ abstract class Idoc implements ActiveRecordInterface
     public function toArray($keyType = TableMap::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array())
     {
 
-        if (isset($alreadyDumpedObjects['Idoc'][$this->hashCode()])) {
+        if (isset($alreadyDumpedObjects['Migrations'][$this->hashCode()])) {
             return '*RECURSION*';
         }
-        $alreadyDumpedObjects['Idoc'][$this->hashCode()] = true;
-        $keys = IdocTableMap::getFieldNames($keyType);
+        $alreadyDumpedObjects['Migrations'][$this->hashCode()] = true;
+        $keys = MigrationsTableMap::getFieldNames($keyType);
         $result = array(
-            $keys[0] => $this->getId(),
-            $keys[1] => $this->getNome(),
-            $keys[2] => $this->getIdcliente(),
-            $keys[3] => $this->getFile(),
+            $keys[0] => $this->getMigration(),
+            $keys[1] => $this->getBatch(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -843,11 +732,11 @@ abstract class Idoc implements ActiveRecordInterface
      *                one of the class type constants TableMap::TYPE_PHPNAME, TableMap::TYPE_CAMELNAME
      *                TableMap::TYPE_COLNAME, TableMap::TYPE_FIELDNAME, TableMap::TYPE_NUM.
      *                Defaults to TableMap::TYPE_PHPNAME.
-     * @return $this|\Idoc
+     * @return $this|\Migrations
      */
     public function setByName($name, $value, $type = TableMap::TYPE_PHPNAME)
     {
-        $pos = IdocTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
+        $pos = MigrationsTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
 
         return $this->setByPosition($pos, $value);
     }
@@ -858,22 +747,16 @@ abstract class Idoc implements ActiveRecordInterface
      *
      * @param  int $pos position in xml schema
      * @param  mixed $value field value
-     * @return $this|\Idoc
+     * @return $this|\Migrations
      */
     public function setByPosition($pos, $value)
     {
         switch ($pos) {
             case 0:
-                $this->setId($value);
+                $this->setMigration($value);
                 break;
             case 1:
-                $this->setNome($value);
-                break;
-            case 2:
-                $this->setIdcliente($value);
-                break;
-            case 3:
-                $this->setFile($value);
+                $this->setBatch($value);
                 break;
         } // switch()
 
@@ -899,19 +782,13 @@ abstract class Idoc implements ActiveRecordInterface
      */
     public function fromArray($arr, $keyType = TableMap::TYPE_PHPNAME)
     {
-        $keys = IdocTableMap::getFieldNames($keyType);
+        $keys = MigrationsTableMap::getFieldNames($keyType);
 
         if (array_key_exists($keys[0], $arr)) {
-            $this->setId($arr[$keys[0]]);
+            $this->setMigration($arr[$keys[0]]);
         }
         if (array_key_exists($keys[1], $arr)) {
-            $this->setNome($arr[$keys[1]]);
-        }
-        if (array_key_exists($keys[2], $arr)) {
-            $this->setIdcliente($arr[$keys[2]]);
-        }
-        if (array_key_exists($keys[3], $arr)) {
-            $this->setFile($arr[$keys[3]]);
+            $this->setBatch($arr[$keys[1]]);
         }
     }
 
@@ -932,7 +809,7 @@ abstract class Idoc implements ActiveRecordInterface
      * @param string $data The source data to import from
      * @param string $keyType The type of keys the array uses.
      *
-     * @return $this|\Idoc The current object, for fluid interface
+     * @return $this|\Migrations The current object, for fluid interface
      */
     public function importFrom($parser, $data, $keyType = TableMap::TYPE_PHPNAME)
     {
@@ -952,19 +829,13 @@ abstract class Idoc implements ActiveRecordInterface
      */
     public function buildCriteria()
     {
-        $criteria = new Criteria(IdocTableMap::DATABASE_NAME);
+        $criteria = new Criteria(MigrationsTableMap::DATABASE_NAME);
 
-        if ($this->isColumnModified(IdocTableMap::COL_ID)) {
-            $criteria->add(IdocTableMap::COL_ID, $this->id);
+        if ($this->isColumnModified(MigrationsTableMap::COL_MIGRATION)) {
+            $criteria->add(MigrationsTableMap::COL_MIGRATION, $this->migration);
         }
-        if ($this->isColumnModified(IdocTableMap::COL_NOME)) {
-            $criteria->add(IdocTableMap::COL_NOME, $this->nome);
-        }
-        if ($this->isColumnModified(IdocTableMap::COL_IDCLIENTE)) {
-            $criteria->add(IdocTableMap::COL_IDCLIENTE, $this->idcliente);
-        }
-        if ($this->isColumnModified(IdocTableMap::COL_FILE)) {
-            $criteria->add(IdocTableMap::COL_FILE, $this->file);
+        if ($this->isColumnModified(MigrationsTableMap::COL_BATCH)) {
+            $criteria->add(MigrationsTableMap::COL_BATCH, $this->batch);
         }
 
         return $criteria;
@@ -982,8 +853,7 @@ abstract class Idoc implements ActiveRecordInterface
      */
     public function buildPkeyCriteria()
     {
-        $criteria = ChildIdocQuery::create();
-        $criteria->add(IdocTableMap::COL_ID, $this->id);
+        throw new LogicException('The Migrations object has no primary key');
 
         return $criteria;
     }
@@ -996,7 +866,7 @@ abstract class Idoc implements ActiveRecordInterface
      */
     public function hashCode()
     {
-        $validPk = null !== $this->getId();
+        $validPk = false;
 
         $validPrimaryKeyFKs = 0;
         $primaryKeyFKs = [];
@@ -1011,23 +881,27 @@ abstract class Idoc implements ActiveRecordInterface
     }
 
     /**
-     * Returns the primary key for this object (row).
-     * @return int
+     * Returns NULL since this table doesn't have a primary key.
+     * This method exists only for BC and is deprecated!
+     * @return null
      */
     public function getPrimaryKey()
     {
-        return $this->getId();
+        return null;
     }
 
     /**
-     * Generic method to set the primary key (id column).
+     * Dummy primary key setter.
      *
-     * @param       int $key Primary key.
-     * @return void
+     * This function only exists to preserve backwards compatibility.  It is no longer
+     * needed or required by the Persistent interface.  It will be removed in next BC-breaking
+     * release of Propel.
+     *
+     * @deprecated
      */
-    public function setPrimaryKey($key)
+    public function setPrimaryKey($pk)
     {
-        $this->setId($key);
+        // do nothing, because this object doesn't have any primary keys
     }
 
     /**
@@ -1036,7 +910,7 @@ abstract class Idoc implements ActiveRecordInterface
      */
     public function isPrimaryKeyNull()
     {
-        return null === $this->getId();
+        return ;
     }
 
     /**
@@ -1045,19 +919,17 @@ abstract class Idoc implements ActiveRecordInterface
      * If desired, this method can also make copies of all associated (fkey referrers)
      * objects.
      *
-     * @param      object $copyObj An object of \Idoc (or compatible) type.
+     * @param      object $copyObj An object of \Migrations (or compatible) type.
      * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
      * @param      boolean $makeNew Whether to reset autoincrement PKs and make the object new.
      * @throws PropelException
      */
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
-        $copyObj->setNome($this->getNome());
-        $copyObj->setIdcliente($this->getIdcliente());
-        $copyObj->setFile($this->getFile());
+        $copyObj->setMigration($this->getMigration());
+        $copyObj->setBatch($this->getBatch());
         if ($makeNew) {
             $copyObj->setNew(true);
-            $copyObj->setId(NULL); // this is a auto-increment column, so set to default value
         }
     }
 
@@ -1070,7 +942,7 @@ abstract class Idoc implements ActiveRecordInterface
      * objects.
      *
      * @param  boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
-     * @return \Idoc Clone of current object.
+     * @return \Migrations Clone of current object.
      * @throws PropelException
      */
     public function copy($deepCopy = false)
@@ -1090,10 +962,8 @@ abstract class Idoc implements ActiveRecordInterface
      */
     public function clear()
     {
-        $this->id = null;
-        $this->nome = null;
-        $this->idcliente = null;
-        $this->file = null;
+        $this->migration = null;
+        $this->batch = null;
         $this->alreadyInSave = false;
         $this->clearAllReferences();
         $this->resetModified();
@@ -1123,7 +993,7 @@ abstract class Idoc implements ActiveRecordInterface
      */
     public function __toString()
     {
-        return (string) $this->exportTo(IdocTableMap::DEFAULT_STRING_FORMAT);
+        return (string) $this->exportTo(MigrationsTableMap::DEFAULT_STRING_FORMAT);
     }
 
     /**

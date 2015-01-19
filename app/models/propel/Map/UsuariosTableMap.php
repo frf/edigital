@@ -2,8 +2,8 @@
 
 namespace Map;
 
-use \Idoc;
-use \IdocQuery;
+use \Usuarios;
+use \UsuariosQuery;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\InstancePoolTrait;
@@ -16,7 +16,7 @@ use Propel\Runtime\Map\TableMapTrait;
 
 
 /**
- * This class defines the structure of the 'idoc' table.
+ * This class defines the structure of the 'usuarios' table.
  *
  *
  *
@@ -26,7 +26,7 @@ use Propel\Runtime\Map\TableMapTrait;
  * (i.e. if it's a text column type).
  *
  */
-class IdocTableMap extends TableMap
+class UsuariosTableMap extends TableMap
 {
     use InstancePoolTrait;
     use TableMapTrait;
@@ -34,7 +34,7 @@ class IdocTableMap extends TableMap
     /**
      * The (dot-path) name of this class
      */
-    const CLASS_NAME = '.Map.IdocTableMap';
+    const CLASS_NAME = '.Map.UsuariosTableMap';
 
     /**
      * The default database name for this class
@@ -44,22 +44,22 @@ class IdocTableMap extends TableMap
     /**
      * The table name for this class
      */
-    const TABLE_NAME = 'idoc';
+    const TABLE_NAME = 'usuarios';
 
     /**
      * The related Propel class for this table
      */
-    const OM_CLASS = '\\Idoc';
+    const OM_CLASS = '\\Usuarios';
 
     /**
      * A class that can be returned by this tableMap
      */
-    const CLASS_DEFAULT = 'Idoc';
+    const CLASS_DEFAULT = 'Usuarios';
 
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 4;
+    const NUM_COLUMNS = 8;
 
     /**
      * The number of lazy-loaded columns
@@ -69,27 +69,47 @@ class IdocTableMap extends TableMap
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
      */
-    const NUM_HYDRATE_COLUMNS = 4;
+    const NUM_HYDRATE_COLUMNS = 8;
 
     /**
      * the column name for the id field
      */
-    const COL_ID = 'idoc.id';
+    const COL_ID = 'usuarios.id';
+
+    /**
+     * the column name for the email field
+     */
+    const COL_EMAIL = 'usuarios.email';
+
+    /**
+     * the column name for the senha field
+     */
+    const COL_SENHA = 'usuarios.senha';
 
     /**
      * the column name for the nome field
      */
-    const COL_NOME = 'idoc.nome';
+    const COL_NOME = 'usuarios.nome';
 
     /**
-     * the column name for the idcliente field
+     * the column name for the tipo field
      */
-    const COL_IDCLIENTE = 'idoc.idcliente';
+    const COL_TIPO = 'usuarios.tipo';
 
     /**
-     * the column name for the file field
+     * the column name for the remember_token field
      */
-    const COL_FILE = 'idoc.file';
+    const COL_REMEMBER_TOKEN = 'usuarios.remember_token';
+
+    /**
+     * the column name for the created_at field
+     */
+    const COL_CREATED_AT = 'usuarios.created_at';
+
+    /**
+     * the column name for the updated_at field
+     */
+    const COL_UPDATED_AT = 'usuarios.updated_at';
 
     /**
      * The default string format for model objects of the related table
@@ -103,11 +123,11 @@ class IdocTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'Nome', 'Idcliente', 'File', ),
-        self::TYPE_CAMELNAME     => array('id', 'nome', 'idcliente', 'file', ),
-        self::TYPE_COLNAME       => array(IdocTableMap::COL_ID, IdocTableMap::COL_NOME, IdocTableMap::COL_IDCLIENTE, IdocTableMap::COL_FILE, ),
-        self::TYPE_FIELDNAME     => array('id', 'nome', 'idcliente', 'file', ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, )
+        self::TYPE_PHPNAME       => array('Id', 'Email', 'Senha', 'Nome', 'Tipo', 'RememberToken', 'CreatedAt', 'UpdatedAt', ),
+        self::TYPE_CAMELNAME     => array('id', 'email', 'senha', 'nome', 'tipo', 'rememberToken', 'createdAt', 'updatedAt', ),
+        self::TYPE_COLNAME       => array(UsuariosTableMap::COL_ID, UsuariosTableMap::COL_EMAIL, UsuariosTableMap::COL_SENHA, UsuariosTableMap::COL_NOME, UsuariosTableMap::COL_TIPO, UsuariosTableMap::COL_REMEMBER_TOKEN, UsuariosTableMap::COL_CREATED_AT, UsuariosTableMap::COL_UPDATED_AT, ),
+        self::TYPE_FIELDNAME     => array('id', 'email', 'senha', 'nome', 'tipo', 'remember_token', 'created_at', 'updated_at', ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, )
     );
 
     /**
@@ -117,11 +137,11 @@ class IdocTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'Nome' => 1, 'Idcliente' => 2, 'File' => 3, ),
-        self::TYPE_CAMELNAME     => array('id' => 0, 'nome' => 1, 'idcliente' => 2, 'file' => 3, ),
-        self::TYPE_COLNAME       => array(IdocTableMap::COL_ID => 0, IdocTableMap::COL_NOME => 1, IdocTableMap::COL_IDCLIENTE => 2, IdocTableMap::COL_FILE => 3, ),
-        self::TYPE_FIELDNAME     => array('id' => 0, 'nome' => 1, 'idcliente' => 2, 'file' => 3, ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, )
+        self::TYPE_PHPNAME       => array('Id' => 0, 'Email' => 1, 'Senha' => 2, 'Nome' => 3, 'Tipo' => 4, 'RememberToken' => 5, 'CreatedAt' => 6, 'UpdatedAt' => 7, ),
+        self::TYPE_CAMELNAME     => array('id' => 0, 'email' => 1, 'senha' => 2, 'nome' => 3, 'tipo' => 4, 'rememberToken' => 5, 'createdAt' => 6, 'updatedAt' => 7, ),
+        self::TYPE_COLNAME       => array(UsuariosTableMap::COL_ID => 0, UsuariosTableMap::COL_EMAIL => 1, UsuariosTableMap::COL_SENHA => 2, UsuariosTableMap::COL_NOME => 3, UsuariosTableMap::COL_TIPO => 4, UsuariosTableMap::COL_REMEMBER_TOKEN => 5, UsuariosTableMap::COL_CREATED_AT => 6, UsuariosTableMap::COL_UPDATED_AT => 7, ),
+        self::TYPE_FIELDNAME     => array('id' => 0, 'email' => 1, 'senha' => 2, 'nome' => 3, 'tipo' => 4, 'remember_token' => 5, 'created_at' => 6, 'updated_at' => 7, ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, )
     );
 
     /**
@@ -134,18 +154,22 @@ class IdocTableMap extends TableMap
     public function initialize()
     {
         // attributes
-        $this->setName('idoc');
-        $this->setPhpName('Idoc');
+        $this->setName('usuarios');
+        $this->setPhpName('Usuarios');
         $this->setIdentifierQuoting(false);
-        $this->setClassName('\\Idoc');
+        $this->setClassName('\\Usuarios');
         $this->setPackage('');
         $this->setUseIdGenerator(true);
-        $this->setPrimaryKeyMethodInfo('idoc_id_seq');
+        $this->setPrimaryKeyMethodInfo('usuarios_id_seq');
         // columns
         $this->addPrimaryKey('id', 'Id', 'INTEGER', true, null, null);
-        $this->addColumn('nome', 'Nome', 'VARCHAR', false, 255, null);
-        $this->addColumn('idcliente', 'Idcliente', 'BIGINT', false, null, null);
-        $this->addColumn('file', 'File', 'VARCHAR', false, 255, null);
+        $this->addColumn('email', 'Email', 'VARCHAR', true, 255, null);
+        $this->addColumn('senha', 'Senha', 'VARCHAR', true, 60, null);
+        $this->addColumn('nome', 'Nome', 'VARCHAR', true, 255, null);
+        $this->addColumn('tipo', 'Tipo', 'VARCHAR', true, 255, null);
+        $this->addColumn('remember_token', 'RememberToken', 'VARCHAR', false, 100, null);
+        $this->addColumn('created_at', 'CreatedAt', 'TIMESTAMP', true, null, null);
+        $this->addColumn('updated_at', 'UpdatedAt', 'TIMESTAMP', true, null, null);
     } // initialize()
 
     /**
@@ -212,7 +236,7 @@ class IdocTableMap extends TableMap
      */
     public static function getOMClass($withPrefix = true)
     {
-        return $withPrefix ? IdocTableMap::CLASS_DEFAULT : IdocTableMap::OM_CLASS;
+        return $withPrefix ? UsuariosTableMap::CLASS_DEFAULT : UsuariosTableMap::OM_CLASS;
     }
 
     /**
@@ -226,22 +250,22 @@ class IdocTableMap extends TableMap
      *
      * @throws PropelException Any exceptions caught during processing will be
      *                         rethrown wrapped into a PropelException.
-     * @return array           (Idoc object, last column rank)
+     * @return array           (Usuarios object, last column rank)
      */
     public static function populateObject($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
     {
-        $key = IdocTableMap::getPrimaryKeyHashFromRow($row, $offset, $indexType);
-        if (null !== ($obj = IdocTableMap::getInstanceFromPool($key))) {
+        $key = UsuariosTableMap::getPrimaryKeyHashFromRow($row, $offset, $indexType);
+        if (null !== ($obj = UsuariosTableMap::getInstanceFromPool($key))) {
             // We no longer rehydrate the object, since this can cause data loss.
             // See http://www.propelorm.org/ticket/509
             // $obj->hydrate($row, $offset, true); // rehydrate
-            $col = $offset + IdocTableMap::NUM_HYDRATE_COLUMNS;
+            $col = $offset + UsuariosTableMap::NUM_HYDRATE_COLUMNS;
         } else {
-            $cls = IdocTableMap::OM_CLASS;
-            /** @var Idoc $obj */
+            $cls = UsuariosTableMap::OM_CLASS;
+            /** @var Usuarios $obj */
             $obj = new $cls();
             $col = $obj->hydrate($row, $offset, false, $indexType);
-            IdocTableMap::addInstanceToPool($obj, $key);
+            UsuariosTableMap::addInstanceToPool($obj, $key);
         }
 
         return array($obj, $col);
@@ -264,18 +288,18 @@ class IdocTableMap extends TableMap
         $cls = static::getOMClass(false);
         // populate the object(s)
         while ($row = $dataFetcher->fetch()) {
-            $key = IdocTableMap::getPrimaryKeyHashFromRow($row, 0, $dataFetcher->getIndexType());
-            if (null !== ($obj = IdocTableMap::getInstanceFromPool($key))) {
+            $key = UsuariosTableMap::getPrimaryKeyHashFromRow($row, 0, $dataFetcher->getIndexType());
+            if (null !== ($obj = UsuariosTableMap::getInstanceFromPool($key))) {
                 // We no longer rehydrate the object, since this can cause data loss.
                 // See http://www.propelorm.org/ticket/509
                 // $obj->hydrate($row, 0, true); // rehydrate
                 $results[] = $obj;
             } else {
-                /** @var Idoc $obj */
+                /** @var Usuarios $obj */
                 $obj = new $cls();
                 $obj->hydrate($row);
                 $results[] = $obj;
-                IdocTableMap::addInstanceToPool($obj, $key);
+                UsuariosTableMap::addInstanceToPool($obj, $key);
             } // if key exists
         }
 
@@ -296,15 +320,23 @@ class IdocTableMap extends TableMap
     public static function addSelectColumns(Criteria $criteria, $alias = null)
     {
         if (null === $alias) {
-            $criteria->addSelectColumn(IdocTableMap::COL_ID);
-            $criteria->addSelectColumn(IdocTableMap::COL_NOME);
-            $criteria->addSelectColumn(IdocTableMap::COL_IDCLIENTE);
-            $criteria->addSelectColumn(IdocTableMap::COL_FILE);
+            $criteria->addSelectColumn(UsuariosTableMap::COL_ID);
+            $criteria->addSelectColumn(UsuariosTableMap::COL_EMAIL);
+            $criteria->addSelectColumn(UsuariosTableMap::COL_SENHA);
+            $criteria->addSelectColumn(UsuariosTableMap::COL_NOME);
+            $criteria->addSelectColumn(UsuariosTableMap::COL_TIPO);
+            $criteria->addSelectColumn(UsuariosTableMap::COL_REMEMBER_TOKEN);
+            $criteria->addSelectColumn(UsuariosTableMap::COL_CREATED_AT);
+            $criteria->addSelectColumn(UsuariosTableMap::COL_UPDATED_AT);
         } else {
             $criteria->addSelectColumn($alias . '.id');
+            $criteria->addSelectColumn($alias . '.email');
+            $criteria->addSelectColumn($alias . '.senha');
             $criteria->addSelectColumn($alias . '.nome');
-            $criteria->addSelectColumn($alias . '.idcliente');
-            $criteria->addSelectColumn($alias . '.file');
+            $criteria->addSelectColumn($alias . '.tipo');
+            $criteria->addSelectColumn($alias . '.remember_token');
+            $criteria->addSelectColumn($alias . '.created_at');
+            $criteria->addSelectColumn($alias . '.updated_at');
         }
     }
 
@@ -317,7 +349,7 @@ class IdocTableMap extends TableMap
      */
     public static function getTableMap()
     {
-        return Propel::getServiceContainer()->getDatabaseMap(IdocTableMap::DATABASE_NAME)->getTable(IdocTableMap::TABLE_NAME);
+        return Propel::getServiceContainer()->getDatabaseMap(UsuariosTableMap::DATABASE_NAME)->getTable(UsuariosTableMap::TABLE_NAME);
     }
 
     /**
@@ -325,16 +357,16 @@ class IdocTableMap extends TableMap
      */
     public static function buildTableMap()
     {
-        $dbMap = Propel::getServiceContainer()->getDatabaseMap(IdocTableMap::DATABASE_NAME);
-        if (!$dbMap->hasTable(IdocTableMap::TABLE_NAME)) {
-            $dbMap->addTableObject(new IdocTableMap());
+        $dbMap = Propel::getServiceContainer()->getDatabaseMap(UsuariosTableMap::DATABASE_NAME);
+        if (!$dbMap->hasTable(UsuariosTableMap::TABLE_NAME)) {
+            $dbMap->addTableObject(new UsuariosTableMap());
         }
     }
 
     /**
-     * Performs a DELETE on the database, given a Idoc or Criteria object OR a primary key value.
+     * Performs a DELETE on the database, given a Usuarios or Criteria object OR a primary key value.
      *
-     * @param mixed               $values Criteria or Idoc object or primary key or array of primary keys
+     * @param mixed               $values Criteria or Usuarios object or primary key or array of primary keys
      *              which is used to create the DELETE statement
      * @param  ConnectionInterface $con the connection to use
      * @return int             The number of affected rows (if supported by underlying database driver).  This includes CASCADE-related rows
@@ -345,27 +377,27 @@ class IdocTableMap extends TableMap
      public static function doDelete($values, ConnectionInterface $con = null)
      {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(IdocTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(UsuariosTableMap::DATABASE_NAME);
         }
 
         if ($values instanceof Criteria) {
             // rename for clarity
             $criteria = $values;
-        } elseif ($values instanceof \Idoc) { // it's a model object
+        } elseif ($values instanceof \Usuarios) { // it's a model object
             // create criteria based on pk values
             $criteria = $values->buildPkeyCriteria();
         } else { // it's a primary key, or an array of pks
-            $criteria = new Criteria(IdocTableMap::DATABASE_NAME);
-            $criteria->add(IdocTableMap::COL_ID, (array) $values, Criteria::IN);
+            $criteria = new Criteria(UsuariosTableMap::DATABASE_NAME);
+            $criteria->add(UsuariosTableMap::COL_ID, (array) $values, Criteria::IN);
         }
 
-        $query = IdocQuery::create()->mergeWith($criteria);
+        $query = UsuariosQuery::create()->mergeWith($criteria);
 
         if ($values instanceof Criteria) {
-            IdocTableMap::clearInstancePool();
+            UsuariosTableMap::clearInstancePool();
         } elseif (!is_object($values)) { // it's a primary key, or an array of pks
             foreach ((array) $values as $singleval) {
-                IdocTableMap::removeInstanceFromPool($singleval);
+                UsuariosTableMap::removeInstanceFromPool($singleval);
             }
         }
 
@@ -373,20 +405,20 @@ class IdocTableMap extends TableMap
     }
 
     /**
-     * Deletes all rows from the idoc table.
+     * Deletes all rows from the usuarios table.
      *
      * @param ConnectionInterface $con the connection to use
      * @return int The number of affected rows (if supported by underlying database driver).
      */
     public static function doDeleteAll(ConnectionInterface $con = null)
     {
-        return IdocQuery::create()->doDeleteAll($con);
+        return UsuariosQuery::create()->doDeleteAll($con);
     }
 
     /**
-     * Performs an INSERT on the database, given a Idoc or Criteria object.
+     * Performs an INSERT on the database, given a Usuarios or Criteria object.
      *
-     * @param mixed               $criteria Criteria or Idoc object containing data that is used to create the INSERT statement.
+     * @param mixed               $criteria Criteria or Usuarios object containing data that is used to create the INSERT statement.
      * @param ConnectionInterface $con the ConnectionInterface connection to use
      * @return mixed           The new primary key.
      * @throws PropelException Any exceptions caught during processing will be
@@ -395,22 +427,22 @@ class IdocTableMap extends TableMap
     public static function doInsert($criteria, ConnectionInterface $con = null)
     {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(IdocTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(UsuariosTableMap::DATABASE_NAME);
         }
 
         if ($criteria instanceof Criteria) {
             $criteria = clone $criteria; // rename for clarity
         } else {
-            $criteria = $criteria->buildCriteria(); // build Criteria from Idoc object
+            $criteria = $criteria->buildCriteria(); // build Criteria from Usuarios object
         }
 
-        if ($criteria->containsKey(IdocTableMap::COL_ID) && $criteria->keyContainsValue(IdocTableMap::COL_ID) ) {
-            throw new PropelException('Cannot insert a value for auto-increment primary key ('.IdocTableMap::COL_ID.')');
+        if ($criteria->containsKey(UsuariosTableMap::COL_ID) && $criteria->keyContainsValue(UsuariosTableMap::COL_ID) ) {
+            throw new PropelException('Cannot insert a value for auto-increment primary key ('.UsuariosTableMap::COL_ID.')');
         }
 
 
         // Set the correct dbName
-        $query = IdocQuery::create()->mergeWith($criteria);
+        $query = UsuariosQuery::create()->mergeWith($criteria);
 
         // use transaction because $criteria could contain info
         // for more than one table (I guess, conceivably)
@@ -419,7 +451,7 @@ class IdocTableMap extends TableMap
         });
     }
 
-} // IdocTableMap
+} // UsuariosTableMap
 // This is the static code needed to register the TableMap for this table with the main Propel class.
 //
-IdocTableMap::buildTableMap();
+UsuariosTableMap::buildTableMap();

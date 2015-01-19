@@ -2,15 +2,19 @@
 
 namespace Base;
 
-use \IdocQuery as ChildIdocQuery;
+use \Categorias as ChildCategorias;
+use \CategoriasQuery as ChildCategoriasQuery;
+use \Documentos as ChildDocumentos;
+use \DocumentosQuery as ChildDocumentosQuery;
 use \Exception;
 use \PDO;
-use Map\IdocTableMap;
+use Map\CategoriasTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
 use Propel\Runtime\ActiveRecord\ActiveRecordInterface;
 use Propel\Runtime\Collection\Collection;
+use Propel\Runtime\Collection\ObjectCollection;
 use Propel\Runtime\Connection\ConnectionInterface;
 use Propel\Runtime\Exception\BadMethodCallException;
 use Propel\Runtime\Exception\LogicException;
@@ -19,18 +23,18 @@ use Propel\Runtime\Map\TableMap;
 use Propel\Runtime\Parser\AbstractParser;
 
 /**
- * Base class that represents a row from the 'idoc' table.
+ * Base class that represents a row from the 'categorias' table.
  *
  *
  *
 * @package    propel.generator..Base
 */
-abstract class Idoc implements ActiveRecordInterface
+abstract class Categorias implements ActiveRecordInterface
 {
     /**
      * TableMap class name
      */
-    const TABLE_MAP = '\\Map\\IdocTableMap';
+    const TABLE_MAP = '\\Map\\CategoriasTableMap';
 
 
     /**
@@ -66,22 +70,22 @@ abstract class Idoc implements ActiveRecordInterface
     protected $id;
 
     /**
-     * The value for the nome field.
-     * @var        string
+     * The value for the id_clientes field.
+     * @var        int
      */
-    protected $nome;
+    protected $id_clientes;
 
     /**
-     * The value for the idcliente field.
+     * The value for the nomecategoria field.
      * @var        string
      */
-    protected $idcliente;
+    protected $nomecategoria;
 
     /**
-     * The value for the file field.
-     * @var        string
+     * @var        ObjectCollection|ChildDocumentos[] Collection to store aggregation of ChildDocumentos objects.
      */
-    protected $file;
+    protected $collDocumentoss;
+    protected $collDocumentossPartial;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced
@@ -92,7 +96,13 @@ abstract class Idoc implements ActiveRecordInterface
     protected $alreadyInSave = false;
 
     /**
-     * Initializes internal state of Base\Idoc object.
+     * An array of objects scheduled for deletion.
+     * @var ObjectCollection|ChildDocumentos[]
+     */
+    protected $documentossScheduledForDeletion = null;
+
+    /**
+     * Initializes internal state of Base\Categorias object.
      */
     public function __construct()
     {
@@ -187,9 +197,9 @@ abstract class Idoc implements ActiveRecordInterface
     }
 
     /**
-     * Compares this with another <code>Idoc</code> instance.  If
-     * <code>obj</code> is an instance of <code>Idoc</code>, delegates to
-     * <code>equals(Idoc)</code>.  Otherwise, returns <code>false</code>.
+     * Compares this with another <code>Categorias</code> instance.  If
+     * <code>obj</code> is an instance of <code>Categorias</code>, delegates to
+     * <code>equals(Categorias)</code>.  Otherwise, returns <code>false</code>.
      *
      * @param  mixed   $obj The object to compare to.
      * @return boolean Whether equal to the object specified.
@@ -255,7 +265,7 @@ abstract class Idoc implements ActiveRecordInterface
      * @param string $name  The virtual column name
      * @param mixed  $value The value to give to the virtual column
      *
-     * @return $this|Idoc The current object, for fluid interface
+     * @return $this|Categorias The current object, for fluid interface
      */
     public function setVirtualColumn($name, $value)
     {
@@ -319,40 +329,30 @@ abstract class Idoc implements ActiveRecordInterface
     }
 
     /**
-     * Get the [nome] column value.
+     * Get the [id_clientes] column value.
      *
-     * @return string
+     * @return int
      */
-    public function getNome()
+    public function getIdClientes()
     {
-        return $this->nome;
+        return $this->id_clientes;
     }
 
     /**
-     * Get the [idcliente] column value.
+     * Get the [nomecategoria] column value.
      *
      * @return string
      */
-    public function getIdcliente()
+    public function getNomecategoria()
     {
-        return $this->idcliente;
-    }
-
-    /**
-     * Get the [file] column value.
-     *
-     * @return string
-     */
-    public function getFile()
-    {
-        return $this->file;
+        return $this->nomecategoria;
     }
 
     /**
      * Set the value of [id] column.
      *
      * @param  int $v new value
-     * @return $this|\Idoc The current object (for fluent API support)
+     * @return $this|\Categorias The current object (for fluent API support)
      */
     public function setId($v)
     {
@@ -362,71 +362,51 @@ abstract class Idoc implements ActiveRecordInterface
 
         if ($this->id !== $v) {
             $this->id = $v;
-            $this->modifiedColumns[IdocTableMap::COL_ID] = true;
+            $this->modifiedColumns[CategoriasTableMap::COL_ID] = true;
         }
 
         return $this;
     } // setId()
 
     /**
-     * Set the value of [nome] column.
+     * Set the value of [id_clientes] column.
      *
-     * @param  string $v new value
-     * @return $this|\Idoc The current object (for fluent API support)
+     * @param  int $v new value
+     * @return $this|\Categorias The current object (for fluent API support)
      */
-    public function setNome($v)
+    public function setIdClientes($v)
     {
         if ($v !== null) {
-            $v = (string) $v;
+            $v = (int) $v;
         }
 
-        if ($this->nome !== $v) {
-            $this->nome = $v;
-            $this->modifiedColumns[IdocTableMap::COL_NOME] = true;
+        if ($this->id_clientes !== $v) {
+            $this->id_clientes = $v;
+            $this->modifiedColumns[CategoriasTableMap::COL_ID_CLIENTES] = true;
         }
 
         return $this;
-    } // setNome()
+    } // setIdClientes()
 
     /**
-     * Set the value of [idcliente] column.
+     * Set the value of [nomecategoria] column.
      *
      * @param  string $v new value
-     * @return $this|\Idoc The current object (for fluent API support)
+     * @return $this|\Categorias The current object (for fluent API support)
      */
-    public function setIdcliente($v)
+    public function setNomecategoria($v)
     {
         if ($v !== null) {
             $v = (string) $v;
         }
 
-        if ($this->idcliente !== $v) {
-            $this->idcliente = $v;
-            $this->modifiedColumns[IdocTableMap::COL_IDCLIENTE] = true;
+        if ($this->nomecategoria !== $v) {
+            $this->nomecategoria = $v;
+            $this->modifiedColumns[CategoriasTableMap::COL_NOMECATEGORIA] = true;
         }
 
         return $this;
-    } // setIdcliente()
-
-    /**
-     * Set the value of [file] column.
-     *
-     * @param  string $v new value
-     * @return $this|\Idoc The current object (for fluent API support)
-     */
-    public function setFile($v)
-    {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->file !== $v) {
-            $this->file = $v;
-            $this->modifiedColumns[IdocTableMap::COL_FILE] = true;
-        }
-
-        return $this;
-    } // setFile()
+    } // setNomecategoria()
 
     /**
      * Indicates whether the columns in this object are only set to default values.
@@ -464,17 +444,14 @@ abstract class Idoc implements ActiveRecordInterface
     {
         try {
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : IdocTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : CategoriasTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
             $this->id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : IdocTableMap::translateFieldName('Nome', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->nome = (null !== $col) ? (string) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : CategoriasTableMap::translateFieldName('IdClientes', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->id_clientes = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : IdocTableMap::translateFieldName('Idcliente', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->idcliente = (null !== $col) ? (string) $col : null;
-
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : IdocTableMap::translateFieldName('File', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->file = (null !== $col) ? (string) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : CategoriasTableMap::translateFieldName('Nomecategoria', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->nomecategoria = (null !== $col) ? (string) $col : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -483,10 +460,10 @@ abstract class Idoc implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 4; // 4 = IdocTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 3; // 3 = CategoriasTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
-            throw new PropelException(sprintf('Error populating %s object', '\\Idoc'), 0, $e);
+            throw new PropelException(sprintf('Error populating %s object', '\\Categorias'), 0, $e);
         }
     }
 
@@ -528,13 +505,13 @@ abstract class Idoc implements ActiveRecordInterface
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getReadConnection(IdocTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getReadConnection(CategoriasTableMap::DATABASE_NAME);
         }
 
         // We don't need to alter the object instance pool; we're just modifying this instance
         // already in the pool.
 
-        $dataFetcher = ChildIdocQuery::create(null, $this->buildPkeyCriteria())->setFormatter(ModelCriteria::FORMAT_STATEMENT)->find($con);
+        $dataFetcher = ChildCategoriasQuery::create(null, $this->buildPkeyCriteria())->setFormatter(ModelCriteria::FORMAT_STATEMENT)->find($con);
         $row = $dataFetcher->fetch();
         $dataFetcher->close();
         if (!$row) {
@@ -543,6 +520,8 @@ abstract class Idoc implements ActiveRecordInterface
         $this->hydrate($row, 0, true, $dataFetcher->getIndexType()); // rehydrate
 
         if ($deep) {  // also de-associate any related objects?
+
+            $this->collDocumentoss = null;
 
         } // if (deep)
     }
@@ -553,8 +532,8 @@ abstract class Idoc implements ActiveRecordInterface
      * @param      ConnectionInterface $con
      * @return void
      * @throws PropelException
-     * @see Idoc::setDeleted()
-     * @see Idoc::isDeleted()
+     * @see Categorias::setDeleted()
+     * @see Categorias::isDeleted()
      */
     public function delete(ConnectionInterface $con = null)
     {
@@ -563,11 +542,11 @@ abstract class Idoc implements ActiveRecordInterface
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getWriteConnection(IdocTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(CategoriasTableMap::DATABASE_NAME);
         }
 
         $con->transaction(function () use ($con) {
-            $deleteQuery = ChildIdocQuery::create()
+            $deleteQuery = ChildCategoriasQuery::create()
                 ->filterByPrimaryKey($this->getPrimaryKey());
             $ret = $this->preDelete($con);
             if ($ret) {
@@ -598,7 +577,7 @@ abstract class Idoc implements ActiveRecordInterface
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getWriteConnection(IdocTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(CategoriasTableMap::DATABASE_NAME);
         }
 
         return $con->transaction(function () use ($con) {
@@ -617,7 +596,7 @@ abstract class Idoc implements ActiveRecordInterface
                     $this->postUpdate($con);
                 }
                 $this->postSave($con);
-                IdocTableMap::addInstanceToPool($this);
+                CategoriasTableMap::addInstanceToPool($this);
             } else {
                 $affectedRows = 0;
             }
@@ -654,6 +633,23 @@ abstract class Idoc implements ActiveRecordInterface
                 $this->resetModified();
             }
 
+            if ($this->documentossScheduledForDeletion !== null) {
+                if (!$this->documentossScheduledForDeletion->isEmpty()) {
+                    \DocumentosQuery::create()
+                        ->filterByPrimaryKeys($this->documentossScheduledForDeletion->getPrimaryKeys(false))
+                        ->delete($con);
+                    $this->documentossScheduledForDeletion = null;
+                }
+            }
+
+            if ($this->collDocumentoss !== null) {
+                foreach ($this->collDocumentoss as $referrerFK) {
+                    if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
+                        $affectedRows += $referrerFK->save($con);
+                    }
+                }
+            }
+
             $this->alreadyInSave = false;
 
         }
@@ -674,13 +670,13 @@ abstract class Idoc implements ActiveRecordInterface
         $modifiedColumns = array();
         $index = 0;
 
-        $this->modifiedColumns[IdocTableMap::COL_ID] = true;
+        $this->modifiedColumns[CategoriasTableMap::COL_ID] = true;
         if (null !== $this->id) {
-            throw new PropelException('Cannot insert a value for auto-increment primary key (' . IdocTableMap::COL_ID . ')');
+            throw new PropelException('Cannot insert a value for auto-increment primary key (' . CategoriasTableMap::COL_ID . ')');
         }
         if (null === $this->id) {
             try {
-                $dataFetcher = $con->query("SELECT nextval('idoc_id_seq')");
+                $dataFetcher = $con->query("SELECT nextval('categorias_id_seq')");
                 $this->id = $dataFetcher->fetchColumn();
             } catch (Exception $e) {
                 throw new PropelException('Unable to get sequence id.', 0, $e);
@@ -689,21 +685,18 @@ abstract class Idoc implements ActiveRecordInterface
 
 
          // check the columns in natural order for more readable SQL queries
-        if ($this->isColumnModified(IdocTableMap::COL_ID)) {
+        if ($this->isColumnModified(CategoriasTableMap::COL_ID)) {
             $modifiedColumns[':p' . $index++]  = 'id';
         }
-        if ($this->isColumnModified(IdocTableMap::COL_NOME)) {
-            $modifiedColumns[':p' . $index++]  = 'nome';
+        if ($this->isColumnModified(CategoriasTableMap::COL_ID_CLIENTES)) {
+            $modifiedColumns[':p' . $index++]  = 'id_clientes';
         }
-        if ($this->isColumnModified(IdocTableMap::COL_IDCLIENTE)) {
-            $modifiedColumns[':p' . $index++]  = 'idcliente';
-        }
-        if ($this->isColumnModified(IdocTableMap::COL_FILE)) {
-            $modifiedColumns[':p' . $index++]  = 'file';
+        if ($this->isColumnModified(CategoriasTableMap::COL_NOMECATEGORIA)) {
+            $modifiedColumns[':p' . $index++]  = 'nomecategoria';
         }
 
         $sql = sprintf(
-            'INSERT INTO idoc (%s) VALUES (%s)',
+            'INSERT INTO categorias (%s) VALUES (%s)',
             implode(', ', $modifiedColumns),
             implode(', ', array_keys($modifiedColumns))
         );
@@ -715,14 +708,11 @@ abstract class Idoc implements ActiveRecordInterface
                     case 'id':
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
-                    case 'nome':
-                        $stmt->bindValue($identifier, $this->nome, PDO::PARAM_STR);
+                    case 'id_clientes':
+                        $stmt->bindValue($identifier, $this->id_clientes, PDO::PARAM_INT);
                         break;
-                    case 'idcliente':
-                        $stmt->bindValue($identifier, $this->idcliente, PDO::PARAM_INT);
-                        break;
-                    case 'file':
-                        $stmt->bindValue($identifier, $this->file, PDO::PARAM_STR);
+                    case 'nomecategoria':
+                        $stmt->bindValue($identifier, $this->nomecategoria, PDO::PARAM_STR);
                         break;
                 }
             }
@@ -763,7 +753,7 @@ abstract class Idoc implements ActiveRecordInterface
      */
     public function getByName($name, $type = TableMap::TYPE_PHPNAME)
     {
-        $pos = IdocTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
+        $pos = CategoriasTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
         $field = $this->getByPosition($pos);
 
         return $field;
@@ -783,13 +773,10 @@ abstract class Idoc implements ActiveRecordInterface
                 return $this->getId();
                 break;
             case 1:
-                return $this->getNome();
+                return $this->getIdClientes();
                 break;
             case 2:
-                return $this->getIdcliente();
-                break;
-            case 3:
-                return $this->getFile();
+                return $this->getNomecategoria();
                 break;
             default:
                 return null;
@@ -808,28 +795,45 @@ abstract class Idoc implements ActiveRecordInterface
      *                    Defaults to TableMap::TYPE_PHPNAME.
      * @param     boolean $includeLazyLoadColumns (optional) Whether to include lazy loaded columns. Defaults to TRUE.
      * @param     array $alreadyDumpedObjects List of objects to skip to avoid recursion
+     * @param     boolean $includeForeignObjects (optional) Whether to include hydrated related objects. Default to FALSE.
      *
      * @return array an associative array containing the field names (as keys) and field values
      */
-    public function toArray($keyType = TableMap::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array())
+    public function toArray($keyType = TableMap::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array(), $includeForeignObjects = false)
     {
 
-        if (isset($alreadyDumpedObjects['Idoc'][$this->hashCode()])) {
+        if (isset($alreadyDumpedObjects['Categorias'][$this->hashCode()])) {
             return '*RECURSION*';
         }
-        $alreadyDumpedObjects['Idoc'][$this->hashCode()] = true;
-        $keys = IdocTableMap::getFieldNames($keyType);
+        $alreadyDumpedObjects['Categorias'][$this->hashCode()] = true;
+        $keys = CategoriasTableMap::getFieldNames($keyType);
         $result = array(
             $keys[0] => $this->getId(),
-            $keys[1] => $this->getNome(),
-            $keys[2] => $this->getIdcliente(),
-            $keys[3] => $this->getFile(),
+            $keys[1] => $this->getIdClientes(),
+            $keys[2] => $this->getNomecategoria(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
             $result[$key] = $virtualColumn;
         }
 
+        if ($includeForeignObjects) {
+            if (null !== $this->collDocumentoss) {
+
+                switch ($keyType) {
+                    case TableMap::TYPE_CAMELNAME:
+                        $key = 'documentoss';
+                        break;
+                    case TableMap::TYPE_FIELDNAME:
+                        $key = 'documentoss';
+                        break;
+                    default:
+                        $key = 'Documentoss';
+                }
+
+                $result[$key] = $this->collDocumentoss->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+            }
+        }
 
         return $result;
     }
@@ -843,11 +847,11 @@ abstract class Idoc implements ActiveRecordInterface
      *                one of the class type constants TableMap::TYPE_PHPNAME, TableMap::TYPE_CAMELNAME
      *                TableMap::TYPE_COLNAME, TableMap::TYPE_FIELDNAME, TableMap::TYPE_NUM.
      *                Defaults to TableMap::TYPE_PHPNAME.
-     * @return $this|\Idoc
+     * @return $this|\Categorias
      */
     public function setByName($name, $value, $type = TableMap::TYPE_PHPNAME)
     {
-        $pos = IdocTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
+        $pos = CategoriasTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
 
         return $this->setByPosition($pos, $value);
     }
@@ -858,7 +862,7 @@ abstract class Idoc implements ActiveRecordInterface
      *
      * @param  int $pos position in xml schema
      * @param  mixed $value field value
-     * @return $this|\Idoc
+     * @return $this|\Categorias
      */
     public function setByPosition($pos, $value)
     {
@@ -867,13 +871,10 @@ abstract class Idoc implements ActiveRecordInterface
                 $this->setId($value);
                 break;
             case 1:
-                $this->setNome($value);
+                $this->setIdClientes($value);
                 break;
             case 2:
-                $this->setIdcliente($value);
-                break;
-            case 3:
-                $this->setFile($value);
+                $this->setNomecategoria($value);
                 break;
         } // switch()
 
@@ -899,19 +900,16 @@ abstract class Idoc implements ActiveRecordInterface
      */
     public function fromArray($arr, $keyType = TableMap::TYPE_PHPNAME)
     {
-        $keys = IdocTableMap::getFieldNames($keyType);
+        $keys = CategoriasTableMap::getFieldNames($keyType);
 
         if (array_key_exists($keys[0], $arr)) {
             $this->setId($arr[$keys[0]]);
         }
         if (array_key_exists($keys[1], $arr)) {
-            $this->setNome($arr[$keys[1]]);
+            $this->setIdClientes($arr[$keys[1]]);
         }
         if (array_key_exists($keys[2], $arr)) {
-            $this->setIdcliente($arr[$keys[2]]);
-        }
-        if (array_key_exists($keys[3], $arr)) {
-            $this->setFile($arr[$keys[3]]);
+            $this->setNomecategoria($arr[$keys[2]]);
         }
     }
 
@@ -932,7 +930,7 @@ abstract class Idoc implements ActiveRecordInterface
      * @param string $data The source data to import from
      * @param string $keyType The type of keys the array uses.
      *
-     * @return $this|\Idoc The current object, for fluid interface
+     * @return $this|\Categorias The current object, for fluid interface
      */
     public function importFrom($parser, $data, $keyType = TableMap::TYPE_PHPNAME)
     {
@@ -952,19 +950,16 @@ abstract class Idoc implements ActiveRecordInterface
      */
     public function buildCriteria()
     {
-        $criteria = new Criteria(IdocTableMap::DATABASE_NAME);
+        $criteria = new Criteria(CategoriasTableMap::DATABASE_NAME);
 
-        if ($this->isColumnModified(IdocTableMap::COL_ID)) {
-            $criteria->add(IdocTableMap::COL_ID, $this->id);
+        if ($this->isColumnModified(CategoriasTableMap::COL_ID)) {
+            $criteria->add(CategoriasTableMap::COL_ID, $this->id);
         }
-        if ($this->isColumnModified(IdocTableMap::COL_NOME)) {
-            $criteria->add(IdocTableMap::COL_NOME, $this->nome);
+        if ($this->isColumnModified(CategoriasTableMap::COL_ID_CLIENTES)) {
+            $criteria->add(CategoriasTableMap::COL_ID_CLIENTES, $this->id_clientes);
         }
-        if ($this->isColumnModified(IdocTableMap::COL_IDCLIENTE)) {
-            $criteria->add(IdocTableMap::COL_IDCLIENTE, $this->idcliente);
-        }
-        if ($this->isColumnModified(IdocTableMap::COL_FILE)) {
-            $criteria->add(IdocTableMap::COL_FILE, $this->file);
+        if ($this->isColumnModified(CategoriasTableMap::COL_NOMECATEGORIA)) {
+            $criteria->add(CategoriasTableMap::COL_NOMECATEGORIA, $this->nomecategoria);
         }
 
         return $criteria;
@@ -982,8 +977,8 @@ abstract class Idoc implements ActiveRecordInterface
      */
     public function buildPkeyCriteria()
     {
-        $criteria = ChildIdocQuery::create();
-        $criteria->add(IdocTableMap::COL_ID, $this->id);
+        $criteria = ChildCategoriasQuery::create();
+        $criteria->add(CategoriasTableMap::COL_ID, $this->id);
 
         return $criteria;
     }
@@ -1045,16 +1040,29 @@ abstract class Idoc implements ActiveRecordInterface
      * If desired, this method can also make copies of all associated (fkey referrers)
      * objects.
      *
-     * @param      object $copyObj An object of \Idoc (or compatible) type.
+     * @param      object $copyObj An object of \Categorias (or compatible) type.
      * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
      * @param      boolean $makeNew Whether to reset autoincrement PKs and make the object new.
      * @throws PropelException
      */
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
-        $copyObj->setNome($this->getNome());
-        $copyObj->setIdcliente($this->getIdcliente());
-        $copyObj->setFile($this->getFile());
+        $copyObj->setIdClientes($this->getIdClientes());
+        $copyObj->setNomecategoria($this->getNomecategoria());
+
+        if ($deepCopy) {
+            // important: temporarily setNew(false) because this affects the behavior of
+            // the getter/setter methods for fkey referrer objects.
+            $copyObj->setNew(false);
+
+            foreach ($this->getDocumentoss() as $relObj) {
+                if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
+                    $copyObj->addDocumentos($relObj->copy($deepCopy));
+                }
+            }
+
+        } // if ($deepCopy)
+
         if ($makeNew) {
             $copyObj->setNew(true);
             $copyObj->setId(NULL); // this is a auto-increment column, so set to default value
@@ -1070,7 +1078,7 @@ abstract class Idoc implements ActiveRecordInterface
      * objects.
      *
      * @param  boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
-     * @return \Idoc Clone of current object.
+     * @return \Categorias Clone of current object.
      * @throws PropelException
      */
     public function copy($deepCopy = false)
@@ -1083,6 +1091,265 @@ abstract class Idoc implements ActiveRecordInterface
         return $copyObj;
     }
 
+
+    /**
+     * Initializes a collection based on the name of a relation.
+     * Avoids crafting an 'init[$relationName]s' method name
+     * that wouldn't work when StandardEnglishPluralizer is used.
+     *
+     * @param      string $relationName The name of the relation to initialize
+     * @return void
+     */
+    public function initRelation($relationName)
+    {
+        if ('Documentos' == $relationName) {
+            return $this->initDocumentoss();
+        }
+    }
+
+    /**
+     * Clears out the collDocumentoss collection
+     *
+     * This does not modify the database; however, it will remove any associated objects, causing
+     * them to be refetched by subsequent calls to accessor method.
+     *
+     * @return void
+     * @see        addDocumentoss()
+     */
+    public function clearDocumentoss()
+    {
+        $this->collDocumentoss = null; // important to set this to NULL since that means it is uninitialized
+    }
+
+    /**
+     * Reset is the collDocumentoss collection loaded partially.
+     */
+    public function resetPartialDocumentoss($v = true)
+    {
+        $this->collDocumentossPartial = $v;
+    }
+
+    /**
+     * Initializes the collDocumentoss collection.
+     *
+     * By default this just sets the collDocumentoss collection to an empty array (like clearcollDocumentoss());
+     * however, you may wish to override this method in your stub class to provide setting appropriate
+     * to your application -- for example, setting the initial array to the values stored in database.
+     *
+     * @param      boolean $overrideExisting If set to true, the method call initializes
+     *                                        the collection even if it is not empty
+     *
+     * @return void
+     */
+    public function initDocumentoss($overrideExisting = true)
+    {
+        if (null !== $this->collDocumentoss && !$overrideExisting) {
+            return;
+        }
+        $this->collDocumentoss = new ObjectCollection();
+        $this->collDocumentoss->setModel('\Documentos');
+    }
+
+    /**
+     * Gets an array of ChildDocumentos objects which contain a foreign key that references this object.
+     *
+     * If the $criteria is not null, it is used to always fetch the results from the database.
+     * Otherwise the results are fetched from the database the first time, then cached.
+     * Next time the same method is called without $criteria, the cached collection is returned.
+     * If this ChildCategorias is new, it will return
+     * an empty collection or the current collection; the criteria is ignored on a new object.
+     *
+     * @param      Criteria $criteria optional Criteria object to narrow the query
+     * @param      ConnectionInterface $con optional connection object
+     * @return ObjectCollection|ChildDocumentos[] List of ChildDocumentos objects
+     * @throws PropelException
+     */
+    public function getDocumentoss(Criteria $criteria = null, ConnectionInterface $con = null)
+    {
+        $partial = $this->collDocumentossPartial && !$this->isNew();
+        if (null === $this->collDocumentoss || null !== $criteria  || $partial) {
+            if ($this->isNew() && null === $this->collDocumentoss) {
+                // return empty collection
+                $this->initDocumentoss();
+            } else {
+                $collDocumentoss = ChildDocumentosQuery::create(null, $criteria)
+                    ->filterByCategorias($this)
+                    ->find($con);
+
+                if (null !== $criteria) {
+                    if (false !== $this->collDocumentossPartial && count($collDocumentoss)) {
+                        $this->initDocumentoss(false);
+
+                        foreach ($collDocumentoss as $obj) {
+                            if (false == $this->collDocumentoss->contains($obj)) {
+                                $this->collDocumentoss->append($obj);
+                            }
+                        }
+
+                        $this->collDocumentossPartial = true;
+                    }
+
+                    return $collDocumentoss;
+                }
+
+                if ($partial && $this->collDocumentoss) {
+                    foreach ($this->collDocumentoss as $obj) {
+                        if ($obj->isNew()) {
+                            $collDocumentoss[] = $obj;
+                        }
+                    }
+                }
+
+                $this->collDocumentoss = $collDocumentoss;
+                $this->collDocumentossPartial = false;
+            }
+        }
+
+        return $this->collDocumentoss;
+    }
+
+    /**
+     * Sets a collection of ChildDocumentos objects related by a one-to-many relationship
+     * to the current object.
+     * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
+     * and new objects from the given Propel collection.
+     *
+     * @param      Collection $documentoss A Propel collection.
+     * @param      ConnectionInterface $con Optional connection object
+     * @return $this|ChildCategorias The current object (for fluent API support)
+     */
+    public function setDocumentoss(Collection $documentoss, ConnectionInterface $con = null)
+    {
+        /** @var ChildDocumentos[] $documentossToDelete */
+        $documentossToDelete = $this->getDocumentoss(new Criteria(), $con)->diff($documentoss);
+
+
+        $this->documentossScheduledForDeletion = $documentossToDelete;
+
+        foreach ($documentossToDelete as $documentosRemoved) {
+            $documentosRemoved->setCategorias(null);
+        }
+
+        $this->collDocumentoss = null;
+        foreach ($documentoss as $documentos) {
+            $this->addDocumentos($documentos);
+        }
+
+        $this->collDocumentoss = $documentoss;
+        $this->collDocumentossPartial = false;
+
+        return $this;
+    }
+
+    /**
+     * Returns the number of related Documentos objects.
+     *
+     * @param      Criteria $criteria
+     * @param      boolean $distinct
+     * @param      ConnectionInterface $con
+     * @return int             Count of related Documentos objects.
+     * @throws PropelException
+     */
+    public function countDocumentoss(Criteria $criteria = null, $distinct = false, ConnectionInterface $con = null)
+    {
+        $partial = $this->collDocumentossPartial && !$this->isNew();
+        if (null === $this->collDocumentoss || null !== $criteria || $partial) {
+            if ($this->isNew() && null === $this->collDocumentoss) {
+                return 0;
+            }
+
+            if ($partial && !$criteria) {
+                return count($this->getDocumentoss());
+            }
+
+            $query = ChildDocumentosQuery::create(null, $criteria);
+            if ($distinct) {
+                $query->distinct();
+            }
+
+            return $query
+                ->filterByCategorias($this)
+                ->count($con);
+        }
+
+        return count($this->collDocumentoss);
+    }
+
+    /**
+     * Method called to associate a ChildDocumentos object to this object
+     * through the ChildDocumentos foreign key attribute.
+     *
+     * @param  ChildDocumentos $l ChildDocumentos
+     * @return $this|\Categorias The current object (for fluent API support)
+     */
+    public function addDocumentos(ChildDocumentos $l)
+    {
+        if ($this->collDocumentoss === null) {
+            $this->initDocumentoss();
+            $this->collDocumentossPartial = true;
+        }
+
+        if (!$this->collDocumentoss->contains($l)) {
+            $this->doAddDocumentos($l);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param ChildDocumentos $documentos The ChildDocumentos object to add.
+     */
+    protected function doAddDocumentos(ChildDocumentos $documentos)
+    {
+        $this->collDocumentoss[]= $documentos;
+        $documentos->setCategorias($this);
+    }
+
+    /**
+     * @param  ChildDocumentos $documentos The ChildDocumentos object to remove.
+     * @return $this|ChildCategorias The current object (for fluent API support)
+     */
+    public function removeDocumentos(ChildDocumentos $documentos)
+    {
+        if ($this->getDocumentoss()->contains($documentos)) {
+            $pos = $this->collDocumentoss->search($documentos);
+            $this->collDocumentoss->remove($pos);
+            if (null === $this->documentossScheduledForDeletion) {
+                $this->documentossScheduledForDeletion = clone $this->collDocumentoss;
+                $this->documentossScheduledForDeletion->clear();
+            }
+            $this->documentossScheduledForDeletion[]= clone $documentos;
+            $documentos->setCategorias(null);
+        }
+
+        return $this;
+    }
+
+
+    /**
+     * If this collection has already been initialized with
+     * an identical criteria, it returns the collection.
+     * Otherwise if this Categorias is new, it will return
+     * an empty collection; or if this Categorias has previously
+     * been saved, it will retrieve related Documentoss from storage.
+     *
+     * This method is protected by default in order to keep the public
+     * api reasonable.  You can provide public methods for those you
+     * actually need in Categorias.
+     *
+     * @param      Criteria $criteria optional Criteria object to narrow the query
+     * @param      ConnectionInterface $con optional connection object
+     * @param      string $joinBehavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+     * @return ObjectCollection|ChildDocumentos[] List of ChildDocumentos objects
+     */
+    public function getDocumentossJoinClientes(Criteria $criteria = null, ConnectionInterface $con = null, $joinBehavior = Criteria::LEFT_JOIN)
+    {
+        $query = ChildDocumentosQuery::create(null, $criteria);
+        $query->joinWith('Clientes', $joinBehavior);
+
+        return $this->getDocumentoss($query, $con);
+    }
+
     /**
      * Clears the current object, sets all attributes to their default values and removes
      * outgoing references as well as back-references (from other objects to this one. Results probably in a database
@@ -1091,9 +1358,8 @@ abstract class Idoc implements ActiveRecordInterface
     public function clear()
     {
         $this->id = null;
-        $this->nome = null;
-        $this->idcliente = null;
-        $this->file = null;
+        $this->id_clientes = null;
+        $this->nomecategoria = null;
         $this->alreadyInSave = false;
         $this->clearAllReferences();
         $this->resetModified();
@@ -1112,8 +1378,14 @@ abstract class Idoc implements ActiveRecordInterface
     public function clearAllReferences($deep = false)
     {
         if ($deep) {
+            if ($this->collDocumentoss) {
+                foreach ($this->collDocumentoss as $o) {
+                    $o->clearAllReferences($deep);
+                }
+            }
         } // if ($deep)
 
+        $this->collDocumentoss = null;
     }
 
     /**
@@ -1123,7 +1395,7 @@ abstract class Idoc implements ActiveRecordInterface
      */
     public function __toString()
     {
-        return (string) $this->exportTo(IdocTableMap::DEFAULT_STRING_FORMAT);
+        return (string) $this->exportTo(CategoriasTableMap::DEFAULT_STRING_FORMAT);
     }
 
     /**

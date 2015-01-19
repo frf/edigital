@@ -2,13 +2,14 @@
 
 namespace Map;
 
-use \Idoc;
-use \IdocQuery;
+use \Migrations;
+use \MigrationsQuery;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\InstancePoolTrait;
 use Propel\Runtime\Connection\ConnectionInterface;
 use Propel\Runtime\DataFetcher\DataFetcherInterface;
+use Propel\Runtime\Exception\LogicException;
 use Propel\Runtime\Exception\PropelException;
 use Propel\Runtime\Map\RelationMap;
 use Propel\Runtime\Map\TableMap;
@@ -16,7 +17,7 @@ use Propel\Runtime\Map\TableMapTrait;
 
 
 /**
- * This class defines the structure of the 'idoc' table.
+ * This class defines the structure of the 'migrations' table.
  *
  *
  *
@@ -26,7 +27,7 @@ use Propel\Runtime\Map\TableMapTrait;
  * (i.e. if it's a text column type).
  *
  */
-class IdocTableMap extends TableMap
+class MigrationsTableMap extends TableMap
 {
     use InstancePoolTrait;
     use TableMapTrait;
@@ -34,7 +35,7 @@ class IdocTableMap extends TableMap
     /**
      * The (dot-path) name of this class
      */
-    const CLASS_NAME = '.Map.IdocTableMap';
+    const CLASS_NAME = '.Map.MigrationsTableMap';
 
     /**
      * The default database name for this class
@@ -44,22 +45,22 @@ class IdocTableMap extends TableMap
     /**
      * The table name for this class
      */
-    const TABLE_NAME = 'idoc';
+    const TABLE_NAME = 'migrations';
 
     /**
      * The related Propel class for this table
      */
-    const OM_CLASS = '\\Idoc';
+    const OM_CLASS = '\\Migrations';
 
     /**
      * A class that can be returned by this tableMap
      */
-    const CLASS_DEFAULT = 'Idoc';
+    const CLASS_DEFAULT = 'Migrations';
 
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 4;
+    const NUM_COLUMNS = 2;
 
     /**
      * The number of lazy-loaded columns
@@ -69,27 +70,17 @@ class IdocTableMap extends TableMap
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
      */
-    const NUM_HYDRATE_COLUMNS = 4;
+    const NUM_HYDRATE_COLUMNS = 2;
 
     /**
-     * the column name for the id field
+     * the column name for the migration field
      */
-    const COL_ID = 'idoc.id';
+    const COL_MIGRATION = 'migrations.migration';
 
     /**
-     * the column name for the nome field
+     * the column name for the batch field
      */
-    const COL_NOME = 'idoc.nome';
-
-    /**
-     * the column name for the idcliente field
-     */
-    const COL_IDCLIENTE = 'idoc.idcliente';
-
-    /**
-     * the column name for the file field
-     */
-    const COL_FILE = 'idoc.file';
+    const COL_BATCH = 'migrations.batch';
 
     /**
      * The default string format for model objects of the related table
@@ -103,11 +94,11 @@ class IdocTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'Nome', 'Idcliente', 'File', ),
-        self::TYPE_CAMELNAME     => array('id', 'nome', 'idcliente', 'file', ),
-        self::TYPE_COLNAME       => array(IdocTableMap::COL_ID, IdocTableMap::COL_NOME, IdocTableMap::COL_IDCLIENTE, IdocTableMap::COL_FILE, ),
-        self::TYPE_FIELDNAME     => array('id', 'nome', 'idcliente', 'file', ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, )
+        self::TYPE_PHPNAME       => array('Migration', 'Batch', ),
+        self::TYPE_CAMELNAME     => array('migration', 'batch', ),
+        self::TYPE_COLNAME       => array(MigrationsTableMap::COL_MIGRATION, MigrationsTableMap::COL_BATCH, ),
+        self::TYPE_FIELDNAME     => array('migration', 'batch', ),
+        self::TYPE_NUM           => array(0, 1, )
     );
 
     /**
@@ -117,11 +108,11 @@ class IdocTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'Nome' => 1, 'Idcliente' => 2, 'File' => 3, ),
-        self::TYPE_CAMELNAME     => array('id' => 0, 'nome' => 1, 'idcliente' => 2, 'file' => 3, ),
-        self::TYPE_COLNAME       => array(IdocTableMap::COL_ID => 0, IdocTableMap::COL_NOME => 1, IdocTableMap::COL_IDCLIENTE => 2, IdocTableMap::COL_FILE => 3, ),
-        self::TYPE_FIELDNAME     => array('id' => 0, 'nome' => 1, 'idcliente' => 2, 'file' => 3, ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, )
+        self::TYPE_PHPNAME       => array('Migration' => 0, 'Batch' => 1, ),
+        self::TYPE_CAMELNAME     => array('migration' => 0, 'batch' => 1, ),
+        self::TYPE_COLNAME       => array(MigrationsTableMap::COL_MIGRATION => 0, MigrationsTableMap::COL_BATCH => 1, ),
+        self::TYPE_FIELDNAME     => array('migration' => 0, 'batch' => 1, ),
+        self::TYPE_NUM           => array(0, 1, )
     );
 
     /**
@@ -134,18 +125,15 @@ class IdocTableMap extends TableMap
     public function initialize()
     {
         // attributes
-        $this->setName('idoc');
-        $this->setPhpName('Idoc');
+        $this->setName('migrations');
+        $this->setPhpName('Migrations');
         $this->setIdentifierQuoting(false);
-        $this->setClassName('\\Idoc');
+        $this->setClassName('\\Migrations');
         $this->setPackage('');
-        $this->setUseIdGenerator(true);
-        $this->setPrimaryKeyMethodInfo('idoc_id_seq');
+        $this->setUseIdGenerator(false);
         // columns
-        $this->addPrimaryKey('id', 'Id', 'INTEGER', true, null, null);
-        $this->addColumn('nome', 'Nome', 'VARCHAR', false, 255, null);
-        $this->addColumn('idcliente', 'Idcliente', 'BIGINT', false, null, null);
-        $this->addColumn('file', 'File', 'VARCHAR', false, 255, null);
+        $this->addColumn('migration', 'Migration', 'VARCHAR', true, 255, null);
+        $this->addColumn('batch', 'Batch', 'INTEGER', true, null, null);
     } // initialize()
 
     /**
@@ -170,12 +158,7 @@ class IdocTableMap extends TableMap
      */
     public static function getPrimaryKeyHashFromRow($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
     {
-        // If the PK cannot be derived from the row, return NULL.
-        if ($row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)] === null) {
-            return null;
-        }
-
-        return (string) $row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
+        return null;
     }
 
     /**
@@ -192,11 +175,7 @@ class IdocTableMap extends TableMap
      */
     public static function getPrimaryKeyFromRow($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
     {
-        return (int) $row[
-            $indexType == TableMap::TYPE_NUM
-                ? 0 + $offset
-                : self::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)
-        ];
+        return '';
     }
 
     /**
@@ -212,7 +191,7 @@ class IdocTableMap extends TableMap
      */
     public static function getOMClass($withPrefix = true)
     {
-        return $withPrefix ? IdocTableMap::CLASS_DEFAULT : IdocTableMap::OM_CLASS;
+        return $withPrefix ? MigrationsTableMap::CLASS_DEFAULT : MigrationsTableMap::OM_CLASS;
     }
 
     /**
@@ -226,22 +205,22 @@ class IdocTableMap extends TableMap
      *
      * @throws PropelException Any exceptions caught during processing will be
      *                         rethrown wrapped into a PropelException.
-     * @return array           (Idoc object, last column rank)
+     * @return array           (Migrations object, last column rank)
      */
     public static function populateObject($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
     {
-        $key = IdocTableMap::getPrimaryKeyHashFromRow($row, $offset, $indexType);
-        if (null !== ($obj = IdocTableMap::getInstanceFromPool($key))) {
+        $key = MigrationsTableMap::getPrimaryKeyHashFromRow($row, $offset, $indexType);
+        if (null !== ($obj = MigrationsTableMap::getInstanceFromPool($key))) {
             // We no longer rehydrate the object, since this can cause data loss.
             // See http://www.propelorm.org/ticket/509
             // $obj->hydrate($row, $offset, true); // rehydrate
-            $col = $offset + IdocTableMap::NUM_HYDRATE_COLUMNS;
+            $col = $offset + MigrationsTableMap::NUM_HYDRATE_COLUMNS;
         } else {
-            $cls = IdocTableMap::OM_CLASS;
-            /** @var Idoc $obj */
+            $cls = MigrationsTableMap::OM_CLASS;
+            /** @var Migrations $obj */
             $obj = new $cls();
             $col = $obj->hydrate($row, $offset, false, $indexType);
-            IdocTableMap::addInstanceToPool($obj, $key);
+            MigrationsTableMap::addInstanceToPool($obj, $key);
         }
 
         return array($obj, $col);
@@ -264,18 +243,18 @@ class IdocTableMap extends TableMap
         $cls = static::getOMClass(false);
         // populate the object(s)
         while ($row = $dataFetcher->fetch()) {
-            $key = IdocTableMap::getPrimaryKeyHashFromRow($row, 0, $dataFetcher->getIndexType());
-            if (null !== ($obj = IdocTableMap::getInstanceFromPool($key))) {
+            $key = MigrationsTableMap::getPrimaryKeyHashFromRow($row, 0, $dataFetcher->getIndexType());
+            if (null !== ($obj = MigrationsTableMap::getInstanceFromPool($key))) {
                 // We no longer rehydrate the object, since this can cause data loss.
                 // See http://www.propelorm.org/ticket/509
                 // $obj->hydrate($row, 0, true); // rehydrate
                 $results[] = $obj;
             } else {
-                /** @var Idoc $obj */
+                /** @var Migrations $obj */
                 $obj = new $cls();
                 $obj->hydrate($row);
                 $results[] = $obj;
-                IdocTableMap::addInstanceToPool($obj, $key);
+                MigrationsTableMap::addInstanceToPool($obj, $key);
             } // if key exists
         }
 
@@ -296,15 +275,11 @@ class IdocTableMap extends TableMap
     public static function addSelectColumns(Criteria $criteria, $alias = null)
     {
         if (null === $alias) {
-            $criteria->addSelectColumn(IdocTableMap::COL_ID);
-            $criteria->addSelectColumn(IdocTableMap::COL_NOME);
-            $criteria->addSelectColumn(IdocTableMap::COL_IDCLIENTE);
-            $criteria->addSelectColumn(IdocTableMap::COL_FILE);
+            $criteria->addSelectColumn(MigrationsTableMap::COL_MIGRATION);
+            $criteria->addSelectColumn(MigrationsTableMap::COL_BATCH);
         } else {
-            $criteria->addSelectColumn($alias . '.id');
-            $criteria->addSelectColumn($alias . '.nome');
-            $criteria->addSelectColumn($alias . '.idcliente');
-            $criteria->addSelectColumn($alias . '.file');
+            $criteria->addSelectColumn($alias . '.migration');
+            $criteria->addSelectColumn($alias . '.batch');
         }
     }
 
@@ -317,7 +292,7 @@ class IdocTableMap extends TableMap
      */
     public static function getTableMap()
     {
-        return Propel::getServiceContainer()->getDatabaseMap(IdocTableMap::DATABASE_NAME)->getTable(IdocTableMap::TABLE_NAME);
+        return Propel::getServiceContainer()->getDatabaseMap(MigrationsTableMap::DATABASE_NAME)->getTable(MigrationsTableMap::TABLE_NAME);
     }
 
     /**
@@ -325,16 +300,16 @@ class IdocTableMap extends TableMap
      */
     public static function buildTableMap()
     {
-        $dbMap = Propel::getServiceContainer()->getDatabaseMap(IdocTableMap::DATABASE_NAME);
-        if (!$dbMap->hasTable(IdocTableMap::TABLE_NAME)) {
-            $dbMap->addTableObject(new IdocTableMap());
+        $dbMap = Propel::getServiceContainer()->getDatabaseMap(MigrationsTableMap::DATABASE_NAME);
+        if (!$dbMap->hasTable(MigrationsTableMap::TABLE_NAME)) {
+            $dbMap->addTableObject(new MigrationsTableMap());
         }
     }
 
     /**
-     * Performs a DELETE on the database, given a Idoc or Criteria object OR a primary key value.
+     * Performs a DELETE on the database, given a Migrations or Criteria object OR a primary key value.
      *
-     * @param mixed               $values Criteria or Idoc object or primary key or array of primary keys
+     * @param mixed               $values Criteria or Migrations object or primary key or array of primary keys
      *              which is used to create the DELETE statement
      * @param  ConnectionInterface $con the connection to use
      * @return int             The number of affected rows (if supported by underlying database driver).  This includes CASCADE-related rows
@@ -345,27 +320,26 @@ class IdocTableMap extends TableMap
      public static function doDelete($values, ConnectionInterface $con = null)
      {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(IdocTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(MigrationsTableMap::DATABASE_NAME);
         }
 
         if ($values instanceof Criteria) {
             // rename for clarity
             $criteria = $values;
-        } elseif ($values instanceof \Idoc) { // it's a model object
-            // create criteria based on pk values
-            $criteria = $values->buildPkeyCriteria();
+        } elseif ($values instanceof \Migrations) { // it's a model object
+            // create criteria based on pk value
+            $criteria = $values->buildCriteria();
         } else { // it's a primary key, or an array of pks
-            $criteria = new Criteria(IdocTableMap::DATABASE_NAME);
-            $criteria->add(IdocTableMap::COL_ID, (array) $values, Criteria::IN);
+            throw new LogicException('The Migrations object has no primary key');
         }
 
-        $query = IdocQuery::create()->mergeWith($criteria);
+        $query = MigrationsQuery::create()->mergeWith($criteria);
 
         if ($values instanceof Criteria) {
-            IdocTableMap::clearInstancePool();
+            MigrationsTableMap::clearInstancePool();
         } elseif (!is_object($values)) { // it's a primary key, or an array of pks
             foreach ((array) $values as $singleval) {
-                IdocTableMap::removeInstanceFromPool($singleval);
+                MigrationsTableMap::removeInstanceFromPool($singleval);
             }
         }
 
@@ -373,20 +347,20 @@ class IdocTableMap extends TableMap
     }
 
     /**
-     * Deletes all rows from the idoc table.
+     * Deletes all rows from the migrations table.
      *
      * @param ConnectionInterface $con the connection to use
      * @return int The number of affected rows (if supported by underlying database driver).
      */
     public static function doDeleteAll(ConnectionInterface $con = null)
     {
-        return IdocQuery::create()->doDeleteAll($con);
+        return MigrationsQuery::create()->doDeleteAll($con);
     }
 
     /**
-     * Performs an INSERT on the database, given a Idoc or Criteria object.
+     * Performs an INSERT on the database, given a Migrations or Criteria object.
      *
-     * @param mixed               $criteria Criteria or Idoc object containing data that is used to create the INSERT statement.
+     * @param mixed               $criteria Criteria or Migrations object containing data that is used to create the INSERT statement.
      * @param ConnectionInterface $con the ConnectionInterface connection to use
      * @return mixed           The new primary key.
      * @throws PropelException Any exceptions caught during processing will be
@@ -395,22 +369,18 @@ class IdocTableMap extends TableMap
     public static function doInsert($criteria, ConnectionInterface $con = null)
     {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(IdocTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(MigrationsTableMap::DATABASE_NAME);
         }
 
         if ($criteria instanceof Criteria) {
             $criteria = clone $criteria; // rename for clarity
         } else {
-            $criteria = $criteria->buildCriteria(); // build Criteria from Idoc object
-        }
-
-        if ($criteria->containsKey(IdocTableMap::COL_ID) && $criteria->keyContainsValue(IdocTableMap::COL_ID) ) {
-            throw new PropelException('Cannot insert a value for auto-increment primary key ('.IdocTableMap::COL_ID.')');
+            $criteria = $criteria->buildCriteria(); // build Criteria from Migrations object
         }
 
 
         // Set the correct dbName
-        $query = IdocQuery::create()->mergeWith($criteria);
+        $query = MigrationsQuery::create()->mergeWith($criteria);
 
         // use transaction because $criteria could contain info
         // for more than one table (I guess, conceivably)
@@ -419,7 +389,7 @@ class IdocTableMap extends TableMap
         });
     }
 
-} // IdocTableMap
+} // MigrationsTableMap
 // This is the static code needed to register the TableMap for this table with the main Propel class.
 //
-IdocTableMap::buildTableMap();
+MigrationsTableMap::buildTableMap();

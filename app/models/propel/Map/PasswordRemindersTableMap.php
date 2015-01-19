@@ -2,13 +2,14 @@
 
 namespace Map;
 
-use \Idoc;
-use \IdocQuery;
+use \PasswordReminders;
+use \PasswordRemindersQuery;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\InstancePoolTrait;
 use Propel\Runtime\Connection\ConnectionInterface;
 use Propel\Runtime\DataFetcher\DataFetcherInterface;
+use Propel\Runtime\Exception\LogicException;
 use Propel\Runtime\Exception\PropelException;
 use Propel\Runtime\Map\RelationMap;
 use Propel\Runtime\Map\TableMap;
@@ -16,7 +17,7 @@ use Propel\Runtime\Map\TableMapTrait;
 
 
 /**
- * This class defines the structure of the 'idoc' table.
+ * This class defines the structure of the 'password_reminders' table.
  *
  *
  *
@@ -26,7 +27,7 @@ use Propel\Runtime\Map\TableMapTrait;
  * (i.e. if it's a text column type).
  *
  */
-class IdocTableMap extends TableMap
+class PasswordRemindersTableMap extends TableMap
 {
     use InstancePoolTrait;
     use TableMapTrait;
@@ -34,7 +35,7 @@ class IdocTableMap extends TableMap
     /**
      * The (dot-path) name of this class
      */
-    const CLASS_NAME = '.Map.IdocTableMap';
+    const CLASS_NAME = '.Map.PasswordRemindersTableMap';
 
     /**
      * The default database name for this class
@@ -44,22 +45,22 @@ class IdocTableMap extends TableMap
     /**
      * The table name for this class
      */
-    const TABLE_NAME = 'idoc';
+    const TABLE_NAME = 'password_reminders';
 
     /**
      * The related Propel class for this table
      */
-    const OM_CLASS = '\\Idoc';
+    const OM_CLASS = '\\PasswordReminders';
 
     /**
      * A class that can be returned by this tableMap
      */
-    const CLASS_DEFAULT = 'Idoc';
+    const CLASS_DEFAULT = 'PasswordReminders';
 
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 4;
+    const NUM_COLUMNS = 3;
 
     /**
      * The number of lazy-loaded columns
@@ -69,27 +70,22 @@ class IdocTableMap extends TableMap
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
      */
-    const NUM_HYDRATE_COLUMNS = 4;
+    const NUM_HYDRATE_COLUMNS = 3;
 
     /**
-     * the column name for the id field
+     * the column name for the email field
      */
-    const COL_ID = 'idoc.id';
+    const COL_EMAIL = 'password_reminders.email';
 
     /**
-     * the column name for the nome field
+     * the column name for the token field
      */
-    const COL_NOME = 'idoc.nome';
+    const COL_TOKEN = 'password_reminders.token';
 
     /**
-     * the column name for the idcliente field
+     * the column name for the created_at field
      */
-    const COL_IDCLIENTE = 'idoc.idcliente';
-
-    /**
-     * the column name for the file field
-     */
-    const COL_FILE = 'idoc.file';
+    const COL_CREATED_AT = 'password_reminders.created_at';
 
     /**
      * The default string format for model objects of the related table
@@ -103,11 +99,11 @@ class IdocTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'Nome', 'Idcliente', 'File', ),
-        self::TYPE_CAMELNAME     => array('id', 'nome', 'idcliente', 'file', ),
-        self::TYPE_COLNAME       => array(IdocTableMap::COL_ID, IdocTableMap::COL_NOME, IdocTableMap::COL_IDCLIENTE, IdocTableMap::COL_FILE, ),
-        self::TYPE_FIELDNAME     => array('id', 'nome', 'idcliente', 'file', ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, )
+        self::TYPE_PHPNAME       => array('Email', 'Token', 'CreatedAt', ),
+        self::TYPE_CAMELNAME     => array('email', 'token', 'createdAt', ),
+        self::TYPE_COLNAME       => array(PasswordRemindersTableMap::COL_EMAIL, PasswordRemindersTableMap::COL_TOKEN, PasswordRemindersTableMap::COL_CREATED_AT, ),
+        self::TYPE_FIELDNAME     => array('email', 'token', 'created_at', ),
+        self::TYPE_NUM           => array(0, 1, 2, )
     );
 
     /**
@@ -117,11 +113,11 @@ class IdocTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'Nome' => 1, 'Idcliente' => 2, 'File' => 3, ),
-        self::TYPE_CAMELNAME     => array('id' => 0, 'nome' => 1, 'idcliente' => 2, 'file' => 3, ),
-        self::TYPE_COLNAME       => array(IdocTableMap::COL_ID => 0, IdocTableMap::COL_NOME => 1, IdocTableMap::COL_IDCLIENTE => 2, IdocTableMap::COL_FILE => 3, ),
-        self::TYPE_FIELDNAME     => array('id' => 0, 'nome' => 1, 'idcliente' => 2, 'file' => 3, ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, )
+        self::TYPE_PHPNAME       => array('Email' => 0, 'Token' => 1, 'CreatedAt' => 2, ),
+        self::TYPE_CAMELNAME     => array('email' => 0, 'token' => 1, 'createdAt' => 2, ),
+        self::TYPE_COLNAME       => array(PasswordRemindersTableMap::COL_EMAIL => 0, PasswordRemindersTableMap::COL_TOKEN => 1, PasswordRemindersTableMap::COL_CREATED_AT => 2, ),
+        self::TYPE_FIELDNAME     => array('email' => 0, 'token' => 1, 'created_at' => 2, ),
+        self::TYPE_NUM           => array(0, 1, 2, )
     );
 
     /**
@@ -134,18 +130,16 @@ class IdocTableMap extends TableMap
     public function initialize()
     {
         // attributes
-        $this->setName('idoc');
-        $this->setPhpName('Idoc');
+        $this->setName('password_reminders');
+        $this->setPhpName('PasswordReminders');
         $this->setIdentifierQuoting(false);
-        $this->setClassName('\\Idoc');
+        $this->setClassName('\\PasswordReminders');
         $this->setPackage('');
-        $this->setUseIdGenerator(true);
-        $this->setPrimaryKeyMethodInfo('idoc_id_seq');
+        $this->setUseIdGenerator(false);
         // columns
-        $this->addPrimaryKey('id', 'Id', 'INTEGER', true, null, null);
-        $this->addColumn('nome', 'Nome', 'VARCHAR', false, 255, null);
-        $this->addColumn('idcliente', 'Idcliente', 'BIGINT', false, null, null);
-        $this->addColumn('file', 'File', 'VARCHAR', false, 255, null);
+        $this->addColumn('email', 'Email', 'VARCHAR', true, 255, null);
+        $this->addColumn('token', 'Token', 'VARCHAR', true, 255, null);
+        $this->addColumn('created_at', 'CreatedAt', 'TIMESTAMP', true, null, null);
     } // initialize()
 
     /**
@@ -170,12 +164,7 @@ class IdocTableMap extends TableMap
      */
     public static function getPrimaryKeyHashFromRow($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
     {
-        // If the PK cannot be derived from the row, return NULL.
-        if ($row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)] === null) {
-            return null;
-        }
-
-        return (string) $row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
+        return null;
     }
 
     /**
@@ -192,11 +181,7 @@ class IdocTableMap extends TableMap
      */
     public static function getPrimaryKeyFromRow($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
     {
-        return (int) $row[
-            $indexType == TableMap::TYPE_NUM
-                ? 0 + $offset
-                : self::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)
-        ];
+        return '';
     }
 
     /**
@@ -212,7 +197,7 @@ class IdocTableMap extends TableMap
      */
     public static function getOMClass($withPrefix = true)
     {
-        return $withPrefix ? IdocTableMap::CLASS_DEFAULT : IdocTableMap::OM_CLASS;
+        return $withPrefix ? PasswordRemindersTableMap::CLASS_DEFAULT : PasswordRemindersTableMap::OM_CLASS;
     }
 
     /**
@@ -226,22 +211,22 @@ class IdocTableMap extends TableMap
      *
      * @throws PropelException Any exceptions caught during processing will be
      *                         rethrown wrapped into a PropelException.
-     * @return array           (Idoc object, last column rank)
+     * @return array           (PasswordReminders object, last column rank)
      */
     public static function populateObject($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
     {
-        $key = IdocTableMap::getPrimaryKeyHashFromRow($row, $offset, $indexType);
-        if (null !== ($obj = IdocTableMap::getInstanceFromPool($key))) {
+        $key = PasswordRemindersTableMap::getPrimaryKeyHashFromRow($row, $offset, $indexType);
+        if (null !== ($obj = PasswordRemindersTableMap::getInstanceFromPool($key))) {
             // We no longer rehydrate the object, since this can cause data loss.
             // See http://www.propelorm.org/ticket/509
             // $obj->hydrate($row, $offset, true); // rehydrate
-            $col = $offset + IdocTableMap::NUM_HYDRATE_COLUMNS;
+            $col = $offset + PasswordRemindersTableMap::NUM_HYDRATE_COLUMNS;
         } else {
-            $cls = IdocTableMap::OM_CLASS;
-            /** @var Idoc $obj */
+            $cls = PasswordRemindersTableMap::OM_CLASS;
+            /** @var PasswordReminders $obj */
             $obj = new $cls();
             $col = $obj->hydrate($row, $offset, false, $indexType);
-            IdocTableMap::addInstanceToPool($obj, $key);
+            PasswordRemindersTableMap::addInstanceToPool($obj, $key);
         }
 
         return array($obj, $col);
@@ -264,18 +249,18 @@ class IdocTableMap extends TableMap
         $cls = static::getOMClass(false);
         // populate the object(s)
         while ($row = $dataFetcher->fetch()) {
-            $key = IdocTableMap::getPrimaryKeyHashFromRow($row, 0, $dataFetcher->getIndexType());
-            if (null !== ($obj = IdocTableMap::getInstanceFromPool($key))) {
+            $key = PasswordRemindersTableMap::getPrimaryKeyHashFromRow($row, 0, $dataFetcher->getIndexType());
+            if (null !== ($obj = PasswordRemindersTableMap::getInstanceFromPool($key))) {
                 // We no longer rehydrate the object, since this can cause data loss.
                 // See http://www.propelorm.org/ticket/509
                 // $obj->hydrate($row, 0, true); // rehydrate
                 $results[] = $obj;
             } else {
-                /** @var Idoc $obj */
+                /** @var PasswordReminders $obj */
                 $obj = new $cls();
                 $obj->hydrate($row);
                 $results[] = $obj;
-                IdocTableMap::addInstanceToPool($obj, $key);
+                PasswordRemindersTableMap::addInstanceToPool($obj, $key);
             } // if key exists
         }
 
@@ -296,15 +281,13 @@ class IdocTableMap extends TableMap
     public static function addSelectColumns(Criteria $criteria, $alias = null)
     {
         if (null === $alias) {
-            $criteria->addSelectColumn(IdocTableMap::COL_ID);
-            $criteria->addSelectColumn(IdocTableMap::COL_NOME);
-            $criteria->addSelectColumn(IdocTableMap::COL_IDCLIENTE);
-            $criteria->addSelectColumn(IdocTableMap::COL_FILE);
+            $criteria->addSelectColumn(PasswordRemindersTableMap::COL_EMAIL);
+            $criteria->addSelectColumn(PasswordRemindersTableMap::COL_TOKEN);
+            $criteria->addSelectColumn(PasswordRemindersTableMap::COL_CREATED_AT);
         } else {
-            $criteria->addSelectColumn($alias . '.id');
-            $criteria->addSelectColumn($alias . '.nome');
-            $criteria->addSelectColumn($alias . '.idcliente');
-            $criteria->addSelectColumn($alias . '.file');
+            $criteria->addSelectColumn($alias . '.email');
+            $criteria->addSelectColumn($alias . '.token');
+            $criteria->addSelectColumn($alias . '.created_at');
         }
     }
 
@@ -317,7 +300,7 @@ class IdocTableMap extends TableMap
      */
     public static function getTableMap()
     {
-        return Propel::getServiceContainer()->getDatabaseMap(IdocTableMap::DATABASE_NAME)->getTable(IdocTableMap::TABLE_NAME);
+        return Propel::getServiceContainer()->getDatabaseMap(PasswordRemindersTableMap::DATABASE_NAME)->getTable(PasswordRemindersTableMap::TABLE_NAME);
     }
 
     /**
@@ -325,16 +308,16 @@ class IdocTableMap extends TableMap
      */
     public static function buildTableMap()
     {
-        $dbMap = Propel::getServiceContainer()->getDatabaseMap(IdocTableMap::DATABASE_NAME);
-        if (!$dbMap->hasTable(IdocTableMap::TABLE_NAME)) {
-            $dbMap->addTableObject(new IdocTableMap());
+        $dbMap = Propel::getServiceContainer()->getDatabaseMap(PasswordRemindersTableMap::DATABASE_NAME);
+        if (!$dbMap->hasTable(PasswordRemindersTableMap::TABLE_NAME)) {
+            $dbMap->addTableObject(new PasswordRemindersTableMap());
         }
     }
 
     /**
-     * Performs a DELETE on the database, given a Idoc or Criteria object OR a primary key value.
+     * Performs a DELETE on the database, given a PasswordReminders or Criteria object OR a primary key value.
      *
-     * @param mixed               $values Criteria or Idoc object or primary key or array of primary keys
+     * @param mixed               $values Criteria or PasswordReminders object or primary key or array of primary keys
      *              which is used to create the DELETE statement
      * @param  ConnectionInterface $con the connection to use
      * @return int             The number of affected rows (if supported by underlying database driver).  This includes CASCADE-related rows
@@ -345,27 +328,26 @@ class IdocTableMap extends TableMap
      public static function doDelete($values, ConnectionInterface $con = null)
      {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(IdocTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(PasswordRemindersTableMap::DATABASE_NAME);
         }
 
         if ($values instanceof Criteria) {
             // rename for clarity
             $criteria = $values;
-        } elseif ($values instanceof \Idoc) { // it's a model object
-            // create criteria based on pk values
-            $criteria = $values->buildPkeyCriteria();
+        } elseif ($values instanceof \PasswordReminders) { // it's a model object
+            // create criteria based on pk value
+            $criteria = $values->buildCriteria();
         } else { // it's a primary key, or an array of pks
-            $criteria = new Criteria(IdocTableMap::DATABASE_NAME);
-            $criteria->add(IdocTableMap::COL_ID, (array) $values, Criteria::IN);
+            throw new LogicException('The PasswordReminders object has no primary key');
         }
 
-        $query = IdocQuery::create()->mergeWith($criteria);
+        $query = PasswordRemindersQuery::create()->mergeWith($criteria);
 
         if ($values instanceof Criteria) {
-            IdocTableMap::clearInstancePool();
+            PasswordRemindersTableMap::clearInstancePool();
         } elseif (!is_object($values)) { // it's a primary key, or an array of pks
             foreach ((array) $values as $singleval) {
-                IdocTableMap::removeInstanceFromPool($singleval);
+                PasswordRemindersTableMap::removeInstanceFromPool($singleval);
             }
         }
 
@@ -373,20 +355,20 @@ class IdocTableMap extends TableMap
     }
 
     /**
-     * Deletes all rows from the idoc table.
+     * Deletes all rows from the password_reminders table.
      *
      * @param ConnectionInterface $con the connection to use
      * @return int The number of affected rows (if supported by underlying database driver).
      */
     public static function doDeleteAll(ConnectionInterface $con = null)
     {
-        return IdocQuery::create()->doDeleteAll($con);
+        return PasswordRemindersQuery::create()->doDeleteAll($con);
     }
 
     /**
-     * Performs an INSERT on the database, given a Idoc or Criteria object.
+     * Performs an INSERT on the database, given a PasswordReminders or Criteria object.
      *
-     * @param mixed               $criteria Criteria or Idoc object containing data that is used to create the INSERT statement.
+     * @param mixed               $criteria Criteria or PasswordReminders object containing data that is used to create the INSERT statement.
      * @param ConnectionInterface $con the ConnectionInterface connection to use
      * @return mixed           The new primary key.
      * @throws PropelException Any exceptions caught during processing will be
@@ -395,22 +377,18 @@ class IdocTableMap extends TableMap
     public static function doInsert($criteria, ConnectionInterface $con = null)
     {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(IdocTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(PasswordRemindersTableMap::DATABASE_NAME);
         }
 
         if ($criteria instanceof Criteria) {
             $criteria = clone $criteria; // rename for clarity
         } else {
-            $criteria = $criteria->buildCriteria(); // build Criteria from Idoc object
-        }
-
-        if ($criteria->containsKey(IdocTableMap::COL_ID) && $criteria->keyContainsValue(IdocTableMap::COL_ID) ) {
-            throw new PropelException('Cannot insert a value for auto-increment primary key ('.IdocTableMap::COL_ID.')');
+            $criteria = $criteria->buildCriteria(); // build Criteria from PasswordReminders object
         }
 
 
         // Set the correct dbName
-        $query = IdocQuery::create()->mergeWith($criteria);
+        $query = PasswordRemindersQuery::create()->mergeWith($criteria);
 
         // use transaction because $criteria could contain info
         // for more than one table (I guess, conceivably)
@@ -419,7 +397,7 @@ class IdocTableMap extends TableMap
         });
     }
 
-} // IdocTableMap
+} // PasswordRemindersTableMap
 // This is the static code needed to register the TableMap for this table with the main Propel class.
 //
-IdocTableMap::buildTableMap();
+PasswordRemindersTableMap::buildTableMap();
