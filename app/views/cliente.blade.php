@@ -4,9 +4,9 @@
 @section('content')
 
 <h3>Lista de Clientes</h3>
-
-<a href="#" class="btn btn-primary btn-large"><i class="icon-white icon-plus"></i> Novo Cliente</a>
-
+@if(Auth::user()->tipo == 'admin')
+    <a href="#" class="btn btn-primary btn-large"><i class="icon-white icon-plus"></i> Novo Cliente</a>
+@endif
 
  @if(Session::has('message-sucess'))
     <div role="alert" class="alert alert-success">
