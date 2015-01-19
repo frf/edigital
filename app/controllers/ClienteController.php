@@ -14,6 +14,7 @@ class ClienteController extends BaseController {
 	|	Route::get('/', 'HomeController@showWelcome');
 	|
 	*/
+<<<<<<< HEAD
 
  public function index()
  {
@@ -109,5 +110,107 @@ public function ativar($idGet)
 }
 
 
+=======
+    
+       
+
+       public function index()
+	{
+           
+          $oClientes = ClienteQuery::create()->limit(5)->orderBy('Nome')->find();
+           
+          $dados['nomeEmpresa'] = "RBX Contabilidade";
+          $dados['nomeUsuario'] = "Fulano";
+          $dados['clientes'] = $oClientes;
+          
+          return View::make('cliente',$dados);
+	}
+        public function editar($idGet)
+	{
+          $method = Request::method();
+            
+          $id   = Input::get('id');
+          $nome = Input::get('nome');
+          $email = Input::get('email');
+          $senha = Input::get('senha');
+           
+          $oCliente = ClienteQuery::create()->filterById($idGet)->findOne();     
+           
+          
+          if(!$oCliente){
+              return Redirect::to('/cliente')->with('message-erro','Nenhum cliente encontrado!');
+          }
+          
+          if($oCliente->getUsuarioss()->count()){                
+                $loginCliente = "";
+          }
+          
+          $loginCliente = "";
+          
+          if (Request::isMethod('post'))
+          {
+              $oCliente->setNome($nome);
+              $oCliente->setEmail($email);
+              
+              if($senha != ""){
+                $oCliente->setLogin($senha);
+              }
+              $oCliente->save();
+        
+              return Redirect::to('/cliente')->with('message-sucess','Atualizado com sucesso!');
+          }
+          
+          return View::make('cliente.editar',array('cliente'=>$oCliente,'loginCliente'=>$loginCliente));
+	}
+        public function excluir($idGet)
+	{
+            $method = Request::method();
+           
+            $oCliente = ClienteQuery::create()->filterById($idGet)->findOne();     
+           
+            if(!$oCliente){
+                return Redirect::to('/cliente')->with('message-erro','Nenhum cliente encontrado!');
+            }          
+          
+            $oCliente->delete();
+            
+            return Redirect::to('/cliente')->with('message-sucess','Cliente excluído com sucesso!');
+          
+	}
+        public function desativar($idGet)
+	{
+            $method = Request::method();
+           
+            $oCliente = ClienteQuery::create()->filterById($idGet)->findOne();     
+           
+            if(!$oCliente){
+                return Redirect::to('/cliente')->with('message-erro','Nenhum cliente encontrado!');
+            }          
+          
+            $oCliente->setAtivo(false);
+            $oCliente->save();
+            
+            return Redirect::to('/cliente')->with('message-sucess','Cliente desativado com sucesso!');
+          
+	}
+        public function ativar($idGet)
+	{
+            $method = Request::method();
+           
+            $oCliente = ClienteQuery::create()->filterById($idGet)->findOne();     
+           
+            if(!$oCliente){
+                return Redirect::to('/cliente')->with('message-erro','Nenhum cliente encontrado!');
+            }          
+          
+            $oCliente->setAtivo(true);
+            $oCliente->save();
+            
+            return Redirect::to('/cliente')->with('message-sucess','Cliente ativado com sucesso!');
+          
+	}
+	
+	
+>>>>>>> a4e506becaafdea35cbe672e297cbc52af19863b
 
 }

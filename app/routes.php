@@ -12,38 +12,40 @@
 */
 //Route::get('/', 'HomeController@index');
 
-Route::when('*', 'csrf', array('post'));
+//Route::when('*', 'csrf', array('post'));
  
 // Visitante
-Route::get('/',
-        array(
-            'as' => 'home',
-            'uses' => 'HomeController@index'
-            )
-        );
- 
+Route::get('/',array('as' => 'home','uses' => 'HomeController@index'));
 Route::get('entrar', 'HomeController@getEntrar');
 Route::post('entrar', 'HomeController@postEntrar');
-Route::get('sair', 'HomeController@getSair');
+
  
 // Verifica se o usuário está logado
 Route::group(array('before' => 'auth'), function()
 {
+    Route::get('/cliente', 'ClienteController@index');
+    Route::post('/cliente/editar/{id}', 'ClienteController@editar');
+    Route::get('/cliente/editar/{id}', 'ClienteController@editar');
+    Route::get('/cliente/desativar/{id}', 'ClienteController@desativar');
+    Route::get('/cliente/ativar/{id}', 'ClienteController@ativar');
+    Route::get('/cliente/excluir/{id}', 'ClienteController@excluir');
+
+    // Controller AtendimentoController.
+    Route::get('/atendimento', 'AtendimentoController@index');
+    Route::get('/atendimento/cadastrar', 'AtendimentoController@getCadastrar');
+    Route::post('/atendimento/cadastrar', 'AtendimentoController@postCadastrar');
+    Route::get('/atendimento/historico/{id}', 'AtendimentoController@getHistorico');
+    Route::post('/atendimento/historico/{id}', 'AtendimentoController@postHistorico');
+
+
+    Route::get('/docs', 'ClienteController@index');
+    Route::get('/newsletter', 'ClienteController@index');
+
     // Rota de artigos
     Route::controller('home', 'HomeController');
+    
+    Route::get('sair', 'HomeController@getSair');
 });
-
-Route::get('/cliente', 'ClienteController@index');
-Route::post('/cliente/editar/{id}', 'ClienteController@editar');
-Route::get('/cliente/editar/{id}', 'ClienteController@editar');
-Route::get('/cliente/desativar/{id}', 'ClienteController@desativar');
-Route::get('/cliente/ativar/{id}', 'ClienteController@ativar');
-Route::get('/cliente/excluir/{id}', 'ClienteController@excluir');
-
-
-Route::get('/atendimento', 'ClienteController@index');
-Route::get('/docs', 'ClienteController@index');
-Route::get('/newsletter', 'ClienteController@index');
 
 
 Route::get('/clientes/docs/listar', function($id=1)

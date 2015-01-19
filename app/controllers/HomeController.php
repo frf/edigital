@@ -16,8 +16,12 @@ class HomeController extends BaseController {
 
         public function index() {
 
-            $header['nomeEmpresa'] = "RBX Contabilidade";
-            $header['nomeUsuario'] = "Fulano";
+            $header['nomeEmpresa'] = Config::get('edigital.nomeEmpresa');
+            $header['nomeSistema'] = Config::get('edigital.nomeSistema');
+            
+            if(Auth::check()){
+                $header['nomeUsuario'] = Auth::user()->nome;
+            }
 
             return View::make('home', $header);
         }

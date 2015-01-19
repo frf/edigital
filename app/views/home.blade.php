@@ -5,6 +5,9 @@
 
     <div class="jumbotron">
         <h2>{{$nomeEmpresa}}</h2>
-        <p>Bem vindo {{ $nomeUsuario }}.</p>
+        @if(Auth::check())
+            <p>Bem vindo {{ $nomeUsuario }}.</p>
+        @endif
     </div>
 @stop
+
