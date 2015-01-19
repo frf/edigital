@@ -2,11 +2,12 @@
 
 namespace Base;
 
-use \PasswordRemindersQuery as ChildPasswordRemindersQuery;
-use \DateTime;
+use \Clientes as ChildClientes;
+use \ClientesQuery as ChildClientesQuery;
+use \EnderecoQuery as ChildEnderecoQuery;
 use \Exception;
 use \PDO;
-use Map\PasswordRemindersTableMap;
+use Map\EnderecoTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
@@ -18,21 +19,20 @@ use Propel\Runtime\Exception\LogicException;
 use Propel\Runtime\Exception\PropelException;
 use Propel\Runtime\Map\TableMap;
 use Propel\Runtime\Parser\AbstractParser;
-use Propel\Runtime\Util\PropelDateTime;
 
 /**
- * Base class that represents a row from the 'password_reminders' table.
+ * Base class that represents a row from the 'endereco' table.
  *
  *
  *
 * @package    propel.generator..Base
 */
-abstract class PasswordReminders implements ActiveRecordInterface
+abstract class Endereco implements ActiveRecordInterface
 {
     /**
      * TableMap class name
      */
-    const TABLE_MAP = '\\Map\\PasswordRemindersTableMap';
+    const TABLE_MAP = '\\Map\\EnderecoTableMap';
 
 
     /**
@@ -62,36 +62,27 @@ abstract class PasswordReminders implements ActiveRecordInterface
     protected $virtualColumns = array();
 
     /**
-<<<<<<< HEAD
-     * The value for the email field.
-     * @var        string
+     * The value for the id field.
+     * @var        int
      */
-    protected $email;
-=======
-     * The value for the created_at field.
-     * @var        \DateTime
-     */
-    protected $created_at;
->>>>>>> a4e506becaafdea35cbe672e297cbc52af19863b
+    protected $id;
 
     /**
-     * The value for the token field.
+     * The value for the logradouro field.
      * @var        string
      */
-    protected $token;
+    protected $logradouro;
 
     /**
-<<<<<<< HEAD
-     * The value for the created_at field.
-     * @var        \DateTime
+     * The value for the idcliente field.
+     * @var        int
      */
-    protected $created_at;
-=======
-     * The value for the email field.
-     * @var        string
+    protected $idcliente;
+
+    /**
+     * @var        ChildClientes
      */
-    protected $email;
->>>>>>> a4e506becaafdea35cbe672e297cbc52af19863b
+    protected $aClientes;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced
@@ -102,7 +93,7 @@ abstract class PasswordReminders implements ActiveRecordInterface
     protected $alreadyInSave = false;
 
     /**
-     * Initializes internal state of Base\PasswordReminders object.
+     * Initializes internal state of Base\Endereco object.
      */
     public function __construct()
     {
@@ -197,9 +188,9 @@ abstract class PasswordReminders implements ActiveRecordInterface
     }
 
     /**
-     * Compares this with another <code>PasswordReminders</code> instance.  If
-     * <code>obj</code> is an instance of <code>PasswordReminders</code>, delegates to
-     * <code>equals(PasswordReminders)</code>.  Otherwise, returns <code>false</code>.
+     * Compares this with another <code>Endereco</code> instance.  If
+     * <code>obj</code> is an instance of <code>Endereco</code>, delegates to
+     * <code>equals(Endereco)</code>.  Otherwise, returns <code>false</code>.
      *
      * @param  mixed   $obj The object to compare to.
      * @return boolean Whether equal to the object specified.
@@ -265,7 +256,7 @@ abstract class PasswordReminders implements ActiveRecordInterface
      * @param string $name  The virtual column name
      * @param mixed  $value The value to give to the virtual column
      *
-     * @return $this|PasswordReminders The current object, for fluid interface
+     * @return $this|Endereco The current object, for fluid interface
      */
     public function setVirtualColumn($name, $value)
     {
@@ -319,176 +310,98 @@ abstract class PasswordReminders implements ActiveRecordInterface
     }
 
     /**
-<<<<<<< HEAD
-     * Get the [email] column value.
+     * Get the [id] column value.
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Get the [logradouro] column value.
      *
      * @return string
      */
-    public function getEmail()
+    public function getLogradouro()
     {
-        return $this->email;
-=======
-     * Get the [optionally formatted] temporal [created_at] column value.
+        return $this->logradouro;
+    }
+
+    /**
+     * Get the [idcliente] column value.
      *
-     *
-     * @param      string $format The date/time format string (either date()-style or strftime()-style).
-     *                            If format is NULL, then the raw DateTime object will be returned.
-     *
-     * @return string|DateTime Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL
-     *
-     * @throws PropelException - if unable to parse/validate the date/time value.
+     * @return int
      */
-    public function getCreatedAt($format = NULL)
+    public function getIdcliente()
     {
-        if ($format === null) {
-            return $this->created_at;
-        } else {
-            return $this->created_at instanceof \DateTime ? $this->created_at->format($format) : null;
+        return $this->idcliente;
+    }
+
+    /**
+     * Set the value of [id] column.
+     *
+     * @param  int $v new value
+     * @return $this|\Endereco The current object (for fluent API support)
+     */
+    public function setId($v)
+    {
+        if ($v !== null) {
+            $v = (int) $v;
         }
->>>>>>> a4e506becaafdea35cbe672e297cbc52af19863b
-    }
 
-    /**
-     * Get the [token] column value.
-     *
-     * @return string
-     */
-    public function getToken()
-    {
-        return $this->token;
-    }
-
-    /**
-<<<<<<< HEAD
-     * Get the [optionally formatted] temporal [created_at] column value.
-     *
-     *
-     * @param      string $format The date/time format string (either date()-style or strftime()-style).
-     *                            If format is NULL, then the raw DateTime object will be returned.
-     *
-     * @return string|DateTime Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL
-     *
-     * @throws PropelException - if unable to parse/validate the date/time value.
-     */
-    public function getCreatedAt($format = NULL)
-    {
-        if ($format === null) {
-            return $this->created_at;
-        } else {
-            return $this->created_at instanceof \DateTime ? $this->created_at->format($format) : null;
+        if ($this->id !== $v) {
+            $this->id = $v;
+            $this->modifiedColumns[EnderecoTableMap::COL_ID] = true;
         }
-    }
+
+        return $this;
+    } // setId()
 
     /**
-     * Set the value of [email] column.
+     * Set the value of [logradouro] column.
      *
      * @param  string $v new value
-     * @return $this|\PasswordReminders The current object (for fluent API support)
+     * @return $this|\Endereco The current object (for fluent API support)
      */
-    public function setEmail($v)
+    public function setLogradouro($v)
     {
         if ($v !== null) {
             $v = (string) $v;
         }
 
-        if ($this->email !== $v) {
-            $this->email = $v;
-            $this->modifiedColumns[PasswordRemindersTableMap::COL_EMAIL] = true;
+        if ($this->logradouro !== $v) {
+            $this->logradouro = $v;
+            $this->modifiedColumns[EnderecoTableMap::COL_LOGRADOURO] = true;
         }
 
         return $this;
-    } // setEmail()
-=======
-     * Get the [email] column value.
-     *
-     * @return string
-     */
-    public function getEmail()
-    {
-        return $this->email;
-    }
+    } // setLogradouro()
 
     /**
-     * Sets the value of [created_at] column to a normalized version of the date/time value specified.
+     * Set the value of [idcliente] column.
      *
-     * @param  mixed $v string, integer (timestamp), or \DateTime value.
-     *               Empty strings are treated as NULL.
-     * @return $this|\PasswordReminders The current object (for fluent API support)
+     * @param  int $v new value
+     * @return $this|\Endereco The current object (for fluent API support)
      */
-    public function setCreatedAt($v)
-    {
-        $dt = PropelDateTime::newInstance($v, null, 'DateTime');
-        if ($this->created_at !== null || $dt !== null) {
-            if ($dt !== $this->created_at) {
-                $this->created_at = $dt;
-                $this->modifiedColumns[PasswordRemindersTableMap::COL_CREATED_AT] = true;
-            }
-        } // if either are not null
-
-        return $this;
-    } // setCreatedAt()
->>>>>>> a4e506becaafdea35cbe672e297cbc52af19863b
-
-    /**
-     * Set the value of [token] column.
-     *
-     * @param  string $v new value
-     * @return $this|\PasswordReminders The current object (for fluent API support)
-     */
-    public function setToken($v)
+    public function setIdcliente($v)
     {
         if ($v !== null) {
-            $v = (string) $v;
+            $v = (int) $v;
         }
 
-        if ($this->token !== $v) {
-            $this->token = $v;
-            $this->modifiedColumns[PasswordRemindersTableMap::COL_TOKEN] = true;
+        if ($this->idcliente !== $v) {
+            $this->idcliente = $v;
+            $this->modifiedColumns[EnderecoTableMap::COL_IDCLIENTE] = true;
         }
 
-        return $this;
-    } // setToken()
-
-    /**
-<<<<<<< HEAD
-     * Sets the value of [created_at] column to a normalized version of the date/time value specified.
-     *
-     * @param  mixed $v string, integer (timestamp), or \DateTime value.
-     *               Empty strings are treated as NULL.
-     * @return $this|\PasswordReminders The current object (for fluent API support)
-     */
-    public function setCreatedAt($v)
-    {
-        $dt = PropelDateTime::newInstance($v, null, 'DateTime');
-        if ($this->created_at !== null || $dt !== null) {
-            if ($dt !== $this->created_at) {
-                $this->created_at = $dt;
-                $this->modifiedColumns[PasswordRemindersTableMap::COL_CREATED_AT] = true;
-            }
-        } // if either are not null
-
-        return $this;
-    } // setCreatedAt()
-=======
-     * Set the value of [email] column.
-     *
-     * @param  string $v new value
-     * @return $this|\PasswordReminders The current object (for fluent API support)
-     */
-    public function setEmail($v)
-    {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->email !== $v) {
-            $this->email = $v;
-            $this->modifiedColumns[PasswordRemindersTableMap::COL_EMAIL] = true;
+        if ($this->aClientes !== null && $this->aClientes->getId() !== $v) {
+            $this->aClientes = null;
         }
 
         return $this;
-    } // setEmail()
->>>>>>> a4e506becaafdea35cbe672e297cbc52af19863b
+    } // setIdcliente()
 
     /**
      * Indicates whether the columns in this object are only set to default values.
@@ -526,24 +439,14 @@ abstract class PasswordReminders implements ActiveRecordInterface
     {
         try {
 
-<<<<<<< HEAD
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : PasswordRemindersTableMap::translateFieldName('Email', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->email = (null !== $col) ? (string) $col : null;
-=======
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : PasswordRemindersTableMap::translateFieldName('CreatedAt', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->created_at = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
->>>>>>> a4e506becaafdea35cbe672e297cbc52af19863b
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : EnderecoTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : PasswordRemindersTableMap::translateFieldName('Token', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->token = (null !== $col) ? (string) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : EnderecoTableMap::translateFieldName('Logradouro', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->logradouro = (null !== $col) ? (string) $col : null;
 
-<<<<<<< HEAD
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : PasswordRemindersTableMap::translateFieldName('CreatedAt', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->created_at = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
-=======
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : PasswordRemindersTableMap::translateFieldName('Email', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->email = (null !== $col) ? (string) $col : null;
->>>>>>> a4e506becaafdea35cbe672e297cbc52af19863b
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : EnderecoTableMap::translateFieldName('Idcliente', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->idcliente = (null !== $col) ? (int) $col : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -552,10 +455,10 @@ abstract class PasswordReminders implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 3; // 3 = PasswordRemindersTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 3; // 3 = EnderecoTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
-            throw new PropelException(sprintf('Error populating %s object', '\\PasswordReminders'), 0, $e);
+            throw new PropelException(sprintf('Error populating %s object', '\\Endereco'), 0, $e);
         }
     }
 
@@ -574,6 +477,9 @@ abstract class PasswordReminders implements ActiveRecordInterface
      */
     public function ensureConsistency()
     {
+        if ($this->aClientes !== null && $this->idcliente !== $this->aClientes->getId()) {
+            $this->aClientes = null;
+        }
     } // ensureConsistency
 
     /**
@@ -597,13 +503,13 @@ abstract class PasswordReminders implements ActiveRecordInterface
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getReadConnection(PasswordRemindersTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getReadConnection(EnderecoTableMap::DATABASE_NAME);
         }
 
         // We don't need to alter the object instance pool; we're just modifying this instance
         // already in the pool.
 
-        $dataFetcher = ChildPasswordRemindersQuery::create(null, $this->buildPkeyCriteria())->setFormatter(ModelCriteria::FORMAT_STATEMENT)->find($con);
+        $dataFetcher = ChildEnderecoQuery::create(null, $this->buildPkeyCriteria())->setFormatter(ModelCriteria::FORMAT_STATEMENT)->find($con);
         $row = $dataFetcher->fetch();
         $dataFetcher->close();
         if (!$row) {
@@ -613,6 +519,7 @@ abstract class PasswordReminders implements ActiveRecordInterface
 
         if ($deep) {  // also de-associate any related objects?
 
+            $this->aClientes = null;
         } // if (deep)
     }
 
@@ -622,8 +529,8 @@ abstract class PasswordReminders implements ActiveRecordInterface
      * @param      ConnectionInterface $con
      * @return void
      * @throws PropelException
-     * @see PasswordReminders::setDeleted()
-     * @see PasswordReminders::isDeleted()
+     * @see Endereco::setDeleted()
+     * @see Endereco::isDeleted()
      */
     public function delete(ConnectionInterface $con = null)
     {
@@ -632,11 +539,11 @@ abstract class PasswordReminders implements ActiveRecordInterface
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getWriteConnection(PasswordRemindersTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(EnderecoTableMap::DATABASE_NAME);
         }
 
         $con->transaction(function () use ($con) {
-            $deleteQuery = ChildPasswordRemindersQuery::create()
+            $deleteQuery = ChildEnderecoQuery::create()
                 ->filterByPrimaryKey($this->getPrimaryKey());
             $ret = $this->preDelete($con);
             if ($ret) {
@@ -667,7 +574,7 @@ abstract class PasswordReminders implements ActiveRecordInterface
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getWriteConnection(PasswordRemindersTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(EnderecoTableMap::DATABASE_NAME);
         }
 
         return $con->transaction(function () use ($con) {
@@ -686,7 +593,7 @@ abstract class PasswordReminders implements ActiveRecordInterface
                     $this->postUpdate($con);
                 }
                 $this->postSave($con);
-                PasswordRemindersTableMap::addInstanceToPool($this);
+                EnderecoTableMap::addInstanceToPool($this);
             } else {
                 $affectedRows = 0;
             }
@@ -711,6 +618,18 @@ abstract class PasswordReminders implements ActiveRecordInterface
         $affectedRows = 0; // initialize var to track total num of affected rows
         if (!$this->alreadyInSave) {
             $this->alreadyInSave = true;
+
+            // We call the save method on the following object(s) if they
+            // were passed to this object by their corresponding set
+            // method.  This object relates to these object(s) by a
+            // foreign key reference.
+
+            if ($this->aClientes !== null) {
+                if ($this->aClientes->isModified() || $this->aClientes->isNew()) {
+                    $affectedRows += $this->aClientes->save($con);
+                }
+                $this->setClientes($this->aClientes);
+            }
 
             if ($this->isNew() || $this->isModified()) {
                 // persist changes
@@ -743,30 +662,33 @@ abstract class PasswordReminders implements ActiveRecordInterface
         $modifiedColumns = array();
         $index = 0;
 
+        $this->modifiedColumns[EnderecoTableMap::COL_ID] = true;
+        if (null !== $this->id) {
+            throw new PropelException('Cannot insert a value for auto-increment primary key (' . EnderecoTableMap::COL_ID . ')');
+        }
+        if (null === $this->id) {
+            try {
+                $dataFetcher = $con->query("SELECT nextval('endereco_id_seq')");
+                $this->id = $dataFetcher->fetchColumn();
+            } catch (Exception $e) {
+                throw new PropelException('Unable to get sequence id.', 0, $e);
+            }
+        }
+
 
          // check the columns in natural order for more readable SQL queries
-<<<<<<< HEAD
-        if ($this->isColumnModified(PasswordRemindersTableMap::COL_EMAIL)) {
-            $modifiedColumns[':p' . $index++]  = 'email';
-=======
-        if ($this->isColumnModified(PasswordRemindersTableMap::COL_CREATED_AT)) {
-            $modifiedColumns[':p' . $index++]  = 'created_at';
->>>>>>> a4e506becaafdea35cbe672e297cbc52af19863b
+        if ($this->isColumnModified(EnderecoTableMap::COL_ID)) {
+            $modifiedColumns[':p' . $index++]  = 'id';
         }
-        if ($this->isColumnModified(PasswordRemindersTableMap::COL_TOKEN)) {
-            $modifiedColumns[':p' . $index++]  = 'token';
+        if ($this->isColumnModified(EnderecoTableMap::COL_LOGRADOURO)) {
+            $modifiedColumns[':p' . $index++]  = 'logradouro';
         }
-<<<<<<< HEAD
-        if ($this->isColumnModified(PasswordRemindersTableMap::COL_CREATED_AT)) {
-            $modifiedColumns[':p' . $index++]  = 'created_at';
-=======
-        if ($this->isColumnModified(PasswordRemindersTableMap::COL_EMAIL)) {
-            $modifiedColumns[':p' . $index++]  = 'email';
->>>>>>> a4e506becaafdea35cbe672e297cbc52af19863b
+        if ($this->isColumnModified(EnderecoTableMap::COL_IDCLIENTE)) {
+            $modifiedColumns[':p' . $index++]  = 'idcliente';
         }
 
         $sql = sprintf(
-            'INSERT INTO password_reminders (%s) VALUES (%s)',
+            'INSERT INTO endereco (%s) VALUES (%s)',
             implode(', ', $modifiedColumns),
             implode(', ', array_keys($modifiedColumns))
         );
@@ -775,24 +697,14 @@ abstract class PasswordReminders implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-<<<<<<< HEAD
-                    case 'email':
-                        $stmt->bindValue($identifier, $this->email, PDO::PARAM_STR);
-=======
-                    case 'created_at':
-                        $stmt->bindValue($identifier, $this->created_at ? $this->created_at->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
->>>>>>> a4e506becaafdea35cbe672e297cbc52af19863b
+                    case 'id':
+                        $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
-                    case 'token':
-                        $stmt->bindValue($identifier, $this->token, PDO::PARAM_STR);
+                    case 'logradouro':
+                        $stmt->bindValue($identifier, $this->logradouro, PDO::PARAM_STR);
                         break;
-<<<<<<< HEAD
-                    case 'created_at':
-                        $stmt->bindValue($identifier, $this->created_at ? $this->created_at->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
-=======
-                    case 'email':
-                        $stmt->bindValue($identifier, $this->email, PDO::PARAM_STR);
->>>>>>> a4e506becaafdea35cbe672e297cbc52af19863b
+                    case 'idcliente':
+                        $stmt->bindValue($identifier, $this->idcliente, PDO::PARAM_INT);
                         break;
                 }
             }
@@ -833,7 +745,7 @@ abstract class PasswordReminders implements ActiveRecordInterface
      */
     public function getByName($name, $type = TableMap::TYPE_PHPNAME)
     {
-        $pos = PasswordRemindersTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
+        $pos = EnderecoTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
         $field = $this->getByPosition($pos);
 
         return $field;
@@ -850,21 +762,13 @@ abstract class PasswordReminders implements ActiveRecordInterface
     {
         switch ($pos) {
             case 0:
-<<<<<<< HEAD
-                return $this->getEmail();
-=======
-                return $this->getCreatedAt();
->>>>>>> a4e506becaafdea35cbe672e297cbc52af19863b
+                return $this->getId();
                 break;
             case 1:
-                return $this->getToken();
+                return $this->getLogradouro();
                 break;
             case 2:
-<<<<<<< HEAD
-                return $this->getCreatedAt();
-=======
-                return $this->getEmail();
->>>>>>> a4e506becaafdea35cbe672e297cbc52af19863b
+                return $this->getIdcliente();
                 break;
             default:
                 return null;
@@ -883,33 +787,45 @@ abstract class PasswordReminders implements ActiveRecordInterface
      *                    Defaults to TableMap::TYPE_PHPNAME.
      * @param     boolean $includeLazyLoadColumns (optional) Whether to include lazy loaded columns. Defaults to TRUE.
      * @param     array $alreadyDumpedObjects List of objects to skip to avoid recursion
+     * @param     boolean $includeForeignObjects (optional) Whether to include hydrated related objects. Default to FALSE.
      *
      * @return array an associative array containing the field names (as keys) and field values
      */
-    public function toArray($keyType = TableMap::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array())
+    public function toArray($keyType = TableMap::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array(), $includeForeignObjects = false)
     {
 
-        if (isset($alreadyDumpedObjects['PasswordReminders'][$this->hashCode()])) {
+        if (isset($alreadyDumpedObjects['Endereco'][$this->hashCode()])) {
             return '*RECURSION*';
         }
-        $alreadyDumpedObjects['PasswordReminders'][$this->hashCode()] = true;
-        $keys = PasswordRemindersTableMap::getFieldNames($keyType);
+        $alreadyDumpedObjects['Endereco'][$this->hashCode()] = true;
+        $keys = EnderecoTableMap::getFieldNames($keyType);
         $result = array(
-<<<<<<< HEAD
-            $keys[0] => $this->getEmail(),
-            $keys[1] => $this->getToken(),
-            $keys[2] => $this->getCreatedAt(),
-=======
-            $keys[0] => $this->getCreatedAt(),
-            $keys[1] => $this->getToken(),
-            $keys[2] => $this->getEmail(),
->>>>>>> a4e506becaafdea35cbe672e297cbc52af19863b
+            $keys[0] => $this->getId(),
+            $keys[1] => $this->getLogradouro(),
+            $keys[2] => $this->getIdcliente(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
             $result[$key] = $virtualColumn;
         }
 
+        if ($includeForeignObjects) {
+            if (null !== $this->aClientes) {
+
+                switch ($keyType) {
+                    case TableMap::TYPE_CAMELNAME:
+                        $key = 'clientes';
+                        break;
+                    case TableMap::TYPE_FIELDNAME:
+                        $key = 'clientes';
+                        break;
+                    default:
+                        $key = 'Clientes';
+                }
+
+                $result[$key] = $this->aClientes->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
+            }
+        }
 
         return $result;
     }
@@ -923,11 +839,11 @@ abstract class PasswordReminders implements ActiveRecordInterface
      *                one of the class type constants TableMap::TYPE_PHPNAME, TableMap::TYPE_CAMELNAME
      *                TableMap::TYPE_COLNAME, TableMap::TYPE_FIELDNAME, TableMap::TYPE_NUM.
      *                Defaults to TableMap::TYPE_PHPNAME.
-     * @return $this|\PasswordReminders
+     * @return $this|\Endereco
      */
     public function setByName($name, $value, $type = TableMap::TYPE_PHPNAME)
     {
-        $pos = PasswordRemindersTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
+        $pos = EnderecoTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
 
         return $this->setByPosition($pos, $value);
     }
@@ -938,27 +854,19 @@ abstract class PasswordReminders implements ActiveRecordInterface
      *
      * @param  int $pos position in xml schema
      * @param  mixed $value field value
-     * @return $this|\PasswordReminders
+     * @return $this|\Endereco
      */
     public function setByPosition($pos, $value)
     {
         switch ($pos) {
             case 0:
-<<<<<<< HEAD
-                $this->setEmail($value);
-=======
-                $this->setCreatedAt($value);
->>>>>>> a4e506becaafdea35cbe672e297cbc52af19863b
+                $this->setId($value);
                 break;
             case 1:
-                $this->setToken($value);
+                $this->setLogradouro($value);
                 break;
             case 2:
-<<<<<<< HEAD
-                $this->setCreatedAt($value);
-=======
-                $this->setEmail($value);
->>>>>>> a4e506becaafdea35cbe672e297cbc52af19863b
+                $this->setIdcliente($value);
                 break;
         } // switch()
 
@@ -984,24 +892,16 @@ abstract class PasswordReminders implements ActiveRecordInterface
      */
     public function fromArray($arr, $keyType = TableMap::TYPE_PHPNAME)
     {
-        $keys = PasswordRemindersTableMap::getFieldNames($keyType);
+        $keys = EnderecoTableMap::getFieldNames($keyType);
 
         if (array_key_exists($keys[0], $arr)) {
-<<<<<<< HEAD
-            $this->setEmail($arr[$keys[0]]);
-=======
-            $this->setCreatedAt($arr[$keys[0]]);
->>>>>>> a4e506becaafdea35cbe672e297cbc52af19863b
+            $this->setId($arr[$keys[0]]);
         }
         if (array_key_exists($keys[1], $arr)) {
-            $this->setToken($arr[$keys[1]]);
+            $this->setLogradouro($arr[$keys[1]]);
         }
         if (array_key_exists($keys[2], $arr)) {
-<<<<<<< HEAD
-            $this->setCreatedAt($arr[$keys[2]]);
-=======
-            $this->setEmail($arr[$keys[2]]);
->>>>>>> a4e506becaafdea35cbe672e297cbc52af19863b
+            $this->setIdcliente($arr[$keys[2]]);
         }
     }
 
@@ -1022,7 +922,7 @@ abstract class PasswordReminders implements ActiveRecordInterface
      * @param string $data The source data to import from
      * @param string $keyType The type of keys the array uses.
      *
-     * @return $this|\PasswordReminders The current object, for fluid interface
+     * @return $this|\Endereco The current object, for fluid interface
      */
     public function importFrom($parser, $data, $keyType = TableMap::TYPE_PHPNAME)
     {
@@ -1042,26 +942,16 @@ abstract class PasswordReminders implements ActiveRecordInterface
      */
     public function buildCriteria()
     {
-        $criteria = new Criteria(PasswordRemindersTableMap::DATABASE_NAME);
+        $criteria = new Criteria(EnderecoTableMap::DATABASE_NAME);
 
-<<<<<<< HEAD
-        if ($this->isColumnModified(PasswordRemindersTableMap::COL_EMAIL)) {
-            $criteria->add(PasswordRemindersTableMap::COL_EMAIL, $this->email);
-=======
-        if ($this->isColumnModified(PasswordRemindersTableMap::COL_CREATED_AT)) {
-            $criteria->add(PasswordRemindersTableMap::COL_CREATED_AT, $this->created_at);
->>>>>>> a4e506becaafdea35cbe672e297cbc52af19863b
+        if ($this->isColumnModified(EnderecoTableMap::COL_ID)) {
+            $criteria->add(EnderecoTableMap::COL_ID, $this->id);
         }
-        if ($this->isColumnModified(PasswordRemindersTableMap::COL_TOKEN)) {
-            $criteria->add(PasswordRemindersTableMap::COL_TOKEN, $this->token);
+        if ($this->isColumnModified(EnderecoTableMap::COL_LOGRADOURO)) {
+            $criteria->add(EnderecoTableMap::COL_LOGRADOURO, $this->logradouro);
         }
-<<<<<<< HEAD
-        if ($this->isColumnModified(PasswordRemindersTableMap::COL_CREATED_AT)) {
-            $criteria->add(PasswordRemindersTableMap::COL_CREATED_AT, $this->created_at);
-=======
-        if ($this->isColumnModified(PasswordRemindersTableMap::COL_EMAIL)) {
-            $criteria->add(PasswordRemindersTableMap::COL_EMAIL, $this->email);
->>>>>>> a4e506becaafdea35cbe672e297cbc52af19863b
+        if ($this->isColumnModified(EnderecoTableMap::COL_IDCLIENTE)) {
+            $criteria->add(EnderecoTableMap::COL_IDCLIENTE, $this->idcliente);
         }
 
         return $criteria;
@@ -1079,7 +969,8 @@ abstract class PasswordReminders implements ActiveRecordInterface
      */
     public function buildPkeyCriteria()
     {
-        throw new LogicException('The PasswordReminders object has no primary key');
+        $criteria = ChildEnderecoQuery::create();
+        $criteria->add(EnderecoTableMap::COL_ID, $this->id);
 
         return $criteria;
     }
@@ -1092,7 +983,7 @@ abstract class PasswordReminders implements ActiveRecordInterface
      */
     public function hashCode()
     {
-        $validPk = false;
+        $validPk = null !== $this->getId();
 
         $validPrimaryKeyFKs = 0;
         $primaryKeyFKs = [];
@@ -1107,27 +998,23 @@ abstract class PasswordReminders implements ActiveRecordInterface
     }
 
     /**
-     * Returns NULL since this table doesn't have a primary key.
-     * This method exists only for BC and is deprecated!
-     * @return null
+     * Returns the primary key for this object (row).
+     * @return int
      */
     public function getPrimaryKey()
     {
-        return null;
+        return $this->getId();
     }
 
     /**
-     * Dummy primary key setter.
+     * Generic method to set the primary key (id column).
      *
-     * This function only exists to preserve backwards compatibility.  It is no longer
-     * needed or required by the Persistent interface.  It will be removed in next BC-breaking
-     * release of Propel.
-     *
-     * @deprecated
+     * @param       int $key Primary key.
+     * @return void
      */
-    public function setPrimaryKey($pk)
+    public function setPrimaryKey($key)
     {
-        // do nothing, because this object doesn't have any primary keys
+        $this->setId($key);
     }
 
     /**
@@ -1136,7 +1023,7 @@ abstract class PasswordReminders implements ActiveRecordInterface
      */
     public function isPrimaryKeyNull()
     {
-        return ;
+        return null === $this->getId();
     }
 
     /**
@@ -1145,24 +1032,18 @@ abstract class PasswordReminders implements ActiveRecordInterface
      * If desired, this method can also make copies of all associated (fkey referrers)
      * objects.
      *
-     * @param      object $copyObj An object of \PasswordReminders (or compatible) type.
+     * @param      object $copyObj An object of \Endereco (or compatible) type.
      * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
      * @param      boolean $makeNew Whether to reset autoincrement PKs and make the object new.
      * @throws PropelException
      */
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
-<<<<<<< HEAD
-        $copyObj->setEmail($this->getEmail());
-        $copyObj->setToken($this->getToken());
-        $copyObj->setCreatedAt($this->getCreatedAt());
-=======
-        $copyObj->setCreatedAt($this->getCreatedAt());
-        $copyObj->setToken($this->getToken());
-        $copyObj->setEmail($this->getEmail());
->>>>>>> a4e506becaafdea35cbe672e297cbc52af19863b
+        $copyObj->setLogradouro($this->getLogradouro());
+        $copyObj->setIdcliente($this->getIdcliente());
         if ($makeNew) {
             $copyObj->setNew(true);
+            $copyObj->setId(NULL); // this is a auto-increment column, so set to default value
         }
     }
 
@@ -1175,7 +1056,7 @@ abstract class PasswordReminders implements ActiveRecordInterface
      * objects.
      *
      * @param  boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
-     * @return \PasswordReminders Clone of current object.
+     * @return \Endereco Clone of current object.
      * @throws PropelException
      */
     public function copy($deepCopy = false)
@@ -1189,21 +1070,69 @@ abstract class PasswordReminders implements ActiveRecordInterface
     }
 
     /**
+     * Declares an association between this object and a ChildClientes object.
+     *
+     * @param  ChildClientes $v
+     * @return $this|\Endereco The current object (for fluent API support)
+     * @throws PropelException
+     */
+    public function setClientes(ChildClientes $v = null)
+    {
+        if ($v === null) {
+            $this->setIdcliente(NULL);
+        } else {
+            $this->setIdcliente($v->getId());
+        }
+
+        $this->aClientes = $v;
+
+        // Add binding for other direction of this n:n relationship.
+        // If this object has already been added to the ChildClientes object, it will not be re-added.
+        if ($v !== null) {
+            $v->addEndereco($this);
+        }
+
+
+        return $this;
+    }
+
+
+    /**
+     * Get the associated ChildClientes object
+     *
+     * @param  ConnectionInterface $con Optional Connection object.
+     * @return ChildClientes The associated ChildClientes object.
+     * @throws PropelException
+     */
+    public function getClientes(ConnectionInterface $con = null)
+    {
+        if ($this->aClientes === null && ($this->idcliente !== null)) {
+            $this->aClientes = ChildClientesQuery::create()->findPk($this->idcliente, $con);
+            /* The following can be used additionally to
+                guarantee the related object contains a reference
+                to this object.  This level of coupling may, however, be
+                undesirable since it could result in an only partially populated collection
+                in the referenced object.
+                $this->aClientes->addEnderecos($this);
+             */
+        }
+
+        return $this->aClientes;
+    }
+
+    /**
      * Clears the current object, sets all attributes to their default values and removes
      * outgoing references as well as back-references (from other objects to this one. Results probably in a database
      * change of those foreign objects when you call `save` there).
      */
     public function clear()
     {
-<<<<<<< HEAD
-        $this->email = null;
-        $this->token = null;
-        $this->created_at = null;
-=======
-        $this->created_at = null;
-        $this->token = null;
-        $this->email = null;
->>>>>>> a4e506becaafdea35cbe672e297cbc52af19863b
+        if (null !== $this->aClientes) {
+            $this->aClientes->removeEndereco($this);
+        }
+        $this->id = null;
+        $this->logradouro = null;
+        $this->idcliente = null;
         $this->alreadyInSave = false;
         $this->clearAllReferences();
         $this->resetModified();
@@ -1224,6 +1153,7 @@ abstract class PasswordReminders implements ActiveRecordInterface
         if ($deep) {
         } // if ($deep)
 
+        $this->aClientes = null;
     }
 
     /**
@@ -1233,7 +1163,7 @@ abstract class PasswordReminders implements ActiveRecordInterface
      */
     public function __toString()
     {
-        return (string) $this->exportTo(PasswordRemindersTableMap::DEFAULT_STRING_FORMAT);
+        return (string) $this->exportTo(EnderecoTableMap::DEFAULT_STRING_FORMAT);
     }
 
     /**

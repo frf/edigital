@@ -10,7 +10,6 @@ use Map\IdocTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
-use Propel\Runtime\ActiveQuery\ModelJoin;
 use Propel\Runtime\Collection\ObjectCollection;
 use Propel\Runtime\Connection\ConnectionInterface;
 use Propel\Runtime\Exception\PropelException;
@@ -20,44 +19,44 @@ use Propel\Runtime\Exception\PropelException;
  *
  *
  *
- * @method     ChildIdocQuery orderByFile($order = Criteria::ASC) Order by the file column
- * @method     ChildIdocQuery orderByIdcliente($order = Criteria::ASC) Order by the idcliente column
- * @method     ChildIdocQuery orderByNome($order = Criteria::ASC) Order by the nome column
  * @method     ChildIdocQuery orderById($order = Criteria::ASC) Order by the id column
+ * @method     ChildIdocQuery orderByNome($order = Criteria::ASC) Order by the nome column
+ * @method     ChildIdocQuery orderByIdcliente($order = Criteria::ASC) Order by the idcliente column
+ * @method     ChildIdocQuery orderByFile($order = Criteria::ASC) Order by the file column
  *
- * @method     ChildIdocQuery groupByFile() Group by the file column
- * @method     ChildIdocQuery groupByIdcliente() Group by the idcliente column
- * @method     ChildIdocQuery groupByNome() Group by the nome column
  * @method     ChildIdocQuery groupById() Group by the id column
+ * @method     ChildIdocQuery groupByNome() Group by the nome column
+ * @method     ChildIdocQuery groupByIdcliente() Group by the idcliente column
+ * @method     ChildIdocQuery groupByFile() Group by the file column
  *
  * @method     ChildIdocQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method     ChildIdocQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method     ChildIdocQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
- * @method     ChildIdocQuery leftJoinCliente($relationAlias = null) Adds a LEFT JOIN clause to the query using the Cliente relation
- * @method     ChildIdocQuery rightJoinCliente($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Cliente relation
- * @method     ChildIdocQuery innerJoinCliente($relationAlias = null) Adds a INNER JOIN clause to the query using the Cliente relation
- *
- * @method     \ClienteQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
- *
  * @method     ChildIdoc findOne(ConnectionInterface $con = null) Return the first ChildIdoc matching the query
  * @method     ChildIdoc findOneOrCreate(ConnectionInterface $con = null) Return the first ChildIdoc matching the query, or a new ChildIdoc object populated from the query conditions when no match is found
  *
- * @method     ChildIdoc findOneByFile(string $file) Return the first ChildIdoc filtered by the file column
- * @method     ChildIdoc findOneByIdcliente(string $idcliente) Return the first ChildIdoc filtered by the idcliente column
- * @method     ChildIdoc findOneByNome(string $nome) Return the first ChildIdoc filtered by the nome column
  * @method     ChildIdoc findOneById(int $id) Return the first ChildIdoc filtered by the id column
+ * @method     ChildIdoc findOneByNome(string $nome) Return the first ChildIdoc filtered by the nome column
+ * @method     ChildIdoc findOneByIdcliente(string $idcliente) Return the first ChildIdoc filtered by the idcliente column
+ * @method     ChildIdoc findOneByFile(string $file) Return the first ChildIdoc filtered by the file column *
+
+ * @method     ChildIdoc requireOneById(int $id) Return the first ChildIdoc filtered by the id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildIdoc requireOneByNome(string $nome) Return the first ChildIdoc filtered by the nome column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildIdoc requireOneByIdcliente(string $idcliente) Return the first ChildIdoc filtered by the idcliente column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildIdoc requireOneByFile(string $file) Return the first ChildIdoc filtered by the file column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
  * @method     ChildIdoc[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildIdoc objects based on current ModelCriteria
- * @method     ChildIdoc[]|ObjectCollection findByFile(string $file) Return ChildIdoc objects filtered by the file column
- * @method     ChildIdoc[]|ObjectCollection findByIdcliente(string $idcliente) Return ChildIdoc objects filtered by the idcliente column
- * @method     ChildIdoc[]|ObjectCollection findByNome(string $nome) Return ChildIdoc objects filtered by the nome column
  * @method     ChildIdoc[]|ObjectCollection findById(int $id) Return ChildIdoc objects filtered by the id column
+ * @method     ChildIdoc[]|ObjectCollection findByNome(string $nome) Return ChildIdoc objects filtered by the nome column
+ * @method     ChildIdoc[]|ObjectCollection findByIdcliente(string $idcliente) Return ChildIdoc objects filtered by the idcliente column
+ * @method     ChildIdoc[]|ObjectCollection findByFile(string $file) Return ChildIdoc objects filtered by the file column
  * @method     ChildIdoc[]|\Propel\Runtime\Util\PropelModelPager paginate($page = 1, $maxPerPage = 10, ConnectionInterface $con = null) Issue a SELECT query based on the current ModelCriteria and uses a page and a maximum number of results per page to compute an offset and a limit
  *
  */
 abstract class IdocQuery extends ModelCriteria
 {
+    protected $entityNotFoundExceptionClass = '\\Propel\\Runtime\\Exception\\EntityNotFoundException';
 
     /**
      * Initializes internal state of \Base\IdocQuery object.
@@ -144,7 +143,7 @@ abstract class IdocQuery extends ModelCriteria
      */
     protected function findPkSimple($key, ConnectionInterface $con)
     {
-        $sql = 'SELECT file, idcliente, nome, id FROM idoc WHERE id = :p0';
+        $sql = 'SELECT id, nome, idcliente, file FROM idoc WHERE id = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -235,107 +234,6 @@ abstract class IdocQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query on the file column
-     *
-     * Example usage:
-     * <code>
-     * $query->filterByFile('fooValue');   // WHERE file = 'fooValue'
-     * $query->filterByFile('%fooValue%'); // WHERE file LIKE '%fooValue%'
-     * </code>
-     *
-     * @param     string $file The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return $this|ChildIdocQuery The current query, for fluid interface
-     */
-    public function filterByFile($file = null, $comparison = null)
-    {
-        if (null === $comparison) {
-            if (is_array($file)) {
-                $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $file)) {
-                $file = str_replace('*', '%', $file);
-                $comparison = Criteria::LIKE;
-            }
-        }
-
-        return $this->addUsingAlias(IdocTableMap::COL_FILE, $file, $comparison);
-    }
-
-    /**
-     * Filter the query on the idcliente column
-     *
-     * Example usage:
-     * <code>
-     * $query->filterByIdcliente(1234); // WHERE idcliente = 1234
-     * $query->filterByIdcliente(array(12, 34)); // WHERE idcliente IN (12, 34)
-     * $query->filterByIdcliente(array('min' => 12)); // WHERE idcliente > 12
-     * </code>
-     *
-     * @see       filterByCliente()
-     *
-     * @param     mixed $idcliente The value to use as filter.
-     *              Use scalar values for equality.
-     *              Use array values for in_array() equivalent.
-     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return $this|ChildIdocQuery The current query, for fluid interface
-     */
-    public function filterByIdcliente($idcliente = null, $comparison = null)
-    {
-        if (is_array($idcliente)) {
-            $useMinMax = false;
-            if (isset($idcliente['min'])) {
-                $this->addUsingAlias(IdocTableMap::COL_IDCLIENTE, $idcliente['min'], Criteria::GREATER_EQUAL);
-                $useMinMax = true;
-            }
-            if (isset($idcliente['max'])) {
-                $this->addUsingAlias(IdocTableMap::COL_IDCLIENTE, $idcliente['max'], Criteria::LESS_EQUAL);
-                $useMinMax = true;
-            }
-            if ($useMinMax) {
-                return $this;
-            }
-            if (null === $comparison) {
-                $comparison = Criteria::IN;
-            }
-        }
-
-        return $this->addUsingAlias(IdocTableMap::COL_IDCLIENTE, $idcliente, $comparison);
-    }
-
-    /**
-     * Filter the query on the nome column
-     *
-     * Example usage:
-     * <code>
-     * $query->filterByNome('fooValue');   // WHERE nome = 'fooValue'
-     * $query->filterByNome('%fooValue%'); // WHERE nome LIKE '%fooValue%'
-     * </code>
-     *
-     * @param     string $nome The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return $this|ChildIdocQuery The current query, for fluid interface
-     */
-    public function filterByNome($nome = null, $comparison = null)
-    {
-        if (null === $comparison) {
-            if (is_array($nome)) {
-                $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $nome)) {
-                $nome = str_replace('*', '%', $nome);
-                $comparison = Criteria::LIKE;
-            }
-        }
-
-        return $this->addUsingAlias(IdocTableMap::COL_NOME, $nome, $comparison);
-    }
-
-    /**
      * Filter the query on the id column
      *
      * Example usage:
@@ -377,80 +275,102 @@ abstract class IdocQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query by a related \Cliente object
+     * Filter the query on the nome column
      *
-     * @param \Cliente|ObjectCollection $cliente The related object(s) to use as filter
-     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     * Example usage:
+     * <code>
+     * $query->filterByNome('fooValue');   // WHERE nome = 'fooValue'
+     * $query->filterByNome('%fooValue%'); // WHERE nome LIKE '%fooValue%'
+     * </code>
      *
-     * @throws \Propel\Runtime\Exception\PropelException
-     *
-     * @return ChildIdocQuery The current query, for fluid interface
-     */
-    public function filterByCliente($cliente, $comparison = null)
-    {
-        if ($cliente instanceof \Cliente) {
-            return $this
-                ->addUsingAlias(IdocTableMap::COL_IDCLIENTE, $cliente->getId(), $comparison);
-        } elseif ($cliente instanceof ObjectCollection) {
-            if (null === $comparison) {
-                $comparison = Criteria::IN;
-            }
-
-            return $this
-                ->addUsingAlias(IdocTableMap::COL_IDCLIENTE, $cliente->toKeyValue('PrimaryKey', 'Id'), $comparison);
-        } else {
-            throw new PropelException('filterByCliente() only accepts arguments of type \Cliente or Collection');
-        }
-    }
-
-    /**
-     * Adds a JOIN clause to the query using the Cliente relation
-     *
-     * @param     string $relationAlias optional alias for the relation
-     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     * @param     string $nome The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildIdocQuery The current query, for fluid interface
      */
-    public function joinCliente($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    public function filterByNome($nome = null, $comparison = null)
     {
-        $tableMap = $this->getTableMap();
-        $relationMap = $tableMap->getRelation('Cliente');
-
-        // create a ModelJoin object for this join
-        $join = new ModelJoin();
-        $join->setJoinType($joinType);
-        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
-        if ($previousJoin = $this->getPreviousJoin()) {
-            $join->setPreviousJoin($previousJoin);
+        if (null === $comparison) {
+            if (is_array($nome)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $nome)) {
+                $nome = str_replace('*', '%', $nome);
+                $comparison = Criteria::LIKE;
+            }
         }
 
-        // add the ModelJoin to the current object
-        if ($relationAlias) {
-            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
-            $this->addJoinObject($join, $relationAlias);
-        } else {
-            $this->addJoinObject($join, 'Cliente');
-        }
-
-        return $this;
+        return $this->addUsingAlias(IdocTableMap::COL_NOME, $nome, $comparison);
     }
 
     /**
-     * Use the Cliente relation Cliente object
+     * Filter the query on the idcliente column
      *
-     * @see useQuery()
+     * Example usage:
+     * <code>
+     * $query->filterByIdcliente(1234); // WHERE idcliente = 1234
+     * $query->filterByIdcliente(array(12, 34)); // WHERE idcliente IN (12, 34)
+     * $query->filterByIdcliente(array('min' => 12)); // WHERE idcliente > 12
+     * </code>
      *
-     * @param     string $relationAlias optional alias for the relation,
-     *                                   to be used as main alias in the secondary query
-     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     * @param     mixed $idcliente The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return \ClienteQuery A secondary query class using the current class as primary query
+     * @return $this|ChildIdocQuery The current query, for fluid interface
      */
-    public function useClienteQuery($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    public function filterByIdcliente($idcliente = null, $comparison = null)
     {
-        return $this
-            ->joinCliente($relationAlias, $joinType)
-            ->useQuery($relationAlias ? $relationAlias : 'Cliente', '\ClienteQuery');
+        if (is_array($idcliente)) {
+            $useMinMax = false;
+            if (isset($idcliente['min'])) {
+                $this->addUsingAlias(IdocTableMap::COL_IDCLIENTE, $idcliente['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($idcliente['max'])) {
+                $this->addUsingAlias(IdocTableMap::COL_IDCLIENTE, $idcliente['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(IdocTableMap::COL_IDCLIENTE, $idcliente, $comparison);
+    }
+
+    /**
+     * Filter the query on the file column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByFile('fooValue');   // WHERE file = 'fooValue'
+     * $query->filterByFile('%fooValue%'); // WHERE file LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $file The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildIdocQuery The current query, for fluid interface
+     */
+    public function filterByFile($file = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($file)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $file)) {
+                $file = str_replace('*', '%', $file);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(IdocTableMap::COL_FILE, $file, $comparison);
     }
 
     /**
