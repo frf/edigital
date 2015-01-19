@@ -78,8 +78,38 @@ class ClienteController extends BaseController {
               return Redirect::to('/cliente')->with('message-erro','Nenhum cliente encontrado!');
           }
           
-          
           return View::make('cliente.view',array('cliente'=>$oCliente,'id'=>$id));
+	}
+        public function meusDados()
+	{
+          if(!Auth::check()){
+              return Redirect::to('/cliente')->with('message-erro','Nenhum usuário encontrado!');
+          }
+           
+          if (Request::isMethod('post'))
+          {              
+              $oLogin = Usuario::find(Auth::user()->id);
+              
+              if(Input::get('senha'))
+              {
+                    $oLogin->senha = Hash::make(Input::get('senha'));
+              }
+            
+              $oLogin->nome = Input::get('nome');
+              $oLogin->save(); 
+              
+              Session::flash('message-sucess', 'Usuário atualizado com sucesso.');
+                   
+          }
+          
+          $oCliente = UsuariosQuery::create()->filterById(Auth::user()->id)->findOne();     
+                    
+          if(!$oCliente){
+              return Redirect::to('/cliente')->with('message-erro','Nenhum usuário encontrado!');
+          }
+          
+          return View::make('cliente.meus-dados',array('cliente'=>$oCliente,
+                                                       'id'=>Auth::user()->idcliente));
 	}
         public function editar($id)
 	{
@@ -154,25 +184,36 @@ class ClienteController extends BaseController {
           }
           
           if (Request::isMethod('post'))
-          {
+          {              
               $oLogin =  new Usuario();
               
               if(Input::get('senha'))
               {
                     $oLogin->senha = Hash::make(Input::get('senha'));
+              }else{
+                  Session::flash('message-erro', 'Erro senha não preenchida.');
+                  return View::make('cliente.cadastrar-login',array('cliente'=>$oCliente,'id'=>$id,'email'=>Input::get('email')));
               }
-              
-              $oLogin->nome      = $oCliente->getNome();
+            
+              $oLogin->nome      = Input::get('nome');
               $oLogin->email     = Input::get('email');
               $oLogin->tipo      = 'cliente';
               $oLogin->idcliente = $id;
               
-              $oLogin->save();
-        
-              return Redirect::to('/cliente/listar-login/'.$id)->with('message-sucess','Cadastrado com sucesso!');
+              $oCliente = UsuariosQuery::create()
+                  ->filterByEmail(Input::get('email'))
+                  ->findOne();
+              
+              if(!$oCliente){
+                    $oLogin->save();                
+                    return Redirect::to('/cliente/listar-login/'.$id)->with('message-sucess','Cadastrado com sucesso!');
+              }else{
+                  Session::flash('message-erro', 'Erro email ja á cadastrado.');
+              }
           }
           
-          return View::make('cliente.cadastrar-login',array('cliente'=>$oCliente,'id'=>$id));
+          return View::make('cliente.cadastrar-login',array('cliente'=>$oCliente,'id'=>$id,'email'=>Input::get('email')));
+          
 	}
         
         public function excluir($idGet)
@@ -188,6 +229,21 @@ class ClienteController extends BaseController {
             $oCliente->delete();
             
             return Redirect::to('/cliente')->with('message-sucess','Cliente excluído com sucesso!');
+          
+	}
+        public function excluirLogin($id,$idCli)
+	{
+            $method = Request::method();
+           
+            $oCliente = UsuariosQuery::create()->filterById($id)->findOne();     
+           
+            if(!$oCliente){
+                return Redirect::to('/cliente')->with('message-erro','Usuário não encontrado!');
+            }          
+          
+            $oCliente->delete();
+            
+            return Redirect::to('/cliente/listar-login/'.$idCli)->with('message-sucess','Usuário excluído com sucesso!');
           
 	}
         public function desativar($idGet)

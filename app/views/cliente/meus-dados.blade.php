@@ -3,7 +3,7 @@
 
 @section('content')
 
-<h3>Cadastro de Usuário do Cliente</h3>
+<h3>Dados Usuário</h3>
 
 @extends('cliente.menu')
 
@@ -20,22 +20,19 @@
 
 <div class="table-responsive">
     {{ Form::open() }}
-    {{ Form::hidden('id',$id,array('class' => 'form-control')) }}
     
   <table class="table">
       
     <tr>
-      <th>Nome</th><td scope="row">{{ Form::text('nome',$email,array('class' => 'form-control')) }}</td>             
+      <th>Nome</th><td scope="row">{{ Form::text('nome',$cliente->getNome(),array('class' => 'form-control')) }}</td>             
     </tr>
     <tr>
-      <th>Email</th><td scope="row">{{ Form::text('email',$email,array('class' => 'form-control')) }}</td>           
+      <th>Email</th><td scope="row">{{ $cliente->getEmail() }}</td>
     </tr>
     <tr>
       <th>Senha</th><td scope="row">{{ Form::password('senha',array('class' => 'form-control')) }}</td>           
     </tr>
- 
     
-        
   </table>
     
     {{ Form::submit('Salvar',array('class' => 'btn btn-sm btn-success')); }}

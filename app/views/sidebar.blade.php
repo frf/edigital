@@ -23,11 +23,12 @@
                 <li><a href="/cliente">Clientes</a></li>
             @endif
             @if(Auth::user()->tipo == 'cliente')
-                <li><a href="/cliente">Meus Dados</a></li>
+                <li><a href="/cliente">Empresa</a></li>
             @endif
             <li><a href="/newsletter">Newsletter</a></li>                
-          </ul>
-            <a href="{{ url('sair') }}" class="btn btn-danger navbar-btn navbar-right">Sair</a>
+          </ul>            
+            <a href="{{ url('sair') }}" class="btn btn-danger navbar-btn navbar-right" style="margin-left: 10px">Sair</a> 
+            <a href="/cliente/meus-dados" class="btn btn-success navbar-btn navbar-right">Meus Dados: {{ Auth::user()->nome }}</a>
         </div><!--/.nav-collapse -->
       </div>
     </nav>

@@ -3,7 +3,12 @@
 
 @section('content')
 
+@if(Auth::user()->tipo == 'cliente')
+<h3>Minhas Informações</h3>
+@else
 <h3>Lista de Clientes</h3>
+@endif
+
 @if(Auth::user()->tipo == 'admin')
     <a href="#" class="btn btn-primary btn-large"><i class="icon-white icon-plus"></i> Novo Cliente</a>
 @endif

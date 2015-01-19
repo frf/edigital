@@ -26,7 +26,7 @@
           <tr>
             <th>Nome</th>
             <th>Email</th>
-            <th>Tipo</th>
+            <th>Ferramentas</th>
           </tr>
         </thead>
         
@@ -34,8 +34,12 @@
             <tr>
               <td scope="row">{{ $usuario->nome }}</td>
               <td scope="row">{{ $usuario->email }}</td>
-              <td scope="row">{{ $usuario->tipo }}</td>
-              
+              <td scope="row">
+                  @if($usuario->id != Auth::user()->id)
+                  <a href="/cliente/excluir-login/{{ $usuario->id }}/{{ $id }}" class="btn btn-xs btn-danger">Excluir</a>
+                  @endif
+              </td>
+                  
             </tr>
         @endforeach
   </table>
