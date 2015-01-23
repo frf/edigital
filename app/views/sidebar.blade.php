@@ -17,15 +17,15 @@
 
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="/">Principal</a></li>
+            <li @if(Request::segment(1) == "") class="active" @endif><a href="/">Principal</a></li>
                 @if(Auth::user()->tipo == 'admin')
                         @foreach(Config::get('edigital.menuAdmin') as $key => $menu);
-                            <li><a href="{{$key}}">{{ $menu }}</a></li>
+                            <li @if(Request::segment(1) == $key) class="active" @endif><a href="/{{$key}}" >{{ $menu }}</a></li>
                         @endforeach
                 @endif
                 @if(Auth::user()->tipo == 'cliente')
                     @foreach(Config::get('edigital.menuCliente') as $key => $menu);
-                        <li><a href="{{$key}}">{{ $menu }}</a></li>
+                    <li ><a href="{{$key}}" >{{ $menu }}</a></li>
                     @endforeach
                 @endif                       
           </ul>            
