@@ -3,7 +3,15 @@
 
 @section('content')
 
-<h3>Cliente</h3>
+<h3>Cliente: {{  $oCliente->getNome() }}</h3>
+
+{{ Form::open(array('url' => '/documento/inserir', 'class' => 'form-horizontal', 'role' => 'form', 'method' => 'post' )) }}
+<input type="hidden" name="id" value="{{ $oCliente->getId() }}">
+<input type="hidden" name="nome" value="{{ $oCliente->getNome() }}">
+
+
+{{ Form::submit('Novo Documento',  array('class' => 'btn btn-primary')) }}
+<p>
 <div class="table-responsive">
 	
 	<table class="table table-bordered">
@@ -18,7 +26,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			@foreach($objDocumento as $aDocumento)
+			@foreach($oDocumentos as $aDocumento)
 			
 			<tr>
 			    <td>{{ $aDocumento->getCategorias()->getNomecategoria() }}</td>
@@ -33,5 +41,5 @@
 	</table>
 
 </div>
-
+{{ Form::close() }}
 @stop

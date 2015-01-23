@@ -45,6 +45,9 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildCategorias findOneByIdClientes(int $id_clientes) Return the first ChildCategorias filtered by the id_clientes column
  * @method     ChildCategorias findOneByNomecategoria(string $nomecategoria) Return the first ChildCategorias filtered by the nomecategoria column *
 
+ * @method     ChildCategorias requirePk($key, ConnectionInterface $con = null) Return the ChildCategorias by primary key and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildCategorias requireOne(ConnectionInterface $con = null) Return the first ChildCategorias matching the query and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ *
  * @method     ChildCategorias requireOneById(int $id) Return the first ChildCategorias filtered by the id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildCategorias requireOneByIdClientes(int $id_clientes) Return the first ChildCategorias filtered by the id_clientes column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildCategorias requireOneByNomecategoria(string $nomecategoria) Return the first ChildCategorias filtered by the nomecategoria column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found

@@ -1034,6 +1034,14 @@ abstract class Documentos implements ActiveRecordInterface
             $keys[5] => $this->getNomedocumento(),
             $keys[6] => $this->getDescricao(),
         );
+
+        $utc = new \DateTimeZone('utc');
+        if ($result[$keys[3]] instanceof \DateTime) {
+            // When changing timezone we don't want to change existing instances
+            $dateTime = clone $result[$keys[3]];
+            $result[$keys[3]] = $dateTime->setTimezone($utc)->format('Y-m-d\TH:i:s\Z');
+        }
+
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
             $result[$key] = $virtualColumn;

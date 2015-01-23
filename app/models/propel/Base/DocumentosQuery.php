@@ -61,6 +61,9 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildDocumentos findOneByNomedocumento(string $nomedocumento) Return the first ChildDocumentos filtered by the nomedocumento column
  * @method     ChildDocumentos findOneByDescricao(string $descricao) Return the first ChildDocumentos filtered by the descricao column *
 
+ * @method     ChildDocumentos requirePk($key, ConnectionInterface $con = null) Return the ChildDocumentos by primary key and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildDocumentos requireOne(ConnectionInterface $con = null) Return the first ChildDocumentos matching the query and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ *
  * @method     ChildDocumentos requireOneById(int $id) Return the first ChildDocumentos filtered by the id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildDocumentos requireOneByIdCategorias(int $id_categorias) Return the first ChildDocumentos filtered by the id_categorias column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildDocumentos requireOneByEndereco(string $endereco) Return the first ChildDocumentos filtered by the endereco column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found

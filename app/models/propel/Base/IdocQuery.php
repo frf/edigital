@@ -41,6 +41,9 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildIdoc findOneByIdcliente(string $idcliente) Return the first ChildIdoc filtered by the idcliente column
  * @method     ChildIdoc findOneByFile(string $file) Return the first ChildIdoc filtered by the file column *
 
+ * @method     ChildIdoc requirePk($key, ConnectionInterface $con = null) Return the ChildIdoc by primary key and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildIdoc requireOne(ConnectionInterface $con = null) Return the first ChildIdoc matching the query and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ *
  * @method     ChildIdoc requireOneById(int $id) Return the first ChildIdoc filtered by the id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildIdoc requireOneByNome(string $nome) Return the first ChildIdoc filtered by the nome column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildIdoc requireOneByIdcliente(string $idcliente) Return the first ChildIdoc filtered by the idcliente column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found

@@ -45,6 +45,9 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildEndereco findOneByLogradouro(string $logradouro) Return the first ChildEndereco filtered by the logradouro column
  * @method     ChildEndereco findOneByIdcliente(int $idcliente) Return the first ChildEndereco filtered by the idcliente column *
 
+ * @method     ChildEndereco requirePk($key, ConnectionInterface $con = null) Return the ChildEndereco by primary key and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildEndereco requireOne(ConnectionInterface $con = null) Return the first ChildEndereco matching the query and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ *
  * @method     ChildEndereco requireOneById(int $id) Return the first ChildEndereco filtered by the id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildEndereco requireOneByLogradouro(string $logradouro) Return the first ChildEndereco filtered by the logradouro column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildEndereco requireOneByIdcliente(int $idcliente) Return the first ChildEndereco filtered by the idcliente column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found

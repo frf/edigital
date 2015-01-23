@@ -55,6 +55,9 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildClientes findOneBySenha(string $senha) Return the first ChildClientes filtered by the senha column
  * @method     ChildClientes findOneByAtivo(boolean $ativo) Return the first ChildClientes filtered by the ativo column *
 
+ * @method     ChildClientes requirePk($key, ConnectionInterface $con = null) Return the ChildClientes by primary key and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildClientes requireOne(ConnectionInterface $con = null) Return the first ChildClientes matching the query and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ *
  * @method     ChildClientes requireOneById(int $id) Return the first ChildClientes filtered by the id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildClientes requireOneByNome(string $nome) Return the first ChildClientes filtered by the nome column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildClientes requireOneByLogin(string $login) Return the first ChildClientes filtered by the login column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
