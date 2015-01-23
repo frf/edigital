@@ -184,7 +184,6 @@ class UsuariosTableMap extends TableMap
     public function buildRelations()
     {
         $this->addRelation('Cliente', '\\Cliente', RelationMap::MANY_TO_ONE, array('idcliente' => 'id', ), null, null);
-        $this->addRelation('Chamados', '\\Chamados', RelationMap::ONE_TO_MANY, array('id' => 'usuario_id', ), null, null, 'Chamadoss');
     } // buildRelations()
 
     /**

@@ -48,11 +48,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildUsuariosQuery rightJoinCliente($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Cliente relation
  * @method     ChildUsuariosQuery innerJoinCliente($relationAlias = null) Adds a INNER JOIN clause to the query using the Cliente relation
  *
- * @method     ChildUsuariosQuery leftJoinChamados($relationAlias = null) Adds a LEFT JOIN clause to the query using the Chamados relation
- * @method     ChildUsuariosQuery rightJoinChamados($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Chamados relation
- * @method     ChildUsuariosQuery innerJoinChamados($relationAlias = null) Adds a INNER JOIN clause to the query using the Chamados relation
- *
- * @method     \ClienteQuery|\ChamadosQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
+ * @method     \ClienteQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
  * @method     ChildUsuarios findOne(ConnectionInterface $con = null) Return the first ChildUsuarios matching the query
  * @method     ChildUsuarios findOneOrCreate(ConnectionInterface $con = null) Return the first ChildUsuarios matching the query, or a new ChildUsuarios object populated from the query conditions when no match is found
@@ -648,79 +644,6 @@ abstract class UsuariosQuery extends ModelCriteria
         return $this
             ->joinCliente($relationAlias, $joinType)
             ->useQuery($relationAlias ? $relationAlias : 'Cliente', '\ClienteQuery');
-    }
-
-    /**
-     * Filter the query by a related \Chamados object
-     *
-     * @param \Chamados|ObjectCollection $chamados  the related object to use as filter
-     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return ChildUsuariosQuery The current query, for fluid interface
-     */
-    public function filterByChamados($chamados, $comparison = null)
-    {
-        if ($chamados instanceof \Chamados) {
-            return $this
-                ->addUsingAlias(UsuariosTableMap::COL_ID, $chamados->getUsuarioId(), $comparison);
-        } elseif ($chamados instanceof ObjectCollection) {
-            return $this
-                ->useChamadosQuery()
-                ->filterByPrimaryKeys($chamados->getPrimaryKeys())
-                ->endUse();
-        } else {
-            throw new PropelException('filterByChamados() only accepts arguments of type \Chamados or Collection');
-        }
-    }
-
-    /**
-     * Adds a JOIN clause to the query using the Chamados relation
-     *
-     * @param     string $relationAlias optional alias for the relation
-     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
-     *
-     * @return $this|ChildUsuariosQuery The current query, for fluid interface
-     */
-    public function joinChamados($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
-    {
-        $tableMap = $this->getTableMap();
-        $relationMap = $tableMap->getRelation('Chamados');
-
-        // create a ModelJoin object for this join
-        $join = new ModelJoin();
-        $join->setJoinType($joinType);
-        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
-        if ($previousJoin = $this->getPreviousJoin()) {
-            $join->setPreviousJoin($previousJoin);
-        }
-
-        // add the ModelJoin to the current object
-        if ($relationAlias) {
-            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
-            $this->addJoinObject($join, $relationAlias);
-        } else {
-            $this->addJoinObject($join, 'Chamados');
-        }
-
-        return $this;
-    }
-
-    /**
-     * Use the Chamados relation Chamados object
-     *
-     * @see useQuery()
-     *
-     * @param     string $relationAlias optional alias for the relation,
-     *                                   to be used as main alias in the secondary query
-     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
-     *
-     * @return \ChamadosQuery A secondary query class using the current class as primary query
-     */
-    public function useChamadosQuery($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
-    {
-        return $this
-            ->joinChamados($relationAlias, $joinType)
-            ->useQuery($relationAlias ? $relationAlias : 'Chamados', '\ChamadosQuery');
     }
 
     /**

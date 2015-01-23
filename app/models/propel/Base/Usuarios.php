@@ -2,11 +2,8 @@
 
 namespace Base;
 
-use \Chamados as ChildChamados;
-use \ChamadosQuery as ChildChamadosQuery;
 use \Cliente as ChildCliente;
 use \ClienteQuery as ChildClienteQuery;
-use \Usuarios as ChildUsuarios;
 use \UsuariosQuery as ChildUsuariosQuery;
 use \DateTime;
 use \Exception;
@@ -17,7 +14,6 @@ use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
 use Propel\Runtime\ActiveRecord\ActiveRecordInterface;
 use Propel\Runtime\Collection\Collection;
-use Propel\Runtime\Collection\ObjectCollection;
 use Propel\Runtime\Connection\ConnectionInterface;
 use Propel\Runtime\Exception\BadMethodCallException;
 use Propel\Runtime\Exception\LogicException;
@@ -127,24 +123,12 @@ abstract class Usuarios implements ActiveRecordInterface
     protected $aCliente;
 
     /**
-     * @var        ObjectCollection|ChildChamados[] Collection to store aggregation of ChildChamados objects.
-     */
-    protected $collChamadoss;
-    protected $collChamadossPartial;
-
-    /**
      * Flag to prevent endless save loop, if this object is referenced
      * by another object which falls in this transaction.
      *
      * @var boolean
      */
     protected $alreadyInSave = false;
-
-    /**
-     * An array of objects scheduled for deletion.
-     * @var ObjectCollection|ChildChamados[]
-     */
-    protected $chamadossScheduledForDeletion = null;
 
     /**
      * Initializes internal state of Base\Usuarios object.
@@ -792,8 +776,6 @@ abstract class Usuarios implements ActiveRecordInterface
         if ($deep) {  // also de-associate any related objects?
 
             $this->aCliente = null;
-            $this->collChamadoss = null;
-
         } // if (deep)
     }
 
@@ -914,24 +896,6 @@ abstract class Usuarios implements ActiveRecordInterface
                     $affectedRows += $this->doUpdate($con);
                 }
                 $this->resetModified();
-            }
-
-            if ($this->chamadossScheduledForDeletion !== null) {
-                if (!$this->chamadossScheduledForDeletion->isEmpty()) {
-                    foreach ($this->chamadossScheduledForDeletion as $chamados) {
-                        // need to save related object because we set the relation to null
-                        $chamados->save($con);
-                    }
-                    $this->chamadossScheduledForDeletion = null;
-                }
-            }
-
-            if ($this->collChamadoss !== null) {
-                foreach ($this->collChamadoss as $referrerFK) {
-                    if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
-                        $affectedRows += $referrerFK->save($con);
-                    }
-                }
             }
 
             $this->alreadyInSave = false;
@@ -1176,21 +1140,6 @@ abstract class Usuarios implements ActiveRecordInterface
                 }
 
                 $result[$key] = $this->aCliente->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
-            }
-            if (null !== $this->collChamadoss) {
-
-                switch ($keyType) {
-                    case TableMap::TYPE_CAMELNAME:
-                        $key = 'chamadoss';
-                        break;
-                    case TableMap::TYPE_FIELDNAME:
-                        $key = 'chamadoss';
-                        break;
-                    default:
-                        $key = 'Chamadoss';
-                }
-
-                $result[$key] = $this->collChamadoss->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
         }
 
@@ -1468,20 +1417,6 @@ abstract class Usuarios implements ActiveRecordInterface
         $copyObj->setNome($this->getNome());
         $copyObj->setSenha($this->getSenha());
         $copyObj->setEmail($this->getEmail());
-
-        if ($deepCopy) {
-            // important: temporarily setNew(false) because this affects the behavior of
-            // the getter/setter methods for fkey referrer objects.
-            $copyObj->setNew(false);
-
-            foreach ($this->getChamadoss() as $relObj) {
-                if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
-                    $copyObj->addChamados($relObj->copy($deepCopy));
-                }
-            }
-
-        } // if ($deepCopy)
-
         if ($makeNew) {
             $copyObj->setNew(true);
             $copyObj->setId(NULL); // this is a auto-increment column, so set to default value
@@ -1561,240 +1496,6 @@ abstract class Usuarios implements ActiveRecordInterface
         return $this->aCliente;
     }
 
-
-    /**
-     * Initializes a collection based on the name of a relation.
-     * Avoids crafting an 'init[$relationName]s' method name
-     * that wouldn't work when StandardEnglishPluralizer is used.
-     *
-     * @param      string $relationName The name of the relation to initialize
-     * @return void
-     */
-    public function initRelation($relationName)
-    {
-        if ('Chamados' == $relationName) {
-            return $this->initChamadoss();
-        }
-    }
-
-    /**
-     * Clears out the collChamadoss collection
-     *
-     * This does not modify the database; however, it will remove any associated objects, causing
-     * them to be refetched by subsequent calls to accessor method.
-     *
-     * @return void
-     * @see        addChamadoss()
-     */
-    public function clearChamadoss()
-    {
-        $this->collChamadoss = null; // important to set this to NULL since that means it is uninitialized
-    }
-
-    /**
-     * Reset is the collChamadoss collection loaded partially.
-     */
-    public function resetPartialChamadoss($v = true)
-    {
-        $this->collChamadossPartial = $v;
-    }
-
-    /**
-     * Initializes the collChamadoss collection.
-     *
-     * By default this just sets the collChamadoss collection to an empty array (like clearcollChamadoss());
-     * however, you may wish to override this method in your stub class to provide setting appropriate
-     * to your application -- for example, setting the initial array to the values stored in database.
-     *
-     * @param      boolean $overrideExisting If set to true, the method call initializes
-     *                                        the collection even if it is not empty
-     *
-     * @return void
-     */
-    public function initChamadoss($overrideExisting = true)
-    {
-        if (null !== $this->collChamadoss && !$overrideExisting) {
-            return;
-        }
-        $this->collChamadoss = new ObjectCollection();
-        $this->collChamadoss->setModel('\Chamados');
-    }
-
-    /**
-     * Gets an array of ChildChamados objects which contain a foreign key that references this object.
-     *
-     * If the $criteria is not null, it is used to always fetch the results from the database.
-     * Otherwise the results are fetched from the database the first time, then cached.
-     * Next time the same method is called without $criteria, the cached collection is returned.
-     * If this ChildUsuarios is new, it will return
-     * an empty collection or the current collection; the criteria is ignored on a new object.
-     *
-     * @param      Criteria $criteria optional Criteria object to narrow the query
-     * @param      ConnectionInterface $con optional connection object
-     * @return ObjectCollection|ChildChamados[] List of ChildChamados objects
-     * @throws PropelException
-     */
-    public function getChamadoss(Criteria $criteria = null, ConnectionInterface $con = null)
-    {
-        $partial = $this->collChamadossPartial && !$this->isNew();
-        if (null === $this->collChamadoss || null !== $criteria  || $partial) {
-            if ($this->isNew() && null === $this->collChamadoss) {
-                // return empty collection
-                $this->initChamadoss();
-            } else {
-                $collChamadoss = ChildChamadosQuery::create(null, $criteria)
-                    ->filterByUsuarios($this)
-                    ->find($con);
-
-                if (null !== $criteria) {
-                    if (false !== $this->collChamadossPartial && count($collChamadoss)) {
-                        $this->initChamadoss(false);
-
-                        foreach ($collChamadoss as $obj) {
-                            if (false == $this->collChamadoss->contains($obj)) {
-                                $this->collChamadoss->append($obj);
-                            }
-                        }
-
-                        $this->collChamadossPartial = true;
-                    }
-
-                    return $collChamadoss;
-                }
-
-                if ($partial && $this->collChamadoss) {
-                    foreach ($this->collChamadoss as $obj) {
-                        if ($obj->isNew()) {
-                            $collChamadoss[] = $obj;
-                        }
-                    }
-                }
-
-                $this->collChamadoss = $collChamadoss;
-                $this->collChamadossPartial = false;
-            }
-        }
-
-        return $this->collChamadoss;
-    }
-
-    /**
-     * Sets a collection of ChildChamados objects related by a one-to-many relationship
-     * to the current object.
-     * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
-     * and new objects from the given Propel collection.
-     *
-     * @param      Collection $chamadoss A Propel collection.
-     * @param      ConnectionInterface $con Optional connection object
-     * @return $this|ChildUsuarios The current object (for fluent API support)
-     */
-    public function setChamadoss(Collection $chamadoss, ConnectionInterface $con = null)
-    {
-        /** @var ChildChamados[] $chamadossToDelete */
-        $chamadossToDelete = $this->getChamadoss(new Criteria(), $con)->diff($chamadoss);
-
-
-        $this->chamadossScheduledForDeletion = $chamadossToDelete;
-
-        foreach ($chamadossToDelete as $chamadosRemoved) {
-            $chamadosRemoved->setUsuarios(null);
-        }
-
-        $this->collChamadoss = null;
-        foreach ($chamadoss as $chamados) {
-            $this->addChamados($chamados);
-        }
-
-        $this->collChamadoss = $chamadoss;
-        $this->collChamadossPartial = false;
-
-        return $this;
-    }
-
-    /**
-     * Returns the number of related Chamados objects.
-     *
-     * @param      Criteria $criteria
-     * @param      boolean $distinct
-     * @param      ConnectionInterface $con
-     * @return int             Count of related Chamados objects.
-     * @throws PropelException
-     */
-    public function countChamadoss(Criteria $criteria = null, $distinct = false, ConnectionInterface $con = null)
-    {
-        $partial = $this->collChamadossPartial && !$this->isNew();
-        if (null === $this->collChamadoss || null !== $criteria || $partial) {
-            if ($this->isNew() && null === $this->collChamadoss) {
-                return 0;
-            }
-
-            if ($partial && !$criteria) {
-                return count($this->getChamadoss());
-            }
-
-            $query = ChildChamadosQuery::create(null, $criteria);
-            if ($distinct) {
-                $query->distinct();
-            }
-
-            return $query
-                ->filterByUsuarios($this)
-                ->count($con);
-        }
-
-        return count($this->collChamadoss);
-    }
-
-    /**
-     * Method called to associate a ChildChamados object to this object
-     * through the ChildChamados foreign key attribute.
-     *
-     * @param  ChildChamados $l ChildChamados
-     * @return $this|\Usuarios The current object (for fluent API support)
-     */
-    public function addChamados(ChildChamados $l)
-    {
-        if ($this->collChamadoss === null) {
-            $this->initChamadoss();
-            $this->collChamadossPartial = true;
-        }
-
-        if (!$this->collChamadoss->contains($l)) {
-            $this->doAddChamados($l);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param ChildChamados $chamados The ChildChamados object to add.
-     */
-    protected function doAddChamados(ChildChamados $chamados)
-    {
-        $this->collChamadoss[]= $chamados;
-        $chamados->setUsuarios($this);
-    }
-
-    /**
-     * @param  ChildChamados $chamados The ChildChamados object to remove.
-     * @return $this|ChildUsuarios The current object (for fluent API support)
-     */
-    public function removeChamados(ChildChamados $chamados)
-    {
-        if ($this->getChamadoss()->contains($chamados)) {
-            $pos = $this->collChamadoss->search($chamados);
-            $this->collChamadoss->remove($pos);
-            if (null === $this->chamadossScheduledForDeletion) {
-                $this->chamadossScheduledForDeletion = clone $this->collChamadoss;
-                $this->chamadossScheduledForDeletion->clear();
-            }
-            $this->chamadossScheduledForDeletion[]= $chamados;
-            $chamados->setUsuarios(null);
-        }
-
-        return $this;
-    }
-
     /**
      * Clears the current object, sets all attributes to their default values and removes
      * outgoing references as well as back-references (from other objects to this one. Results probably in a database
@@ -1832,14 +1533,8 @@ abstract class Usuarios implements ActiveRecordInterface
     public function clearAllReferences($deep = false)
     {
         if ($deep) {
-            if ($this->collChamadoss) {
-                foreach ($this->collChamadoss as $o) {
-                    $o->clearAllReferences($deep);
-                }
-            }
         } // if ($deep)
 
-        $this->collChamadoss = null;
         $this->aCliente = null;
     }
 

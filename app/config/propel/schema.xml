@@ -7,7 +7,6 @@
     <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
   </table>
   <table name="chamados" idMethod="native" phpName="Chamados">
-    <column name="usuario_id" phpName="UsuarioId" type="INTEGER"/>
     <column name="updated_at" phpName="UpdatedAt" type="TIMESTAMP" required="true"/>
     <column name="created_at" phpName="CreatedAt" type="TIMESTAMP" required="true"/>
     <column name="data" phpName="Data" type="VARCHAR" size="255" required="true"/>
@@ -15,16 +14,22 @@
     <column name="status" phpName="Status" type="INTEGER" required="true"/>
     <column name="titulo" phpName="Titulo" type="VARCHAR" size="255" required="true"/>
     <column name="categoria" phpName="Categoria" type="INTEGER" required="true"/>
+    <column name="usuario" phpName="Usuario" type="VARCHAR" size="255" required="true"/>
     <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
-    <foreign-key foreignTable="usuarios" name="chamados_idusuario_fkey">
-      <reference local="usuario_id" foreign="id"/>
-    </foreign-key>
   </table>
   <table name="cliente" idMethod="native" phpName="Cliente">
     <column name="email" phpName="Email" type="VARCHAR" size="200"/>
     <column name="ativo" phpName="Ativo" type="BOOLEAN" size="1" defaultValue="false"/>
     <column name="nome" phpName="Nome" type="VARCHAR" size="255"/>
     <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+  </table>
+  <table name="cliente_pgtos" idMethod="native" phpName="ClientePgtos">
+    <column name="idproduto" phpName="Idproduto" type="INTEGER"/>
+    <column name="valor" phpName="Valor" type="DECIMAL" size="10" scale="2"/>
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <foreign-key foreignTable="produtos" name="cliente_pgtos_idproduto_fkey">
+      <reference local="idproduto" foreign="id"/>
+    </foreign-key>
   </table>
   <table name="idoc" idMethod="native" phpName="Idoc">
     <column name="file" phpName="File" type="VARCHAR" size="255"/>
@@ -58,6 +63,11 @@
     <index name="password_reminders_token_index">
       <index-column name="token" size="255"/>
     </index>
+  </table>
+  <table name="produtos" idMethod="native" phpName="Produtos">
+    <column name="valor" phpName="Valor" type="DECIMAL" size="10" scale="2"/>
+    <column name="nome" phpName="Nome" type="VARCHAR" size="200"/>
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
   </table>
   <table name="status_chamados" idMethod="native" phpName="StatusChamados">
     <column name="updated_at" phpName="UpdatedAt" type="TIMESTAMP" required="true"/>
