@@ -68,7 +68,7 @@ class TabelaUsuarioClienteSeeder extends Seeder {
         Usuario::create(array(            
             'email' => 'cliente@cliente.com.br',
             'senha' => Hash::make('cliente'),
-            'nome'  => 'Administrador',
+            'nome'  => 'Cliente',
             'tipo'  => 'cliente',
             'idcliente' => 1
         ));
@@ -184,6 +184,14 @@ class TabelaPgtoSeeder extends Seeder {
             $oCliente->setValor(180);
             $oCliente->setIdcliente(1);
             $oCliente->setIdproduto(1);
+            $oCliente->setIdMoeda(1);
+            $oCliente->save();            
+            
+            $oCliente =  new ClientePgtos();
+            $oCliente->setDescricao("Remocao de mouse");
+            $oCliente->setValor(111);
+            $oCliente->setIdcliente(1);
+            $oCliente->setIdproduto(null);
             $oCliente->setIdMoeda(1);
             $oCliente->save();            
         }

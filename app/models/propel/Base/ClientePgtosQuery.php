@@ -20,12 +20,18 @@ use Propel\Runtime\Exception\PropelException;
  *
  *
  *
+ * @method     ChildClientePgtosQuery orderByNota($order = Criteria::ASC) Order by the nota column
+ * @method     ChildClientePgtosQuery orderByIspaid($order = Criteria::ASC) Order by the ispaid column
+ * @method     ChildClientePgtosQuery orderByDescricao($order = Criteria::ASC) Order by the descricao column
  * @method     ChildClientePgtosQuery orderByIdmoeda($order = Criteria::ASC) Order by the idmoeda column
  * @method     ChildClientePgtosQuery orderByIdcliente($order = Criteria::ASC) Order by the idcliente column
  * @method     ChildClientePgtosQuery orderByIdproduto($order = Criteria::ASC) Order by the idproduto column
  * @method     ChildClientePgtosQuery orderByValor($order = Criteria::ASC) Order by the valor column
  * @method     ChildClientePgtosQuery orderById($order = Criteria::ASC) Order by the id column
  *
+ * @method     ChildClientePgtosQuery groupByNota() Group by the nota column
+ * @method     ChildClientePgtosQuery groupByIspaid() Group by the ispaid column
+ * @method     ChildClientePgtosQuery groupByDescricao() Group by the descricao column
  * @method     ChildClientePgtosQuery groupByIdmoeda() Group by the idmoeda column
  * @method     ChildClientePgtosQuery groupByIdcliente() Group by the idcliente column
  * @method     ChildClientePgtosQuery groupByIdproduto() Group by the idproduto column
@@ -53,6 +59,9 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildClientePgtos findOne(ConnectionInterface $con = null) Return the first ChildClientePgtos matching the query
  * @method     ChildClientePgtos findOneOrCreate(ConnectionInterface $con = null) Return the first ChildClientePgtos matching the query, or a new ChildClientePgtos object populated from the query conditions when no match is found
  *
+ * @method     ChildClientePgtos findOneByNota(string $nota) Return the first ChildClientePgtos filtered by the nota column
+ * @method     ChildClientePgtos findOneByIspaid(boolean $ispaid) Return the first ChildClientePgtos filtered by the ispaid column
+ * @method     ChildClientePgtos findOneByDescricao(string $descricao) Return the first ChildClientePgtos filtered by the descricao column
  * @method     ChildClientePgtos findOneByIdmoeda(int $idmoeda) Return the first ChildClientePgtos filtered by the idmoeda column
  * @method     ChildClientePgtos findOneByIdcliente(int $idcliente) Return the first ChildClientePgtos filtered by the idcliente column
  * @method     ChildClientePgtos findOneByIdproduto(int $idproduto) Return the first ChildClientePgtos filtered by the idproduto column
@@ -60,6 +69,9 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildClientePgtos findOneById(int $id) Return the first ChildClientePgtos filtered by the id column
  *
  * @method     ChildClientePgtos[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildClientePgtos objects based on current ModelCriteria
+ * @method     ChildClientePgtos[]|ObjectCollection findByNota(string $nota) Return ChildClientePgtos objects filtered by the nota column
+ * @method     ChildClientePgtos[]|ObjectCollection findByIspaid(boolean $ispaid) Return ChildClientePgtos objects filtered by the ispaid column
+ * @method     ChildClientePgtos[]|ObjectCollection findByDescricao(string $descricao) Return ChildClientePgtos objects filtered by the descricao column
  * @method     ChildClientePgtos[]|ObjectCollection findByIdmoeda(int $idmoeda) Return ChildClientePgtos objects filtered by the idmoeda column
  * @method     ChildClientePgtos[]|ObjectCollection findByIdcliente(int $idcliente) Return ChildClientePgtos objects filtered by the idcliente column
  * @method     ChildClientePgtos[]|ObjectCollection findByIdproduto(int $idproduto) Return ChildClientePgtos objects filtered by the idproduto column
@@ -156,7 +168,7 @@ abstract class ClientePgtosQuery extends ModelCriteria
      */
     protected function findPkSimple($key, ConnectionInterface $con)
     {
-        $sql = 'SELECT idmoeda, idcliente, idproduto, valor, id FROM cliente_pgtos WHERE id = :p0';
+        $sql = 'SELECT nota, ispaid, descricao, idmoeda, idcliente, idproduto, valor, id FROM cliente_pgtos WHERE id = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -244,6 +256,91 @@ abstract class ClientePgtosQuery extends ModelCriteria
     {
 
         return $this->addUsingAlias(ClientePgtosTableMap::COL_ID, $keys, Criteria::IN);
+    }
+
+    /**
+     * Filter the query on the nota column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByNota('fooValue');   // WHERE nota = 'fooValue'
+     * $query->filterByNota('%fooValue%'); // WHERE nota LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $nota The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildClientePgtosQuery The current query, for fluid interface
+     */
+    public function filterByNota($nota = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($nota)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $nota)) {
+                $nota = str_replace('*', '%', $nota);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(ClientePgtosTableMap::COL_NOTA, $nota, $comparison);
+    }
+
+    /**
+     * Filter the query on the ispaid column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByIspaid(true); // WHERE ispaid = true
+     * $query->filterByIspaid('yes'); // WHERE ispaid = true
+     * </code>
+     *
+     * @param     boolean|string $ispaid The value to use as filter.
+     *              Non-boolean arguments are converted using the following rules:
+     *                * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
+     *                * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
+     *              Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildClientePgtosQuery The current query, for fluid interface
+     */
+    public function filterByIspaid($ispaid = null, $comparison = null)
+    {
+        if (is_string($ispaid)) {
+            $ispaid = in_array(strtolower($ispaid), array('false', 'off', '-', 'no', 'n', '0', '')) ? false : true;
+        }
+
+        return $this->addUsingAlias(ClientePgtosTableMap::COL_ISPAID, $ispaid, $comparison);
+    }
+
+    /**
+     * Filter the query on the descricao column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByDescricao('fooValue');   // WHERE descricao = 'fooValue'
+     * $query->filterByDescricao('%fooValue%'); // WHERE descricao LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $descricao The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildClientePgtosQuery The current query, for fluid interface
+     */
+    public function filterByDescricao($descricao = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($descricao)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $descricao)) {
+                $descricao = str_replace('*', '%', $descricao);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(ClientePgtosTableMap::COL_DESCRICAO, $descricao, $comparison);
     }
 
     /**

@@ -24,6 +24,9 @@
     <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
   </table>
   <table name="cliente_pgtos" idMethod="native" phpName="ClientePgtos">
+    <column name="nota" phpName="Nota" type="VARCHAR" size="200"/>
+    <column name="ispaid" phpName="Ispaid" type="BOOLEAN" size="1" defaultValue="false"/>
+    <column name="descricao" phpName="Descricao" type="VARCHAR" size="200"/>
     <column name="idmoeda" phpName="Idmoeda" type="INTEGER"/>
     <column name="idcliente" phpName="Idcliente" type="INTEGER"/>
     <column name="idproduto" phpName="Idproduto" type="INTEGER"/>

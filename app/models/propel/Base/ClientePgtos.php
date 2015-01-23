@@ -66,6 +66,25 @@ abstract class ClientePgtos implements ActiveRecordInterface
     protected $virtualColumns = array();
 
     /**
+     * The value for the nota field.
+     * @var        string
+     */
+    protected $nota;
+
+    /**
+     * The value for the ispaid field.
+     * Note: this column has a database default value of: false
+     * @var        boolean
+     */
+    protected $ispaid;
+
+    /**
+     * The value for the descricao field.
+     * @var        string
+     */
+    protected $descricao;
+
+    /**
      * The value for the idmoeda field.
      * @var        int
      */
@@ -119,10 +138,23 @@ abstract class ClientePgtos implements ActiveRecordInterface
     protected $alreadyInSave = false;
 
     /**
+     * Applies default values to this object.
+     * This method should be called from the object's constructor (or
+     * equivalent initialization method).
+     * @see __construct()
+     */
+    public function applyDefaultValues()
+    {
+        $this->ispaid = false;
+    }
+
+    /**
      * Initializes internal state of Base\ClientePgtos object.
+     * @see applyDefaults()
      */
     public function __construct()
     {
+        $this->applyDefaultValues();
     }
 
     /**
@@ -336,6 +368,46 @@ abstract class ClientePgtos implements ActiveRecordInterface
     }
 
     /**
+     * Get the [nota] column value.
+     *
+     * @return string
+     */
+    public function getNota()
+    {
+        return $this->nota;
+    }
+
+    /**
+     * Get the [ispaid] column value.
+     *
+     * @return boolean
+     */
+    public function getIspaid()
+    {
+        return $this->ispaid;
+    }
+
+    /**
+     * Get the [ispaid] column value.
+     *
+     * @return boolean
+     */
+    public function isIspaid()
+    {
+        return $this->getIspaid();
+    }
+
+    /**
+     * Get the [descricao] column value.
+     *
+     * @return string
+     */
+    public function getDescricao()
+    {
+        return $this->descricao;
+    }
+
+    /**
      * Get the [idmoeda] column value.
      *
      * @return int
@@ -384,6 +456,74 @@ abstract class ClientePgtos implements ActiveRecordInterface
     {
         return $this->id;
     }
+
+    /**
+     * Set the value of [nota] column.
+     *
+     * @param  string $v new value
+     * @return $this|\ClientePgtos The current object (for fluent API support)
+     */
+    public function setNota($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->nota !== $v) {
+            $this->nota = $v;
+            $this->modifiedColumns[ClientePgtosTableMap::COL_NOTA] = true;
+        }
+
+        return $this;
+    } // setNota()
+
+    /**
+     * Sets the value of the [ispaid] column.
+     * Non-boolean arguments are converted using the following rules:
+     *   * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
+     *   * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
+     * Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
+     *
+     * @param  boolean|integer|string $v The new value
+     * @return $this|\ClientePgtos The current object (for fluent API support)
+     */
+    public function setIspaid($v)
+    {
+        if ($v !== null) {
+            if (is_string($v)) {
+                $v = in_array(strtolower($v), array('false', 'off', '-', 'no', 'n', '0', '')) ? false : true;
+            } else {
+                $v = (boolean) $v;
+            }
+        }
+
+        if ($this->ispaid !== $v) {
+            $this->ispaid = $v;
+            $this->modifiedColumns[ClientePgtosTableMap::COL_ISPAID] = true;
+        }
+
+        return $this;
+    } // setIspaid()
+
+    /**
+     * Set the value of [descricao] column.
+     *
+     * @param  string $v new value
+     * @return $this|\ClientePgtos The current object (for fluent API support)
+     */
+    public function setDescricao($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->descricao !== $v) {
+            $this->descricao = $v;
+            $this->modifiedColumns[ClientePgtosTableMap::COL_DESCRICAO] = true;
+        }
+
+        return $this;
+    } // setDescricao()
 
     /**
      * Set the value of [idmoeda] column.
@@ -507,6 +647,10 @@ abstract class ClientePgtos implements ActiveRecordInterface
      */
     public function hasOnlyDefaultValues()
     {
+            if ($this->ispaid !== false) {
+                return false;
+            }
+
         // otherwise, everything was equal, so return TRUE
         return true;
     } // hasOnlyDefaultValues()
@@ -533,19 +677,28 @@ abstract class ClientePgtos implements ActiveRecordInterface
     {
         try {
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : ClientePgtosTableMap::translateFieldName('Idmoeda', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : ClientePgtosTableMap::translateFieldName('Nota', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->nota = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : ClientePgtosTableMap::translateFieldName('Ispaid', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->ispaid = (null !== $col) ? (boolean) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : ClientePgtosTableMap::translateFieldName('Descricao', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->descricao = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : ClientePgtosTableMap::translateFieldName('Idmoeda', TableMap::TYPE_PHPNAME, $indexType)];
             $this->idmoeda = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : ClientePgtosTableMap::translateFieldName('Idcliente', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : ClientePgtosTableMap::translateFieldName('Idcliente', TableMap::TYPE_PHPNAME, $indexType)];
             $this->idcliente = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : ClientePgtosTableMap::translateFieldName('Idproduto', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : ClientePgtosTableMap::translateFieldName('Idproduto', TableMap::TYPE_PHPNAME, $indexType)];
             $this->idproduto = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : ClientePgtosTableMap::translateFieldName('Valor', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 6 + $startcol : ClientePgtosTableMap::translateFieldName('Valor', TableMap::TYPE_PHPNAME, $indexType)];
             $this->valor = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : ClientePgtosTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 7 + $startcol : ClientePgtosTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
             $this->id = (null !== $col) ? (int) $col : null;
             $this->resetModified();
 
@@ -555,7 +708,7 @@ abstract class ClientePgtos implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 5; // 5 = ClientePgtosTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 8; // 8 = ClientePgtosTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException(sprintf('Error populating %s object', '\\ClientePgtos'), 0, $e);
@@ -799,6 +952,15 @@ abstract class ClientePgtos implements ActiveRecordInterface
 
 
          // check the columns in natural order for more readable SQL queries
+        if ($this->isColumnModified(ClientePgtosTableMap::COL_NOTA)) {
+            $modifiedColumns[':p' . $index++]  = 'nota';
+        }
+        if ($this->isColumnModified(ClientePgtosTableMap::COL_ISPAID)) {
+            $modifiedColumns[':p' . $index++]  = 'ispaid';
+        }
+        if ($this->isColumnModified(ClientePgtosTableMap::COL_DESCRICAO)) {
+            $modifiedColumns[':p' . $index++]  = 'descricao';
+        }
         if ($this->isColumnModified(ClientePgtosTableMap::COL_IDMOEDA)) {
             $modifiedColumns[':p' . $index++]  = 'idmoeda';
         }
@@ -825,6 +987,15 @@ abstract class ClientePgtos implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
+                    case 'nota':
+                        $stmt->bindValue($identifier, $this->nota, PDO::PARAM_STR);
+                        break;
+                    case 'ispaid':
+                        $stmt->bindValue($identifier, $this->ispaid, PDO::PARAM_BOOL);
+                        break;
+                    case 'descricao':
+                        $stmt->bindValue($identifier, $this->descricao, PDO::PARAM_STR);
+                        break;
                     case 'idmoeda':
                         $stmt->bindValue($identifier, $this->idmoeda, PDO::PARAM_INT);
                         break;
@@ -896,18 +1067,27 @@ abstract class ClientePgtos implements ActiveRecordInterface
     {
         switch ($pos) {
             case 0:
-                return $this->getIdmoeda();
+                return $this->getNota();
                 break;
             case 1:
-                return $this->getIdcliente();
+                return $this->getIspaid();
                 break;
             case 2:
-                return $this->getIdproduto();
+                return $this->getDescricao();
                 break;
             case 3:
-                return $this->getValor();
+                return $this->getIdmoeda();
                 break;
             case 4:
+                return $this->getIdcliente();
+                break;
+            case 5:
+                return $this->getIdproduto();
+                break;
+            case 6:
+                return $this->getValor();
+                break;
+            case 7:
                 return $this->getId();
                 break;
             default:
@@ -940,11 +1120,14 @@ abstract class ClientePgtos implements ActiveRecordInterface
         $alreadyDumpedObjects['ClientePgtos'][$this->hashCode()] = true;
         $keys = ClientePgtosTableMap::getFieldNames($keyType);
         $result = array(
-            $keys[0] => $this->getIdmoeda(),
-            $keys[1] => $this->getIdcliente(),
-            $keys[2] => $this->getIdproduto(),
-            $keys[3] => $this->getValor(),
-            $keys[4] => $this->getId(),
+            $keys[0] => $this->getNota(),
+            $keys[1] => $this->getIspaid(),
+            $keys[2] => $this->getDescricao(),
+            $keys[3] => $this->getIdmoeda(),
+            $keys[4] => $this->getIdcliente(),
+            $keys[5] => $this->getIdproduto(),
+            $keys[6] => $this->getValor(),
+            $keys[7] => $this->getId(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -1032,18 +1215,27 @@ abstract class ClientePgtos implements ActiveRecordInterface
     {
         switch ($pos) {
             case 0:
-                $this->setIdmoeda($value);
+                $this->setNota($value);
                 break;
             case 1:
-                $this->setIdcliente($value);
+                $this->setIspaid($value);
                 break;
             case 2:
-                $this->setIdproduto($value);
+                $this->setDescricao($value);
                 break;
             case 3:
-                $this->setValor($value);
+                $this->setIdmoeda($value);
                 break;
             case 4:
+                $this->setIdcliente($value);
+                break;
+            case 5:
+                $this->setIdproduto($value);
+                break;
+            case 6:
+                $this->setValor($value);
+                break;
+            case 7:
                 $this->setId($value);
                 break;
         } // switch()
@@ -1073,19 +1265,28 @@ abstract class ClientePgtos implements ActiveRecordInterface
         $keys = ClientePgtosTableMap::getFieldNames($keyType);
 
         if (array_key_exists($keys[0], $arr)) {
-            $this->setIdmoeda($arr[$keys[0]]);
+            $this->setNota($arr[$keys[0]]);
         }
         if (array_key_exists($keys[1], $arr)) {
-            $this->setIdcliente($arr[$keys[1]]);
+            $this->setIspaid($arr[$keys[1]]);
         }
         if (array_key_exists($keys[2], $arr)) {
-            $this->setIdproduto($arr[$keys[2]]);
+            $this->setDescricao($arr[$keys[2]]);
         }
         if (array_key_exists($keys[3], $arr)) {
-            $this->setValor($arr[$keys[3]]);
+            $this->setIdmoeda($arr[$keys[3]]);
         }
         if (array_key_exists($keys[4], $arr)) {
-            $this->setId($arr[$keys[4]]);
+            $this->setIdcliente($arr[$keys[4]]);
+        }
+        if (array_key_exists($keys[5], $arr)) {
+            $this->setIdproduto($arr[$keys[5]]);
+        }
+        if (array_key_exists($keys[6], $arr)) {
+            $this->setValor($arr[$keys[6]]);
+        }
+        if (array_key_exists($keys[7], $arr)) {
+            $this->setId($arr[$keys[7]]);
         }
     }
 
@@ -1128,6 +1329,15 @@ abstract class ClientePgtos implements ActiveRecordInterface
     {
         $criteria = new Criteria(ClientePgtosTableMap::DATABASE_NAME);
 
+        if ($this->isColumnModified(ClientePgtosTableMap::COL_NOTA)) {
+            $criteria->add(ClientePgtosTableMap::COL_NOTA, $this->nota);
+        }
+        if ($this->isColumnModified(ClientePgtosTableMap::COL_ISPAID)) {
+            $criteria->add(ClientePgtosTableMap::COL_ISPAID, $this->ispaid);
+        }
+        if ($this->isColumnModified(ClientePgtosTableMap::COL_DESCRICAO)) {
+            $criteria->add(ClientePgtosTableMap::COL_DESCRICAO, $this->descricao);
+        }
         if ($this->isColumnModified(ClientePgtosTableMap::COL_IDMOEDA)) {
             $criteria->add(ClientePgtosTableMap::COL_IDMOEDA, $this->idmoeda);
         }
@@ -1229,6 +1439,9 @@ abstract class ClientePgtos implements ActiveRecordInterface
      */
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
+        $copyObj->setNota($this->getNota());
+        $copyObj->setIspaid($this->getIspaid());
+        $copyObj->setDescricao($this->getDescricao());
         $copyObj->setIdmoeda($this->getIdmoeda());
         $copyObj->setIdcliente($this->getIdcliente());
         $copyObj->setIdproduto($this->getIdproduto());
@@ -1430,6 +1643,9 @@ abstract class ClientePgtos implements ActiveRecordInterface
         if (null !== $this->aProdutos) {
             $this->aProdutos->removeClientePgtos($this);
         }
+        $this->nota = null;
+        $this->ispaid = null;
+        $this->descricao = null;
         $this->idmoeda = null;
         $this->idcliente = null;
         $this->idproduto = null;
@@ -1437,6 +1653,7 @@ abstract class ClientePgtos implements ActiveRecordInterface
         $this->id = null;
         $this->alreadyInSave = false;
         $this->clearAllReferences();
+        $this->applyDefaultValues();
         $this->resetModified();
         $this->setNew(true);
         $this->setDeleted(false);

@@ -19,7 +19,11 @@
        {{ Session::get('message-erro') }}
     </div>
     @endif
-    
+
+    @if(Auth::user()->tipo == 'admin')
+        <a href="/financeiro/novo-lancamento" class="btn btn-primary btn-large"><i class="icon-white icon-plus"></i> Novo Lançamento</a>
+    @endif
+
 <div class="table-responsive">
   <table class="table">
       <thead>
@@ -35,7 +39,7 @@
               @if($pgto->getIdproduto())
                 <td scope="row">{{ $pgto->getProdutos()->getNome() }}</td>
               @else
-                <td scope="row">-</td>
+                <td scope="row">{{ $pgto->getDescricao() }}</td>
               @endif
               <td scope="row">{{ $pgto->getMoeda()->getSimbolo() }} {{ $pgto->getValor() }}</td>
               <td scope="row">-</td>              

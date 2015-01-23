@@ -38,6 +38,8 @@ Route::group(array('before' => 'auth'), function()
     Route::get('/cliente/excluir-login/{id}/{idCli}', 'ClienteController@excluirLogin');
     
     Route::get('/financeiro', 'FinanceiroController@index');
+    Route::get('/financeiro/novo-lancamento', 'FinanceiroController@novoLancamento');
+    Route::post('/financeiro/salvar-lancamento', 'FinanceiroController@salvarLancamento');
     
     
 
