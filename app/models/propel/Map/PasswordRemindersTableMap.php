@@ -73,9 +73,15 @@ class PasswordRemindersTableMap extends TableMap
     const NUM_HYDRATE_COLUMNS = 3;
 
     /**
+<<<<<<< HEAD
      * the column name for the email field
      */
     const COL_EMAIL = 'password_reminders.email';
+=======
+     * the column name for the created_at field
+     */
+    const COL_CREATED_AT = 'password_reminders.created_at';
+>>>>>>> b8d39d004e8d70d7608919c9d53d0e5ce0f95c9b
 
     /**
      * the column name for the token field
@@ -83,9 +89,15 @@ class PasswordRemindersTableMap extends TableMap
     const COL_TOKEN = 'password_reminders.token';
 
     /**
+<<<<<<< HEAD
      * the column name for the created_at field
      */
     const COL_CREATED_AT = 'password_reminders.created_at';
+=======
+     * the column name for the email field
+     */
+    const COL_EMAIL = 'password_reminders.email';
+>>>>>>> b8d39d004e8d70d7608919c9d53d0e5ce0f95c9b
 
     /**
      * The default string format for model objects of the related table
@@ -99,10 +111,17 @@ class PasswordRemindersTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
+<<<<<<< HEAD
         self::TYPE_PHPNAME       => array('Email', 'Token', 'CreatedAt', ),
         self::TYPE_CAMELNAME     => array('email', 'token', 'createdAt', ),
         self::TYPE_COLNAME       => array(PasswordRemindersTableMap::COL_EMAIL, PasswordRemindersTableMap::COL_TOKEN, PasswordRemindersTableMap::COL_CREATED_AT, ),
         self::TYPE_FIELDNAME     => array('email', 'token', 'created_at', ),
+=======
+        self::TYPE_PHPNAME       => array('CreatedAt', 'Token', 'Email', ),
+        self::TYPE_CAMELNAME     => array('createdAt', 'token', 'email', ),
+        self::TYPE_COLNAME       => array(PasswordRemindersTableMap::COL_CREATED_AT, PasswordRemindersTableMap::COL_TOKEN, PasswordRemindersTableMap::COL_EMAIL, ),
+        self::TYPE_FIELDNAME     => array('created_at', 'token', 'email', ),
+>>>>>>> b8d39d004e8d70d7608919c9d53d0e5ce0f95c9b
         self::TYPE_NUM           => array(0, 1, 2, )
     );
 
@@ -113,10 +132,17 @@ class PasswordRemindersTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
+<<<<<<< HEAD
         self::TYPE_PHPNAME       => array('Email' => 0, 'Token' => 1, 'CreatedAt' => 2, ),
         self::TYPE_CAMELNAME     => array('email' => 0, 'token' => 1, 'createdAt' => 2, ),
         self::TYPE_COLNAME       => array(PasswordRemindersTableMap::COL_EMAIL => 0, PasswordRemindersTableMap::COL_TOKEN => 1, PasswordRemindersTableMap::COL_CREATED_AT => 2, ),
         self::TYPE_FIELDNAME     => array('email' => 0, 'token' => 1, 'created_at' => 2, ),
+=======
+        self::TYPE_PHPNAME       => array('CreatedAt' => 0, 'Token' => 1, 'Email' => 2, ),
+        self::TYPE_CAMELNAME     => array('createdAt' => 0, 'token' => 1, 'email' => 2, ),
+        self::TYPE_COLNAME       => array(PasswordRemindersTableMap::COL_CREATED_AT => 0, PasswordRemindersTableMap::COL_TOKEN => 1, PasswordRemindersTableMap::COL_EMAIL => 2, ),
+        self::TYPE_FIELDNAME     => array('created_at' => 0, 'token' => 1, 'email' => 2, ),
+>>>>>>> b8d39d004e8d70d7608919c9d53d0e5ce0f95c9b
         self::TYPE_NUM           => array(0, 1, 2, )
     );
 
@@ -137,9 +163,15 @@ class PasswordRemindersTableMap extends TableMap
         $this->setPackage('');
         $this->setUseIdGenerator(false);
         // columns
+<<<<<<< HEAD
         $this->addColumn('email', 'Email', 'VARCHAR', true, 255, null);
         $this->addColumn('token', 'Token', 'VARCHAR', true, 255, null);
         $this->addColumn('created_at', 'CreatedAt', 'TIMESTAMP', true, null, null);
+=======
+        $this->addColumn('created_at', 'CreatedAt', 'TIMESTAMP', true, null, null);
+        $this->addColumn('token', 'Token', 'VARCHAR', true, 255, null);
+        $this->addColumn('email', 'Email', 'VARCHAR', true, 255, null);
+>>>>>>> b8d39d004e8d70d7608919c9d53d0e5ce0f95c9b
     } // initialize()
 
     /**
@@ -281,6 +313,7 @@ class PasswordRemindersTableMap extends TableMap
     public static function addSelectColumns(Criteria $criteria, $alias = null)
     {
         if (null === $alias) {
+<<<<<<< HEAD
             $criteria->addSelectColumn(PasswordRemindersTableMap::COL_EMAIL);
             $criteria->addSelectColumn(PasswordRemindersTableMap::COL_TOKEN);
             $criteria->addSelectColumn(PasswordRemindersTableMap::COL_CREATED_AT);
@@ -288,6 +321,15 @@ class PasswordRemindersTableMap extends TableMap
             $criteria->addSelectColumn($alias . '.email');
             $criteria->addSelectColumn($alias . '.token');
             $criteria->addSelectColumn($alias . '.created_at');
+=======
+            $criteria->addSelectColumn(PasswordRemindersTableMap::COL_CREATED_AT);
+            $criteria->addSelectColumn(PasswordRemindersTableMap::COL_TOKEN);
+            $criteria->addSelectColumn(PasswordRemindersTableMap::COL_EMAIL);
+        } else {
+            $criteria->addSelectColumn($alias . '.created_at');
+            $criteria->addSelectColumn($alias . '.token');
+            $criteria->addSelectColumn($alias . '.email');
+>>>>>>> b8d39d004e8d70d7608919c9d53d0e5ce0f95c9b
         }
     }
 

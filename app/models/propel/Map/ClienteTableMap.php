@@ -153,8 +153,9 @@ class ClienteTableMap extends TableMap
      */
     public function buildRelations()
     {
+        $this->addRelation('ClientePgtos', '\\ClientePgtos', RelationMap::ONE_TO_MANY, array('id' => 'idcliente', ), null, null, 'ClientePgtoss');
         $this->addRelation('Idoc', '\\Idoc', RelationMap::ONE_TO_MANY, array('id' => 'idcliente', ), 'CASCADE', 'CASCADE', 'Idocs');
-        $this->addRelation('Usuarios', '\\Usuarios', RelationMap::ONE_TO_MANY, array('id' => 'idcliente', ), 'RESTRICT', 'RESTRICT', 'Usuarioss');
+        $this->addRelation('Usuarios', '\\Usuarios', RelationMap::ONE_TO_MANY, array('id' => 'idcliente', ), null, null, 'Usuarioss');
     } // buildRelations()
     /**
      * Method to invalidate the instance pool of all tables related to cliente     * by a foreign key with ON DELETE CASCADE
