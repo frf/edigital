@@ -135,7 +135,10 @@ CREATE TABLE cliente_pgtos (
     valor numeric(10,2),
     idproduto integer,
     idcliente integer,
-    idmoeda integer
+    idmoeda integer,
+    descricao character varying(200),
+    ispaid boolean DEFAULT false,
+    nota character varying(200)
 );
 
 
@@ -492,14 +495,17 @@ SELECT pg_catalog.setval('cliente_id_seq', 1, true);
 -- Data for Name: cliente_pgtos; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-INSERT INTO cliente_pgtos VALUES (13, 180.00, 1, 1, 1);
+INSERT INTO cliente_pgtos VALUES (15, 180.00, 1, 1, 1, NULL, false, NULL);
+INSERT INTO cliente_pgtos VALUES (16, 111.00, NULL, 1, 1, 'Remocao de mouse', false, NULL);
+INSERT INTO cliente_pgtos VALUES (17, 100.00, NULL, 1, 1, 'Remocao de virus', true, '1_aff73827b36764c6c511dcc3f6dbeac4');
+INSERT INTO cliente_pgtos VALUES (18, 123.58, NULL, 1, 1, 'Troca de Teclado', true, '1_df9ea5e721a070c0cac00526a507e979');
 
 
 --
 -- Name: cliente_pgtos_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('cliente_pgtos_id_seq', 13, true);
+SELECT pg_catalog.setval('cliente_pgtos_id_seq', 18, true);
 
 
 --
@@ -591,8 +597,8 @@ SELECT pg_catalog.setval('status_chamados_id_seq', 1, false);
 -- Data for Name: usuarios; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-INSERT INTO usuarios VALUES (1, 'cliente@cliente.com.br', '$2y$10$1poaa6.E3UjsDmCiPp6FuOkM8X52N6Db5JGqkSXqxeK.IPxQ9KFPy', 'Administrador', 'cliente', NULL, '2015-01-23 15:34:35', '2015-01-23 15:34:35', 1);
-INSERT INTO usuarios VALUES (2, 'admin@edigital.com.br', '$2y$10$96Lo73XGP.bhPdaCKk6SpOW61g4OifjQT/Xxy3AAd6k/3nPUrAA6.', 'Administrador', 'admin', NULL, '2015-01-23 15:34:35', '2015-01-23 15:34:35', NULL);
+INSERT INTO usuarios VALUES (1, 'cliente@cliente.com.br', '$2y$10$AthyydEb/ar2cnkppjQ8t..yBaZL/yhQfwJrH0qKEo0zDV4IpC2/6', 'Cliente', 'cliente', NULL, '2015-01-23 15:47:46', '2015-01-23 15:47:46', 1);
+INSERT INTO usuarios VALUES (2, 'admin@edigital.com.br', '$2y$10$/SRBYYXdz/J61U8kvPOybOGBGoq6ps1767aVq0rODf7xI9NMjFPF.', 'Administrador', 'admin', NULL, '2015-01-23 15:47:46', '2015-01-23 15:47:46', NULL);
 
 
 --
