@@ -20,7 +20,8 @@ class FinanceiroController extends BaseController {
 	{
       
           $dados['nomeEmpresa'] = "RBX Contabilidade";
-          $dados['nomeUsuario'] = "Fulano";
+          $dados['nomeUsuario'] = Base\ClientePgtosQuery::create()->find();
+          
           
           return View::make('financeiro.index',$dados);
 	}

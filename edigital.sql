@@ -133,7 +133,8 @@ ALTER SEQUENCE cliente_id_seq OWNED BY cliente.id;
 CREATE TABLE cliente_pgtos (
     id integer NOT NULL,
     valor numeric(10,2),
-    idproduto integer
+    idproduto integer,
+    idcliente integer
 );
 
 
@@ -629,6 +630,14 @@ CREATE INDEX password_reminders_email_index ON password_reminders USING btree (e
 --
 
 CREATE INDEX password_reminders_token_index ON password_reminders USING btree (token);
+
+
+--
+-- Name: cliente_pgtos_idcliente_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY cliente_pgtos
+    ADD CONSTRAINT cliente_pgtos_idcliente_fkey FOREIGN KEY (idcliente) REFERENCES cliente(id);
 
 
 --

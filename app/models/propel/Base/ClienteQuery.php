@@ -34,6 +34,10 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildClienteQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method     ChildClienteQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
+ * @method     ChildClienteQuery leftJoinClientePgtos($relationAlias = null) Adds a LEFT JOIN clause to the query using the ClientePgtos relation
+ * @method     ChildClienteQuery rightJoinClientePgtos($relationAlias = null) Adds a RIGHT JOIN clause to the query using the ClientePgtos relation
+ * @method     ChildClienteQuery innerJoinClientePgtos($relationAlias = null) Adds a INNER JOIN clause to the query using the ClientePgtos relation
+ *
  * @method     ChildClienteQuery leftJoinIdoc($relationAlias = null) Adds a LEFT JOIN clause to the query using the Idoc relation
  * @method     ChildClienteQuery rightJoinIdoc($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Idoc relation
  * @method     ChildClienteQuery innerJoinIdoc($relationAlias = null) Adds a INNER JOIN clause to the query using the Idoc relation
@@ -42,7 +46,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildClienteQuery rightJoinUsuarios($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Usuarios relation
  * @method     ChildClienteQuery innerJoinUsuarios($relationAlias = null) Adds a INNER JOIN clause to the query using the Usuarios relation
  *
- * @method     \IdocQuery|\UsuariosQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
+ * @method     \ClientePgtosQuery|\IdocQuery|\UsuariosQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
  * @method     ChildCliente findOne(ConnectionInterface $con = null) Return the first ChildCliente matching the query
  * @method     ChildCliente findOneOrCreate(ConnectionInterface $con = null) Return the first ChildCliente matching the query, or a new ChildCliente object populated from the query conditions when no match is found
@@ -362,6 +366,79 @@ abstract class ClienteQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(ClienteTableMap::COL_ID, $id, $comparison);
+    }
+
+    /**
+     * Filter the query by a related \ClientePgtos object
+     *
+     * @param \ClientePgtos|ObjectCollection $clientePgtos  the related object to use as filter
+     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildClienteQuery The current query, for fluid interface
+     */
+    public function filterByClientePgtos($clientePgtos, $comparison = null)
+    {
+        if ($clientePgtos instanceof \ClientePgtos) {
+            return $this
+                ->addUsingAlias(ClienteTableMap::COL_ID, $clientePgtos->getIdcliente(), $comparison);
+        } elseif ($clientePgtos instanceof ObjectCollection) {
+            return $this
+                ->useClientePgtosQuery()
+                ->filterByPrimaryKeys($clientePgtos->getPrimaryKeys())
+                ->endUse();
+        } else {
+            throw new PropelException('filterByClientePgtos() only accepts arguments of type \ClientePgtos or Collection');
+        }
+    }
+
+    /**
+     * Adds a JOIN clause to the query using the ClientePgtos relation
+     *
+     * @param     string $relationAlias optional alias for the relation
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return $this|ChildClienteQuery The current query, for fluid interface
+     */
+    public function joinClientePgtos($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    {
+        $tableMap = $this->getTableMap();
+        $relationMap = $tableMap->getRelation('ClientePgtos');
+
+        // create a ModelJoin object for this join
+        $join = new ModelJoin();
+        $join->setJoinType($joinType);
+        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+        if ($previousJoin = $this->getPreviousJoin()) {
+            $join->setPreviousJoin($previousJoin);
+        }
+
+        // add the ModelJoin to the current object
+        if ($relationAlias) {
+            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+            $this->addJoinObject($join, $relationAlias);
+        } else {
+            $this->addJoinObject($join, 'ClientePgtos');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Use the ClientePgtos relation ClientePgtos object
+     *
+     * @see useQuery()
+     *
+     * @param     string $relationAlias optional alias for the relation,
+     *                                   to be used as main alias in the secondary query
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return \ClientePgtosQuery A secondary query class using the current class as primary query
+     */
+    public function useClientePgtosQuery($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    {
+        return $this
+            ->joinClientePgtos($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'ClientePgtos', '\ClientePgtosQuery');
     }
 
     /**
