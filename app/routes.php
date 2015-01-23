@@ -36,6 +36,10 @@ Route::group(array('before' => 'auth'), function()
     Route::get('/cliente/ativar/{id}', 'ClienteController@ativar');
     Route::get('/cliente/excluir/{id}', 'ClienteController@excluir');
     Route::get('/cliente/excluir-login/{id}/{idCli}', 'ClienteController@excluirLogin');
+    
+    Route::get('/financeiro', 'FinanceiroController@index');
+    
+    
 
     // Controller AtendimentoController.
     Route::get('/atendimento', 'AtendimentoController@index');

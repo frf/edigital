@@ -4,13 +4,9 @@
 @section('content')
 
 @if(Auth::user()->tipo == 'cliente')
-<h3>Minhas Informações</h3>
+<h3>Financeiro</h3>
 @else
-<h3>Lista de Clientes</h3>
-@endif
-
-@if(Auth::user()->tipo == 'admin')
-    <a href="#" class="btn btn-primary btn-large"><i class="icon-white icon-plus"></i> Novo Cliente</a>
+<h3>Lista Faturas dos Clientes</h3>
 @endif
 
  @if(Session::has('message-sucess'))
@@ -25,11 +21,10 @@
     @endif
     
 <div class="table-responsive">
-    
-   
   <table class="table">
       <thead>
           <tr>
+            <th>Descrição</th>
             <th>Valor</th>
             <th>Ferramentas</th>
           </tr>
@@ -37,7 +32,12 @@
         
         @foreach ($pgtos as $pgto)
             <tr>
-              <td scope="row">{{ $pgto->getValor() }}</td>              
+              @if($pgto->getIdproduto())
+                <td scope="row">{{ $pgto->getProdutos()->getNome() }}</td>
+              @else
+                <td scope="row">-</td>
+              @endif
+              <td scope="row">{{ $pgto->getMoeda()->getSimbolo() }} {{ $pgto->getValor() }}</td>
               <td scope="row">-</td>              
             </tr>
         @endforeach

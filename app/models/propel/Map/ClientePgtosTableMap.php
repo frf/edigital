@@ -59,7 +59,7 @@ class ClientePgtosTableMap extends TableMap
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 4;
+    const NUM_COLUMNS = 5;
 
     /**
      * The number of lazy-loaded columns
@@ -69,7 +69,12 @@ class ClientePgtosTableMap extends TableMap
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
      */
-    const NUM_HYDRATE_COLUMNS = 4;
+    const NUM_HYDRATE_COLUMNS = 5;
+
+    /**
+     * the column name for the idmoeda field
+     */
+    const COL_IDMOEDA = 'cliente_pgtos.idmoeda';
 
     /**
      * the column name for the idcliente field
@@ -103,11 +108,11 @@ class ClientePgtosTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Idcliente', 'Idproduto', 'Valor', 'Id', ),
-        self::TYPE_CAMELNAME     => array('idcliente', 'idproduto', 'valor', 'id', ),
-        self::TYPE_COLNAME       => array(ClientePgtosTableMap::COL_IDCLIENTE, ClientePgtosTableMap::COL_IDPRODUTO, ClientePgtosTableMap::COL_VALOR, ClientePgtosTableMap::COL_ID, ),
-        self::TYPE_FIELDNAME     => array('idcliente', 'idproduto', 'valor', 'id', ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, )
+        self::TYPE_PHPNAME       => array('Idmoeda', 'Idcliente', 'Idproduto', 'Valor', 'Id', ),
+        self::TYPE_CAMELNAME     => array('idmoeda', 'idcliente', 'idproduto', 'valor', 'id', ),
+        self::TYPE_COLNAME       => array(ClientePgtosTableMap::COL_IDMOEDA, ClientePgtosTableMap::COL_IDCLIENTE, ClientePgtosTableMap::COL_IDPRODUTO, ClientePgtosTableMap::COL_VALOR, ClientePgtosTableMap::COL_ID, ),
+        self::TYPE_FIELDNAME     => array('idmoeda', 'idcliente', 'idproduto', 'valor', 'id', ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, )
     );
 
     /**
@@ -117,11 +122,11 @@ class ClientePgtosTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Idcliente' => 0, 'Idproduto' => 1, 'Valor' => 2, 'Id' => 3, ),
-        self::TYPE_CAMELNAME     => array('idcliente' => 0, 'idproduto' => 1, 'valor' => 2, 'id' => 3, ),
-        self::TYPE_COLNAME       => array(ClientePgtosTableMap::COL_IDCLIENTE => 0, ClientePgtosTableMap::COL_IDPRODUTO => 1, ClientePgtosTableMap::COL_VALOR => 2, ClientePgtosTableMap::COL_ID => 3, ),
-        self::TYPE_FIELDNAME     => array('idcliente' => 0, 'idproduto' => 1, 'valor' => 2, 'id' => 3, ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, )
+        self::TYPE_PHPNAME       => array('Idmoeda' => 0, 'Idcliente' => 1, 'Idproduto' => 2, 'Valor' => 3, 'Id' => 4, ),
+        self::TYPE_CAMELNAME     => array('idmoeda' => 0, 'idcliente' => 1, 'idproduto' => 2, 'valor' => 3, 'id' => 4, ),
+        self::TYPE_COLNAME       => array(ClientePgtosTableMap::COL_IDMOEDA => 0, ClientePgtosTableMap::COL_IDCLIENTE => 1, ClientePgtosTableMap::COL_IDPRODUTO => 2, ClientePgtosTableMap::COL_VALOR => 3, ClientePgtosTableMap::COL_ID => 4, ),
+        self::TYPE_FIELDNAME     => array('idmoeda' => 0, 'idcliente' => 1, 'idproduto' => 2, 'valor' => 3, 'id' => 4, ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, )
     );
 
     /**
@@ -142,6 +147,7 @@ class ClientePgtosTableMap extends TableMap
         $this->setUseIdGenerator(true);
         $this->setPrimaryKeyMethodInfo('cliente_pgtos_id_seq');
         // columns
+        $this->addForeignKey('idmoeda', 'Idmoeda', 'INTEGER', 'moeda', 'id', false, null, null);
         $this->addForeignKey('idcliente', 'Idcliente', 'INTEGER', 'cliente', 'id', false, null, null);
         $this->addForeignKey('idproduto', 'Idproduto', 'INTEGER', 'produtos', 'id', false, null, null);
         $this->addColumn('valor', 'Valor', 'DECIMAL', false, 10, null);
@@ -154,6 +160,7 @@ class ClientePgtosTableMap extends TableMap
     public function buildRelations()
     {
         $this->addRelation('Cliente', '\\Cliente', RelationMap::MANY_TO_ONE, array('idcliente' => 'id', ), null, null);
+        $this->addRelation('Moeda', '\\Moeda', RelationMap::MANY_TO_ONE, array('idmoeda' => 'id', ), null, null);
         $this->addRelation('Produtos', '\\Produtos', RelationMap::MANY_TO_ONE, array('idproduto' => 'id', ), null, null);
     } // buildRelations()
 
@@ -173,11 +180,11 @@ class ClientePgtosTableMap extends TableMap
     public static function getPrimaryKeyHashFromRow($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
     {
         // If the PK cannot be derived from the row, return NULL.
-        if ($row[TableMap::TYPE_NUM == $indexType ? 3 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)] === null) {
+        if ($row[TableMap::TYPE_NUM == $indexType ? 4 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)] === null) {
             return null;
         }
 
-        return (string) $row[TableMap::TYPE_NUM == $indexType ? 3 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
+        return (string) $row[TableMap::TYPE_NUM == $indexType ? 4 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
     }
 
     /**
@@ -196,7 +203,7 @@ class ClientePgtosTableMap extends TableMap
     {
         return (int) $row[
             $indexType == TableMap::TYPE_NUM
-                ? 3 + $offset
+                ? 4 + $offset
                 : self::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)
         ];
     }
@@ -298,11 +305,13 @@ class ClientePgtosTableMap extends TableMap
     public static function addSelectColumns(Criteria $criteria, $alias = null)
     {
         if (null === $alias) {
+            $criteria->addSelectColumn(ClientePgtosTableMap::COL_IDMOEDA);
             $criteria->addSelectColumn(ClientePgtosTableMap::COL_IDCLIENTE);
             $criteria->addSelectColumn(ClientePgtosTableMap::COL_IDPRODUTO);
             $criteria->addSelectColumn(ClientePgtosTableMap::COL_VALOR);
             $criteria->addSelectColumn(ClientePgtosTableMap::COL_ID);
         } else {
+            $criteria->addSelectColumn($alias . '.idmoeda');
             $criteria->addSelectColumn($alias . '.idcliente');
             $criteria->addSelectColumn($alias . '.idproduto');
             $criteria->addSelectColumn($alias . '.valor');

@@ -5,6 +5,8 @@ namespace Base;
 use \Cliente as ChildCliente;
 use \ClientePgtosQuery as ChildClientePgtosQuery;
 use \ClienteQuery as ChildClienteQuery;
+use \Moeda as ChildMoeda;
+use \MoedaQuery as ChildMoedaQuery;
 use \Produtos as ChildProdutos;
 use \ProdutosQuery as ChildProdutosQuery;
 use \Exception;
@@ -64,6 +66,12 @@ abstract class ClientePgtos implements ActiveRecordInterface
     protected $virtualColumns = array();
 
     /**
+     * The value for the idmoeda field.
+     * @var        int
+     */
+    protected $idmoeda;
+
+    /**
      * The value for the idcliente field.
      * @var        int
      */
@@ -91,6 +99,11 @@ abstract class ClientePgtos implements ActiveRecordInterface
      * @var        ChildCliente
      */
     protected $aCliente;
+
+    /**
+     * @var        ChildMoeda
+     */
+    protected $aMoeda;
 
     /**
      * @var        ChildProdutos
@@ -323,6 +336,16 @@ abstract class ClientePgtos implements ActiveRecordInterface
     }
 
     /**
+     * Get the [idmoeda] column value.
+     *
+     * @return int
+     */
+    public function getIdmoeda()
+    {
+        return $this->idmoeda;
+    }
+
+    /**
      * Get the [idcliente] column value.
      *
      * @return int
@@ -361,6 +384,30 @@ abstract class ClientePgtos implements ActiveRecordInterface
     {
         return $this->id;
     }
+
+    /**
+     * Set the value of [idmoeda] column.
+     *
+     * @param  int $v new value
+     * @return $this|\ClientePgtos The current object (for fluent API support)
+     */
+    public function setIdmoeda($v)
+    {
+        if ($v !== null) {
+            $v = (int) $v;
+        }
+
+        if ($this->idmoeda !== $v) {
+            $this->idmoeda = $v;
+            $this->modifiedColumns[ClientePgtosTableMap::COL_IDMOEDA] = true;
+        }
+
+        if ($this->aMoeda !== null && $this->aMoeda->getId() !== $v) {
+            $this->aMoeda = null;
+        }
+
+        return $this;
+    } // setIdmoeda()
 
     /**
      * Set the value of [idcliente] column.
@@ -486,16 +533,19 @@ abstract class ClientePgtos implements ActiveRecordInterface
     {
         try {
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : ClientePgtosTableMap::translateFieldName('Idcliente', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : ClientePgtosTableMap::translateFieldName('Idmoeda', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->idmoeda = (null !== $col) ? (int) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : ClientePgtosTableMap::translateFieldName('Idcliente', TableMap::TYPE_PHPNAME, $indexType)];
             $this->idcliente = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : ClientePgtosTableMap::translateFieldName('Idproduto', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : ClientePgtosTableMap::translateFieldName('Idproduto', TableMap::TYPE_PHPNAME, $indexType)];
             $this->idproduto = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : ClientePgtosTableMap::translateFieldName('Valor', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : ClientePgtosTableMap::translateFieldName('Valor', TableMap::TYPE_PHPNAME, $indexType)];
             $this->valor = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : ClientePgtosTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : ClientePgtosTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
             $this->id = (null !== $col) ? (int) $col : null;
             $this->resetModified();
 
@@ -505,7 +555,7 @@ abstract class ClientePgtos implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 4; // 4 = ClientePgtosTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 5; // 5 = ClientePgtosTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException(sprintf('Error populating %s object', '\\ClientePgtos'), 0, $e);
@@ -527,6 +577,9 @@ abstract class ClientePgtos implements ActiveRecordInterface
      */
     public function ensureConsistency()
     {
+        if ($this->aMoeda !== null && $this->idmoeda !== $this->aMoeda->getId()) {
+            $this->aMoeda = null;
+        }
         if ($this->aCliente !== null && $this->idcliente !== $this->aCliente->getId()) {
             $this->aCliente = null;
         }
@@ -573,6 +626,7 @@ abstract class ClientePgtos implements ActiveRecordInterface
         if ($deep) {  // also de-associate any related objects?
 
             $this->aCliente = null;
+            $this->aMoeda = null;
             $this->aProdutos = null;
         } // if (deep)
     }
@@ -685,6 +739,13 @@ abstract class ClientePgtos implements ActiveRecordInterface
                 $this->setCliente($this->aCliente);
             }
 
+            if ($this->aMoeda !== null) {
+                if ($this->aMoeda->isModified() || $this->aMoeda->isNew()) {
+                    $affectedRows += $this->aMoeda->save($con);
+                }
+                $this->setMoeda($this->aMoeda);
+            }
+
             if ($this->aProdutos !== null) {
                 if ($this->aProdutos->isModified() || $this->aProdutos->isNew()) {
                     $affectedRows += $this->aProdutos->save($con);
@@ -738,6 +799,9 @@ abstract class ClientePgtos implements ActiveRecordInterface
 
 
          // check the columns in natural order for more readable SQL queries
+        if ($this->isColumnModified(ClientePgtosTableMap::COL_IDMOEDA)) {
+            $modifiedColumns[':p' . $index++]  = 'idmoeda';
+        }
         if ($this->isColumnModified(ClientePgtosTableMap::COL_IDCLIENTE)) {
             $modifiedColumns[':p' . $index++]  = 'idcliente';
         }
@@ -761,6 +825,9 @@ abstract class ClientePgtos implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
+                    case 'idmoeda':
+                        $stmt->bindValue($identifier, $this->idmoeda, PDO::PARAM_INT);
+                        break;
                     case 'idcliente':
                         $stmt->bindValue($identifier, $this->idcliente, PDO::PARAM_INT);
                         break;
@@ -829,15 +896,18 @@ abstract class ClientePgtos implements ActiveRecordInterface
     {
         switch ($pos) {
             case 0:
-                return $this->getIdcliente();
+                return $this->getIdmoeda();
                 break;
             case 1:
-                return $this->getIdproduto();
+                return $this->getIdcliente();
                 break;
             case 2:
-                return $this->getValor();
+                return $this->getIdproduto();
                 break;
             case 3:
+                return $this->getValor();
+                break;
+            case 4:
                 return $this->getId();
                 break;
             default:
@@ -870,10 +940,11 @@ abstract class ClientePgtos implements ActiveRecordInterface
         $alreadyDumpedObjects['ClientePgtos'][$this->hashCode()] = true;
         $keys = ClientePgtosTableMap::getFieldNames($keyType);
         $result = array(
-            $keys[0] => $this->getIdcliente(),
-            $keys[1] => $this->getIdproduto(),
-            $keys[2] => $this->getValor(),
-            $keys[3] => $this->getId(),
+            $keys[0] => $this->getIdmoeda(),
+            $keys[1] => $this->getIdcliente(),
+            $keys[2] => $this->getIdproduto(),
+            $keys[3] => $this->getValor(),
+            $keys[4] => $this->getId(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -895,6 +966,21 @@ abstract class ClientePgtos implements ActiveRecordInterface
                 }
 
                 $result[$key] = $this->aCliente->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
+            }
+            if (null !== $this->aMoeda) {
+
+                switch ($keyType) {
+                    case TableMap::TYPE_CAMELNAME:
+                        $key = 'moeda';
+                        break;
+                    case TableMap::TYPE_FIELDNAME:
+                        $key = 'moeda';
+                        break;
+                    default:
+                        $key = 'Moeda';
+                }
+
+                $result[$key] = $this->aMoeda->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
             }
             if (null !== $this->aProdutos) {
 
@@ -946,15 +1032,18 @@ abstract class ClientePgtos implements ActiveRecordInterface
     {
         switch ($pos) {
             case 0:
-                $this->setIdcliente($value);
+                $this->setIdmoeda($value);
                 break;
             case 1:
-                $this->setIdproduto($value);
+                $this->setIdcliente($value);
                 break;
             case 2:
-                $this->setValor($value);
+                $this->setIdproduto($value);
                 break;
             case 3:
+                $this->setValor($value);
+                break;
+            case 4:
                 $this->setId($value);
                 break;
         } // switch()
@@ -984,16 +1073,19 @@ abstract class ClientePgtos implements ActiveRecordInterface
         $keys = ClientePgtosTableMap::getFieldNames($keyType);
 
         if (array_key_exists($keys[0], $arr)) {
-            $this->setIdcliente($arr[$keys[0]]);
+            $this->setIdmoeda($arr[$keys[0]]);
         }
         if (array_key_exists($keys[1], $arr)) {
-            $this->setIdproduto($arr[$keys[1]]);
+            $this->setIdcliente($arr[$keys[1]]);
         }
         if (array_key_exists($keys[2], $arr)) {
-            $this->setValor($arr[$keys[2]]);
+            $this->setIdproduto($arr[$keys[2]]);
         }
         if (array_key_exists($keys[3], $arr)) {
-            $this->setId($arr[$keys[3]]);
+            $this->setValor($arr[$keys[3]]);
+        }
+        if (array_key_exists($keys[4], $arr)) {
+            $this->setId($arr[$keys[4]]);
         }
     }
 
@@ -1036,6 +1128,9 @@ abstract class ClientePgtos implements ActiveRecordInterface
     {
         $criteria = new Criteria(ClientePgtosTableMap::DATABASE_NAME);
 
+        if ($this->isColumnModified(ClientePgtosTableMap::COL_IDMOEDA)) {
+            $criteria->add(ClientePgtosTableMap::COL_IDMOEDA, $this->idmoeda);
+        }
         if ($this->isColumnModified(ClientePgtosTableMap::COL_IDCLIENTE)) {
             $criteria->add(ClientePgtosTableMap::COL_IDCLIENTE, $this->idcliente);
         }
@@ -1134,6 +1229,7 @@ abstract class ClientePgtos implements ActiveRecordInterface
      */
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
+        $copyObj->setIdmoeda($this->getIdmoeda());
         $copyObj->setIdcliente($this->getIdcliente());
         $copyObj->setIdproduto($this->getIdproduto());
         $copyObj->setValor($this->getValor());
@@ -1217,6 +1313,57 @@ abstract class ClientePgtos implements ActiveRecordInterface
     }
 
     /**
+     * Declares an association between this object and a ChildMoeda object.
+     *
+     * @param  ChildMoeda $v
+     * @return $this|\ClientePgtos The current object (for fluent API support)
+     * @throws PropelException
+     */
+    public function setMoeda(ChildMoeda $v = null)
+    {
+        if ($v === null) {
+            $this->setIdmoeda(NULL);
+        } else {
+            $this->setIdmoeda($v->getId());
+        }
+
+        $this->aMoeda = $v;
+
+        // Add binding for other direction of this n:n relationship.
+        // If this object has already been added to the ChildMoeda object, it will not be re-added.
+        if ($v !== null) {
+            $v->addClientePgtos($this);
+        }
+
+
+        return $this;
+    }
+
+
+    /**
+     * Get the associated ChildMoeda object
+     *
+     * @param  ConnectionInterface $con Optional Connection object.
+     * @return ChildMoeda The associated ChildMoeda object.
+     * @throws PropelException
+     */
+    public function getMoeda(ConnectionInterface $con = null)
+    {
+        if ($this->aMoeda === null && ($this->idmoeda !== null)) {
+            $this->aMoeda = ChildMoedaQuery::create()->findPk($this->idmoeda, $con);
+            /* The following can be used additionally to
+                guarantee the related object contains a reference
+                to this object.  This level of coupling may, however, be
+                undesirable since it could result in an only partially populated collection
+                in the referenced object.
+                $this->aMoeda->addClientePgtoss($this);
+             */
+        }
+
+        return $this->aMoeda;
+    }
+
+    /**
      * Declares an association between this object and a ChildProdutos object.
      *
      * @param  ChildProdutos $v
@@ -1277,9 +1424,13 @@ abstract class ClientePgtos implements ActiveRecordInterface
         if (null !== $this->aCliente) {
             $this->aCliente->removeClientePgtos($this);
         }
+        if (null !== $this->aMoeda) {
+            $this->aMoeda->removeClientePgtos($this);
+        }
         if (null !== $this->aProdutos) {
             $this->aProdutos->removeClientePgtos($this);
         }
+        $this->idmoeda = null;
         $this->idcliente = null;
         $this->idproduto = null;
         $this->valor = null;
@@ -1305,6 +1456,7 @@ abstract class ClientePgtos implements ActiveRecordInterface
         } // if ($deep)
 
         $this->aCliente = null;
+        $this->aMoeda = null;
         $this->aProdutos = null;
     }
 

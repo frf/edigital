@@ -114,7 +114,7 @@ CREATE TABLE cliente (
 CREATE SEQUENCE cliente_id_seq
     START WITH 1
     INCREMENT BY 1
-    NO MINVALUE
+    MINVALUE 0
     NO MAXVALUE
     CACHE 1;
 
@@ -134,7 +134,8 @@ CREATE TABLE cliente_pgtos (
     id integer NOT NULL,
     valor numeric(10,2),
     idproduto integer,
-    idcliente integer
+    idcliente integer,
+    idmoeda integer
 );
 
 
@@ -233,6 +234,38 @@ CREATE TABLE migrations (
 
 
 --
+-- Name: moeda; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE moeda (
+    id integer NOT NULL,
+    nome character varying(100),
+    simbolo character varying(100),
+    codigo character varying(100),
+    sigla character varying(10)
+);
+
+
+--
+-- Name: moeda_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE moeda_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    MINVALUE 0
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: moeda_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE moeda_id_seq OWNED BY moeda.id;
+
+
+--
 -- Name: password_reminders; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -250,7 +283,8 @@ CREATE TABLE password_reminders (
 CREATE TABLE produtos (
     id integer NOT NULL,
     nome character varying(200),
-    valor numeric(10,2)
+    valor numeric(10,2),
+    idmoeda integer
 );
 
 
@@ -261,7 +295,7 @@ CREATE TABLE produtos (
 CREATE SEQUENCE produtos_id_seq
     START WITH 1
     INCREMENT BY 1
-    NO MINVALUE
+    MINVALUE 0
     NO MAXVALUE
     CACHE 1;
 
@@ -329,7 +363,7 @@ CREATE TABLE usuarios (
 CREATE SEQUENCE usuarios_id_seq
     START WITH 1
     INCREMENT BY 1
-    NO MINVALUE
+    MINVALUE 0
     NO MAXVALUE
     CACHE 1;
 
@@ -387,6 +421,13 @@ ALTER TABLE ONLY mensagens ALTER COLUMN id SET DEFAULT nextval('mensagens_id_seq
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY moeda ALTER COLUMN id SET DEFAULT nextval('moeda_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY produtos ALTER COLUMN id SET DEFAULT nextval('produtos_id_seq'::regclass);
 
 
@@ -408,6 +449,9 @@ ALTER TABLE ONLY usuarios ALTER COLUMN id SET DEFAULT nextval('usuarios_id_seq':
 -- Data for Name: cat_chamados; Type: TABLE DATA; Schema: public; Owner: -
 --
 
+INSERT INTO cat_chamados VALUES (1, 'Suporte', '2015-01-23 11:19:11', '2015-01-23 11:19:11');
+INSERT INTO cat_chamados VALUES (2, 'Dúvida', '2015-01-23 11:19:11', '2015-01-23 11:19:11');
+INSERT INTO cat_chamados VALUES (3, 'Solicitação', '2015-01-23 11:19:11', '2015-01-23 11:19:11');
 
 
 --
@@ -434,28 +478,28 @@ SELECT pg_catalog.setval('chamados_id_seq', 1, false);
 -- Data for Name: cliente; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-INSERT INTO cliente VALUES (3, 'Cliente 3', false, NULL);
-INSERT INTO cliente VALUES (1, 'FSI Tecnologia', false, NULL);
+INSERT INTO cliente VALUES (1, 'FSI Tecnologia', true, 'contato@fsitecnologia.com.br');
 
 
 --
 -- Name: cliente_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('cliente_id_seq', 3, true);
+SELECT pg_catalog.setval('cliente_id_seq', 1, true);
 
 
 --
 -- Data for Name: cliente_pgtos; Type: TABLE DATA; Schema: public; Owner: -
 --
 
+INSERT INTO cliente_pgtos VALUES (13, 180.00, 1, 1, 1);
 
 
 --
 -- Name: cliente_pgtos_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('cliente_pgtos_id_seq', 1, false);
+SELECT pg_catalog.setval('cliente_pgtos_id_seq', 13, true);
 
 
 --
@@ -493,6 +537,21 @@ INSERT INTO migrations VALUES ('2014_12_30_184338_create_password_reminders_tabl
 
 
 --
+-- Data for Name: moeda; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+INSERT INTO moeda VALUES (1, NULL, 'R$', NULL, 'BRL');
+INSERT INTO moeda VALUES (2, NULL, '$', NULL, 'USD');
+
+
+--
+-- Name: moeda_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('moeda_id_seq', 2, true);
+
+
+--
 -- Data for Name: password_reminders; Type: TABLE DATA; Schema: public; Owner: -
 --
 
@@ -502,19 +561,23 @@ INSERT INTO migrations VALUES ('2014_12_30_184338_create_password_reminders_tabl
 -- Data for Name: produtos; Type: TABLE DATA; Schema: public; Owner: -
 --
 
+INSERT INTO produtos VALUES (1, 'Visita técnica sem contrato', 180.00, 1);
 
 
 --
 -- Name: produtos_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('produtos_id_seq', 1, false);
+SELECT pg_catalog.setval('produtos_id_seq', 1, true);
 
 
 --
 -- Data for Name: status_chamados; Type: TABLE DATA; Schema: public; Owner: -
 --
 
+INSERT INTO status_chamados VALUES (1, 'Aberto', '2015-01-23 11:19:11', '2015-01-23 11:19:11');
+INSERT INTO status_chamados VALUES (2, 'Em Andamento', '2015-01-23 11:19:11', '2015-01-23 11:19:11');
+INSERT INTO status_chamados VALUES (3, 'Fechado', '2015-01-23 11:19:11', '2015-01-23 11:19:11');
 
 
 --
@@ -528,14 +591,15 @@ SELECT pg_catalog.setval('status_chamados_id_seq', 1, false);
 -- Data for Name: usuarios; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-INSERT INTO usuarios VALUES (1, 'seu@email.com', '$2y$10$dIN4d.hnSfD/Il/7aLHp5uTYqSDgt8GNpzl/31jPhl46.NoihfCum', 'Seu Nome', 'admin', 'jDc19ReePLTr6B52kUa1Uf5vlnWQm2vVYrJTT7zkmTfzYQTeIw3Vk69PQwSz', '2014-12-30 18:50:45', '2014-12-30 19:02:01', NULL);
+INSERT INTO usuarios VALUES (1, 'cliente@cliente.com.br', '$2y$10$1poaa6.E3UjsDmCiPp6FuOkM8X52N6Db5JGqkSXqxeK.IPxQ9KFPy', 'Administrador', 'cliente', NULL, '2015-01-23 15:34:35', '2015-01-23 15:34:35', 1);
+INSERT INTO usuarios VALUES (2, 'admin@edigital.com.br', '$2y$10$96Lo73XGP.bhPdaCKk6SpOW61g4OifjQT/Xxy3AAd6k/3nPUrAA6.', 'Administrador', 'admin', NULL, '2015-01-23 15:34:35', '2015-01-23 15:34:35', NULL);
 
 
 --
 -- Name: usuarios_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('usuarios_id_seq', 1, true);
+SELECT pg_catalog.setval('usuarios_id_seq', 2, true);
 
 
 --
@@ -584,6 +648,14 @@ ALTER TABLE ONLY idoc
 
 ALTER TABLE ONLY mensagens
     ADD CONSTRAINT mensagens_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: moeda_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY moeda
+    ADD CONSTRAINT moeda_pkey PRIMARY KEY (id);
 
 
 --
@@ -641,6 +713,14 @@ ALTER TABLE ONLY cliente_pgtos
 
 
 --
+-- Name: cliente_pgtos_idmoeda_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY cliente_pgtos
+    ADD CONSTRAINT cliente_pgtos_idmoeda_fkey FOREIGN KEY (idmoeda) REFERENCES moeda(id);
+
+
+--
 -- Name: cliente_pgtos_idproduto_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -654,6 +734,14 @@ ALTER TABLE ONLY cliente_pgtos
 
 ALTER TABLE ONLY idoc
     ADD CONSTRAINT idoc_idcliente_fkey FOREIGN KEY (idcliente) REFERENCES cliente(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: produtos_idmoeda_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY produtos
+    ADD CONSTRAINT produtos_idmoeda_fkey FOREIGN KEY (idmoeda) REFERENCES moeda(id);
 
 
 --

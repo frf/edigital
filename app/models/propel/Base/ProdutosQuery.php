@@ -20,10 +20,12 @@ use Propel\Runtime\Exception\PropelException;
  *
  *
  *
+ * @method     ChildProdutosQuery orderByIdmoeda($order = Criteria::ASC) Order by the idmoeda column
  * @method     ChildProdutosQuery orderByValor($order = Criteria::ASC) Order by the valor column
  * @method     ChildProdutosQuery orderByNome($order = Criteria::ASC) Order by the nome column
  * @method     ChildProdutosQuery orderById($order = Criteria::ASC) Order by the id column
  *
+ * @method     ChildProdutosQuery groupByIdmoeda() Group by the idmoeda column
  * @method     ChildProdutosQuery groupByValor() Group by the valor column
  * @method     ChildProdutosQuery groupByNome() Group by the nome column
  * @method     ChildProdutosQuery groupById() Group by the id column
@@ -32,20 +34,26 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildProdutosQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method     ChildProdutosQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
+ * @method     ChildProdutosQuery leftJoinMoeda($relationAlias = null) Adds a LEFT JOIN clause to the query using the Moeda relation
+ * @method     ChildProdutosQuery rightJoinMoeda($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Moeda relation
+ * @method     ChildProdutosQuery innerJoinMoeda($relationAlias = null) Adds a INNER JOIN clause to the query using the Moeda relation
+ *
  * @method     ChildProdutosQuery leftJoinClientePgtos($relationAlias = null) Adds a LEFT JOIN clause to the query using the ClientePgtos relation
  * @method     ChildProdutosQuery rightJoinClientePgtos($relationAlias = null) Adds a RIGHT JOIN clause to the query using the ClientePgtos relation
  * @method     ChildProdutosQuery innerJoinClientePgtos($relationAlias = null) Adds a INNER JOIN clause to the query using the ClientePgtos relation
  *
- * @method     \ClientePgtosQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
+ * @method     \MoedaQuery|\ClientePgtosQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
  * @method     ChildProdutos findOne(ConnectionInterface $con = null) Return the first ChildProdutos matching the query
  * @method     ChildProdutos findOneOrCreate(ConnectionInterface $con = null) Return the first ChildProdutos matching the query, or a new ChildProdutos object populated from the query conditions when no match is found
  *
+ * @method     ChildProdutos findOneByIdmoeda(int $idmoeda) Return the first ChildProdutos filtered by the idmoeda column
  * @method     ChildProdutos findOneByValor(string $valor) Return the first ChildProdutos filtered by the valor column
  * @method     ChildProdutos findOneByNome(string $nome) Return the first ChildProdutos filtered by the nome column
  * @method     ChildProdutos findOneById(int $id) Return the first ChildProdutos filtered by the id column
  *
  * @method     ChildProdutos[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildProdutos objects based on current ModelCriteria
+ * @method     ChildProdutos[]|ObjectCollection findByIdmoeda(int $idmoeda) Return ChildProdutos objects filtered by the idmoeda column
  * @method     ChildProdutos[]|ObjectCollection findByValor(string $valor) Return ChildProdutos objects filtered by the valor column
  * @method     ChildProdutos[]|ObjectCollection findByNome(string $nome) Return ChildProdutos objects filtered by the nome column
  * @method     ChildProdutos[]|ObjectCollection findById(int $id) Return ChildProdutos objects filtered by the id column
@@ -140,7 +148,7 @@ abstract class ProdutosQuery extends ModelCriteria
      */
     protected function findPkSimple($key, ConnectionInterface $con)
     {
-        $sql = 'SELECT valor, nome, id FROM produtos WHERE id = :p0';
+        $sql = 'SELECT idmoeda, valor, nome, id FROM produtos WHERE id = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -228,6 +236,49 @@ abstract class ProdutosQuery extends ModelCriteria
     {
 
         return $this->addUsingAlias(ProdutosTableMap::COL_ID, $keys, Criteria::IN);
+    }
+
+    /**
+     * Filter the query on the idmoeda column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByIdmoeda(1234); // WHERE idmoeda = 1234
+     * $query->filterByIdmoeda(array(12, 34)); // WHERE idmoeda IN (12, 34)
+     * $query->filterByIdmoeda(array('min' => 12)); // WHERE idmoeda > 12
+     * </code>
+     *
+     * @see       filterByMoeda()
+     *
+     * @param     mixed $idmoeda The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildProdutosQuery The current query, for fluid interface
+     */
+    public function filterByIdmoeda($idmoeda = null, $comparison = null)
+    {
+        if (is_array($idmoeda)) {
+            $useMinMax = false;
+            if (isset($idmoeda['min'])) {
+                $this->addUsingAlias(ProdutosTableMap::COL_IDMOEDA, $idmoeda['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($idmoeda['max'])) {
+                $this->addUsingAlias(ProdutosTableMap::COL_IDMOEDA, $idmoeda['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(ProdutosTableMap::COL_IDMOEDA, $idmoeda, $comparison);
     }
 
     /**
@@ -339,6 +390,83 @@ abstract class ProdutosQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(ProdutosTableMap::COL_ID, $id, $comparison);
+    }
+
+    /**
+     * Filter the query by a related \Moeda object
+     *
+     * @param \Moeda|ObjectCollection $moeda The related object(s) to use as filter
+     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @throws \Propel\Runtime\Exception\PropelException
+     *
+     * @return ChildProdutosQuery The current query, for fluid interface
+     */
+    public function filterByMoeda($moeda, $comparison = null)
+    {
+        if ($moeda instanceof \Moeda) {
+            return $this
+                ->addUsingAlias(ProdutosTableMap::COL_IDMOEDA, $moeda->getId(), $comparison);
+        } elseif ($moeda instanceof ObjectCollection) {
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+
+            return $this
+                ->addUsingAlias(ProdutosTableMap::COL_IDMOEDA, $moeda->toKeyValue('PrimaryKey', 'Id'), $comparison);
+        } else {
+            throw new PropelException('filterByMoeda() only accepts arguments of type \Moeda or Collection');
+        }
+    }
+
+    /**
+     * Adds a JOIN clause to the query using the Moeda relation
+     *
+     * @param     string $relationAlias optional alias for the relation
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return $this|ChildProdutosQuery The current query, for fluid interface
+     */
+    public function joinMoeda($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    {
+        $tableMap = $this->getTableMap();
+        $relationMap = $tableMap->getRelation('Moeda');
+
+        // create a ModelJoin object for this join
+        $join = new ModelJoin();
+        $join->setJoinType($joinType);
+        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+        if ($previousJoin = $this->getPreviousJoin()) {
+            $join->setPreviousJoin($previousJoin);
+        }
+
+        // add the ModelJoin to the current object
+        if ($relationAlias) {
+            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+            $this->addJoinObject($join, $relationAlias);
+        } else {
+            $this->addJoinObject($join, 'Moeda');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Use the Moeda relation Moeda object
+     *
+     * @see useQuery()
+     *
+     * @param     string $relationAlias optional alias for the relation,
+     *                                   to be used as main alias in the secondary query
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return \MoedaQuery A secondary query class using the current class as primary query
+     */
+    public function useMoedaQuery($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    {
+        return $this
+            ->joinMoeda($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'Moeda', '\MoedaQuery');
     }
 
     /**

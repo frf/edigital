@@ -24,12 +24,16 @@
     <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
   </table>
   <table name="cliente_pgtos" idMethod="native" phpName="ClientePgtos">
+    <column name="idmoeda" phpName="Idmoeda" type="INTEGER"/>
     <column name="idcliente" phpName="Idcliente" type="INTEGER"/>
     <column name="idproduto" phpName="Idproduto" type="INTEGER"/>
     <column name="valor" phpName="Valor" type="DECIMAL" size="10" scale="2"/>
     <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
     <foreign-key foreignTable="cliente" name="cliente_pgtos_idcliente_fkey">
       <reference local="idcliente" foreign="id"/>
+    </foreign-key>
+    <foreign-key foreignTable="moeda" name="cliente_pgtos_idmoeda_fkey">
+      <reference local="idmoeda" foreign="id"/>
     </foreign-key>
     <foreign-key foreignTable="produtos" name="cliente_pgtos_idproduto_fkey">
       <reference local="idproduto" foreign="id"/>
@@ -57,6 +61,13 @@
     <column name="batch" phpName="Batch" type="INTEGER" required="true"/>
     <column name="migration" phpName="Migration" type="VARCHAR" size="255" required="true"/>
   </table>
+  <table name="moeda" idMethod="native" phpName="Moeda">
+    <column name="sigla" phpName="Sigla" type="VARCHAR" size="10"/>
+    <column name="codigo" phpName="Codigo" type="VARCHAR" size="100"/>
+    <column name="simbolo" phpName="Simbolo" type="VARCHAR" size="100"/>
+    <column name="nome" phpName="Nome" type="VARCHAR" size="100"/>
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+  </table>
   <table name="password_reminders" idMethod="native" phpName="PasswordReminders">
     <column name="created_at" phpName="CreatedAt" type="TIMESTAMP" required="true"/>
     <column name="token" phpName="Token" type="VARCHAR" size="255" required="true"/>
@@ -69,9 +80,13 @@
     </index>
   </table>
   <table name="produtos" idMethod="native" phpName="Produtos">
+    <column name="idmoeda" phpName="Idmoeda" type="INTEGER"/>
     <column name="valor" phpName="Valor" type="DECIMAL" size="10" scale="2"/>
     <column name="nome" phpName="Nome" type="VARCHAR" size="200"/>
     <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <foreign-key foreignTable="moeda" name="produtos_idmoeda_fkey">
+      <reference local="idmoeda" foreign="id"/>
+    </foreign-key>
   </table>
   <table name="status_chamados" idMethod="native" phpName="StatusChamados">
     <column name="updated_at" phpName="UpdatedAt" type="TIMESTAMP" required="true"/>

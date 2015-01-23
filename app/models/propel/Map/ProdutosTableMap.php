@@ -59,7 +59,7 @@ class ProdutosTableMap extends TableMap
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 3;
+    const NUM_COLUMNS = 4;
 
     /**
      * The number of lazy-loaded columns
@@ -69,7 +69,12 @@ class ProdutosTableMap extends TableMap
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
      */
-    const NUM_HYDRATE_COLUMNS = 3;
+    const NUM_HYDRATE_COLUMNS = 4;
+
+    /**
+     * the column name for the idmoeda field
+     */
+    const COL_IDMOEDA = 'produtos.idmoeda';
 
     /**
      * the column name for the valor field
@@ -98,11 +103,11 @@ class ProdutosTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Valor', 'Nome', 'Id', ),
-        self::TYPE_CAMELNAME     => array('valor', 'nome', 'id', ),
-        self::TYPE_COLNAME       => array(ProdutosTableMap::COL_VALOR, ProdutosTableMap::COL_NOME, ProdutosTableMap::COL_ID, ),
-        self::TYPE_FIELDNAME     => array('valor', 'nome', 'id', ),
-        self::TYPE_NUM           => array(0, 1, 2, )
+        self::TYPE_PHPNAME       => array('Idmoeda', 'Valor', 'Nome', 'Id', ),
+        self::TYPE_CAMELNAME     => array('idmoeda', 'valor', 'nome', 'id', ),
+        self::TYPE_COLNAME       => array(ProdutosTableMap::COL_IDMOEDA, ProdutosTableMap::COL_VALOR, ProdutosTableMap::COL_NOME, ProdutosTableMap::COL_ID, ),
+        self::TYPE_FIELDNAME     => array('idmoeda', 'valor', 'nome', 'id', ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, )
     );
 
     /**
@@ -112,11 +117,11 @@ class ProdutosTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Valor' => 0, 'Nome' => 1, 'Id' => 2, ),
-        self::TYPE_CAMELNAME     => array('valor' => 0, 'nome' => 1, 'id' => 2, ),
-        self::TYPE_COLNAME       => array(ProdutosTableMap::COL_VALOR => 0, ProdutosTableMap::COL_NOME => 1, ProdutosTableMap::COL_ID => 2, ),
-        self::TYPE_FIELDNAME     => array('valor' => 0, 'nome' => 1, 'id' => 2, ),
-        self::TYPE_NUM           => array(0, 1, 2, )
+        self::TYPE_PHPNAME       => array('Idmoeda' => 0, 'Valor' => 1, 'Nome' => 2, 'Id' => 3, ),
+        self::TYPE_CAMELNAME     => array('idmoeda' => 0, 'valor' => 1, 'nome' => 2, 'id' => 3, ),
+        self::TYPE_COLNAME       => array(ProdutosTableMap::COL_IDMOEDA => 0, ProdutosTableMap::COL_VALOR => 1, ProdutosTableMap::COL_NOME => 2, ProdutosTableMap::COL_ID => 3, ),
+        self::TYPE_FIELDNAME     => array('idmoeda' => 0, 'valor' => 1, 'nome' => 2, 'id' => 3, ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, )
     );
 
     /**
@@ -137,6 +142,7 @@ class ProdutosTableMap extends TableMap
         $this->setUseIdGenerator(true);
         $this->setPrimaryKeyMethodInfo('produtos_id_seq');
         // columns
+        $this->addForeignKey('idmoeda', 'Idmoeda', 'INTEGER', 'moeda', 'id', false, null, null);
         $this->addColumn('valor', 'Valor', 'DECIMAL', false, 10, null);
         $this->addColumn('nome', 'Nome', 'VARCHAR', false, 200, null);
         $this->addPrimaryKey('id', 'Id', 'INTEGER', true, null, null);
@@ -147,6 +153,7 @@ class ProdutosTableMap extends TableMap
      */
     public function buildRelations()
     {
+        $this->addRelation('Moeda', '\\Moeda', RelationMap::MANY_TO_ONE, array('idmoeda' => 'id', ), null, null);
         $this->addRelation('ClientePgtos', '\\ClientePgtos', RelationMap::ONE_TO_MANY, array('id' => 'idproduto', ), null, null, 'ClientePgtoss');
     } // buildRelations()
 
@@ -166,11 +173,11 @@ class ProdutosTableMap extends TableMap
     public static function getPrimaryKeyHashFromRow($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
     {
         // If the PK cannot be derived from the row, return NULL.
-        if ($row[TableMap::TYPE_NUM == $indexType ? 2 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)] === null) {
+        if ($row[TableMap::TYPE_NUM == $indexType ? 3 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)] === null) {
             return null;
         }
 
-        return (string) $row[TableMap::TYPE_NUM == $indexType ? 2 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
+        return (string) $row[TableMap::TYPE_NUM == $indexType ? 3 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
     }
 
     /**
@@ -189,7 +196,7 @@ class ProdutosTableMap extends TableMap
     {
         return (int) $row[
             $indexType == TableMap::TYPE_NUM
-                ? 2 + $offset
+                ? 3 + $offset
                 : self::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)
         ];
     }
@@ -291,10 +298,12 @@ class ProdutosTableMap extends TableMap
     public static function addSelectColumns(Criteria $criteria, $alias = null)
     {
         if (null === $alias) {
+            $criteria->addSelectColumn(ProdutosTableMap::COL_IDMOEDA);
             $criteria->addSelectColumn(ProdutosTableMap::COL_VALOR);
             $criteria->addSelectColumn(ProdutosTableMap::COL_NOME);
             $criteria->addSelectColumn(ProdutosTableMap::COL_ID);
         } else {
+            $criteria->addSelectColumn($alias . '.idmoeda');
             $criteria->addSelectColumn($alias . '.valor');
             $criteria->addSelectColumn($alias . '.nome');
             $criteria->addSelectColumn($alias . '.id');

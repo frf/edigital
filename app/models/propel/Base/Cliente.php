@@ -1553,6 +1553,31 @@ abstract class Cliente implements ActiveRecordInterface
      * @param      string $joinBehavior optional join type to use (defaults to Criteria::LEFT_JOIN)
      * @return ObjectCollection|ChildClientePgtos[] List of ChildClientePgtos objects
      */
+    public function getClientePgtossJoinMoeda(Criteria $criteria = null, ConnectionInterface $con = null, $joinBehavior = Criteria::LEFT_JOIN)
+    {
+        $query = ChildClientePgtosQuery::create(null, $criteria);
+        $query->joinWith('Moeda', $joinBehavior);
+
+        return $this->getClientePgtoss($query, $con);
+    }
+
+
+    /**
+     * If this collection has already been initialized with
+     * an identical criteria, it returns the collection.
+     * Otherwise if this Cliente is new, it will return
+     * an empty collection; or if this Cliente has previously
+     * been saved, it will retrieve related ClientePgtoss from storage.
+     *
+     * This method is protected by default in order to keep the public
+     * api reasonable.  You can provide public methods for those you
+     * actually need in Cliente.
+     *
+     * @param      Criteria $criteria optional Criteria object to narrow the query
+     * @param      ConnectionInterface $con optional connection object
+     * @param      string $joinBehavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+     * @return ObjectCollection|ChildClientePgtos[] List of ChildClientePgtos objects
+     */
     public function getClientePgtossJoinProdutos(Criteria $criteria = null, ConnectionInterface $con = null, $joinBehavior = Criteria::LEFT_JOIN)
     {
         $query = ChildClientePgtosQuery::create(null, $criteria);
