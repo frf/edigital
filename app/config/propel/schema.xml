@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <database name="edigital" defaultIdMethod="native" defaultPhpNamingMethod="underscore">
-<<<<<<< HEAD
-  <table name="categorias" idMethod="native" phpName="Categorias">
-=======
   <table name="cat_chamados" idMethod="native" phpName="CatChamados">
     <column name="updated_at" phpName="UpdatedAt" type="TIMESTAMP" required="true"/>
     <column name="created_at" phpName="CreatedAt" type="TIMESTAMP" required="true"/>
@@ -24,7 +21,6 @@
     <column name="email" phpName="Email" type="VARCHAR" size="200"/>
     <column name="ativo" phpName="Ativo" type="BOOLEAN" size="1" defaultValue="false"/>
     <column name="nome" phpName="Nome" type="VARCHAR" size="255"/>
->>>>>>> b8d39d004e8d70d7608919c9d53d0e5ce0f95c9b
     <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
   </table>
   <table name="cliente_pgtos" idMethod="native" phpName="ClientePgtos">
@@ -55,9 +51,6 @@
       <reference local="idcliente" foreign="id"/>
     </foreign-key>
   </table>
-<<<<<<< HEAD
-  <table name="idoc" idMethod="native" phpName="Idoc">
-=======
   <table name="mensagens" idMethod="native" phpName="Mensagens">
     <column name="updated_at" phpName="UpdatedAt" type="TIMESTAMP" required="true"/>
     <column name="created_at" phpName="CreatedAt" type="TIMESTAMP" required="true"/>
@@ -65,7 +58,6 @@
     <column name="no_usuario" phpName="NoUsuario" type="VARCHAR" size="255" required="true"/>
     <column name="id_chamado" phpName="IdChamado" type="INTEGER" required="true"/>
     <column name="mensagem" phpName="Mensagem" type="LONGVARCHAR" required="true"/>
->>>>>>> b8d39d004e8d70d7608919c9d53d0e5ce0f95c9b
     <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
   </table>
   <table name="migrations" idMethod="native" phpName="Migrations">
@@ -78,17 +70,6 @@
     <column name="simbolo" phpName="Simbolo" type="VARCHAR" size="100"/>
     <column name="nome" phpName="Nome" type="VARCHAR" size="100"/>
     <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
-<<<<<<< HEAD
-    <column name="email" phpName="Email" type="VARCHAR" size="255" required="true"/>
-    <column name="senha" phpName="Senha" type="VARCHAR" size="60" required="true"/>
-    <column name="nome" phpName="Nome" type="VARCHAR" size="255" required="true"/>
-    <column name="tipo" phpName="Tipo" type="VARCHAR" size="255" required="true"/>
-    <column name="remember_token" phpName="RememberToken" type="VARCHAR" size="100"/>
-    <column name="created_at" phpName="CreatedAt" type="TIMESTAMP" required="true"/>
-    <column name="updated_at" phpName="UpdatedAt" type="TIMESTAMP" required="true"/>
-    <unique name="usuarios_email_unique">
-      <unique-column name="email"/>
-=======
   </table>
   <table name="password_reminders" idMethod="native" phpName="PasswordReminders">
     <column name="created_at" phpName="CreatedAt" type="TIMESTAMP" required="true"/>
@@ -131,7 +112,6 @@
     </foreign-key>
     <unique name="usuarios_email_unique">
       <unique-column name="email" size="255"/>
->>>>>>> b8d39d004e8d70d7608919c9d53d0e5ce0f95c9b
     </unique>
   </table>
 </database>
