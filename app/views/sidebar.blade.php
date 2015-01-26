@@ -20,13 +20,19 @@
             <ul class="nav navbar-nav">
             <li @if(Request::segment(1) == "") class="active" @endif><a href="/">Principal</a></li>
                  @if(Auth::user()->tipo == 'admin')
-                         @foreach(Config::get('edigital.menuAdmin') as $key => $menu);
-                            <li @if(Request::segment(1) == $key) class="active" @endif><a href="/{{$key}}" >{{ $menu }}</a></li>
+                         @foreach(Config::get('edigital.menuAdmin') as $key => $menu)
+                            <li @if(Request::segment(1) == $key) class="active" @endif><a href="/{{$key}}" @if($key == '/atendimento') class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" @endif>{{ $menu }}</a></li>
+                            @if($key == 'atendimento')
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="/atendimento">Chamado</a> </li>
+                                    <li><a href="/atendimento/cat_chamado">Categoria</a> </li>
+                                </ul>
+                            @endif
                          @endforeach
                  @endif
                  @if(Auth::user()->tipo == 'cliente')
                      @foreach(Config::get('edigital.menuCliente') as $key => $menu);
-                        <li><a href="{{$key}}" @if($key == 'atendimento') class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" @endif>{{ $menu }}</a></li>
+                        <li @if(Request::segment(1) == $key) class="active" @endif><a href="{{$key}}" @if($key == '/atendimento') class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" @endif>{{ $menu }}</a></li>
                         @if($key == 'atendimento')
                             <ul class="dropdown-menu" role="menu">
                                 <li><a href="/atendimento">Chamado</a> </li>
