@@ -17,7 +17,6 @@
 
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-<<<<<<< HEAD
             <li class="active"><a href="/">Principal</a></li>
             <li><a href="/docs">Meus Documentos</a></li>
             <li class="dropdown">
@@ -31,20 +30,8 @@
             </li>
             <li><a href="/cliente">Clientes</a></li>
             <li><a href="/newsletter">Newsletter</a></li>                
-            </ul>
-            <a href="{{ url('sair') }}" class="btn btn-danger navbar-btn navbar-right">Sair</a>
-            <li @if(Request::segment(1) == "") class="active" @endif><a href="/">Principal</a></li>
-                @if(Auth::user()->tipo == 'admin')
-                        @foreach(Config::get('edigital.menuAdmin') as $key => $menu);
-                            <li @if(Request::segment(1) == $key) class="active" @endif><a href="/{{$key}}" >{{ $menu }}</a></li>
-                        @endforeach
-                @endif
-                @if(Auth::user()->tipo == 'cliente')
-                    @foreach(Config::get('edigital.menuCliente') as $key => $menu)
-                    <li ><a href="{{$key}}" >{{ $menu }}</a></li>
-                    @endforeach
-                @endif
-            </ul>
+          </ul>
+
             <a href="{{ url('sair') }}" class="btn btn-danger navbar-btn navbar-right" style="margin-left: 10px">Sair</a> 
             <a href="/cliente/meus-dados" class="btn btn-success navbar-btn navbar-right">Meus Dados: {{ Auth::user()->nome }}</a>
 

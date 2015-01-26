@@ -19,7 +19,7 @@ class AtendimentoController extends BaseController {
 
     public function index()
 	{
-        $chamados = Chamado::orderBy('id', 'DESC')->paginate(15);
+        $chamados = Chamado::orderBy('id', 'DESC')->paginate(10);
         $tipo_usuario = Auth::user()->tipo;
 
         return View::make('atendimento.index', compact('chamados', 'tipo_usuario', 'categoria'));
