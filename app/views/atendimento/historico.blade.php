@@ -12,6 +12,20 @@
 
 
 @section('content')
+ <script src="/js/atendimento.js"></script>
+    @if(Session::has('success'))
+        <div class="alert alert-success alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            {{ Session::get('success') }}
+        </div>
+    @endif
+
+    @if(Session::has('warning'))
+        <div class="alert alert-warning alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            {{ Session::get('warning') }}
+        </div>
+    @endif
 
     <div>
 
@@ -65,13 +79,16 @@
 
         <!-- Formulário para a inserção de novas mensgens e alteração do status. -->
         @if($chamado->status != 3)
-            <form method="post" >
+            <form method="post" id="form_his">
                 <input type="hidden" name="id_chamado" value="{{ $chamado->id }}" />
                 <input type="hidden" name="no_usuario" value="{{ $usuario }}" />
 
                 <p><b>Nova mensagem:</b></p>
                 <div style="border: 1px solid; border-radius: 5px">
-                    <textarea style="width: 100%; height: 100px" name="mensagem"></textarea>
+                    <textarea style="width: 100%; height: 100px" name="mensagem" id="mensagem"></textarea>
+                    <div id="mensagem_his" style="position: absolute; display: none">
+                        <i style="color: red; font-size: 10px">Escreva uma mensagem.</i>
+                    </div>
                 </div>
 
                 <br />
@@ -87,18 +104,29 @@
                             >{{ $oSta->status_chamado }}</option>
                         @endforeach
                     </select>
+                @else
+                    <select name="status" class="form-control" id="opcao1" style="width: 200px" >
+                        <option value="{{ $chamado->status }}">{{ StatusChamado::find($chamado->status)->status_chamado }}</option>
+                    </select>
                 @endif
 
                 <br />
                     <label> Responder e avisar.</label>
                     <input type="checkbox" name="avisar" />
                 <br />
-                <br />
 
-                <input type="submit" value="Salvar" class="btn btn-primary btn-sm" />
-                <button type="button" class="btn btn-default btn-sm" onclick="history.go(-1)">Voltar</button>
+                <div id="salvar_his" style="width: 65px; float: left">
+                    <input type="submit" value="Salvar" id="salvar" class="btn btn-primary btn-sm" />
+                </div>
+                    <a href="/atendimento" class="btn btn-default btn-sm" >Voltar</a>
             </form>
         @endif
+
+        @if($chamado->status == 3)
+                <a href="/atendimento" class="btn btn-default btn-sm">Voltar</a>
+            <br />
+        @endif
+
         <br />
 
 

@@ -10,56 +10,15 @@
 @extends('layout')
 @extends('sidebar')
 
-
 @section('content')
 
-<script type="text/javascript">
+<script src="/js/atendimento.js"></script>
 
-    $(document).ready(function(){
-
-        $('#submit').attr('disabled', 'disabled');
-        $('#cad_chamado').click(function(){
-            var categoria   = $('#cat').val();
-            var titulo      = $('#titulo').val();
-            var descricao   = $('#descricao').val();
-
-            if(categoria !== ""){
-                $('#categoria_cadastro').hide();
-                if(titulo !== ""){
-                    $('#titulo_cadastro').hide();
-                    if(descricao !== ""){
-                        $('#descricao_cadastro').hide();
-                        $('#submit').removeAttr('disabled');
-                    }else{
-                        $('#descricao_cadastro').show();
-                        $('#titulo_cadastro').hide();
-                        $('#categoria_cadastro').hide();
-                        $('#submit').attr('disabled', 'disabled');
-                    }
-                }else{
-                    $('#categoria_cadastro').hide();
-                    $('#titulo_cadastro').show();
-                    $('#descricao_cadastro').hide();
-                    $('#submit').attr('disabled', 'disabled');
-                }
-            }else{
-                $('#categoria_cadastro').show();
-                $('#titulo_cadastro').hide();
-                $('#descricao_cadastro').hide();
-                $('#submit').attr('disabled', 'disabled');
-            }
-
-        });
-    });
-
-</script>
-
-    <div>
+    <div style="float: left">
         <h3><b>Cadastrar novo chamado</b></h3>
         <br />
 
         <form method="post" id="cad_chamado">
-
             <table>
                 <tr>
                     <td width="100">
@@ -85,7 +44,7 @@
                         </select>
                     </td>
                 </tr>
-                <tr style="height: 80px">
+                <tr style="height: 76px">
                     <td><label>*Título: </label></td>
                     <td colspan="3">
                         <input class="form-control" type="text" id="titulo" name="titulo" />
@@ -108,8 +67,10 @@
                     <td></td>
                 </tr>
             </table>
+
             <br />
             <br />
+
             <div id="botao">
                 <input type="submit" value="Salvar" id="submit" class="btn btn-primary btn-sm" />
                 <button type="button" onclick="history.go(-1)" class="btn btn-default btn-sm">Voltar</button>

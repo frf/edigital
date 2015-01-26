@@ -1,16 +1,4 @@
--- Table: cat_chamados
-
--- DROP TABLE cat_chamados;
-
-CREATE TABLE cat_chamados
-(
-  id serial NOT NULL,
-  cat_chamado character varying(255) NOT NULL,
-  created_at timestamp without time zone NOT NULL,
-  updated_at timestamp without time zone NOT NULL,
-  CONSTRAINT cat_chamados_pkey PRIMARY KEY (id)
-);
-
+-- Robson 21/01/2014
 -- Table: chamados
 
 -- DROP TABLE chamados;
@@ -26,7 +14,34 @@ CREATE TABLE chamados
   data character varying(255) NOT NULL,
   created_at timestamp without time zone NOT NULL,
   updated_at timestamp without time zone NOT NULL,
+  email character varying(255) NOT NULL,
   CONSTRAINT chamados_pkey PRIMARY KEY (id)
+);
+
+-- Table: cat_chamados
+
+-- DROP TABLE cat_chamados;
+
+CREATE TABLE cat_chamados
+(
+  id serial NOT NULL,
+  cat_chamado character varying(255) NOT NULL,
+  created_at timestamp without time zone NOT NULL,
+  updated_at timestamp without time zone NOT NULL,
+  CONSTRAINT cat_chamados_pkey PRIMARY KEY (id)
+);
+
+-- Table: status_chamados
+
+-- DROP TABLE status_chamados;
+
+CREATE TABLE status_chamados
+(
+  id serial NOT NULL,
+  status_chamado character varying(255) NOT NULL,
+  created_at timestamp without time zone NOT NULL,
+  updated_at timestamp without time zone NOT NULL,
+  CONSTRAINT status_chamado_pkey PRIMARY KEY (id)
 );
 
 -- Table: mensagens
@@ -45,18 +60,6 @@ CREATE TABLE mensagens
   CONSTRAINT mensagens_pkey PRIMARY KEY (id)
 );
 
--- Table: status_chamados
-
--- DROP TABLE status_chamados;
-
-CREATE TABLE status_chamados
-(
-  id serial NOT NULL,
-  status_chamado character varying(255) NOT NULL,
-  created_at timestamp without time zone NOT NULL,
-  updated_at timestamp without time zone NOT NULL,
-  CONSTRAINT status_chamado_pkey PRIMARY KEY (id)
-);
 
 
 

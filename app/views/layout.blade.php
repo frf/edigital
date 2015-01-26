@@ -20,10 +20,11 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-    <script src="/js/atendimento.js"></script>
+
     <script src="/js/jquery.js"></script>
   </head>
-  <body role="document">    
+  <body role="document">
+
       
     @yield('sidebar')
     <div id="wrap">

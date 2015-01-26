@@ -18,7 +18,15 @@
           <ul class="nav navbar-nav">
             <li class="active"><a href="/">Principal</a></li>
             <li><a href="/docs">Meus Documentos</a></li>
-            <li><a href="/atendimento">Atendimento</a></li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                    Atendimento <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu" role="menu">
+                    <li><a href="/atendimento">Chamado</a> </li>
+                    <li><a href="/atendimento/cat_chamado">Categoria</a> </li>
+                </ul>
+            </li>
             <li><a href="/cliente">Clientes</a></li>
             <li><a href="/newsletter">Newsletter</a></li>                
           </ul>

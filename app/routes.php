@@ -34,6 +34,11 @@ Route::group(array('before' => 'auth'), function()
     Route::get('/atendimento', 'AtendimentoController@index');
     Route::get('/atendimento/cadastrar', 'AtendimentoController@getCadastrar');
     Route::post('/atendimento/cadastrar', 'AtendimentoController@postCadastrar');
+    Route::get('/atendimento/cat_chamado', 'AtendimentoController@getCatChamado');
+    Route::post('/atendimento/cat_chamado', 'AtendimentoController@postCatChamado');
+    Route::get('/atendimento/edi_cat_chamado/{id}', 'AtendimentoController@getEdiCatChamado');
+    Route::post('/atendimento/edi_cat_chamado/{id}', 'AtendimentoController@postEdiCatChamado');
+    Route::get('/atendimento/del_cat_chamado/{id}', 'AtendimentoController@getDelCatChamado');
     Route::get('/atendimento/historico/{id}', 'AtendimentoController@getHistorico');
     Route::post('/atendimento/historico/{id}', 'AtendimentoController@postHistorico');
 
