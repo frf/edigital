@@ -73,6 +73,16 @@ class MigrationsTableMap extends TableMap
     const NUM_HYDRATE_COLUMNS = 2;
 
     /**
+<<<<<<< HEAD
+     * the column name for the migration field
+     */
+    const COL_MIGRATION = 'migrations.migration';
+
+    /**
+     * the column name for the batch field
+     */
+    const COL_BATCH = 'migrations.batch';
+=======
      * the column name for the batch field
      */
     const COL_BATCH = 'migrations.batch';
@@ -81,6 +91,7 @@ class MigrationsTableMap extends TableMap
      * the column name for the migration field
      */
     const COL_MIGRATION = 'migrations.migration';
+>>>>>>> b8d39d004e8d70d7608919c9d53d0e5ce0f95c9b
 
     /**
      * The default string format for model objects of the related table
@@ -94,10 +105,17 @@ class MigrationsTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
+<<<<<<< HEAD
+        self::TYPE_PHPNAME       => array('Migration', 'Batch', ),
+        self::TYPE_CAMELNAME     => array('migration', 'batch', ),
+        self::TYPE_COLNAME       => array(MigrationsTableMap::COL_MIGRATION, MigrationsTableMap::COL_BATCH, ),
+        self::TYPE_FIELDNAME     => array('migration', 'batch', ),
+=======
         self::TYPE_PHPNAME       => array('Batch', 'Migration', ),
         self::TYPE_CAMELNAME     => array('batch', 'migration', ),
         self::TYPE_COLNAME       => array(MigrationsTableMap::COL_BATCH, MigrationsTableMap::COL_MIGRATION, ),
         self::TYPE_FIELDNAME     => array('batch', 'migration', ),
+>>>>>>> b8d39d004e8d70d7608919c9d53d0e5ce0f95c9b
         self::TYPE_NUM           => array(0, 1, )
     );
 
@@ -108,10 +126,17 @@ class MigrationsTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
+<<<<<<< HEAD
+        self::TYPE_PHPNAME       => array('Migration' => 0, 'Batch' => 1, ),
+        self::TYPE_CAMELNAME     => array('migration' => 0, 'batch' => 1, ),
+        self::TYPE_COLNAME       => array(MigrationsTableMap::COL_MIGRATION => 0, MigrationsTableMap::COL_BATCH => 1, ),
+        self::TYPE_FIELDNAME     => array('migration' => 0, 'batch' => 1, ),
+=======
         self::TYPE_PHPNAME       => array('Batch' => 0, 'Migration' => 1, ),
         self::TYPE_CAMELNAME     => array('batch' => 0, 'migration' => 1, ),
         self::TYPE_COLNAME       => array(MigrationsTableMap::COL_BATCH => 0, MigrationsTableMap::COL_MIGRATION => 1, ),
         self::TYPE_FIELDNAME     => array('batch' => 0, 'migration' => 1, ),
+>>>>>>> b8d39d004e8d70d7608919c9d53d0e5ce0f95c9b
         self::TYPE_NUM           => array(0, 1, )
     );
 
@@ -132,8 +157,13 @@ class MigrationsTableMap extends TableMap
         $this->setPackage('');
         $this->setUseIdGenerator(false);
         // columns
+<<<<<<< HEAD
+        $this->addColumn('migration', 'Migration', 'VARCHAR', true, 255, null);
+        $this->addColumn('batch', 'Batch', 'INTEGER', true, null, null);
+=======
         $this->addColumn('batch', 'Batch', 'INTEGER', true, null, null);
         $this->addColumn('migration', 'Migration', 'VARCHAR', true, 255, null);
+>>>>>>> b8d39d004e8d70d7608919c9d53d0e5ce0f95c9b
     } // initialize()
 
     /**
@@ -275,11 +305,19 @@ class MigrationsTableMap extends TableMap
     public static function addSelectColumns(Criteria $criteria, $alias = null)
     {
         if (null === $alias) {
+<<<<<<< HEAD
+            $criteria->addSelectColumn(MigrationsTableMap::COL_MIGRATION);
+            $criteria->addSelectColumn(MigrationsTableMap::COL_BATCH);
+        } else {
+            $criteria->addSelectColumn($alias . '.migration');
+            $criteria->addSelectColumn($alias . '.batch');
+=======
             $criteria->addSelectColumn(MigrationsTableMap::COL_BATCH);
             $criteria->addSelectColumn(MigrationsTableMap::COL_MIGRATION);
         } else {
             $criteria->addSelectColumn($alias . '.batch');
             $criteria->addSelectColumn($alias . '.migration');
+>>>>>>> b8d39d004e8d70d7608919c9d53d0e5ce0f95c9b
         }
     }
 

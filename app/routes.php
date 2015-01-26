@@ -26,9 +26,22 @@ Route::group(array('before' => 'auth'), function()
     Route::get('/cliente', 'ClienteController@index');
     Route::post('/cliente/editar/{id}', 'ClienteController@editar');
     Route::get('/cliente/editar/{id}', 'ClienteController@editar');
+    Route::get('/cliente/view/{id}', 'ClienteController@view');
+    Route::get('/cliente/cadastrar-login/{id}', 'ClienteController@cadastrarLogin');
+    Route::get('/cliente/meus-dados', 'ClienteController@meusDados');
+    Route::post('/cliente/meus-dados', 'ClienteController@meusDados');
+    Route::post('/cliente/cadastrar-login/{id}', 'ClienteController@cadastrarLogin');
+    Route::get('/cliente/listar-login/{id}', 'ClienteController@listarLogin');
     Route::get('/cliente/desativar/{id}', 'ClienteController@desativar');
     Route::get('/cliente/ativar/{id}', 'ClienteController@ativar');
     Route::get('/cliente/excluir/{id}', 'ClienteController@excluir');
+    Route::get('/cliente/excluir-login/{id}/{idCli}', 'ClienteController@excluirLogin');
+    
+    Route::get('/financeiro', 'FinanceiroController@index');
+    Route::get('/financeiro/novo-lancamento', 'FinanceiroController@novoLancamento');
+    Route::post('/financeiro/salvar-lancamento', 'FinanceiroController@salvarLancamento');
+    
+    
 
     // Controller AtendimentoController.
     Route::get('/atendimento', 'AtendimentoController@index');
@@ -45,6 +58,7 @@ Route::group(array('before' => 'auth'), function()
 
     Route::get('/docs', 'ClienteController@index');
     Route::get('/newsletter', 'ClienteController@index');
+    
 
     // Rota de artigos
     Route::controller('home', 'HomeController');
@@ -52,4 +66,4 @@ Route::group(array('before' => 'auth'), function()
     Route::get('sair', 'HomeController@getSair');
 });
 
-
+Route::controller('/documento', 'DocumentoController');
