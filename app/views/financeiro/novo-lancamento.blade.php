@@ -15,7 +15,10 @@
                         $("#obsContratoTexto").html(data.Obscontrato);
                         $("#obsContrato").show();
                     }
-                   
+                    $('#idproduto').append($('<option/>', { 
+                            value: '0',
+                            text : 'Escolha um produto'
+                        }));
                     $.each( data.produtos, function( key, val ) {
                         //items.push( "<li id='" + key + "'>" + val + "</li>" );
                         //$("#idproduto").addOption(key, val, false);
