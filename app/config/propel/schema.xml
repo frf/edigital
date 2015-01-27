@@ -18,6 +18,7 @@
     <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
   </table>
   <table name="cliente" idMethod="native" phpName="Cliente">
+    <column name="obscontrato" phpName="Obscontrato" type="LONGVARCHAR"/>
     <column name="email" phpName="Email" type="VARCHAR" size="200"/>
     <column name="ativo" phpName="Ativo" type="BOOLEAN" size="1" defaultValue="false"/>
     <column name="nome" phpName="Nome" type="VARCHAR" size="255"/>
@@ -83,10 +84,15 @@
     </index>
   </table>
   <table name="produtos" idMethod="native" phpName="Produtos">
+    <column name="tipo" phpName="Tipo" type="CHAR"/>
+    <column name="idcliente" phpName="Idcliente" type="INTEGER"/>
     <column name="idmoeda" phpName="Idmoeda" type="INTEGER"/>
     <column name="valor" phpName="Valor" type="DECIMAL" size="10" scale="2"/>
     <column name="nome" phpName="Nome" type="VARCHAR" size="200"/>
     <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <foreign-key foreignTable="cliente" name="produtos_idcliente_fkey">
+      <reference local="idcliente" foreign="id"/>
+    </foreign-key>
     <foreign-key foreignTable="moeda" name="produtos_idmoeda_fkey">
       <reference local="idmoeda" foreign="id"/>
     </foreign-key>

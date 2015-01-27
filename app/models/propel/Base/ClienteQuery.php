@@ -20,11 +20,13 @@ use Propel\Runtime\Exception\PropelException;
  *
  *
  *
+ * @method     ChildClienteQuery orderByObscontrato($order = Criteria::ASC) Order by the obscontrato column
  * @method     ChildClienteQuery orderByEmail($order = Criteria::ASC) Order by the email column
  * @method     ChildClienteQuery orderByAtivo($order = Criteria::ASC) Order by the ativo column
  * @method     ChildClienteQuery orderByNome($order = Criteria::ASC) Order by the nome column
  * @method     ChildClienteQuery orderById($order = Criteria::ASC) Order by the id column
  *
+ * @method     ChildClienteQuery groupByObscontrato() Group by the obscontrato column
  * @method     ChildClienteQuery groupByEmail() Group by the email column
  * @method     ChildClienteQuery groupByAtivo() Group by the ativo column
  * @method     ChildClienteQuery groupByNome() Group by the nome column
@@ -42,21 +44,27 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildClienteQuery rightJoinIdoc($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Idoc relation
  * @method     ChildClienteQuery innerJoinIdoc($relationAlias = null) Adds a INNER JOIN clause to the query using the Idoc relation
  *
+ * @method     ChildClienteQuery leftJoinProdutos($relationAlias = null) Adds a LEFT JOIN clause to the query using the Produtos relation
+ * @method     ChildClienteQuery rightJoinProdutos($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Produtos relation
+ * @method     ChildClienteQuery innerJoinProdutos($relationAlias = null) Adds a INNER JOIN clause to the query using the Produtos relation
+ *
  * @method     ChildClienteQuery leftJoinUsuarios($relationAlias = null) Adds a LEFT JOIN clause to the query using the Usuarios relation
  * @method     ChildClienteQuery rightJoinUsuarios($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Usuarios relation
  * @method     ChildClienteQuery innerJoinUsuarios($relationAlias = null) Adds a INNER JOIN clause to the query using the Usuarios relation
  *
- * @method     \ClientePgtosQuery|\IdocQuery|\UsuariosQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
+ * @method     \ClientePgtosQuery|\IdocQuery|\ProdutosQuery|\UsuariosQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
  * @method     ChildCliente findOne(ConnectionInterface $con = null) Return the first ChildCliente matching the query
  * @method     ChildCliente findOneOrCreate(ConnectionInterface $con = null) Return the first ChildCliente matching the query, or a new ChildCliente object populated from the query conditions when no match is found
  *
+ * @method     ChildCliente findOneByObscontrato(string $obscontrato) Return the first ChildCliente filtered by the obscontrato column
  * @method     ChildCliente findOneByEmail(string $email) Return the first ChildCliente filtered by the email column
  * @method     ChildCliente findOneByAtivo(boolean $ativo) Return the first ChildCliente filtered by the ativo column
  * @method     ChildCliente findOneByNome(string $nome) Return the first ChildCliente filtered by the nome column
  * @method     ChildCliente findOneById(int $id) Return the first ChildCliente filtered by the id column
  *
  * @method     ChildCliente[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildCliente objects based on current ModelCriteria
+ * @method     ChildCliente[]|ObjectCollection findByObscontrato(string $obscontrato) Return ChildCliente objects filtered by the obscontrato column
  * @method     ChildCliente[]|ObjectCollection findByEmail(string $email) Return ChildCliente objects filtered by the email column
  * @method     ChildCliente[]|ObjectCollection findByAtivo(boolean $ativo) Return ChildCliente objects filtered by the ativo column
  * @method     ChildCliente[]|ObjectCollection findByNome(string $nome) Return ChildCliente objects filtered by the nome column
@@ -152,7 +160,7 @@ abstract class ClienteQuery extends ModelCriteria
      */
     protected function findPkSimple($key, ConnectionInterface $con)
     {
-        $sql = 'SELECT email, ativo, nome, id FROM cliente WHERE id = :p0';
+        $sql = 'SELECT obscontrato, email, ativo, nome, id FROM cliente WHERE id = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -240,6 +248,35 @@ abstract class ClienteQuery extends ModelCriteria
     {
 
         return $this->addUsingAlias(ClienteTableMap::COL_ID, $keys, Criteria::IN);
+    }
+
+    /**
+     * Filter the query on the obscontrato column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByObscontrato('fooValue');   // WHERE obscontrato = 'fooValue'
+     * $query->filterByObscontrato('%fooValue%'); // WHERE obscontrato LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $obscontrato The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildClienteQuery The current query, for fluid interface
+     */
+    public function filterByObscontrato($obscontrato = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($obscontrato)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $obscontrato)) {
+                $obscontrato = str_replace('*', '%', $obscontrato);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(ClienteTableMap::COL_OBSCONTRATO, $obscontrato, $comparison);
     }
 
     /**
@@ -512,6 +549,79 @@ abstract class ClienteQuery extends ModelCriteria
         return $this
             ->joinIdoc($relationAlias, $joinType)
             ->useQuery($relationAlias ? $relationAlias : 'Idoc', '\IdocQuery');
+    }
+
+    /**
+     * Filter the query by a related \Produtos object
+     *
+     * @param \Produtos|ObjectCollection $produtos  the related object to use as filter
+     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildClienteQuery The current query, for fluid interface
+     */
+    public function filterByProdutos($produtos, $comparison = null)
+    {
+        if ($produtos instanceof \Produtos) {
+            return $this
+                ->addUsingAlias(ClienteTableMap::COL_ID, $produtos->getIdcliente(), $comparison);
+        } elseif ($produtos instanceof ObjectCollection) {
+            return $this
+                ->useProdutosQuery()
+                ->filterByPrimaryKeys($produtos->getPrimaryKeys())
+                ->endUse();
+        } else {
+            throw new PropelException('filterByProdutos() only accepts arguments of type \Produtos or Collection');
+        }
+    }
+
+    /**
+     * Adds a JOIN clause to the query using the Produtos relation
+     *
+     * @param     string $relationAlias optional alias for the relation
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return $this|ChildClienteQuery The current query, for fluid interface
+     */
+    public function joinProdutos($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    {
+        $tableMap = $this->getTableMap();
+        $relationMap = $tableMap->getRelation('Produtos');
+
+        // create a ModelJoin object for this join
+        $join = new ModelJoin();
+        $join->setJoinType($joinType);
+        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+        if ($previousJoin = $this->getPreviousJoin()) {
+            $join->setPreviousJoin($previousJoin);
+        }
+
+        // add the ModelJoin to the current object
+        if ($relationAlias) {
+            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+            $this->addJoinObject($join, $relationAlias);
+        } else {
+            $this->addJoinObject($join, 'Produtos');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Use the Produtos relation Produtos object
+     *
+     * @see useQuery()
+     *
+     * @param     string $relationAlias optional alias for the relation,
+     *                                   to be used as main alias in the secondary query
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return \ProdutosQuery A secondary query class using the current class as primary query
+     */
+    public function useProdutosQuery($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    {
+        return $this
+            ->joinProdutos($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'Produtos', '\ProdutosQuery');
     }
 
     /**

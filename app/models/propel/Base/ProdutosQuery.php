@@ -20,11 +20,15 @@ use Propel\Runtime\Exception\PropelException;
  *
  *
  *
+ * @method     ChildProdutosQuery orderByTipo($order = Criteria::ASC) Order by the tipo column
+ * @method     ChildProdutosQuery orderByIdcliente($order = Criteria::ASC) Order by the idcliente column
  * @method     ChildProdutosQuery orderByIdmoeda($order = Criteria::ASC) Order by the idmoeda column
  * @method     ChildProdutosQuery orderByValor($order = Criteria::ASC) Order by the valor column
  * @method     ChildProdutosQuery orderByNome($order = Criteria::ASC) Order by the nome column
  * @method     ChildProdutosQuery orderById($order = Criteria::ASC) Order by the id column
  *
+ * @method     ChildProdutosQuery groupByTipo() Group by the tipo column
+ * @method     ChildProdutosQuery groupByIdcliente() Group by the idcliente column
  * @method     ChildProdutosQuery groupByIdmoeda() Group by the idmoeda column
  * @method     ChildProdutosQuery groupByValor() Group by the valor column
  * @method     ChildProdutosQuery groupByNome() Group by the nome column
@@ -34,6 +38,10 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildProdutosQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method     ChildProdutosQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
+ * @method     ChildProdutosQuery leftJoinCliente($relationAlias = null) Adds a LEFT JOIN clause to the query using the Cliente relation
+ * @method     ChildProdutosQuery rightJoinCliente($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Cliente relation
+ * @method     ChildProdutosQuery innerJoinCliente($relationAlias = null) Adds a INNER JOIN clause to the query using the Cliente relation
+ *
  * @method     ChildProdutosQuery leftJoinMoeda($relationAlias = null) Adds a LEFT JOIN clause to the query using the Moeda relation
  * @method     ChildProdutosQuery rightJoinMoeda($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Moeda relation
  * @method     ChildProdutosQuery innerJoinMoeda($relationAlias = null) Adds a INNER JOIN clause to the query using the Moeda relation
@@ -42,17 +50,21 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildProdutosQuery rightJoinClientePgtos($relationAlias = null) Adds a RIGHT JOIN clause to the query using the ClientePgtos relation
  * @method     ChildProdutosQuery innerJoinClientePgtos($relationAlias = null) Adds a INNER JOIN clause to the query using the ClientePgtos relation
  *
- * @method     \MoedaQuery|\ClientePgtosQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
+ * @method     \ClienteQuery|\MoedaQuery|\ClientePgtosQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
  * @method     ChildProdutos findOne(ConnectionInterface $con = null) Return the first ChildProdutos matching the query
  * @method     ChildProdutos findOneOrCreate(ConnectionInterface $con = null) Return the first ChildProdutos matching the query, or a new ChildProdutos object populated from the query conditions when no match is found
  *
+ * @method     ChildProdutos findOneByTipo(string $tipo) Return the first ChildProdutos filtered by the tipo column
+ * @method     ChildProdutos findOneByIdcliente(int $idcliente) Return the first ChildProdutos filtered by the idcliente column
  * @method     ChildProdutos findOneByIdmoeda(int $idmoeda) Return the first ChildProdutos filtered by the idmoeda column
  * @method     ChildProdutos findOneByValor(string $valor) Return the first ChildProdutos filtered by the valor column
  * @method     ChildProdutos findOneByNome(string $nome) Return the first ChildProdutos filtered by the nome column
  * @method     ChildProdutos findOneById(int $id) Return the first ChildProdutos filtered by the id column
  *
  * @method     ChildProdutos[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildProdutos objects based on current ModelCriteria
+ * @method     ChildProdutos[]|ObjectCollection findByTipo(string $tipo) Return ChildProdutos objects filtered by the tipo column
+ * @method     ChildProdutos[]|ObjectCollection findByIdcliente(int $idcliente) Return ChildProdutos objects filtered by the idcliente column
  * @method     ChildProdutos[]|ObjectCollection findByIdmoeda(int $idmoeda) Return ChildProdutos objects filtered by the idmoeda column
  * @method     ChildProdutos[]|ObjectCollection findByValor(string $valor) Return ChildProdutos objects filtered by the valor column
  * @method     ChildProdutos[]|ObjectCollection findByNome(string $nome) Return ChildProdutos objects filtered by the nome column
@@ -148,7 +160,7 @@ abstract class ProdutosQuery extends ModelCriteria
      */
     protected function findPkSimple($key, ConnectionInterface $con)
     {
-        $sql = 'SELECT idmoeda, valor, nome, id FROM produtos WHERE id = :p0';
+        $sql = 'SELECT tipo, idcliente, idmoeda, valor, nome, id FROM produtos WHERE id = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -236,6 +248,78 @@ abstract class ProdutosQuery extends ModelCriteria
     {
 
         return $this->addUsingAlias(ProdutosTableMap::COL_ID, $keys, Criteria::IN);
+    }
+
+    /**
+     * Filter the query on the tipo column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByTipo('fooValue');   // WHERE tipo = 'fooValue'
+     * $query->filterByTipo('%fooValue%'); // WHERE tipo LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $tipo The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildProdutosQuery The current query, for fluid interface
+     */
+    public function filterByTipo($tipo = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($tipo)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $tipo)) {
+                $tipo = str_replace('*', '%', $tipo);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(ProdutosTableMap::COL_TIPO, $tipo, $comparison);
+    }
+
+    /**
+     * Filter the query on the idcliente column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByIdcliente(1234); // WHERE idcliente = 1234
+     * $query->filterByIdcliente(array(12, 34)); // WHERE idcliente IN (12, 34)
+     * $query->filterByIdcliente(array('min' => 12)); // WHERE idcliente > 12
+     * </code>
+     *
+     * @see       filterByCliente()
+     *
+     * @param     mixed $idcliente The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildProdutosQuery The current query, for fluid interface
+     */
+    public function filterByIdcliente($idcliente = null, $comparison = null)
+    {
+        if (is_array($idcliente)) {
+            $useMinMax = false;
+            if (isset($idcliente['min'])) {
+                $this->addUsingAlias(ProdutosTableMap::COL_IDCLIENTE, $idcliente['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($idcliente['max'])) {
+                $this->addUsingAlias(ProdutosTableMap::COL_IDCLIENTE, $idcliente['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(ProdutosTableMap::COL_IDCLIENTE, $idcliente, $comparison);
     }
 
     /**
@@ -390,6 +474,83 @@ abstract class ProdutosQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(ProdutosTableMap::COL_ID, $id, $comparison);
+    }
+
+    /**
+     * Filter the query by a related \Cliente object
+     *
+     * @param \Cliente|ObjectCollection $cliente The related object(s) to use as filter
+     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @throws \Propel\Runtime\Exception\PropelException
+     *
+     * @return ChildProdutosQuery The current query, for fluid interface
+     */
+    public function filterByCliente($cliente, $comparison = null)
+    {
+        if ($cliente instanceof \Cliente) {
+            return $this
+                ->addUsingAlias(ProdutosTableMap::COL_IDCLIENTE, $cliente->getId(), $comparison);
+        } elseif ($cliente instanceof ObjectCollection) {
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+
+            return $this
+                ->addUsingAlias(ProdutosTableMap::COL_IDCLIENTE, $cliente->toKeyValue('PrimaryKey', 'Id'), $comparison);
+        } else {
+            throw new PropelException('filterByCliente() only accepts arguments of type \Cliente or Collection');
+        }
+    }
+
+    /**
+     * Adds a JOIN clause to the query using the Cliente relation
+     *
+     * @param     string $relationAlias optional alias for the relation
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return $this|ChildProdutosQuery The current query, for fluid interface
+     */
+    public function joinCliente($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    {
+        $tableMap = $this->getTableMap();
+        $relationMap = $tableMap->getRelation('Cliente');
+
+        // create a ModelJoin object for this join
+        $join = new ModelJoin();
+        $join->setJoinType($joinType);
+        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+        if ($previousJoin = $this->getPreviousJoin()) {
+            $join->setPreviousJoin($previousJoin);
+        }
+
+        // add the ModelJoin to the current object
+        if ($relationAlias) {
+            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+            $this->addJoinObject($join, $relationAlias);
+        } else {
+            $this->addJoinObject($join, 'Cliente');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Use the Cliente relation Cliente object
+     *
+     * @see useQuery()
+     *
+     * @param     string $relationAlias optional alias for the relation,
+     *                                   to be used as main alias in the secondary query
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return \ClienteQuery A secondary query class using the current class as primary query
+     */
+    public function useClienteQuery($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    {
+        return $this
+            ->joinCliente($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'Cliente', '\ClienteQuery');
     }
 
     /**

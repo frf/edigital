@@ -26,8 +26,15 @@ class FinanceiroController extends BaseController {
 	}
        public function novoLancamento()
 	{
-      
-          return View::make('financeiro.novo-lancamento');
+            $clientes = Base\ClienteQuery::create()->find();
+        
+            $aCliente = array('0'=>'Escolha um Cliente');
+        
+            foreach($clientes as $cliente){
+                $aCliente[$cliente->getId()] = $cliente->getNome();
+            }
+        
+            return View::make('financeiro.novo-lancamento',array('clientes'=> $aCliente));
         }
        public function salvarLancamento()
 	{
@@ -35,8 +42,10 @@ class FinanceiroController extends BaseController {
            $file = Input::file('nota');
            
            if($dados['valor'] != "" && $dados['idcliente'] != ""){
-               
-               $fileNome = $dados['idcliente']. "_" .md5($file->getClientOriginalName() . date('Ymd'));
+           
+               if(Input::hasFile('nota')){
+                    $fileNome = $dados['idcliente']. "_" .md5($file->getClientOriginalName() . date('Ymd'));
+               }
                
                $pgto = new ClientePgtos();
                $pgto->setIdcliente($dados['idcliente']);
@@ -44,9 +53,11 @@ class FinanceiroController extends BaseController {
                $pgto->setValor($dados['valor']);
                $pgto->setIspaid($dados['ispaid']);
                $pgto->setIdmoeda(Config::get('edigital.moeda'));
-               $pgto->setNota($fileNome);
                
-               $file->move(__DIR__.'/../storage/nota/',$fileNome);               
+               if(Input::hasFile('nota')){
+                   $pgto->setNota($fileNome);
+                   $file->move(__DIR__.'/../storage/nota/',$fileNome);               
+               }
                
                $pgto->save();
                return Redirect::to('/financeiro')->with('message-sucess','Cadastrado com sucesso!');

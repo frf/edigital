@@ -38,7 +38,25 @@ class ClienteController extends BaseController {
           
           return View::make('cliente',$dados);
 	}
-       public function listarLogin($id)
+        public function dadosCliente($id){
+            if($id == ""){
+                $aCliente = array('erro'=>'Nenhum cliente encontrado!');
+            }else{
+                $oCliente = ClienteQuery::create()->findPk($id);
+                if($oCliente){
+                    $aCliente = $oCliente->toArray();
+                    
+                    if($oCliente->getProdutoss()->count()){
+                        $aCliente['produtos'] = $oCliente->getProdutoss()->toArray();
+                    }
+                }else{
+                    $aCliente = array('erro'=>'Nenhum cliente encontrado!');
+                }
+            }
+            
+            return Illuminate\Support\Facades\Response::json($aCliente);
+        }
+        public function listarLogin($id)
 	{
           /*
            * Caso seja cliente apenas exibir os login do cliente pelo id authenticado

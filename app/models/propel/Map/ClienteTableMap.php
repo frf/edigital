@@ -59,7 +59,7 @@ class ClienteTableMap extends TableMap
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 4;
+    const NUM_COLUMNS = 5;
 
     /**
      * The number of lazy-loaded columns
@@ -69,7 +69,12 @@ class ClienteTableMap extends TableMap
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
      */
-    const NUM_HYDRATE_COLUMNS = 4;
+    const NUM_HYDRATE_COLUMNS = 5;
+
+    /**
+     * the column name for the obscontrato field
+     */
+    const COL_OBSCONTRATO = 'cliente.obscontrato';
 
     /**
      * the column name for the email field
@@ -103,11 +108,11 @@ class ClienteTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Email', 'Ativo', 'Nome', 'Id', ),
-        self::TYPE_CAMELNAME     => array('email', 'ativo', 'nome', 'id', ),
-        self::TYPE_COLNAME       => array(ClienteTableMap::COL_EMAIL, ClienteTableMap::COL_ATIVO, ClienteTableMap::COL_NOME, ClienteTableMap::COL_ID, ),
-        self::TYPE_FIELDNAME     => array('email', 'ativo', 'nome', 'id', ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, )
+        self::TYPE_PHPNAME       => array('Obscontrato', 'Email', 'Ativo', 'Nome', 'Id', ),
+        self::TYPE_CAMELNAME     => array('obscontrato', 'email', 'ativo', 'nome', 'id', ),
+        self::TYPE_COLNAME       => array(ClienteTableMap::COL_OBSCONTRATO, ClienteTableMap::COL_EMAIL, ClienteTableMap::COL_ATIVO, ClienteTableMap::COL_NOME, ClienteTableMap::COL_ID, ),
+        self::TYPE_FIELDNAME     => array('obscontrato', 'email', 'ativo', 'nome', 'id', ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, )
     );
 
     /**
@@ -117,11 +122,11 @@ class ClienteTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Email' => 0, 'Ativo' => 1, 'Nome' => 2, 'Id' => 3, ),
-        self::TYPE_CAMELNAME     => array('email' => 0, 'ativo' => 1, 'nome' => 2, 'id' => 3, ),
-        self::TYPE_COLNAME       => array(ClienteTableMap::COL_EMAIL => 0, ClienteTableMap::COL_ATIVO => 1, ClienteTableMap::COL_NOME => 2, ClienteTableMap::COL_ID => 3, ),
-        self::TYPE_FIELDNAME     => array('email' => 0, 'ativo' => 1, 'nome' => 2, 'id' => 3, ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, )
+        self::TYPE_PHPNAME       => array('Obscontrato' => 0, 'Email' => 1, 'Ativo' => 2, 'Nome' => 3, 'Id' => 4, ),
+        self::TYPE_CAMELNAME     => array('obscontrato' => 0, 'email' => 1, 'ativo' => 2, 'nome' => 3, 'id' => 4, ),
+        self::TYPE_COLNAME       => array(ClienteTableMap::COL_OBSCONTRATO => 0, ClienteTableMap::COL_EMAIL => 1, ClienteTableMap::COL_ATIVO => 2, ClienteTableMap::COL_NOME => 3, ClienteTableMap::COL_ID => 4, ),
+        self::TYPE_FIELDNAME     => array('obscontrato' => 0, 'email' => 1, 'ativo' => 2, 'nome' => 3, 'id' => 4, ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, )
     );
 
     /**
@@ -142,6 +147,7 @@ class ClienteTableMap extends TableMap
         $this->setUseIdGenerator(true);
         $this->setPrimaryKeyMethodInfo('cliente_id_seq');
         // columns
+        $this->addColumn('obscontrato', 'Obscontrato', 'LONGVARCHAR', false, null, null);
         $this->addColumn('email', 'Email', 'VARCHAR', false, 200, null);
         $this->addColumn('ativo', 'Ativo', 'BOOLEAN', false, 1, false);
         $this->addColumn('nome', 'Nome', 'VARCHAR', false, 255, null);
@@ -155,6 +161,7 @@ class ClienteTableMap extends TableMap
     {
         $this->addRelation('ClientePgtos', '\\ClientePgtos', RelationMap::ONE_TO_MANY, array('id' => 'idcliente', ), null, null, 'ClientePgtoss');
         $this->addRelation('Idoc', '\\Idoc', RelationMap::ONE_TO_MANY, array('id' => 'idcliente', ), 'CASCADE', 'CASCADE', 'Idocs');
+        $this->addRelation('Produtos', '\\Produtos', RelationMap::ONE_TO_MANY, array('id' => 'idcliente', ), null, null, 'Produtoss');
         $this->addRelation('Usuarios', '\\Usuarios', RelationMap::ONE_TO_MANY, array('id' => 'idcliente', ), null, null, 'Usuarioss');
     } // buildRelations()
     /**
@@ -183,11 +190,11 @@ class ClienteTableMap extends TableMap
     public static function getPrimaryKeyHashFromRow($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
     {
         // If the PK cannot be derived from the row, return NULL.
-        if ($row[TableMap::TYPE_NUM == $indexType ? 3 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)] === null) {
+        if ($row[TableMap::TYPE_NUM == $indexType ? 4 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)] === null) {
             return null;
         }
 
-        return (string) $row[TableMap::TYPE_NUM == $indexType ? 3 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
+        return (string) $row[TableMap::TYPE_NUM == $indexType ? 4 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
     }
 
     /**
@@ -206,7 +213,7 @@ class ClienteTableMap extends TableMap
     {
         return (int) $row[
             $indexType == TableMap::TYPE_NUM
-                ? 3 + $offset
+                ? 4 + $offset
                 : self::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)
         ];
     }
@@ -308,11 +315,13 @@ class ClienteTableMap extends TableMap
     public static function addSelectColumns(Criteria $criteria, $alias = null)
     {
         if (null === $alias) {
+            $criteria->addSelectColumn(ClienteTableMap::COL_OBSCONTRATO);
             $criteria->addSelectColumn(ClienteTableMap::COL_EMAIL);
             $criteria->addSelectColumn(ClienteTableMap::COL_ATIVO);
             $criteria->addSelectColumn(ClienteTableMap::COL_NOME);
             $criteria->addSelectColumn(ClienteTableMap::COL_ID);
         } else {
+            $criteria->addSelectColumn($alias . '.obscontrato');
             $criteria->addSelectColumn($alias . '.email');
             $criteria->addSelectColumn($alias . '.ativo');
             $criteria->addSelectColumn($alias . '.nome');
