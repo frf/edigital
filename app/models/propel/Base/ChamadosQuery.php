@@ -10,6 +10,7 @@ use Map\ChamadosTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
+use Propel\Runtime\ActiveQuery\ModelJoin;
 use Propel\Runtime\Collection\ObjectCollection;
 use Propel\Runtime\Connection\ConnectionInterface;
 use Propel\Runtime\Exception\PropelException;
@@ -19,6 +20,7 @@ use Propel\Runtime\Exception\PropelException;
  *
  *
  *
+ * @method     ChildChamadosQuery orderByIdusuario($order = Criteria::ASC) Order by the idusuario column
  * @method     ChildChamadosQuery orderByUpdatedAt($order = Criteria::ASC) Order by the updated_at column
  * @method     ChildChamadosQuery orderByCreatedAt($order = Criteria::ASC) Order by the created_at column
  * @method     ChildChamadosQuery orderByData($order = Criteria::ASC) Order by the data column
@@ -26,9 +28,9 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildChamadosQuery orderByStatus($order = Criteria::ASC) Order by the status column
  * @method     ChildChamadosQuery orderByTitulo($order = Criteria::ASC) Order by the titulo column
  * @method     ChildChamadosQuery orderByCategoria($order = Criteria::ASC) Order by the categoria column
- * @method     ChildChamadosQuery orderByUsuario($order = Criteria::ASC) Order by the usuario column
  * @method     ChildChamadosQuery orderById($order = Criteria::ASC) Order by the id column
  *
+ * @method     ChildChamadosQuery groupByIdusuario() Group by the idusuario column
  * @method     ChildChamadosQuery groupByUpdatedAt() Group by the updated_at column
  * @method     ChildChamadosQuery groupByCreatedAt() Group by the created_at column
  * @method     ChildChamadosQuery groupByData() Group by the data column
@@ -36,16 +38,22 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildChamadosQuery groupByStatus() Group by the status column
  * @method     ChildChamadosQuery groupByTitulo() Group by the titulo column
  * @method     ChildChamadosQuery groupByCategoria() Group by the categoria column
- * @method     ChildChamadosQuery groupByUsuario() Group by the usuario column
  * @method     ChildChamadosQuery groupById() Group by the id column
  *
  * @method     ChildChamadosQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method     ChildChamadosQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method     ChildChamadosQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
+ * @method     ChildChamadosQuery leftJoinUsuarios($relationAlias = null) Adds a LEFT JOIN clause to the query using the Usuarios relation
+ * @method     ChildChamadosQuery rightJoinUsuarios($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Usuarios relation
+ * @method     ChildChamadosQuery innerJoinUsuarios($relationAlias = null) Adds a INNER JOIN clause to the query using the Usuarios relation
+ *
+ * @method     \UsuariosQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
+ *
  * @method     ChildChamados findOne(ConnectionInterface $con = null) Return the first ChildChamados matching the query
  * @method     ChildChamados findOneOrCreate(ConnectionInterface $con = null) Return the first ChildChamados matching the query, or a new ChildChamados object populated from the query conditions when no match is found
  *
+ * @method     ChildChamados findOneByIdusuario(int $idusuario) Return the first ChildChamados filtered by the idusuario column
  * @method     ChildChamados findOneByUpdatedAt(string $updated_at) Return the first ChildChamados filtered by the updated_at column
  * @method     ChildChamados findOneByCreatedAt(string $created_at) Return the first ChildChamados filtered by the created_at column
  * @method     ChildChamados findOneByData(string $data) Return the first ChildChamados filtered by the data column
@@ -53,10 +61,10 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildChamados findOneByStatus(int $status) Return the first ChildChamados filtered by the status column
  * @method     ChildChamados findOneByTitulo(string $titulo) Return the first ChildChamados filtered by the titulo column
  * @method     ChildChamados findOneByCategoria(int $categoria) Return the first ChildChamados filtered by the categoria column
- * @method     ChildChamados findOneByUsuario(string $usuario) Return the first ChildChamados filtered by the usuario column
  * @method     ChildChamados findOneById(int $id) Return the first ChildChamados filtered by the id column
  *
  * @method     ChildChamados[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildChamados objects based on current ModelCriteria
+ * @method     ChildChamados[]|ObjectCollection findByIdusuario(int $idusuario) Return ChildChamados objects filtered by the idusuario column
  * @method     ChildChamados[]|ObjectCollection findByUpdatedAt(string $updated_at) Return ChildChamados objects filtered by the updated_at column
  * @method     ChildChamados[]|ObjectCollection findByCreatedAt(string $created_at) Return ChildChamados objects filtered by the created_at column
  * @method     ChildChamados[]|ObjectCollection findByData(string $data) Return ChildChamados objects filtered by the data column
@@ -64,7 +72,6 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildChamados[]|ObjectCollection findByStatus(int $status) Return ChildChamados objects filtered by the status column
  * @method     ChildChamados[]|ObjectCollection findByTitulo(string $titulo) Return ChildChamados objects filtered by the titulo column
  * @method     ChildChamados[]|ObjectCollection findByCategoria(int $categoria) Return ChildChamados objects filtered by the categoria column
- * @method     ChildChamados[]|ObjectCollection findByUsuario(string $usuario) Return ChildChamados objects filtered by the usuario column
  * @method     ChildChamados[]|ObjectCollection findById(int $id) Return ChildChamados objects filtered by the id column
  * @method     ChildChamados[]|\Propel\Runtime\Util\PropelModelPager paginate($page = 1, $maxPerPage = 10, ConnectionInterface $con = null) Issue a SELECT query based on the current ModelCriteria and uses a page and a maximum number of results per page to compute an offset and a limit
  *
@@ -157,7 +164,7 @@ abstract class ChamadosQuery extends ModelCriteria
      */
     protected function findPkSimple($key, ConnectionInterface $con)
     {
-        $sql = 'SELECT updated_at, created_at, data, mensagem, status, titulo, categoria, usuario, id FROM chamados WHERE id = :p0';
+        $sql = 'SELECT idusuario, updated_at, created_at, data, mensagem, status, titulo, categoria, id FROM chamados WHERE id = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -245,6 +252,49 @@ abstract class ChamadosQuery extends ModelCriteria
     {
 
         return $this->addUsingAlias(ChamadosTableMap::COL_ID, $keys, Criteria::IN);
+    }
+
+    /**
+     * Filter the query on the idusuario column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByIdusuario(1234); // WHERE idusuario = 1234
+     * $query->filterByIdusuario(array(12, 34)); // WHERE idusuario IN (12, 34)
+     * $query->filterByIdusuario(array('min' => 12)); // WHERE idusuario > 12
+     * </code>
+     *
+     * @see       filterByUsuarios()
+     *
+     * @param     mixed $idusuario The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildChamadosQuery The current query, for fluid interface
+     */
+    public function filterByIdusuario($idusuario = null, $comparison = null)
+    {
+        if (is_array($idusuario)) {
+            $useMinMax = false;
+            if (isset($idusuario['min'])) {
+                $this->addUsingAlias(ChamadosTableMap::COL_IDUSUARIO, $idusuario['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($idusuario['max'])) {
+                $this->addUsingAlias(ChamadosTableMap::COL_IDUSUARIO, $idusuario['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(ChamadosTableMap::COL_IDUSUARIO, $idusuario, $comparison);
     }
 
     /**
@@ -503,35 +553,6 @@ abstract class ChamadosQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query on the usuario column
-     *
-     * Example usage:
-     * <code>
-     * $query->filterByUsuario('fooValue');   // WHERE usuario = 'fooValue'
-     * $query->filterByUsuario('%fooValue%'); // WHERE usuario LIKE '%fooValue%'
-     * </code>
-     *
-     * @param     string $usuario The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return $this|ChildChamadosQuery The current query, for fluid interface
-     */
-    public function filterByUsuario($usuario = null, $comparison = null)
-    {
-        if (null === $comparison) {
-            if (is_array($usuario)) {
-                $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $usuario)) {
-                $usuario = str_replace('*', '%', $usuario);
-                $comparison = Criteria::LIKE;
-            }
-        }
-
-        return $this->addUsingAlias(ChamadosTableMap::COL_USUARIO, $usuario, $comparison);
-    }
-
-    /**
      * Filter the query on the id column
      *
      * Example usage:
@@ -570,6 +591,83 @@ abstract class ChamadosQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(ChamadosTableMap::COL_ID, $id, $comparison);
+    }
+
+    /**
+     * Filter the query by a related \Usuarios object
+     *
+     * @param \Usuarios|ObjectCollection $usuarios The related object(s) to use as filter
+     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @throws \Propel\Runtime\Exception\PropelException
+     *
+     * @return ChildChamadosQuery The current query, for fluid interface
+     */
+    public function filterByUsuarios($usuarios, $comparison = null)
+    {
+        if ($usuarios instanceof \Usuarios) {
+            return $this
+                ->addUsingAlias(ChamadosTableMap::COL_IDUSUARIO, $usuarios->getId(), $comparison);
+        } elseif ($usuarios instanceof ObjectCollection) {
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+
+            return $this
+                ->addUsingAlias(ChamadosTableMap::COL_IDUSUARIO, $usuarios->toKeyValue('PrimaryKey', 'Id'), $comparison);
+        } else {
+            throw new PropelException('filterByUsuarios() only accepts arguments of type \Usuarios or Collection');
+        }
+    }
+
+    /**
+     * Adds a JOIN clause to the query using the Usuarios relation
+     *
+     * @param     string $relationAlias optional alias for the relation
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return $this|ChildChamadosQuery The current query, for fluid interface
+     */
+    public function joinUsuarios($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    {
+        $tableMap = $this->getTableMap();
+        $relationMap = $tableMap->getRelation('Usuarios');
+
+        // create a ModelJoin object for this join
+        $join = new ModelJoin();
+        $join->setJoinType($joinType);
+        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+        if ($previousJoin = $this->getPreviousJoin()) {
+            $join->setPreviousJoin($previousJoin);
+        }
+
+        // add the ModelJoin to the current object
+        if ($relationAlias) {
+            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+            $this->addJoinObject($join, $relationAlias);
+        } else {
+            $this->addJoinObject($join, 'Usuarios');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Use the Usuarios relation Usuarios object
+     *
+     * @see useQuery()
+     *
+     * @param     string $relationAlias optional alias for the relation,
+     *                                   to be used as main alias in the secondary query
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return \UsuariosQuery A secondary query class using the current class as primary query
+     */
+    public function useUsuariosQuery($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    {
+        return $this
+            ->joinUsuarios($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'Usuarios', '\UsuariosQuery');
     }
 
     /**
