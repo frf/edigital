@@ -66,7 +66,7 @@ class ClienteController extends BaseController {
                $id   = Auth::user()->idcliente;
                $usuarios = Usuario::where('idcliente', '=', $id)->get();
           }else{               
-               $usuarios = Usuario::all();
+               $usuarios = Usuario::where('tipo','<>','admin')->get();
           }
 
           return View::make('cliente.listar-login',array('usuarios'=>$usuarios,'id'=>$id));

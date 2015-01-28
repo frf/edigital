@@ -62,34 +62,10 @@ abstract class Mensagens implements ActiveRecordInterface
     protected $virtualColumns = array();
 
     /**
-     * The value for the id field.
-     * @var        int
+     * The value for the updated_at field.
+     * @var        \DateTime
      */
-    protected $id;
-
-    /**
-     * The value for the mensagem field.
-     * @var        string
-     */
-    protected $mensagem;
-
-    /**
-     * The value for the id_chamado field.
-     * @var        int
-     */
-    protected $id_chamado;
-
-    /**
-     * The value for the no_usuario field.
-     * @var        string
-     */
-    protected $no_usuario;
-
-    /**
-     * The value for the data field.
-     * @var        string
-     */
-    protected $data;
+    protected $updated_at;
 
     /**
      * The value for the created_at field.
@@ -98,10 +74,34 @@ abstract class Mensagens implements ActiveRecordInterface
     protected $created_at;
 
     /**
-     * The value for the updated_at field.
-     * @var        \DateTime
+     * The value for the data field.
+     * @var        string
      */
-    protected $updated_at;
+    protected $data;
+
+    /**
+     * The value for the no_usuario field.
+     * @var        string
+     */
+    protected $no_usuario;
+
+    /**
+     * The value for the id_chamado field.
+     * @var        int
+     */
+    protected $id_chamado;
+
+    /**
+     * The value for the mensagem field.
+     * @var        string
+     */
+    protected $mensagem;
+
+    /**
+     * The value for the id field.
+     * @var        int
+     */
+    protected $id;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced
@@ -329,53 +329,23 @@ abstract class Mensagens implements ActiveRecordInterface
     }
 
     /**
-     * Get the [id] column value.
+     * Get the [optionally formatted] temporal [updated_at] column value.
      *
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Get the [mensagem] column value.
      *
-     * @return string
-     */
-    public function getMensagem()
-    {
-        return $this->mensagem;
-    }
-
-    /**
-     * Get the [id_chamado] column value.
+     * @param      string $format The date/time format string (either date()-style or strftime()-style).
+     *                            If format is NULL, then the raw DateTime object will be returned.
      *
-     * @return int
-     */
-    public function getIdChamado()
-    {
-        return $this->id_chamado;
-    }
-
-    /**
-     * Get the [no_usuario] column value.
+     * @return string|DateTime Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL
      *
-     * @return string
+     * @throws PropelException - if unable to parse/validate the date/time value.
      */
-    public function getNoUsuario()
+    public function getUpdatedAt($format = NULL)
     {
-        return $this->no_usuario;
-    }
-
-    /**
-     * Get the [data] column value.
-     *
-     * @return string
-     */
-    public function getData()
-    {
-        return $this->data;
+        if ($format === null) {
+            return $this->updated_at;
+        } else {
+            return $this->updated_at instanceof \DateTime ? $this->updated_at->format($format) : null;
+        }
     }
 
     /**
@@ -399,124 +369,74 @@ abstract class Mensagens implements ActiveRecordInterface
     }
 
     /**
-     * Get the [optionally formatted] temporal [updated_at] column value.
+     * Get the [data] column value.
      *
-     *
-     * @param      string $format The date/time format string (either date()-style or strftime()-style).
-     *                            If format is NULL, then the raw DateTime object will be returned.
-     *
-     * @return string|DateTime Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL
-     *
-     * @throws PropelException - if unable to parse/validate the date/time value.
+     * @return string
      */
-    public function getUpdatedAt($format = NULL)
+    public function getData()
     {
-        if ($format === null) {
-            return $this->updated_at;
-        } else {
-            return $this->updated_at instanceof \DateTime ? $this->updated_at->format($format) : null;
-        }
+        return $this->data;
     }
 
     /**
-     * Set the value of [id] column.
+     * Get the [no_usuario] column value.
      *
-     * @param  int $v new value
-     * @return $this|\Mensagens The current object (for fluent API support)
+     * @return string
      */
-    public function setId($v)
+    public function getNoUsuario()
     {
-        if ($v !== null) {
-            $v = (int) $v;
-        }
-
-        if ($this->id !== $v) {
-            $this->id = $v;
-            $this->modifiedColumns[MensagensTableMap::COL_ID] = true;
-        }
-
-        return $this;
-    } // setId()
+        return $this->no_usuario;
+    }
 
     /**
-     * Set the value of [mensagem] column.
+     * Get the [id_chamado] column value.
      *
-     * @param  string $v new value
-     * @return $this|\Mensagens The current object (for fluent API support)
+     * @return int
      */
-    public function setMensagem($v)
+    public function getIdChamado()
     {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->mensagem !== $v) {
-            $this->mensagem = $v;
-            $this->modifiedColumns[MensagensTableMap::COL_MENSAGEM] = true;
-        }
-
-        return $this;
-    } // setMensagem()
+        return $this->id_chamado;
+    }
 
     /**
-     * Set the value of [id_chamado] column.
+     * Get the [mensagem] column value.
      *
-     * @param  int $v new value
-     * @return $this|\Mensagens The current object (for fluent API support)
+     * @return string
      */
-    public function setIdChamado($v)
+    public function getMensagem()
     {
-        if ($v !== null) {
-            $v = (int) $v;
-        }
-
-        if ($this->id_chamado !== $v) {
-            $this->id_chamado = $v;
-            $this->modifiedColumns[MensagensTableMap::COL_ID_CHAMADO] = true;
-        }
-
-        return $this;
-    } // setIdChamado()
+        return $this->mensagem;
+    }
 
     /**
-     * Set the value of [no_usuario] column.
+     * Get the [id] column value.
      *
-     * @param  string $v new value
-     * @return $this|\Mensagens The current object (for fluent API support)
+     * @return int
      */
-    public function setNoUsuario($v)
+    public function getId()
     {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->no_usuario !== $v) {
-            $this->no_usuario = $v;
-            $this->modifiedColumns[MensagensTableMap::COL_NO_USUARIO] = true;
-        }
-
-        return $this;
-    } // setNoUsuario()
+        return $this->id;
+    }
 
     /**
-     * Set the value of [data] column.
+     * Sets the value of [updated_at] column to a normalized version of the date/time value specified.
      *
-     * @param  string $v new value
+     * @param  mixed $v string, integer (timestamp), or \DateTime value.
+     *               Empty strings are treated as NULL.
      * @return $this|\Mensagens The current object (for fluent API support)
      */
-    public function setData($v)
+    public function setUpdatedAt($v)
     {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->data !== $v) {
-            $this->data = $v;
-            $this->modifiedColumns[MensagensTableMap::COL_DATA] = true;
-        }
+        $dt = PropelDateTime::newInstance($v, null, 'DateTime');
+        if ($this->updated_at !== null || $dt !== null) {
+            if ($dt !== $this->updated_at) {
+                $this->updated_at = $dt;
+                $this->modifiedColumns[MensagensTableMap::COL_UPDATED_AT] = true;
+            }
+        } // if either are not null
 
         return $this;
-    } // setData()
+    } // setUpdatedAt()
 
     /**
      * Sets the value of [created_at] column to a normalized version of the date/time value specified.
@@ -539,24 +459,104 @@ abstract class Mensagens implements ActiveRecordInterface
     } // setCreatedAt()
 
     /**
-     * Sets the value of [updated_at] column to a normalized version of the date/time value specified.
+     * Set the value of [data] column.
      *
-     * @param  mixed $v string, integer (timestamp), or \DateTime value.
-     *               Empty strings are treated as NULL.
+     * @param  string $v new value
      * @return $this|\Mensagens The current object (for fluent API support)
      */
-    public function setUpdatedAt($v)
+    public function setData($v)
     {
-        $dt = PropelDateTime::newInstance($v, null, 'DateTime');
-        if ($this->updated_at !== null || $dt !== null) {
-            if ($dt !== $this->updated_at) {
-                $this->updated_at = $dt;
-                $this->modifiedColumns[MensagensTableMap::COL_UPDATED_AT] = true;
-            }
-        } // if either are not null
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->data !== $v) {
+            $this->data = $v;
+            $this->modifiedColumns[MensagensTableMap::COL_DATA] = true;
+        }
 
         return $this;
-    } // setUpdatedAt()
+    } // setData()
+
+    /**
+     * Set the value of [no_usuario] column.
+     *
+     * @param  string $v new value
+     * @return $this|\Mensagens The current object (for fluent API support)
+     */
+    public function setNoUsuario($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->no_usuario !== $v) {
+            $this->no_usuario = $v;
+            $this->modifiedColumns[MensagensTableMap::COL_NO_USUARIO] = true;
+        }
+
+        return $this;
+    } // setNoUsuario()
+
+    /**
+     * Set the value of [id_chamado] column.
+     *
+     * @param  int $v new value
+     * @return $this|\Mensagens The current object (for fluent API support)
+     */
+    public function setIdChamado($v)
+    {
+        if ($v !== null) {
+            $v = (int) $v;
+        }
+
+        if ($this->id_chamado !== $v) {
+            $this->id_chamado = $v;
+            $this->modifiedColumns[MensagensTableMap::COL_ID_CHAMADO] = true;
+        }
+
+        return $this;
+    } // setIdChamado()
+
+    /**
+     * Set the value of [mensagem] column.
+     *
+     * @param  string $v new value
+     * @return $this|\Mensagens The current object (for fluent API support)
+     */
+    public function setMensagem($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->mensagem !== $v) {
+            $this->mensagem = $v;
+            $this->modifiedColumns[MensagensTableMap::COL_MENSAGEM] = true;
+        }
+
+        return $this;
+    } // setMensagem()
+
+    /**
+     * Set the value of [id] column.
+     *
+     * @param  int $v new value
+     * @return $this|\Mensagens The current object (for fluent API support)
+     */
+    public function setId($v)
+    {
+        if ($v !== null) {
+            $v = (int) $v;
+        }
+
+        if ($this->id !== $v) {
+            $this->id = $v;
+            $this->modifiedColumns[MensagensTableMap::COL_ID] = true;
+        }
+
+        return $this;
+    } // setId()
 
     /**
      * Indicates whether the columns in this object are only set to default values.
@@ -594,26 +594,26 @@ abstract class Mensagens implements ActiveRecordInterface
     {
         try {
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : MensagensTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->id = (null !== $col) ? (int) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : MensagensTableMap::translateFieldName('UpdatedAt', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->updated_at = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : MensagensTableMap::translateFieldName('Mensagem', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->mensagem = (null !== $col) ? (string) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : MensagensTableMap::translateFieldName('CreatedAt', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->created_at = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : MensagensTableMap::translateFieldName('IdChamado', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->id_chamado = (null !== $col) ? (int) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : MensagensTableMap::translateFieldName('Data', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->data = (null !== $col) ? (string) $col : null;
 
             $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : MensagensTableMap::translateFieldName('NoUsuario', TableMap::TYPE_PHPNAME, $indexType)];
             $this->no_usuario = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : MensagensTableMap::translateFieldName('Data', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->data = (null !== $col) ? (string) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : MensagensTableMap::translateFieldName('IdChamado', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->id_chamado = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : MensagensTableMap::translateFieldName('CreatedAt', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->created_at = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : MensagensTableMap::translateFieldName('Mensagem', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->mensagem = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 6 + $startcol : MensagensTableMap::translateFieldName('UpdatedAt', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->updated_at = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 6 + $startcol : MensagensTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->id = (null !== $col) ? (int) $col : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -828,26 +828,26 @@ abstract class Mensagens implements ActiveRecordInterface
 
 
          // check the columns in natural order for more readable SQL queries
-        if ($this->isColumnModified(MensagensTableMap::COL_ID)) {
-            $modifiedColumns[':p' . $index++]  = 'id';
-        }
-        if ($this->isColumnModified(MensagensTableMap::COL_MENSAGEM)) {
-            $modifiedColumns[':p' . $index++]  = 'mensagem';
-        }
-        if ($this->isColumnModified(MensagensTableMap::COL_ID_CHAMADO)) {
-            $modifiedColumns[':p' . $index++]  = 'id_chamado';
-        }
-        if ($this->isColumnModified(MensagensTableMap::COL_NO_USUARIO)) {
-            $modifiedColumns[':p' . $index++]  = 'no_usuario';
-        }
-        if ($this->isColumnModified(MensagensTableMap::COL_DATA)) {
-            $modifiedColumns[':p' . $index++]  = 'data';
+        if ($this->isColumnModified(MensagensTableMap::COL_UPDATED_AT)) {
+            $modifiedColumns[':p' . $index++]  = 'updated_at';
         }
         if ($this->isColumnModified(MensagensTableMap::COL_CREATED_AT)) {
             $modifiedColumns[':p' . $index++]  = 'created_at';
         }
-        if ($this->isColumnModified(MensagensTableMap::COL_UPDATED_AT)) {
-            $modifiedColumns[':p' . $index++]  = 'updated_at';
+        if ($this->isColumnModified(MensagensTableMap::COL_DATA)) {
+            $modifiedColumns[':p' . $index++]  = 'data';
+        }
+        if ($this->isColumnModified(MensagensTableMap::COL_NO_USUARIO)) {
+            $modifiedColumns[':p' . $index++]  = 'no_usuario';
+        }
+        if ($this->isColumnModified(MensagensTableMap::COL_ID_CHAMADO)) {
+            $modifiedColumns[':p' . $index++]  = 'id_chamado';
+        }
+        if ($this->isColumnModified(MensagensTableMap::COL_MENSAGEM)) {
+            $modifiedColumns[':p' . $index++]  = 'mensagem';
+        }
+        if ($this->isColumnModified(MensagensTableMap::COL_ID)) {
+            $modifiedColumns[':p' . $index++]  = 'id';
         }
 
         $sql = sprintf(
@@ -860,26 +860,26 @@ abstract class Mensagens implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-                    case 'id':
-                        $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
-                        break;
-                    case 'mensagem':
-                        $stmt->bindValue($identifier, $this->mensagem, PDO::PARAM_STR);
-                        break;
-                    case 'id_chamado':
-                        $stmt->bindValue($identifier, $this->id_chamado, PDO::PARAM_INT);
-                        break;
-                    case 'no_usuario':
-                        $stmt->bindValue($identifier, $this->no_usuario, PDO::PARAM_STR);
-                        break;
-                    case 'data':
-                        $stmt->bindValue($identifier, $this->data, PDO::PARAM_STR);
+                    case 'updated_at':
+                        $stmt->bindValue($identifier, $this->updated_at ? $this->updated_at->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
                         break;
                     case 'created_at':
                         $stmt->bindValue($identifier, $this->created_at ? $this->created_at->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
                         break;
-                    case 'updated_at':
-                        $stmt->bindValue($identifier, $this->updated_at ? $this->updated_at->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
+                    case 'data':
+                        $stmt->bindValue($identifier, $this->data, PDO::PARAM_STR);
+                        break;
+                    case 'no_usuario':
+                        $stmt->bindValue($identifier, $this->no_usuario, PDO::PARAM_STR);
+                        break;
+                    case 'id_chamado':
+                        $stmt->bindValue($identifier, $this->id_chamado, PDO::PARAM_INT);
+                        break;
+                    case 'mensagem':
+                        $stmt->bindValue($identifier, $this->mensagem, PDO::PARAM_STR);
+                        break;
+                    case 'id':
+                        $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
                 }
             }
@@ -937,25 +937,25 @@ abstract class Mensagens implements ActiveRecordInterface
     {
         switch ($pos) {
             case 0:
-                return $this->getId();
+                return $this->getUpdatedAt();
                 break;
             case 1:
-                return $this->getMensagem();
+                return $this->getCreatedAt();
                 break;
             case 2:
-                return $this->getIdChamado();
+                return $this->getData();
                 break;
             case 3:
                 return $this->getNoUsuario();
                 break;
             case 4:
-                return $this->getData();
+                return $this->getIdChamado();
                 break;
             case 5:
-                return $this->getCreatedAt();
+                return $this->getMensagem();
                 break;
             case 6:
-                return $this->getUpdatedAt();
+                return $this->getId();
                 break;
             default:
                 return null;
@@ -986,28 +986,14 @@ abstract class Mensagens implements ActiveRecordInterface
         $alreadyDumpedObjects['Mensagens'][$this->hashCode()] = true;
         $keys = MensagensTableMap::getFieldNames($keyType);
         $result = array(
-            $keys[0] => $this->getId(),
-            $keys[1] => $this->getMensagem(),
-            $keys[2] => $this->getIdChamado(),
+            $keys[0] => $this->getUpdatedAt(),
+            $keys[1] => $this->getCreatedAt(),
+            $keys[2] => $this->getData(),
             $keys[3] => $this->getNoUsuario(),
-            $keys[4] => $this->getData(),
-            $keys[5] => $this->getCreatedAt(),
-            $keys[6] => $this->getUpdatedAt(),
+            $keys[4] => $this->getIdChamado(),
+            $keys[5] => $this->getMensagem(),
+            $keys[6] => $this->getId(),
         );
-
-        $utc = new \DateTimeZone('utc');
-        if ($result[$keys[5]] instanceof \DateTime) {
-            // When changing timezone we don't want to change existing instances
-            $dateTime = clone $result[$keys[5]];
-            $result[$keys[5]] = $dateTime->setTimezone($utc)->format('Y-m-d\TH:i:s\Z');
-        }
-
-        if ($result[$keys[6]] instanceof \DateTime) {
-            // When changing timezone we don't want to change existing instances
-            $dateTime = clone $result[$keys[6]];
-            $result[$keys[6]] = $dateTime->setTimezone($utc)->format('Y-m-d\TH:i:s\Z');
-        }
-
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
             $result[$key] = $virtualColumn;
@@ -1047,25 +1033,25 @@ abstract class Mensagens implements ActiveRecordInterface
     {
         switch ($pos) {
             case 0:
-                $this->setId($value);
+                $this->setUpdatedAt($value);
                 break;
             case 1:
-                $this->setMensagem($value);
+                $this->setCreatedAt($value);
                 break;
             case 2:
-                $this->setIdChamado($value);
+                $this->setData($value);
                 break;
             case 3:
                 $this->setNoUsuario($value);
                 break;
             case 4:
-                $this->setData($value);
+                $this->setIdChamado($value);
                 break;
             case 5:
-                $this->setCreatedAt($value);
+                $this->setMensagem($value);
                 break;
             case 6:
-                $this->setUpdatedAt($value);
+                $this->setId($value);
                 break;
         } // switch()
 
@@ -1094,25 +1080,25 @@ abstract class Mensagens implements ActiveRecordInterface
         $keys = MensagensTableMap::getFieldNames($keyType);
 
         if (array_key_exists($keys[0], $arr)) {
-            $this->setId($arr[$keys[0]]);
+            $this->setUpdatedAt($arr[$keys[0]]);
         }
         if (array_key_exists($keys[1], $arr)) {
-            $this->setMensagem($arr[$keys[1]]);
+            $this->setCreatedAt($arr[$keys[1]]);
         }
         if (array_key_exists($keys[2], $arr)) {
-            $this->setIdChamado($arr[$keys[2]]);
+            $this->setData($arr[$keys[2]]);
         }
         if (array_key_exists($keys[3], $arr)) {
             $this->setNoUsuario($arr[$keys[3]]);
         }
         if (array_key_exists($keys[4], $arr)) {
-            $this->setData($arr[$keys[4]]);
+            $this->setIdChamado($arr[$keys[4]]);
         }
         if (array_key_exists($keys[5], $arr)) {
-            $this->setCreatedAt($arr[$keys[5]]);
+            $this->setMensagem($arr[$keys[5]]);
         }
         if (array_key_exists($keys[6], $arr)) {
-            $this->setUpdatedAt($arr[$keys[6]]);
+            $this->setId($arr[$keys[6]]);
         }
     }
 
@@ -1155,26 +1141,26 @@ abstract class Mensagens implements ActiveRecordInterface
     {
         $criteria = new Criteria(MensagensTableMap::DATABASE_NAME);
 
-        if ($this->isColumnModified(MensagensTableMap::COL_ID)) {
-            $criteria->add(MensagensTableMap::COL_ID, $this->id);
-        }
-        if ($this->isColumnModified(MensagensTableMap::COL_MENSAGEM)) {
-            $criteria->add(MensagensTableMap::COL_MENSAGEM, $this->mensagem);
-        }
-        if ($this->isColumnModified(MensagensTableMap::COL_ID_CHAMADO)) {
-            $criteria->add(MensagensTableMap::COL_ID_CHAMADO, $this->id_chamado);
-        }
-        if ($this->isColumnModified(MensagensTableMap::COL_NO_USUARIO)) {
-            $criteria->add(MensagensTableMap::COL_NO_USUARIO, $this->no_usuario);
-        }
-        if ($this->isColumnModified(MensagensTableMap::COL_DATA)) {
-            $criteria->add(MensagensTableMap::COL_DATA, $this->data);
+        if ($this->isColumnModified(MensagensTableMap::COL_UPDATED_AT)) {
+            $criteria->add(MensagensTableMap::COL_UPDATED_AT, $this->updated_at);
         }
         if ($this->isColumnModified(MensagensTableMap::COL_CREATED_AT)) {
             $criteria->add(MensagensTableMap::COL_CREATED_AT, $this->created_at);
         }
-        if ($this->isColumnModified(MensagensTableMap::COL_UPDATED_AT)) {
-            $criteria->add(MensagensTableMap::COL_UPDATED_AT, $this->updated_at);
+        if ($this->isColumnModified(MensagensTableMap::COL_DATA)) {
+            $criteria->add(MensagensTableMap::COL_DATA, $this->data);
+        }
+        if ($this->isColumnModified(MensagensTableMap::COL_NO_USUARIO)) {
+            $criteria->add(MensagensTableMap::COL_NO_USUARIO, $this->no_usuario);
+        }
+        if ($this->isColumnModified(MensagensTableMap::COL_ID_CHAMADO)) {
+            $criteria->add(MensagensTableMap::COL_ID_CHAMADO, $this->id_chamado);
+        }
+        if ($this->isColumnModified(MensagensTableMap::COL_MENSAGEM)) {
+            $criteria->add(MensagensTableMap::COL_MENSAGEM, $this->mensagem);
+        }
+        if ($this->isColumnModified(MensagensTableMap::COL_ID)) {
+            $criteria->add(MensagensTableMap::COL_ID, $this->id);
         }
 
         return $criteria;
@@ -1262,12 +1248,12 @@ abstract class Mensagens implements ActiveRecordInterface
      */
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
-        $copyObj->setMensagem($this->getMensagem());
-        $copyObj->setIdChamado($this->getIdChamado());
-        $copyObj->setNoUsuario($this->getNoUsuario());
-        $copyObj->setData($this->getData());
-        $copyObj->setCreatedAt($this->getCreatedAt());
         $copyObj->setUpdatedAt($this->getUpdatedAt());
+        $copyObj->setCreatedAt($this->getCreatedAt());
+        $copyObj->setData($this->getData());
+        $copyObj->setNoUsuario($this->getNoUsuario());
+        $copyObj->setIdChamado($this->getIdChamado());
+        $copyObj->setMensagem($this->getMensagem());
         if ($makeNew) {
             $copyObj->setNew(true);
             $copyObj->setId(NULL); // this is a auto-increment column, so set to default value
@@ -1303,13 +1289,13 @@ abstract class Mensagens implements ActiveRecordInterface
      */
     public function clear()
     {
-        $this->id = null;
-        $this->mensagem = null;
-        $this->id_chamado = null;
-        $this->no_usuario = null;
-        $this->data = null;
-        $this->created_at = null;
         $this->updated_at = null;
+        $this->created_at = null;
+        $this->data = null;
+        $this->no_usuario = null;
+        $this->id_chamado = null;
+        $this->mensagem = null;
+        $this->id = null;
         $this->alreadyInSave = false;
         $this->clearAllReferences();
         $this->resetModified();

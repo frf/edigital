@@ -70,16 +70,16 @@ abstract class Cliente implements ActiveRecordInterface
     protected $virtualColumns = array();
 
     /**
-     * The value for the id field.
-     * @var        int
-     */
-    protected $id;
-
-    /**
-     * The value for the nome field.
+     * The value for the obscontrato field.
      * @var        string
      */
-    protected $nome;
+    protected $obscontrato;
+
+    /**
+     * The value for the email field.
+     * @var        string
+     */
+    protected $email;
 
     /**
      * The value for the ativo field.
@@ -89,16 +89,16 @@ abstract class Cliente implements ActiveRecordInterface
     protected $ativo;
 
     /**
-     * The value for the email field.
+     * The value for the nome field.
      * @var        string
      */
-    protected $email;
+    protected $nome;
 
     /**
-     * The value for the obscontrato field.
-     * @var        string
+     * The value for the id field.
+     * @var        int
      */
-    protected $obscontrato;
+    protected $id;
 
     /**
      * @var        ObjectCollection|ChildClientePgtos[] Collection to store aggregation of ChildClientePgtos objects.
@@ -387,23 +387,23 @@ abstract class Cliente implements ActiveRecordInterface
     }
 
     /**
-     * Get the [id] column value.
-     *
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Get the [nome] column value.
+     * Get the [obscontrato] column value.
      *
      * @return string
      */
-    public function getNome()
+    public function getObscontrato()
     {
-        return $this->nome;
+        return $this->obscontrato;
+    }
+
+    /**
+     * Get the [email] column value.
+     *
+     * @return string
+     */
+    public function getEmail()
+    {
+        return $this->email;
     }
 
     /**
@@ -427,64 +427,64 @@ abstract class Cliente implements ActiveRecordInterface
     }
 
     /**
-     * Get the [email] column value.
+     * Get the [nome] column value.
      *
      * @return string
      */
-    public function getEmail()
+    public function getNome()
     {
-        return $this->email;
+        return $this->nome;
     }
 
     /**
-     * Get the [obscontrato] column value.
+     * Get the [id] column value.
      *
-     * @return string
+     * @return int
      */
-    public function getObscontrato()
+    public function getId()
     {
-        return $this->obscontrato;
+        return $this->id;
     }
 
     /**
-     * Set the value of [id] column.
-     *
-     * @param  int $v new value
-     * @return $this|\Cliente The current object (for fluent API support)
-     */
-    public function setId($v)
-    {
-        if ($v !== null) {
-            $v = (int) $v;
-        }
-
-        if ($this->id !== $v) {
-            $this->id = $v;
-            $this->modifiedColumns[ClienteTableMap::COL_ID] = true;
-        }
-
-        return $this;
-    } // setId()
-
-    /**
-     * Set the value of [nome] column.
+     * Set the value of [obscontrato] column.
      *
      * @param  string $v new value
      * @return $this|\Cliente The current object (for fluent API support)
      */
-    public function setNome($v)
+    public function setObscontrato($v)
     {
         if ($v !== null) {
             $v = (string) $v;
         }
 
-        if ($this->nome !== $v) {
-            $this->nome = $v;
-            $this->modifiedColumns[ClienteTableMap::COL_NOME] = true;
+        if ($this->obscontrato !== $v) {
+            $this->obscontrato = $v;
+            $this->modifiedColumns[ClienteTableMap::COL_OBSCONTRATO] = true;
         }
 
         return $this;
-    } // setNome()
+    } // setObscontrato()
+
+    /**
+     * Set the value of [email] column.
+     *
+     * @param  string $v new value
+     * @return $this|\Cliente The current object (for fluent API support)
+     */
+    public function setEmail($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->email !== $v) {
+            $this->email = $v;
+            $this->modifiedColumns[ClienteTableMap::COL_EMAIL] = true;
+        }
+
+        return $this;
+    } // setEmail()
 
     /**
      * Sets the value of the [ativo] column.
@@ -515,44 +515,44 @@ abstract class Cliente implements ActiveRecordInterface
     } // setAtivo()
 
     /**
-     * Set the value of [email] column.
+     * Set the value of [nome] column.
      *
      * @param  string $v new value
      * @return $this|\Cliente The current object (for fluent API support)
      */
-    public function setEmail($v)
+    public function setNome($v)
     {
         if ($v !== null) {
             $v = (string) $v;
         }
 
-        if ($this->email !== $v) {
-            $this->email = $v;
-            $this->modifiedColumns[ClienteTableMap::COL_EMAIL] = true;
+        if ($this->nome !== $v) {
+            $this->nome = $v;
+            $this->modifiedColumns[ClienteTableMap::COL_NOME] = true;
         }
 
         return $this;
-    } // setEmail()
+    } // setNome()
 
     /**
-     * Set the value of [obscontrato] column.
+     * Set the value of [id] column.
      *
-     * @param  string $v new value
+     * @param  int $v new value
      * @return $this|\Cliente The current object (for fluent API support)
      */
-    public function setObscontrato($v)
+    public function setId($v)
     {
         if ($v !== null) {
-            $v = (string) $v;
+            $v = (int) $v;
         }
 
-        if ($this->obscontrato !== $v) {
-            $this->obscontrato = $v;
-            $this->modifiedColumns[ClienteTableMap::COL_OBSCONTRATO] = true;
+        if ($this->id !== $v) {
+            $this->id = $v;
+            $this->modifiedColumns[ClienteTableMap::COL_ID] = true;
         }
 
         return $this;
-    } // setObscontrato()
+    } // setId()
 
     /**
      * Indicates whether the columns in this object are only set to default values.
@@ -594,20 +594,20 @@ abstract class Cliente implements ActiveRecordInterface
     {
         try {
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : ClienteTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->id = (null !== $col) ? (int) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : ClienteTableMap::translateFieldName('Obscontrato', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->obscontrato = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : ClienteTableMap::translateFieldName('Nome', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->nome = (null !== $col) ? (string) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : ClienteTableMap::translateFieldName('Email', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->email = (null !== $col) ? (string) $col : null;
 
             $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : ClienteTableMap::translateFieldName('Ativo', TableMap::TYPE_PHPNAME, $indexType)];
             $this->ativo = (null !== $col) ? (boolean) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : ClienteTableMap::translateFieldName('Email', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->email = (null !== $col) ? (string) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : ClienteTableMap::translateFieldName('Nome', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->nome = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : ClienteTableMap::translateFieldName('Obscontrato', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->obscontrato = (null !== $col) ? (string) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : ClienteTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->id = (null !== $col) ? (int) $col : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -901,20 +901,20 @@ abstract class Cliente implements ActiveRecordInterface
 
 
          // check the columns in natural order for more readable SQL queries
-        if ($this->isColumnModified(ClienteTableMap::COL_ID)) {
-            $modifiedColumns[':p' . $index++]  = 'id';
-        }
-        if ($this->isColumnModified(ClienteTableMap::COL_NOME)) {
-            $modifiedColumns[':p' . $index++]  = 'nome';
-        }
-        if ($this->isColumnModified(ClienteTableMap::COL_ATIVO)) {
-            $modifiedColumns[':p' . $index++]  = 'ativo';
+        if ($this->isColumnModified(ClienteTableMap::COL_OBSCONTRATO)) {
+            $modifiedColumns[':p' . $index++]  = 'obscontrato';
         }
         if ($this->isColumnModified(ClienteTableMap::COL_EMAIL)) {
             $modifiedColumns[':p' . $index++]  = 'email';
         }
-        if ($this->isColumnModified(ClienteTableMap::COL_OBSCONTRATO)) {
-            $modifiedColumns[':p' . $index++]  = 'obscontrato';
+        if ($this->isColumnModified(ClienteTableMap::COL_ATIVO)) {
+            $modifiedColumns[':p' . $index++]  = 'ativo';
+        }
+        if ($this->isColumnModified(ClienteTableMap::COL_NOME)) {
+            $modifiedColumns[':p' . $index++]  = 'nome';
+        }
+        if ($this->isColumnModified(ClienteTableMap::COL_ID)) {
+            $modifiedColumns[':p' . $index++]  = 'id';
         }
 
         $sql = sprintf(
@@ -927,20 +927,20 @@ abstract class Cliente implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-                    case 'id':
-                        $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
-                        break;
-                    case 'nome':
-                        $stmt->bindValue($identifier, $this->nome, PDO::PARAM_STR);
-                        break;
-                    case 'ativo':
-                        $stmt->bindValue($identifier, $this->ativo, PDO::PARAM_BOOL);
+                    case 'obscontrato':
+                        $stmt->bindValue($identifier, $this->obscontrato, PDO::PARAM_STR);
                         break;
                     case 'email':
                         $stmt->bindValue($identifier, $this->email, PDO::PARAM_STR);
                         break;
-                    case 'obscontrato':
-                        $stmt->bindValue($identifier, $this->obscontrato, PDO::PARAM_STR);
+                    case 'ativo':
+                        $stmt->bindValue($identifier, $this->ativo, PDO::PARAM_BOOL);
+                        break;
+                    case 'nome':
+                        $stmt->bindValue($identifier, $this->nome, PDO::PARAM_STR);
+                        break;
+                    case 'id':
+                        $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
                 }
             }
@@ -998,19 +998,19 @@ abstract class Cliente implements ActiveRecordInterface
     {
         switch ($pos) {
             case 0:
-                return $this->getId();
+                return $this->getObscontrato();
                 break;
             case 1:
-                return $this->getNome();
+                return $this->getEmail();
                 break;
             case 2:
                 return $this->getAtivo();
                 break;
             case 3:
-                return $this->getEmail();
+                return $this->getNome();
                 break;
             case 4:
-                return $this->getObscontrato();
+                return $this->getId();
                 break;
             default:
                 return null;
@@ -1042,11 +1042,11 @@ abstract class Cliente implements ActiveRecordInterface
         $alreadyDumpedObjects['Cliente'][$this->hashCode()] = true;
         $keys = ClienteTableMap::getFieldNames($keyType);
         $result = array(
-            $keys[0] => $this->getId(),
-            $keys[1] => $this->getNome(),
+            $keys[0] => $this->getObscontrato(),
+            $keys[1] => $this->getEmail(),
             $keys[2] => $this->getAtivo(),
-            $keys[3] => $this->getEmail(),
-            $keys[4] => $this->getObscontrato(),
+            $keys[3] => $this->getNome(),
+            $keys[4] => $this->getId(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -1149,19 +1149,19 @@ abstract class Cliente implements ActiveRecordInterface
     {
         switch ($pos) {
             case 0:
-                $this->setId($value);
+                $this->setObscontrato($value);
                 break;
             case 1:
-                $this->setNome($value);
+                $this->setEmail($value);
                 break;
             case 2:
                 $this->setAtivo($value);
                 break;
             case 3:
-                $this->setEmail($value);
+                $this->setNome($value);
                 break;
             case 4:
-                $this->setObscontrato($value);
+                $this->setId($value);
                 break;
         } // switch()
 
@@ -1190,19 +1190,19 @@ abstract class Cliente implements ActiveRecordInterface
         $keys = ClienteTableMap::getFieldNames($keyType);
 
         if (array_key_exists($keys[0], $arr)) {
-            $this->setId($arr[$keys[0]]);
+            $this->setObscontrato($arr[$keys[0]]);
         }
         if (array_key_exists($keys[1], $arr)) {
-            $this->setNome($arr[$keys[1]]);
+            $this->setEmail($arr[$keys[1]]);
         }
         if (array_key_exists($keys[2], $arr)) {
             $this->setAtivo($arr[$keys[2]]);
         }
         if (array_key_exists($keys[3], $arr)) {
-            $this->setEmail($arr[$keys[3]]);
+            $this->setNome($arr[$keys[3]]);
         }
         if (array_key_exists($keys[4], $arr)) {
-            $this->setObscontrato($arr[$keys[4]]);
+            $this->setId($arr[$keys[4]]);
         }
     }
 
@@ -1245,20 +1245,20 @@ abstract class Cliente implements ActiveRecordInterface
     {
         $criteria = new Criteria(ClienteTableMap::DATABASE_NAME);
 
-        if ($this->isColumnModified(ClienteTableMap::COL_ID)) {
-            $criteria->add(ClienteTableMap::COL_ID, $this->id);
-        }
-        if ($this->isColumnModified(ClienteTableMap::COL_NOME)) {
-            $criteria->add(ClienteTableMap::COL_NOME, $this->nome);
-        }
-        if ($this->isColumnModified(ClienteTableMap::COL_ATIVO)) {
-            $criteria->add(ClienteTableMap::COL_ATIVO, $this->ativo);
+        if ($this->isColumnModified(ClienteTableMap::COL_OBSCONTRATO)) {
+            $criteria->add(ClienteTableMap::COL_OBSCONTRATO, $this->obscontrato);
         }
         if ($this->isColumnModified(ClienteTableMap::COL_EMAIL)) {
             $criteria->add(ClienteTableMap::COL_EMAIL, $this->email);
         }
-        if ($this->isColumnModified(ClienteTableMap::COL_OBSCONTRATO)) {
-            $criteria->add(ClienteTableMap::COL_OBSCONTRATO, $this->obscontrato);
+        if ($this->isColumnModified(ClienteTableMap::COL_ATIVO)) {
+            $criteria->add(ClienteTableMap::COL_ATIVO, $this->ativo);
+        }
+        if ($this->isColumnModified(ClienteTableMap::COL_NOME)) {
+            $criteria->add(ClienteTableMap::COL_NOME, $this->nome);
+        }
+        if ($this->isColumnModified(ClienteTableMap::COL_ID)) {
+            $criteria->add(ClienteTableMap::COL_ID, $this->id);
         }
 
         return $criteria;
@@ -1346,10 +1346,10 @@ abstract class Cliente implements ActiveRecordInterface
      */
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
-        $copyObj->setNome($this->getNome());
-        $copyObj->setAtivo($this->getAtivo());
-        $copyObj->setEmail($this->getEmail());
         $copyObj->setObscontrato($this->getObscontrato());
+        $copyObj->setEmail($this->getEmail());
+        $copyObj->setAtivo($this->getAtivo());
+        $copyObj->setNome($this->getNome());
 
         if ($deepCopy) {
             // important: temporarily setNew(false) because this affects the behavior of
@@ -2389,11 +2389,11 @@ abstract class Cliente implements ActiveRecordInterface
      */
     public function clear()
     {
-        $this->id = null;
-        $this->nome = null;
-        $this->ativo = null;
-        $this->email = null;
         $this->obscontrato = null;
+        $this->email = null;
+        $this->ativo = null;
+        $this->nome = null;
+        $this->id = null;
         $this->alreadyInSave = false;
         $this->clearAllReferences();
         $this->applyDefaultValues();

@@ -62,16 +62,10 @@ abstract class StatusChamados implements ActiveRecordInterface
     protected $virtualColumns = array();
 
     /**
-     * The value for the id field.
-     * @var        int
+     * The value for the updated_at field.
+     * @var        \DateTime
      */
-    protected $id;
-
-    /**
-     * The value for the status_chamado field.
-     * @var        string
-     */
-    protected $status_chamado;
+    protected $updated_at;
 
     /**
      * The value for the created_at field.
@@ -80,10 +74,16 @@ abstract class StatusChamados implements ActiveRecordInterface
     protected $created_at;
 
     /**
-     * The value for the updated_at field.
-     * @var        \DateTime
+     * The value for the status_chamado field.
+     * @var        string
      */
-    protected $updated_at;
+    protected $status_chamado;
+
+    /**
+     * The value for the id field.
+     * @var        int
+     */
+    protected $id;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced
@@ -311,23 +311,23 @@ abstract class StatusChamados implements ActiveRecordInterface
     }
 
     /**
-     * Get the [id] column value.
+     * Get the [optionally formatted] temporal [updated_at] column value.
      *
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Get the [status_chamado] column value.
      *
-     * @return string
+     * @param      string $format The date/time format string (either date()-style or strftime()-style).
+     *                            If format is NULL, then the raw DateTime object will be returned.
+     *
+     * @return string|DateTime Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL
+     *
+     * @throws PropelException - if unable to parse/validate the date/time value.
      */
-    public function getStatusChamado()
+    public function getUpdatedAt($format = NULL)
     {
-        return $this->status_chamado;
+        if ($format === null) {
+            return $this->updated_at;
+        } else {
+            return $this->updated_at instanceof \DateTime ? $this->updated_at->format($format) : null;
+        }
     }
 
     /**
@@ -351,64 +351,44 @@ abstract class StatusChamados implements ActiveRecordInterface
     }
 
     /**
-     * Get the [optionally formatted] temporal [updated_at] column value.
+     * Get the [status_chamado] column value.
      *
-     *
-     * @param      string $format The date/time format string (either date()-style or strftime()-style).
-     *                            If format is NULL, then the raw DateTime object will be returned.
-     *
-     * @return string|DateTime Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL
-     *
-     * @throws PropelException - if unable to parse/validate the date/time value.
+     * @return string
      */
-    public function getUpdatedAt($format = NULL)
+    public function getStatusChamado()
     {
-        if ($format === null) {
-            return $this->updated_at;
-        } else {
-            return $this->updated_at instanceof \DateTime ? $this->updated_at->format($format) : null;
-        }
+        return $this->status_chamado;
     }
 
     /**
-     * Set the value of [id] column.
+     * Get the [id] column value.
      *
-     * @param  int $v new value
-     * @return $this|\StatusChamados The current object (for fluent API support)
+     * @return int
      */
-    public function setId($v)
+    public function getId()
     {
-        if ($v !== null) {
-            $v = (int) $v;
-        }
-
-        if ($this->id !== $v) {
-            $this->id = $v;
-            $this->modifiedColumns[StatusChamadosTableMap::COL_ID] = true;
-        }
-
-        return $this;
-    } // setId()
+        return $this->id;
+    }
 
     /**
-     * Set the value of [status_chamado] column.
+     * Sets the value of [updated_at] column to a normalized version of the date/time value specified.
      *
-     * @param  string $v new value
+     * @param  mixed $v string, integer (timestamp), or \DateTime value.
+     *               Empty strings are treated as NULL.
      * @return $this|\StatusChamados The current object (for fluent API support)
      */
-    public function setStatusChamado($v)
+    public function setUpdatedAt($v)
     {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->status_chamado !== $v) {
-            $this->status_chamado = $v;
-            $this->modifiedColumns[StatusChamadosTableMap::COL_STATUS_CHAMADO] = true;
-        }
+        $dt = PropelDateTime::newInstance($v, null, 'DateTime');
+        if ($this->updated_at !== null || $dt !== null) {
+            if ($dt !== $this->updated_at) {
+                $this->updated_at = $dt;
+                $this->modifiedColumns[StatusChamadosTableMap::COL_UPDATED_AT] = true;
+            }
+        } // if either are not null
 
         return $this;
-    } // setStatusChamado()
+    } // setUpdatedAt()
 
     /**
      * Sets the value of [created_at] column to a normalized version of the date/time value specified.
@@ -431,24 +411,44 @@ abstract class StatusChamados implements ActiveRecordInterface
     } // setCreatedAt()
 
     /**
-     * Sets the value of [updated_at] column to a normalized version of the date/time value specified.
+     * Set the value of [status_chamado] column.
      *
-     * @param  mixed $v string, integer (timestamp), or \DateTime value.
-     *               Empty strings are treated as NULL.
+     * @param  string $v new value
      * @return $this|\StatusChamados The current object (for fluent API support)
      */
-    public function setUpdatedAt($v)
+    public function setStatusChamado($v)
     {
-        $dt = PropelDateTime::newInstance($v, null, 'DateTime');
-        if ($this->updated_at !== null || $dt !== null) {
-            if ($dt !== $this->updated_at) {
-                $this->updated_at = $dt;
-                $this->modifiedColumns[StatusChamadosTableMap::COL_UPDATED_AT] = true;
-            }
-        } // if either are not null
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->status_chamado !== $v) {
+            $this->status_chamado = $v;
+            $this->modifiedColumns[StatusChamadosTableMap::COL_STATUS_CHAMADO] = true;
+        }
 
         return $this;
-    } // setUpdatedAt()
+    } // setStatusChamado()
+
+    /**
+     * Set the value of [id] column.
+     *
+     * @param  int $v new value
+     * @return $this|\StatusChamados The current object (for fluent API support)
+     */
+    public function setId($v)
+    {
+        if ($v !== null) {
+            $v = (int) $v;
+        }
+
+        if ($this->id !== $v) {
+            $this->id = $v;
+            $this->modifiedColumns[StatusChamadosTableMap::COL_ID] = true;
+        }
+
+        return $this;
+    } // setId()
 
     /**
      * Indicates whether the columns in this object are only set to default values.
@@ -486,17 +486,17 @@ abstract class StatusChamados implements ActiveRecordInterface
     {
         try {
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : StatusChamadosTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->id = (null !== $col) ? (int) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : StatusChamadosTableMap::translateFieldName('UpdatedAt', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->updated_at = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : StatusChamadosTableMap::translateFieldName('StatusChamado', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->status_chamado = (null !== $col) ? (string) $col : null;
-
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : StatusChamadosTableMap::translateFieldName('CreatedAt', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : StatusChamadosTableMap::translateFieldName('CreatedAt', TableMap::TYPE_PHPNAME, $indexType)];
             $this->created_at = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : StatusChamadosTableMap::translateFieldName('UpdatedAt', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->updated_at = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : StatusChamadosTableMap::translateFieldName('StatusChamado', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->status_chamado = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : StatusChamadosTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->id = (null !== $col) ? (int) $col : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -711,17 +711,17 @@ abstract class StatusChamados implements ActiveRecordInterface
 
 
          // check the columns in natural order for more readable SQL queries
-        if ($this->isColumnModified(StatusChamadosTableMap::COL_ID)) {
-            $modifiedColumns[':p' . $index++]  = 'id';
-        }
-        if ($this->isColumnModified(StatusChamadosTableMap::COL_STATUS_CHAMADO)) {
-            $modifiedColumns[':p' . $index++]  = 'status_chamado';
+        if ($this->isColumnModified(StatusChamadosTableMap::COL_UPDATED_AT)) {
+            $modifiedColumns[':p' . $index++]  = 'updated_at';
         }
         if ($this->isColumnModified(StatusChamadosTableMap::COL_CREATED_AT)) {
             $modifiedColumns[':p' . $index++]  = 'created_at';
         }
-        if ($this->isColumnModified(StatusChamadosTableMap::COL_UPDATED_AT)) {
-            $modifiedColumns[':p' . $index++]  = 'updated_at';
+        if ($this->isColumnModified(StatusChamadosTableMap::COL_STATUS_CHAMADO)) {
+            $modifiedColumns[':p' . $index++]  = 'status_chamado';
+        }
+        if ($this->isColumnModified(StatusChamadosTableMap::COL_ID)) {
+            $modifiedColumns[':p' . $index++]  = 'id';
         }
 
         $sql = sprintf(
@@ -734,17 +734,17 @@ abstract class StatusChamados implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-                    case 'id':
-                        $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
-                        break;
-                    case 'status_chamado':
-                        $stmt->bindValue($identifier, $this->status_chamado, PDO::PARAM_STR);
+                    case 'updated_at':
+                        $stmt->bindValue($identifier, $this->updated_at ? $this->updated_at->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
                         break;
                     case 'created_at':
                         $stmt->bindValue($identifier, $this->created_at ? $this->created_at->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
                         break;
-                    case 'updated_at':
-                        $stmt->bindValue($identifier, $this->updated_at ? $this->updated_at->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
+                    case 'status_chamado':
+                        $stmt->bindValue($identifier, $this->status_chamado, PDO::PARAM_STR);
+                        break;
+                    case 'id':
+                        $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
                 }
             }
@@ -802,16 +802,16 @@ abstract class StatusChamados implements ActiveRecordInterface
     {
         switch ($pos) {
             case 0:
-                return $this->getId();
+                return $this->getUpdatedAt();
                 break;
             case 1:
-                return $this->getStatusChamado();
-                break;
-            case 2:
                 return $this->getCreatedAt();
                 break;
+            case 2:
+                return $this->getStatusChamado();
+                break;
             case 3:
-                return $this->getUpdatedAt();
+                return $this->getId();
                 break;
             default:
                 return null;
@@ -842,25 +842,11 @@ abstract class StatusChamados implements ActiveRecordInterface
         $alreadyDumpedObjects['StatusChamados'][$this->hashCode()] = true;
         $keys = StatusChamadosTableMap::getFieldNames($keyType);
         $result = array(
-            $keys[0] => $this->getId(),
-            $keys[1] => $this->getStatusChamado(),
-            $keys[2] => $this->getCreatedAt(),
-            $keys[3] => $this->getUpdatedAt(),
+            $keys[0] => $this->getUpdatedAt(),
+            $keys[1] => $this->getCreatedAt(),
+            $keys[2] => $this->getStatusChamado(),
+            $keys[3] => $this->getId(),
         );
-
-        $utc = new \DateTimeZone('utc');
-        if ($result[$keys[2]] instanceof \DateTime) {
-            // When changing timezone we don't want to change existing instances
-            $dateTime = clone $result[$keys[2]];
-            $result[$keys[2]] = $dateTime->setTimezone($utc)->format('Y-m-d\TH:i:s\Z');
-        }
-
-        if ($result[$keys[3]] instanceof \DateTime) {
-            // When changing timezone we don't want to change existing instances
-            $dateTime = clone $result[$keys[3]];
-            $result[$keys[3]] = $dateTime->setTimezone($utc)->format('Y-m-d\TH:i:s\Z');
-        }
-
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
             $result[$key] = $virtualColumn;
@@ -900,16 +886,16 @@ abstract class StatusChamados implements ActiveRecordInterface
     {
         switch ($pos) {
             case 0:
-                $this->setId($value);
+                $this->setUpdatedAt($value);
                 break;
             case 1:
-                $this->setStatusChamado($value);
-                break;
-            case 2:
                 $this->setCreatedAt($value);
                 break;
+            case 2:
+                $this->setStatusChamado($value);
+                break;
             case 3:
-                $this->setUpdatedAt($value);
+                $this->setId($value);
                 break;
         } // switch()
 
@@ -938,16 +924,16 @@ abstract class StatusChamados implements ActiveRecordInterface
         $keys = StatusChamadosTableMap::getFieldNames($keyType);
 
         if (array_key_exists($keys[0], $arr)) {
-            $this->setId($arr[$keys[0]]);
+            $this->setUpdatedAt($arr[$keys[0]]);
         }
         if (array_key_exists($keys[1], $arr)) {
-            $this->setStatusChamado($arr[$keys[1]]);
+            $this->setCreatedAt($arr[$keys[1]]);
         }
         if (array_key_exists($keys[2], $arr)) {
-            $this->setCreatedAt($arr[$keys[2]]);
+            $this->setStatusChamado($arr[$keys[2]]);
         }
         if (array_key_exists($keys[3], $arr)) {
-            $this->setUpdatedAt($arr[$keys[3]]);
+            $this->setId($arr[$keys[3]]);
         }
     }
 
@@ -990,17 +976,17 @@ abstract class StatusChamados implements ActiveRecordInterface
     {
         $criteria = new Criteria(StatusChamadosTableMap::DATABASE_NAME);
 
-        if ($this->isColumnModified(StatusChamadosTableMap::COL_ID)) {
-            $criteria->add(StatusChamadosTableMap::COL_ID, $this->id);
-        }
-        if ($this->isColumnModified(StatusChamadosTableMap::COL_STATUS_CHAMADO)) {
-            $criteria->add(StatusChamadosTableMap::COL_STATUS_CHAMADO, $this->status_chamado);
+        if ($this->isColumnModified(StatusChamadosTableMap::COL_UPDATED_AT)) {
+            $criteria->add(StatusChamadosTableMap::COL_UPDATED_AT, $this->updated_at);
         }
         if ($this->isColumnModified(StatusChamadosTableMap::COL_CREATED_AT)) {
             $criteria->add(StatusChamadosTableMap::COL_CREATED_AT, $this->created_at);
         }
-        if ($this->isColumnModified(StatusChamadosTableMap::COL_UPDATED_AT)) {
-            $criteria->add(StatusChamadosTableMap::COL_UPDATED_AT, $this->updated_at);
+        if ($this->isColumnModified(StatusChamadosTableMap::COL_STATUS_CHAMADO)) {
+            $criteria->add(StatusChamadosTableMap::COL_STATUS_CHAMADO, $this->status_chamado);
+        }
+        if ($this->isColumnModified(StatusChamadosTableMap::COL_ID)) {
+            $criteria->add(StatusChamadosTableMap::COL_ID, $this->id);
         }
 
         return $criteria;
@@ -1088,9 +1074,9 @@ abstract class StatusChamados implements ActiveRecordInterface
      */
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
-        $copyObj->setStatusChamado($this->getStatusChamado());
-        $copyObj->setCreatedAt($this->getCreatedAt());
         $copyObj->setUpdatedAt($this->getUpdatedAt());
+        $copyObj->setCreatedAt($this->getCreatedAt());
+        $copyObj->setStatusChamado($this->getStatusChamado());
         if ($makeNew) {
             $copyObj->setNew(true);
             $copyObj->setId(NULL); // this is a auto-increment column, so set to default value
@@ -1126,10 +1112,10 @@ abstract class StatusChamados implements ActiveRecordInterface
      */
     public function clear()
     {
-        $this->id = null;
-        $this->status_chamado = null;
-        $this->created_at = null;
         $this->updated_at = null;
+        $this->created_at = null;
+        $this->status_chamado = null;
+        $this->id = null;
         $this->alreadyInSave = false;
         $this->clearAllReferences();
         $this->resetModified();
