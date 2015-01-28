@@ -10,7 +10,7 @@
 @endif
 
 @if(Auth::user()->tipo == 'admin')
-    <a href="#" class="btn btn-primary btn-large"><i class="icon-white icon-plus"></i> Novo Cliente</a>
+    <a href="/cliente/novo" class="btn btn-primary btn-large"><i class="icon-white icon-plus"></i> Novo Cliente</a>
 @endif
 
  @if(Session::has('message-sucess'))

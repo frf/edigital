@@ -31,34 +31,36 @@
     <div style="padding-top: 30px; font-size: 13px">
         <h3><b>Todos os Chamados</b></h3>
 
-        @if(Auth::user()->tipo == 'admin')
+        @if(Auth::user()->tipo == 'cliente')
             <a href="/atendimento/cadastrar" class="btn btn-primary">Novo Chamado</a>
 
         @endif
         <br />
         <br />
-        <table class="table table-bordered table-hover table-condensed"  style="background-color: #ffffff">
+        <table class="table" id="no-more-tables">
             <thead>
-                <tr style="background-color: #B3B3B3">
-                    <td width="60"><b>Id</b></td>
-                    <td><b>Título</b></td>
-                    <td class="col-lg-1"><b>Categoria</b></td>
-                    <td><b>Status</b></td>
-                    <td width="150"><b>Data de Cadastro</b></td>
-                    <td width="97"><b>Ações</b></td>
-                </tr>
+                <thead>
+                    <tr>
+                        <td><b>Id</b></td>
+                        <td><b>Título</b></td>
+                        <td><b>Categoria</b></td>
+                        <td><b>Status</b></td>
+                        <td><b>Data de Cadastro</b></td>
+                        <td><b>Ferramentas</b></td>
+                    </tr>
+                </thead>
             </thead>
             <tbody>
                  @foreach($chamados as $chamado)
                     <tr>
-                        <td>{{ $chamado->id }}</td>
-                        <td>{{ $chamado->titulo }}</td>
-                        <td>{{ CatChamado::find($chamado->categoria)->cat_chamado }}</td>
-                        <td class="col-lg-1">{{ StatusChamado::find($chamado->status)->status_chamado }}</td>
-                        <td>{{ $chamado->data }}</td>
-                        <td>
-                            <a href="/atendimento/historico/{{ $chamado->id }}" class="btn btn-default btn-sm "><img width="20" src="/glyphicons-145-folder-open.png" /></a>
-                            <button type="button" id="detalhar" onclick="info_atendimento({{ $chamado->id }})" class="btn btn-success btn-sm"><img width="18" src="/glyphicons-196-circle-info.png" /></button>
+                        <td data-title="Id" scope="row">{{ $chamado->id }}</td>
+                        <td data-title="Titulo" scope="row">{{ $chamado->titulo }}</td>
+                        <td data-title="Categoria" scope="row">{{ CatChamado::find($chamado->categoria)->cat_chamado }}</td>
+                        <td data-title="Status" scope="row">{{ StatusChamado::find($chamado->status)->status_chamado }}</td>
+                        <td data-title="Data" scope="row">{{ $chamado->data }}</td>
+                        <td data-title="Ferramentas" scope="row">
+                            <a href="/atendimento/historico/{{ $chamado->id }}" class="btn btn-xs btn-primary">Histórico</a>
+                            <button type="button" id="detalhar" onclick="info_atendimento({{ $chamado->id }})" class="btn btn-xs btn-success">Mensagem</button>
                         </td>
                     </tr>
                     <tr id="info{{ $chamado->id }}" style="display: none; background-color: #CBFFD5">

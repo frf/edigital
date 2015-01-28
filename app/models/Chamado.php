@@ -15,6 +15,6 @@ class Chamado extends Eloquent
      */
     
     public function usuario() {
-        return $this->hasOne('Usuario','id','usuario_id'); // this matches the Eloquent model
+        return $this->hasOne('usuario','id','idusuario'); // this matches the Eloquent model
     }
 } 
