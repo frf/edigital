@@ -16,7 +16,7 @@ class HomeController extends BaseController {
 
         public function index() {
 
-            
+            $header['nomeEmpresa'] = Config::get('edigital.nomeSistema');   
             
             if(Auth::check()){
                 $oCliente = Base\ClienteQuery::create()->filterById(Auth::user()->idcliente)->findOne();

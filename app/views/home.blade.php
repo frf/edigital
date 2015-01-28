@@ -9,6 +9,7 @@
             <p>Bem vindo {{ $nomeUsuario }}.</p>
         @endif
     </div>
+    @if(Auth::check()){
     @if(Auth::user()->tipo == 'cliente')
     <div style="padding-top: 30px; font-size: 13px">
         <h4><b>Atendimentos</b></h4>
@@ -77,6 +78,7 @@
             </tbody>
       </table>
     </div>
+    @endif
     @endif
 @stop
 
