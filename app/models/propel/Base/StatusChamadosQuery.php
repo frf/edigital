@@ -19,15 +19,15 @@ use Propel\Runtime\Exception\PropelException;
  *
  *
  *
- * @method     ChildStatusChamadosQuery orderByUpdatedAt($order = Criteria::ASC) Order by the updated_at column
- * @method     ChildStatusChamadosQuery orderByCreatedAt($order = Criteria::ASC) Order by the created_at column
- * @method     ChildStatusChamadosQuery orderByStatusChamado($order = Criteria::ASC) Order by the status_chamado column
  * @method     ChildStatusChamadosQuery orderById($order = Criteria::ASC) Order by the id column
+ * @method     ChildStatusChamadosQuery orderByStatusChamado($order = Criteria::ASC) Order by the status_chamado column
+ * @method     ChildStatusChamadosQuery orderByCreatedAt($order = Criteria::ASC) Order by the created_at column
+ * @method     ChildStatusChamadosQuery orderByUpdatedAt($order = Criteria::ASC) Order by the updated_at column
  *
- * @method     ChildStatusChamadosQuery groupByUpdatedAt() Group by the updated_at column
- * @method     ChildStatusChamadosQuery groupByCreatedAt() Group by the created_at column
- * @method     ChildStatusChamadosQuery groupByStatusChamado() Group by the status_chamado column
  * @method     ChildStatusChamadosQuery groupById() Group by the id column
+ * @method     ChildStatusChamadosQuery groupByStatusChamado() Group by the status_chamado column
+ * @method     ChildStatusChamadosQuery groupByCreatedAt() Group by the created_at column
+ * @method     ChildStatusChamadosQuery groupByUpdatedAt() Group by the updated_at column
  *
  * @method     ChildStatusChamadosQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method     ChildStatusChamadosQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
@@ -36,21 +36,30 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildStatusChamados findOne(ConnectionInterface $con = null) Return the first ChildStatusChamados matching the query
  * @method     ChildStatusChamados findOneOrCreate(ConnectionInterface $con = null) Return the first ChildStatusChamados matching the query, or a new ChildStatusChamados object populated from the query conditions when no match is found
  *
- * @method     ChildStatusChamados findOneByUpdatedAt(string $updated_at) Return the first ChildStatusChamados filtered by the updated_at column
- * @method     ChildStatusChamados findOneByCreatedAt(string $created_at) Return the first ChildStatusChamados filtered by the created_at column
- * @method     ChildStatusChamados findOneByStatusChamado(string $status_chamado) Return the first ChildStatusChamados filtered by the status_chamado column
  * @method     ChildStatusChamados findOneById(int $id) Return the first ChildStatusChamados filtered by the id column
+ * @method     ChildStatusChamados findOneByStatusChamado(string $status_chamado) Return the first ChildStatusChamados filtered by the status_chamado column
+ * @method     ChildStatusChamados findOneByCreatedAt(string $created_at) Return the first ChildStatusChamados filtered by the created_at column
+ * @method     ChildStatusChamados findOneByUpdatedAt(string $updated_at) Return the first ChildStatusChamados filtered by the updated_at column *
+
+ * @method     ChildStatusChamados requirePk($key, ConnectionInterface $con = null) Return the ChildStatusChamados by primary key and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildStatusChamados requireOne(ConnectionInterface $con = null) Return the first ChildStatusChamados matching the query and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ *
+ * @method     ChildStatusChamados requireOneById(int $id) Return the first ChildStatusChamados filtered by the id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildStatusChamados requireOneByStatusChamado(string $status_chamado) Return the first ChildStatusChamados filtered by the status_chamado column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildStatusChamados requireOneByCreatedAt(string $created_at) Return the first ChildStatusChamados filtered by the created_at column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildStatusChamados requireOneByUpdatedAt(string $updated_at) Return the first ChildStatusChamados filtered by the updated_at column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
  * @method     ChildStatusChamados[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildStatusChamados objects based on current ModelCriteria
- * @method     ChildStatusChamados[]|ObjectCollection findByUpdatedAt(string $updated_at) Return ChildStatusChamados objects filtered by the updated_at column
- * @method     ChildStatusChamados[]|ObjectCollection findByCreatedAt(string $created_at) Return ChildStatusChamados objects filtered by the created_at column
- * @method     ChildStatusChamados[]|ObjectCollection findByStatusChamado(string $status_chamado) Return ChildStatusChamados objects filtered by the status_chamado column
  * @method     ChildStatusChamados[]|ObjectCollection findById(int $id) Return ChildStatusChamados objects filtered by the id column
+ * @method     ChildStatusChamados[]|ObjectCollection findByStatusChamado(string $status_chamado) Return ChildStatusChamados objects filtered by the status_chamado column
+ * @method     ChildStatusChamados[]|ObjectCollection findByCreatedAt(string $created_at) Return ChildStatusChamados objects filtered by the created_at column
+ * @method     ChildStatusChamados[]|ObjectCollection findByUpdatedAt(string $updated_at) Return ChildStatusChamados objects filtered by the updated_at column
  * @method     ChildStatusChamados[]|\Propel\Runtime\Util\PropelModelPager paginate($page = 1, $maxPerPage = 10, ConnectionInterface $con = null) Issue a SELECT query based on the current ModelCriteria and uses a page and a maximum number of results per page to compute an offset and a limit
  *
  */
 abstract class StatusChamadosQuery extends ModelCriteria
 {
+    protected $entityNotFoundExceptionClass = '\\Propel\\Runtime\\Exception\\EntityNotFoundException';
 
     /**
      * Initializes internal state of \Base\StatusChamadosQuery object.
@@ -137,7 +146,7 @@ abstract class StatusChamadosQuery extends ModelCriteria
      */
     protected function findPkSimple($key, ConnectionInterface $con)
     {
-        $sql = 'SELECT updated_at, created_at, status_chamado, id FROM status_chamados WHERE id = :p0';
+        $sql = 'SELECT id, status_chamado, created_at, updated_at FROM status_chamados WHERE id = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -228,18 +237,16 @@ abstract class StatusChamadosQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query on the updated_at column
+     * Filter the query on the id column
      *
      * Example usage:
      * <code>
-     * $query->filterByUpdatedAt('2011-03-14'); // WHERE updated_at = '2011-03-14'
-     * $query->filterByUpdatedAt('now'); // WHERE updated_at = '2011-03-14'
-     * $query->filterByUpdatedAt(array('max' => 'yesterday')); // WHERE updated_at > '2011-03-13'
+     * $query->filterById(1234); // WHERE id = 1234
+     * $query->filterById(array(12, 34)); // WHERE id IN (12, 34)
+     * $query->filterById(array('min' => 12)); // WHERE id > 12
      * </code>
      *
-     * @param     mixed $updatedAt The value to use as filter.
-     *              Values can be integers (unix timestamps), DateTime objects, or strings.
-     *              Empty strings are treated as NULL.
+     * @param     mixed $id The value to use as filter.
      *              Use scalar values for equality.
      *              Use array values for in_array() equivalent.
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
@@ -247,16 +254,16 @@ abstract class StatusChamadosQuery extends ModelCriteria
      *
      * @return $this|ChildStatusChamadosQuery The current query, for fluid interface
      */
-    public function filterByUpdatedAt($updatedAt = null, $comparison = null)
+    public function filterById($id = null, $comparison = null)
     {
-        if (is_array($updatedAt)) {
+        if (is_array($id)) {
             $useMinMax = false;
-            if (isset($updatedAt['min'])) {
-                $this->addUsingAlias(StatusChamadosTableMap::COL_UPDATED_AT, $updatedAt['min'], Criteria::GREATER_EQUAL);
+            if (isset($id['min'])) {
+                $this->addUsingAlias(StatusChamadosTableMap::COL_ID, $id['min'], Criteria::GREATER_EQUAL);
                 $useMinMax = true;
             }
-            if (isset($updatedAt['max'])) {
-                $this->addUsingAlias(StatusChamadosTableMap::COL_UPDATED_AT, $updatedAt['max'], Criteria::LESS_EQUAL);
+            if (isset($id['max'])) {
+                $this->addUsingAlias(StatusChamadosTableMap::COL_ID, $id['max'], Criteria::LESS_EQUAL);
                 $useMinMax = true;
             }
             if ($useMinMax) {
@@ -267,7 +274,36 @@ abstract class StatusChamadosQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(StatusChamadosTableMap::COL_UPDATED_AT, $updatedAt, $comparison);
+        return $this->addUsingAlias(StatusChamadosTableMap::COL_ID, $id, $comparison);
+    }
+
+    /**
+     * Filter the query on the status_chamado column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByStatusChamado('fooValue');   // WHERE status_chamado = 'fooValue'
+     * $query->filterByStatusChamado('%fooValue%'); // WHERE status_chamado LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $statusChamado The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildStatusChamadosQuery The current query, for fluid interface
+     */
+    public function filterByStatusChamado($statusChamado = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($statusChamado)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $statusChamado)) {
+                $statusChamado = str_replace('*', '%', $statusChamado);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(StatusChamadosTableMap::COL_STATUS_CHAMADO, $statusChamado, $comparison);
     }
 
     /**
@@ -314,45 +350,18 @@ abstract class StatusChamadosQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query on the status_chamado column
+     * Filter the query on the updated_at column
      *
      * Example usage:
      * <code>
-     * $query->filterByStatusChamado('fooValue');   // WHERE status_chamado = 'fooValue'
-     * $query->filterByStatusChamado('%fooValue%'); // WHERE status_chamado LIKE '%fooValue%'
+     * $query->filterByUpdatedAt('2011-03-14'); // WHERE updated_at = '2011-03-14'
+     * $query->filterByUpdatedAt('now'); // WHERE updated_at = '2011-03-14'
+     * $query->filterByUpdatedAt(array('max' => 'yesterday')); // WHERE updated_at > '2011-03-13'
      * </code>
      *
-     * @param     string $statusChamado The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return $this|ChildStatusChamadosQuery The current query, for fluid interface
-     */
-    public function filterByStatusChamado($statusChamado = null, $comparison = null)
-    {
-        if (null === $comparison) {
-            if (is_array($statusChamado)) {
-                $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $statusChamado)) {
-                $statusChamado = str_replace('*', '%', $statusChamado);
-                $comparison = Criteria::LIKE;
-            }
-        }
-
-        return $this->addUsingAlias(StatusChamadosTableMap::COL_STATUS_CHAMADO, $statusChamado, $comparison);
-    }
-
-    /**
-     * Filter the query on the id column
-     *
-     * Example usage:
-     * <code>
-     * $query->filterById(1234); // WHERE id = 1234
-     * $query->filterById(array(12, 34)); // WHERE id IN (12, 34)
-     * $query->filterById(array('min' => 12)); // WHERE id > 12
-     * </code>
-     *
-     * @param     mixed $id The value to use as filter.
+     * @param     mixed $updatedAt The value to use as filter.
+     *              Values can be integers (unix timestamps), DateTime objects, or strings.
+     *              Empty strings are treated as NULL.
      *              Use scalar values for equality.
      *              Use array values for in_array() equivalent.
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
@@ -360,16 +369,16 @@ abstract class StatusChamadosQuery extends ModelCriteria
      *
      * @return $this|ChildStatusChamadosQuery The current query, for fluid interface
      */
-    public function filterById($id = null, $comparison = null)
+    public function filterByUpdatedAt($updatedAt = null, $comparison = null)
     {
-        if (is_array($id)) {
+        if (is_array($updatedAt)) {
             $useMinMax = false;
-            if (isset($id['min'])) {
-                $this->addUsingAlias(StatusChamadosTableMap::COL_ID, $id['min'], Criteria::GREATER_EQUAL);
+            if (isset($updatedAt['min'])) {
+                $this->addUsingAlias(StatusChamadosTableMap::COL_UPDATED_AT, $updatedAt['min'], Criteria::GREATER_EQUAL);
                 $useMinMax = true;
             }
-            if (isset($id['max'])) {
-                $this->addUsingAlias(StatusChamadosTableMap::COL_ID, $id['max'], Criteria::LESS_EQUAL);
+            if (isset($updatedAt['max'])) {
+                $this->addUsingAlias(StatusChamadosTableMap::COL_UPDATED_AT, $updatedAt['max'], Criteria::LESS_EQUAL);
                 $useMinMax = true;
             }
             if ($useMinMax) {
@@ -380,7 +389,7 @@ abstract class StatusChamadosQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(StatusChamadosTableMap::COL_ID, $id, $comparison);
+        return $this->addUsingAlias(StatusChamadosTableMap::COL_UPDATED_AT, $updatedAt, $comparison);
     }
 
     /**

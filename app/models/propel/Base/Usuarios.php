@@ -64,46 +64,10 @@ abstract class Usuarios implements ActiveRecordInterface
     protected $virtualColumns = array();
 
     /**
-     * The value for the idcliente field.
+     * The value for the id field.
      * @var        int
      */
-    protected $idcliente;
-
-    /**
-     * The value for the updated_at field.
-     * @var        \DateTime
-     */
-    protected $updated_at;
-
-    /**
-     * The value for the created_at field.
-     * @var        \DateTime
-     */
-    protected $created_at;
-
-    /**
-     * The value for the remember_token field.
-     * @var        string
-     */
-    protected $remember_token;
-
-    /**
-     * The value for the tipo field.
-     * @var        string
-     */
-    protected $tipo;
-
-    /**
-     * The value for the nome field.
-     * @var        string
-     */
-    protected $nome;
-
-    /**
-     * The value for the senha field.
-     * @var        string
-     */
-    protected $senha;
+    protected $id;
 
     /**
      * The value for the email field.
@@ -112,10 +76,46 @@ abstract class Usuarios implements ActiveRecordInterface
     protected $email;
 
     /**
-     * The value for the id field.
+     * The value for the senha field.
+     * @var        string
+     */
+    protected $senha;
+
+    /**
+     * The value for the nome field.
+     * @var        string
+     */
+    protected $nome;
+
+    /**
+     * The value for the tipo field.
+     * @var        string
+     */
+    protected $tipo;
+
+    /**
+     * The value for the remember_token field.
+     * @var        string
+     */
+    protected $remember_token;
+
+    /**
+     * The value for the created_at field.
+     * @var        \DateTime
+     */
+    protected $created_at;
+
+    /**
+     * The value for the updated_at field.
+     * @var        \DateTime
+     */
+    protected $updated_at;
+
+    /**
+     * The value for the idcliente field.
      * @var        int
      */
-    protected $id;
+    protected $idcliente;
 
     /**
      * @var        ChildCliente
@@ -348,33 +348,63 @@ abstract class Usuarios implements ActiveRecordInterface
     }
 
     /**
-     * Get the [idcliente] column value.
+     * Get the [id] column value.
      *
      * @return int
      */
-    public function getIdcliente()
+    public function getId()
     {
-        return $this->idcliente;
+        return $this->id;
     }
 
     /**
-     * Get the [optionally formatted] temporal [updated_at] column value.
+     * Get the [email] column value.
      *
-     *
-     * @param      string $format The date/time format string (either date()-style or strftime()-style).
-     *                            If format is NULL, then the raw DateTime object will be returned.
-     *
-     * @return string|DateTime Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL
-     *
-     * @throws PropelException - if unable to parse/validate the date/time value.
+     * @return string
      */
-    public function getUpdatedAt($format = NULL)
+    public function getEmail()
     {
-        if ($format === null) {
-            return $this->updated_at;
-        } else {
-            return $this->updated_at instanceof \DateTime ? $this->updated_at->format($format) : null;
-        }
+        return $this->email;
+    }
+
+    /**
+     * Get the [senha] column value.
+     *
+     * @return string
+     */
+    public function getSenha()
+    {
+        return $this->senha;
+    }
+
+    /**
+     * Get the [nome] column value.
+     *
+     * @return string
+     */
+    public function getNome()
+    {
+        return $this->nome;
+    }
+
+    /**
+     * Get the [tipo] column value.
+     *
+     * @return string
+     */
+    public function getTipo()
+    {
+        return $this->tipo;
+    }
+
+    /**
+     * Get the [remember_token] column value.
+     *
+     * @return string
+     */
+    public function getRememberToken()
+    {
+        return $this->remember_token;
     }
 
     /**
@@ -398,64 +428,194 @@ abstract class Usuarios implements ActiveRecordInterface
     }
 
     /**
-     * Get the [remember_token] column value.
+     * Get the [optionally formatted] temporal [updated_at] column value.
      *
-     * @return string
+     *
+     * @param      string $format The date/time format string (either date()-style or strftime()-style).
+     *                            If format is NULL, then the raw DateTime object will be returned.
+     *
+     * @return string|DateTime Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL
+     *
+     * @throws PropelException - if unable to parse/validate the date/time value.
      */
-    public function getRememberToken()
+    public function getUpdatedAt($format = NULL)
     {
-        return $this->remember_token;
+        if ($format === null) {
+            return $this->updated_at;
+        } else {
+            return $this->updated_at instanceof \DateTime ? $this->updated_at->format($format) : null;
+        }
     }
 
     /**
-     * Get the [tipo] column value.
-     *
-     * @return string
-     */
-    public function getTipo()
-    {
-        return $this->tipo;
-    }
-
-    /**
-     * Get the [nome] column value.
-     *
-     * @return string
-     */
-    public function getNome()
-    {
-        return $this->nome;
-    }
-
-    /**
-     * Get the [senha] column value.
-     *
-     * @return string
-     */
-    public function getSenha()
-    {
-        return $this->senha;
-    }
-
-    /**
-     * Get the [email] column value.
-     *
-     * @return string
-     */
-    public function getEmail()
-    {
-        return $this->email;
-    }
-
-    /**
-     * Get the [id] column value.
+     * Get the [idcliente] column value.
      *
      * @return int
      */
-    public function getId()
+    public function getIdcliente()
     {
-        return $this->id;
+        return $this->idcliente;
     }
+
+    /**
+     * Set the value of [id] column.
+     *
+     * @param  int $v new value
+     * @return $this|\Usuarios The current object (for fluent API support)
+     */
+    public function setId($v)
+    {
+        if ($v !== null) {
+            $v = (int) $v;
+        }
+
+        if ($this->id !== $v) {
+            $this->id = $v;
+            $this->modifiedColumns[UsuariosTableMap::COL_ID] = true;
+        }
+
+        return $this;
+    } // setId()
+
+    /**
+     * Set the value of [email] column.
+     *
+     * @param  string $v new value
+     * @return $this|\Usuarios The current object (for fluent API support)
+     */
+    public function setEmail($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->email !== $v) {
+            $this->email = $v;
+            $this->modifiedColumns[UsuariosTableMap::COL_EMAIL] = true;
+        }
+
+        return $this;
+    } // setEmail()
+
+    /**
+     * Set the value of [senha] column.
+     *
+     * @param  string $v new value
+     * @return $this|\Usuarios The current object (for fluent API support)
+     */
+    public function setSenha($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->senha !== $v) {
+            $this->senha = $v;
+            $this->modifiedColumns[UsuariosTableMap::COL_SENHA] = true;
+        }
+
+        return $this;
+    } // setSenha()
+
+    /**
+     * Set the value of [nome] column.
+     *
+     * @param  string $v new value
+     * @return $this|\Usuarios The current object (for fluent API support)
+     */
+    public function setNome($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->nome !== $v) {
+            $this->nome = $v;
+            $this->modifiedColumns[UsuariosTableMap::COL_NOME] = true;
+        }
+
+        return $this;
+    } // setNome()
+
+    /**
+     * Set the value of [tipo] column.
+     *
+     * @param  string $v new value
+     * @return $this|\Usuarios The current object (for fluent API support)
+     */
+    public function setTipo($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->tipo !== $v) {
+            $this->tipo = $v;
+            $this->modifiedColumns[UsuariosTableMap::COL_TIPO] = true;
+        }
+
+        return $this;
+    } // setTipo()
+
+    /**
+     * Set the value of [remember_token] column.
+     *
+     * @param  string $v new value
+     * @return $this|\Usuarios The current object (for fluent API support)
+     */
+    public function setRememberToken($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->remember_token !== $v) {
+            $this->remember_token = $v;
+            $this->modifiedColumns[UsuariosTableMap::COL_REMEMBER_TOKEN] = true;
+        }
+
+        return $this;
+    } // setRememberToken()
+
+    /**
+     * Sets the value of [created_at] column to a normalized version of the date/time value specified.
+     *
+     * @param  mixed $v string, integer (timestamp), or \DateTime value.
+     *               Empty strings are treated as NULL.
+     * @return $this|\Usuarios The current object (for fluent API support)
+     */
+    public function setCreatedAt($v)
+    {
+        $dt = PropelDateTime::newInstance($v, null, 'DateTime');
+        if ($this->created_at !== null || $dt !== null) {
+            if ($dt !== $this->created_at) {
+                $this->created_at = $dt;
+                $this->modifiedColumns[UsuariosTableMap::COL_CREATED_AT] = true;
+            }
+        } // if either are not null
+
+        return $this;
+    } // setCreatedAt()
+
+    /**
+     * Sets the value of [updated_at] column to a normalized version of the date/time value specified.
+     *
+     * @param  mixed $v string, integer (timestamp), or \DateTime value.
+     *               Empty strings are treated as NULL.
+     * @return $this|\Usuarios The current object (for fluent API support)
+     */
+    public function setUpdatedAt($v)
+    {
+        $dt = PropelDateTime::newInstance($v, null, 'DateTime');
+        if ($this->updated_at !== null || $dt !== null) {
+            if ($dt !== $this->updated_at) {
+                $this->updated_at = $dt;
+                $this->modifiedColumns[UsuariosTableMap::COL_UPDATED_AT] = true;
+            }
+        } // if either are not null
+
+        return $this;
+    } // setUpdatedAt()
 
     /**
      * Set the value of [idcliente] column.
@@ -480,166 +640,6 @@ abstract class Usuarios implements ActiveRecordInterface
 
         return $this;
     } // setIdcliente()
-
-    /**
-     * Sets the value of [updated_at] column to a normalized version of the date/time value specified.
-     *
-     * @param  mixed $v string, integer (timestamp), or \DateTime value.
-     *               Empty strings are treated as NULL.
-     * @return $this|\Usuarios The current object (for fluent API support)
-     */
-    public function setUpdatedAt($v)
-    {
-        $dt = PropelDateTime::newInstance($v, null, 'DateTime');
-        if ($this->updated_at !== null || $dt !== null) {
-            if ($dt !== $this->updated_at) {
-                $this->updated_at = $dt;
-                $this->modifiedColumns[UsuariosTableMap::COL_UPDATED_AT] = true;
-            }
-        } // if either are not null
-
-        return $this;
-    } // setUpdatedAt()
-
-    /**
-     * Sets the value of [created_at] column to a normalized version of the date/time value specified.
-     *
-     * @param  mixed $v string, integer (timestamp), or \DateTime value.
-     *               Empty strings are treated as NULL.
-     * @return $this|\Usuarios The current object (for fluent API support)
-     */
-    public function setCreatedAt($v)
-    {
-        $dt = PropelDateTime::newInstance($v, null, 'DateTime');
-        if ($this->created_at !== null || $dt !== null) {
-            if ($dt !== $this->created_at) {
-                $this->created_at = $dt;
-                $this->modifiedColumns[UsuariosTableMap::COL_CREATED_AT] = true;
-            }
-        } // if either are not null
-
-        return $this;
-    } // setCreatedAt()
-
-    /**
-     * Set the value of [remember_token] column.
-     *
-     * @param  string $v new value
-     * @return $this|\Usuarios The current object (for fluent API support)
-     */
-    public function setRememberToken($v)
-    {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->remember_token !== $v) {
-            $this->remember_token = $v;
-            $this->modifiedColumns[UsuariosTableMap::COL_REMEMBER_TOKEN] = true;
-        }
-
-        return $this;
-    } // setRememberToken()
-
-    /**
-     * Set the value of [tipo] column.
-     *
-     * @param  string $v new value
-     * @return $this|\Usuarios The current object (for fluent API support)
-     */
-    public function setTipo($v)
-    {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->tipo !== $v) {
-            $this->tipo = $v;
-            $this->modifiedColumns[UsuariosTableMap::COL_TIPO] = true;
-        }
-
-        return $this;
-    } // setTipo()
-
-    /**
-     * Set the value of [nome] column.
-     *
-     * @param  string $v new value
-     * @return $this|\Usuarios The current object (for fluent API support)
-     */
-    public function setNome($v)
-    {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->nome !== $v) {
-            $this->nome = $v;
-            $this->modifiedColumns[UsuariosTableMap::COL_NOME] = true;
-        }
-
-        return $this;
-    } // setNome()
-
-    /**
-     * Set the value of [senha] column.
-     *
-     * @param  string $v new value
-     * @return $this|\Usuarios The current object (for fluent API support)
-     */
-    public function setSenha($v)
-    {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->senha !== $v) {
-            $this->senha = $v;
-            $this->modifiedColumns[UsuariosTableMap::COL_SENHA] = true;
-        }
-
-        return $this;
-    } // setSenha()
-
-    /**
-     * Set the value of [email] column.
-     *
-     * @param  string $v new value
-     * @return $this|\Usuarios The current object (for fluent API support)
-     */
-    public function setEmail($v)
-    {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->email !== $v) {
-            $this->email = $v;
-            $this->modifiedColumns[UsuariosTableMap::COL_EMAIL] = true;
-        }
-
-        return $this;
-    } // setEmail()
-
-    /**
-     * Set the value of [id] column.
-     *
-     * @param  int $v new value
-     * @return $this|\Usuarios The current object (for fluent API support)
-     */
-    public function setId($v)
-    {
-        if ($v !== null) {
-            $v = (int) $v;
-        }
-
-        if ($this->id !== $v) {
-            $this->id = $v;
-            $this->modifiedColumns[UsuariosTableMap::COL_ID] = true;
-        }
-
-        return $this;
-    } // setId()
 
     /**
      * Indicates whether the columns in this object are only set to default values.
@@ -677,32 +677,32 @@ abstract class Usuarios implements ActiveRecordInterface
     {
         try {
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : UsuariosTableMap::translateFieldName('Idcliente', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->idcliente = (null !== $col) ? (int) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : UsuariosTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : UsuariosTableMap::translateFieldName('UpdatedAt', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->updated_at = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : UsuariosTableMap::translateFieldName('Email', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->email = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : UsuariosTableMap::translateFieldName('CreatedAt', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->created_at = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : UsuariosTableMap::translateFieldName('Senha', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->senha = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : UsuariosTableMap::translateFieldName('RememberToken', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->remember_token = (null !== $col) ? (string) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : UsuariosTableMap::translateFieldName('Nome', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->nome = (null !== $col) ? (string) $col : null;
 
             $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : UsuariosTableMap::translateFieldName('Tipo', TableMap::TYPE_PHPNAME, $indexType)];
             $this->tipo = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : UsuariosTableMap::translateFieldName('Nome', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->nome = (null !== $col) ? (string) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : UsuariosTableMap::translateFieldName('RememberToken', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->remember_token = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 6 + $startcol : UsuariosTableMap::translateFieldName('Senha', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->senha = (null !== $col) ? (string) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 6 + $startcol : UsuariosTableMap::translateFieldName('CreatedAt', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->created_at = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 7 + $startcol : UsuariosTableMap::translateFieldName('Email', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->email = (null !== $col) ? (string) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 7 + $startcol : UsuariosTableMap::translateFieldName('UpdatedAt', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->updated_at = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 8 + $startcol : UsuariosTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->id = (null !== $col) ? (int) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 8 + $startcol : UsuariosTableMap::translateFieldName('Idcliente', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->idcliente = (null !== $col) ? (int) $col : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -933,32 +933,32 @@ abstract class Usuarios implements ActiveRecordInterface
 
 
          // check the columns in natural order for more readable SQL queries
-        if ($this->isColumnModified(UsuariosTableMap::COL_IDCLIENTE)) {
-            $modifiedColumns[':p' . $index++]  = 'idcliente';
-        }
-        if ($this->isColumnModified(UsuariosTableMap::COL_UPDATED_AT)) {
-            $modifiedColumns[':p' . $index++]  = 'updated_at';
-        }
-        if ($this->isColumnModified(UsuariosTableMap::COL_CREATED_AT)) {
-            $modifiedColumns[':p' . $index++]  = 'created_at';
-        }
-        if ($this->isColumnModified(UsuariosTableMap::COL_REMEMBER_TOKEN)) {
-            $modifiedColumns[':p' . $index++]  = 'remember_token';
-        }
-        if ($this->isColumnModified(UsuariosTableMap::COL_TIPO)) {
-            $modifiedColumns[':p' . $index++]  = 'tipo';
-        }
-        if ($this->isColumnModified(UsuariosTableMap::COL_NOME)) {
-            $modifiedColumns[':p' . $index++]  = 'nome';
-        }
-        if ($this->isColumnModified(UsuariosTableMap::COL_SENHA)) {
-            $modifiedColumns[':p' . $index++]  = 'senha';
+        if ($this->isColumnModified(UsuariosTableMap::COL_ID)) {
+            $modifiedColumns[':p' . $index++]  = 'id';
         }
         if ($this->isColumnModified(UsuariosTableMap::COL_EMAIL)) {
             $modifiedColumns[':p' . $index++]  = 'email';
         }
-        if ($this->isColumnModified(UsuariosTableMap::COL_ID)) {
-            $modifiedColumns[':p' . $index++]  = 'id';
+        if ($this->isColumnModified(UsuariosTableMap::COL_SENHA)) {
+            $modifiedColumns[':p' . $index++]  = 'senha';
+        }
+        if ($this->isColumnModified(UsuariosTableMap::COL_NOME)) {
+            $modifiedColumns[':p' . $index++]  = 'nome';
+        }
+        if ($this->isColumnModified(UsuariosTableMap::COL_TIPO)) {
+            $modifiedColumns[':p' . $index++]  = 'tipo';
+        }
+        if ($this->isColumnModified(UsuariosTableMap::COL_REMEMBER_TOKEN)) {
+            $modifiedColumns[':p' . $index++]  = 'remember_token';
+        }
+        if ($this->isColumnModified(UsuariosTableMap::COL_CREATED_AT)) {
+            $modifiedColumns[':p' . $index++]  = 'created_at';
+        }
+        if ($this->isColumnModified(UsuariosTableMap::COL_UPDATED_AT)) {
+            $modifiedColumns[':p' . $index++]  = 'updated_at';
+        }
+        if ($this->isColumnModified(UsuariosTableMap::COL_IDCLIENTE)) {
+            $modifiedColumns[':p' . $index++]  = 'idcliente';
         }
 
         $sql = sprintf(
@@ -971,32 +971,32 @@ abstract class Usuarios implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-                    case 'idcliente':
-                        $stmt->bindValue($identifier, $this->idcliente, PDO::PARAM_INT);
-                        break;
-                    case 'updated_at':
-                        $stmt->bindValue($identifier, $this->updated_at ? $this->updated_at->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
-                        break;
-                    case 'created_at':
-                        $stmt->bindValue($identifier, $this->created_at ? $this->created_at->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
-                        break;
-                    case 'remember_token':
-                        $stmt->bindValue($identifier, $this->remember_token, PDO::PARAM_STR);
-                        break;
-                    case 'tipo':
-                        $stmt->bindValue($identifier, $this->tipo, PDO::PARAM_STR);
-                        break;
-                    case 'nome':
-                        $stmt->bindValue($identifier, $this->nome, PDO::PARAM_STR);
-                        break;
-                    case 'senha':
-                        $stmt->bindValue($identifier, $this->senha, PDO::PARAM_STR);
+                    case 'id':
+                        $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
                     case 'email':
                         $stmt->bindValue($identifier, $this->email, PDO::PARAM_STR);
                         break;
-                    case 'id':
-                        $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
+                    case 'senha':
+                        $stmt->bindValue($identifier, $this->senha, PDO::PARAM_STR);
+                        break;
+                    case 'nome':
+                        $stmt->bindValue($identifier, $this->nome, PDO::PARAM_STR);
+                        break;
+                    case 'tipo':
+                        $stmt->bindValue($identifier, $this->tipo, PDO::PARAM_STR);
+                        break;
+                    case 'remember_token':
+                        $stmt->bindValue($identifier, $this->remember_token, PDO::PARAM_STR);
+                        break;
+                    case 'created_at':
+                        $stmt->bindValue($identifier, $this->created_at ? $this->created_at->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
+                        break;
+                    case 'updated_at':
+                        $stmt->bindValue($identifier, $this->updated_at ? $this->updated_at->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
+                        break;
+                    case 'idcliente':
+                        $stmt->bindValue($identifier, $this->idcliente, PDO::PARAM_INT);
                         break;
                 }
             }
@@ -1054,31 +1054,31 @@ abstract class Usuarios implements ActiveRecordInterface
     {
         switch ($pos) {
             case 0:
-                return $this->getIdcliente();
+                return $this->getId();
                 break;
             case 1:
-                return $this->getUpdatedAt();
+                return $this->getEmail();
                 break;
             case 2:
-                return $this->getCreatedAt();
+                return $this->getSenha();
                 break;
             case 3:
-                return $this->getRememberToken();
+                return $this->getNome();
                 break;
             case 4:
                 return $this->getTipo();
                 break;
             case 5:
-                return $this->getNome();
+                return $this->getRememberToken();
                 break;
             case 6:
-                return $this->getSenha();
+                return $this->getCreatedAt();
                 break;
             case 7:
-                return $this->getEmail();
+                return $this->getUpdatedAt();
                 break;
             case 8:
-                return $this->getId();
+                return $this->getIdcliente();
                 break;
             default:
                 return null;
@@ -1110,16 +1110,30 @@ abstract class Usuarios implements ActiveRecordInterface
         $alreadyDumpedObjects['Usuarios'][$this->hashCode()] = true;
         $keys = UsuariosTableMap::getFieldNames($keyType);
         $result = array(
-            $keys[0] => $this->getIdcliente(),
-            $keys[1] => $this->getUpdatedAt(),
-            $keys[2] => $this->getCreatedAt(),
-            $keys[3] => $this->getRememberToken(),
+            $keys[0] => $this->getId(),
+            $keys[1] => $this->getEmail(),
+            $keys[2] => $this->getSenha(),
+            $keys[3] => $this->getNome(),
             $keys[4] => $this->getTipo(),
-            $keys[5] => $this->getNome(),
-            $keys[6] => $this->getSenha(),
-            $keys[7] => $this->getEmail(),
-            $keys[8] => $this->getId(),
+            $keys[5] => $this->getRememberToken(),
+            $keys[6] => $this->getCreatedAt(),
+            $keys[7] => $this->getUpdatedAt(),
+            $keys[8] => $this->getIdcliente(),
         );
+
+        $utc = new \DateTimeZone('utc');
+        if ($result[$keys[6]] instanceof \DateTime) {
+            // When changing timezone we don't want to change existing instances
+            $dateTime = clone $result[$keys[6]];
+            $result[$keys[6]] = $dateTime->setTimezone($utc)->format('Y-m-d\TH:i:s\Z');
+        }
+
+        if ($result[$keys[7]] instanceof \DateTime) {
+            // When changing timezone we don't want to change existing instances
+            $dateTime = clone $result[$keys[7]];
+            $result[$keys[7]] = $dateTime->setTimezone($utc)->format('Y-m-d\TH:i:s\Z');
+        }
+
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
             $result[$key] = $virtualColumn;
@@ -1176,31 +1190,31 @@ abstract class Usuarios implements ActiveRecordInterface
     {
         switch ($pos) {
             case 0:
-                $this->setIdcliente($value);
+                $this->setId($value);
                 break;
             case 1:
-                $this->setUpdatedAt($value);
+                $this->setEmail($value);
                 break;
             case 2:
-                $this->setCreatedAt($value);
+                $this->setSenha($value);
                 break;
             case 3:
-                $this->setRememberToken($value);
+                $this->setNome($value);
                 break;
             case 4:
                 $this->setTipo($value);
                 break;
             case 5:
-                $this->setNome($value);
+                $this->setRememberToken($value);
                 break;
             case 6:
-                $this->setSenha($value);
+                $this->setCreatedAt($value);
                 break;
             case 7:
-                $this->setEmail($value);
+                $this->setUpdatedAt($value);
                 break;
             case 8:
-                $this->setId($value);
+                $this->setIdcliente($value);
                 break;
         } // switch()
 
@@ -1229,31 +1243,31 @@ abstract class Usuarios implements ActiveRecordInterface
         $keys = UsuariosTableMap::getFieldNames($keyType);
 
         if (array_key_exists($keys[0], $arr)) {
-            $this->setIdcliente($arr[$keys[0]]);
+            $this->setId($arr[$keys[0]]);
         }
         if (array_key_exists($keys[1], $arr)) {
-            $this->setUpdatedAt($arr[$keys[1]]);
+            $this->setEmail($arr[$keys[1]]);
         }
         if (array_key_exists($keys[2], $arr)) {
-            $this->setCreatedAt($arr[$keys[2]]);
+            $this->setSenha($arr[$keys[2]]);
         }
         if (array_key_exists($keys[3], $arr)) {
-            $this->setRememberToken($arr[$keys[3]]);
+            $this->setNome($arr[$keys[3]]);
         }
         if (array_key_exists($keys[4], $arr)) {
             $this->setTipo($arr[$keys[4]]);
         }
         if (array_key_exists($keys[5], $arr)) {
-            $this->setNome($arr[$keys[5]]);
+            $this->setRememberToken($arr[$keys[5]]);
         }
         if (array_key_exists($keys[6], $arr)) {
-            $this->setSenha($arr[$keys[6]]);
+            $this->setCreatedAt($arr[$keys[6]]);
         }
         if (array_key_exists($keys[7], $arr)) {
-            $this->setEmail($arr[$keys[7]]);
+            $this->setUpdatedAt($arr[$keys[7]]);
         }
         if (array_key_exists($keys[8], $arr)) {
-            $this->setId($arr[$keys[8]]);
+            $this->setIdcliente($arr[$keys[8]]);
         }
     }
 
@@ -1296,32 +1310,32 @@ abstract class Usuarios implements ActiveRecordInterface
     {
         $criteria = new Criteria(UsuariosTableMap::DATABASE_NAME);
 
-        if ($this->isColumnModified(UsuariosTableMap::COL_IDCLIENTE)) {
-            $criteria->add(UsuariosTableMap::COL_IDCLIENTE, $this->idcliente);
-        }
-        if ($this->isColumnModified(UsuariosTableMap::COL_UPDATED_AT)) {
-            $criteria->add(UsuariosTableMap::COL_UPDATED_AT, $this->updated_at);
-        }
-        if ($this->isColumnModified(UsuariosTableMap::COL_CREATED_AT)) {
-            $criteria->add(UsuariosTableMap::COL_CREATED_AT, $this->created_at);
-        }
-        if ($this->isColumnModified(UsuariosTableMap::COL_REMEMBER_TOKEN)) {
-            $criteria->add(UsuariosTableMap::COL_REMEMBER_TOKEN, $this->remember_token);
-        }
-        if ($this->isColumnModified(UsuariosTableMap::COL_TIPO)) {
-            $criteria->add(UsuariosTableMap::COL_TIPO, $this->tipo);
-        }
-        if ($this->isColumnModified(UsuariosTableMap::COL_NOME)) {
-            $criteria->add(UsuariosTableMap::COL_NOME, $this->nome);
-        }
-        if ($this->isColumnModified(UsuariosTableMap::COL_SENHA)) {
-            $criteria->add(UsuariosTableMap::COL_SENHA, $this->senha);
+        if ($this->isColumnModified(UsuariosTableMap::COL_ID)) {
+            $criteria->add(UsuariosTableMap::COL_ID, $this->id);
         }
         if ($this->isColumnModified(UsuariosTableMap::COL_EMAIL)) {
             $criteria->add(UsuariosTableMap::COL_EMAIL, $this->email);
         }
-        if ($this->isColumnModified(UsuariosTableMap::COL_ID)) {
-            $criteria->add(UsuariosTableMap::COL_ID, $this->id);
+        if ($this->isColumnModified(UsuariosTableMap::COL_SENHA)) {
+            $criteria->add(UsuariosTableMap::COL_SENHA, $this->senha);
+        }
+        if ($this->isColumnModified(UsuariosTableMap::COL_NOME)) {
+            $criteria->add(UsuariosTableMap::COL_NOME, $this->nome);
+        }
+        if ($this->isColumnModified(UsuariosTableMap::COL_TIPO)) {
+            $criteria->add(UsuariosTableMap::COL_TIPO, $this->tipo);
+        }
+        if ($this->isColumnModified(UsuariosTableMap::COL_REMEMBER_TOKEN)) {
+            $criteria->add(UsuariosTableMap::COL_REMEMBER_TOKEN, $this->remember_token);
+        }
+        if ($this->isColumnModified(UsuariosTableMap::COL_CREATED_AT)) {
+            $criteria->add(UsuariosTableMap::COL_CREATED_AT, $this->created_at);
+        }
+        if ($this->isColumnModified(UsuariosTableMap::COL_UPDATED_AT)) {
+            $criteria->add(UsuariosTableMap::COL_UPDATED_AT, $this->updated_at);
+        }
+        if ($this->isColumnModified(UsuariosTableMap::COL_IDCLIENTE)) {
+            $criteria->add(UsuariosTableMap::COL_IDCLIENTE, $this->idcliente);
         }
 
         return $criteria;
@@ -1409,14 +1423,14 @@ abstract class Usuarios implements ActiveRecordInterface
      */
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
-        $copyObj->setIdcliente($this->getIdcliente());
-        $copyObj->setUpdatedAt($this->getUpdatedAt());
-        $copyObj->setCreatedAt($this->getCreatedAt());
-        $copyObj->setRememberToken($this->getRememberToken());
-        $copyObj->setTipo($this->getTipo());
-        $copyObj->setNome($this->getNome());
-        $copyObj->setSenha($this->getSenha());
         $copyObj->setEmail($this->getEmail());
+        $copyObj->setSenha($this->getSenha());
+        $copyObj->setNome($this->getNome());
+        $copyObj->setTipo($this->getTipo());
+        $copyObj->setRememberToken($this->getRememberToken());
+        $copyObj->setCreatedAt($this->getCreatedAt());
+        $copyObj->setUpdatedAt($this->getUpdatedAt());
+        $copyObj->setIdcliente($this->getIdcliente());
         if ($makeNew) {
             $copyObj->setNew(true);
             $copyObj->setId(NULL); // this is a auto-increment column, so set to default value
@@ -1506,15 +1520,15 @@ abstract class Usuarios implements ActiveRecordInterface
         if (null !== $this->aCliente) {
             $this->aCliente->removeUsuarios($this);
         }
-        $this->idcliente = null;
-        $this->updated_at = null;
-        $this->created_at = null;
-        $this->remember_token = null;
-        $this->tipo = null;
-        $this->nome = null;
-        $this->senha = null;
-        $this->email = null;
         $this->id = null;
+        $this->email = null;
+        $this->senha = null;
+        $this->nome = null;
+        $this->tipo = null;
+        $this->remember_token = null;
+        $this->created_at = null;
+        $this->updated_at = null;
+        $this->idcliente = null;
         $this->alreadyInSave = false;
         $this->clearAllReferences();
         $this->resetModified();

@@ -20,17 +20,17 @@ use Propel\Runtime\Exception\PropelException;
  *
  *
  *
- * @method     ChildClienteQuery orderByObscontrato($order = Criteria::ASC) Order by the obscontrato column
- * @method     ChildClienteQuery orderByEmail($order = Criteria::ASC) Order by the email column
- * @method     ChildClienteQuery orderByAtivo($order = Criteria::ASC) Order by the ativo column
- * @method     ChildClienteQuery orderByNome($order = Criteria::ASC) Order by the nome column
  * @method     ChildClienteQuery orderById($order = Criteria::ASC) Order by the id column
+ * @method     ChildClienteQuery orderByNome($order = Criteria::ASC) Order by the nome column
+ * @method     ChildClienteQuery orderByAtivo($order = Criteria::ASC) Order by the ativo column
+ * @method     ChildClienteQuery orderByEmail($order = Criteria::ASC) Order by the email column
+ * @method     ChildClienteQuery orderByObscontrato($order = Criteria::ASC) Order by the obscontrato column
  *
- * @method     ChildClienteQuery groupByObscontrato() Group by the obscontrato column
- * @method     ChildClienteQuery groupByEmail() Group by the email column
- * @method     ChildClienteQuery groupByAtivo() Group by the ativo column
- * @method     ChildClienteQuery groupByNome() Group by the nome column
  * @method     ChildClienteQuery groupById() Group by the id column
+ * @method     ChildClienteQuery groupByNome() Group by the nome column
+ * @method     ChildClienteQuery groupByAtivo() Group by the ativo column
+ * @method     ChildClienteQuery groupByEmail() Group by the email column
+ * @method     ChildClienteQuery groupByObscontrato() Group by the obscontrato column
  *
  * @method     ChildClienteQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method     ChildClienteQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
@@ -57,23 +57,33 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildCliente findOne(ConnectionInterface $con = null) Return the first ChildCliente matching the query
  * @method     ChildCliente findOneOrCreate(ConnectionInterface $con = null) Return the first ChildCliente matching the query, or a new ChildCliente object populated from the query conditions when no match is found
  *
- * @method     ChildCliente findOneByObscontrato(string $obscontrato) Return the first ChildCliente filtered by the obscontrato column
- * @method     ChildCliente findOneByEmail(string $email) Return the first ChildCliente filtered by the email column
- * @method     ChildCliente findOneByAtivo(boolean $ativo) Return the first ChildCliente filtered by the ativo column
- * @method     ChildCliente findOneByNome(string $nome) Return the first ChildCliente filtered by the nome column
  * @method     ChildCliente findOneById(int $id) Return the first ChildCliente filtered by the id column
+ * @method     ChildCliente findOneByNome(string $nome) Return the first ChildCliente filtered by the nome column
+ * @method     ChildCliente findOneByAtivo(boolean $ativo) Return the first ChildCliente filtered by the ativo column
+ * @method     ChildCliente findOneByEmail(string $email) Return the first ChildCliente filtered by the email column
+ * @method     ChildCliente findOneByObscontrato(string $obscontrato) Return the first ChildCliente filtered by the obscontrato column *
+
+ * @method     ChildCliente requirePk($key, ConnectionInterface $con = null) Return the ChildCliente by primary key and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildCliente requireOne(ConnectionInterface $con = null) Return the first ChildCliente matching the query and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ *
+ * @method     ChildCliente requireOneById(int $id) Return the first ChildCliente filtered by the id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildCliente requireOneByNome(string $nome) Return the first ChildCliente filtered by the nome column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildCliente requireOneByAtivo(boolean $ativo) Return the first ChildCliente filtered by the ativo column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildCliente requireOneByEmail(string $email) Return the first ChildCliente filtered by the email column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildCliente requireOneByObscontrato(string $obscontrato) Return the first ChildCliente filtered by the obscontrato column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
  * @method     ChildCliente[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildCliente objects based on current ModelCriteria
- * @method     ChildCliente[]|ObjectCollection findByObscontrato(string $obscontrato) Return ChildCliente objects filtered by the obscontrato column
- * @method     ChildCliente[]|ObjectCollection findByEmail(string $email) Return ChildCliente objects filtered by the email column
- * @method     ChildCliente[]|ObjectCollection findByAtivo(boolean $ativo) Return ChildCliente objects filtered by the ativo column
- * @method     ChildCliente[]|ObjectCollection findByNome(string $nome) Return ChildCliente objects filtered by the nome column
  * @method     ChildCliente[]|ObjectCollection findById(int $id) Return ChildCliente objects filtered by the id column
+ * @method     ChildCliente[]|ObjectCollection findByNome(string $nome) Return ChildCliente objects filtered by the nome column
+ * @method     ChildCliente[]|ObjectCollection findByAtivo(boolean $ativo) Return ChildCliente objects filtered by the ativo column
+ * @method     ChildCliente[]|ObjectCollection findByEmail(string $email) Return ChildCliente objects filtered by the email column
+ * @method     ChildCliente[]|ObjectCollection findByObscontrato(string $obscontrato) Return ChildCliente objects filtered by the obscontrato column
  * @method     ChildCliente[]|\Propel\Runtime\Util\PropelModelPager paginate($page = 1, $maxPerPage = 10, ConnectionInterface $con = null) Issue a SELECT query based on the current ModelCriteria and uses a page and a maximum number of results per page to compute an offset and a limit
  *
  */
 abstract class ClienteQuery extends ModelCriteria
 {
+    protected $entityNotFoundExceptionClass = '\\Propel\\Runtime\\Exception\\EntityNotFoundException';
 
     /**
      * Initializes internal state of \Base\ClienteQuery object.
@@ -160,7 +170,7 @@ abstract class ClienteQuery extends ModelCriteria
      */
     protected function findPkSimple($key, ConnectionInterface $con)
     {
-        $sql = 'SELECT obscontrato, email, ativo, nome, id FROM cliente WHERE id = :p0';
+        $sql = 'SELECT id, nome, ativo, email, obscontrato FROM cliente WHERE id = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -251,120 +261,6 @@ abstract class ClienteQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query on the obscontrato column
-     *
-     * Example usage:
-     * <code>
-     * $query->filterByObscontrato('fooValue');   // WHERE obscontrato = 'fooValue'
-     * $query->filterByObscontrato('%fooValue%'); // WHERE obscontrato LIKE '%fooValue%'
-     * </code>
-     *
-     * @param     string $obscontrato The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return $this|ChildClienteQuery The current query, for fluid interface
-     */
-    public function filterByObscontrato($obscontrato = null, $comparison = null)
-    {
-        if (null === $comparison) {
-            if (is_array($obscontrato)) {
-                $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $obscontrato)) {
-                $obscontrato = str_replace('*', '%', $obscontrato);
-                $comparison = Criteria::LIKE;
-            }
-        }
-
-        return $this->addUsingAlias(ClienteTableMap::COL_OBSCONTRATO, $obscontrato, $comparison);
-    }
-
-    /**
-     * Filter the query on the email column
-     *
-     * Example usage:
-     * <code>
-     * $query->filterByEmail('fooValue');   // WHERE email = 'fooValue'
-     * $query->filterByEmail('%fooValue%'); // WHERE email LIKE '%fooValue%'
-     * </code>
-     *
-     * @param     string $email The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return $this|ChildClienteQuery The current query, for fluid interface
-     */
-    public function filterByEmail($email = null, $comparison = null)
-    {
-        if (null === $comparison) {
-            if (is_array($email)) {
-                $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $email)) {
-                $email = str_replace('*', '%', $email);
-                $comparison = Criteria::LIKE;
-            }
-        }
-
-        return $this->addUsingAlias(ClienteTableMap::COL_EMAIL, $email, $comparison);
-    }
-
-    /**
-     * Filter the query on the ativo column
-     *
-     * Example usage:
-     * <code>
-     * $query->filterByAtivo(true); // WHERE ativo = true
-     * $query->filterByAtivo('yes'); // WHERE ativo = true
-     * </code>
-     *
-     * @param     boolean|string $ativo The value to use as filter.
-     *              Non-boolean arguments are converted using the following rules:
-     *                * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
-     *                * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
-     *              Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return $this|ChildClienteQuery The current query, for fluid interface
-     */
-    public function filterByAtivo($ativo = null, $comparison = null)
-    {
-        if (is_string($ativo)) {
-            $ativo = in_array(strtolower($ativo), array('false', 'off', '-', 'no', 'n', '0', '')) ? false : true;
-        }
-
-        return $this->addUsingAlias(ClienteTableMap::COL_ATIVO, $ativo, $comparison);
-    }
-
-    /**
-     * Filter the query on the nome column
-     *
-     * Example usage:
-     * <code>
-     * $query->filterByNome('fooValue');   // WHERE nome = 'fooValue'
-     * $query->filterByNome('%fooValue%'); // WHERE nome LIKE '%fooValue%'
-     * </code>
-     *
-     * @param     string $nome The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return $this|ChildClienteQuery The current query, for fluid interface
-     */
-    public function filterByNome($nome = null, $comparison = null)
-    {
-        if (null === $comparison) {
-            if (is_array($nome)) {
-                $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $nome)) {
-                $nome = str_replace('*', '%', $nome);
-                $comparison = Criteria::LIKE;
-            }
-        }
-
-        return $this->addUsingAlias(ClienteTableMap::COL_NOME, $nome, $comparison);
-    }
-
-    /**
      * Filter the query on the id column
      *
      * Example usage:
@@ -403,6 +299,120 @@ abstract class ClienteQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(ClienteTableMap::COL_ID, $id, $comparison);
+    }
+
+    /**
+     * Filter the query on the nome column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByNome('fooValue');   // WHERE nome = 'fooValue'
+     * $query->filterByNome('%fooValue%'); // WHERE nome LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $nome The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildClienteQuery The current query, for fluid interface
+     */
+    public function filterByNome($nome = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($nome)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $nome)) {
+                $nome = str_replace('*', '%', $nome);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(ClienteTableMap::COL_NOME, $nome, $comparison);
+    }
+
+    /**
+     * Filter the query on the ativo column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByAtivo(true); // WHERE ativo = true
+     * $query->filterByAtivo('yes'); // WHERE ativo = true
+     * </code>
+     *
+     * @param     boolean|string $ativo The value to use as filter.
+     *              Non-boolean arguments are converted using the following rules:
+     *                * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
+     *                * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
+     *              Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildClienteQuery The current query, for fluid interface
+     */
+    public function filterByAtivo($ativo = null, $comparison = null)
+    {
+        if (is_string($ativo)) {
+            $ativo = in_array(strtolower($ativo), array('false', 'off', '-', 'no', 'n', '0', '')) ? false : true;
+        }
+
+        return $this->addUsingAlias(ClienteTableMap::COL_ATIVO, $ativo, $comparison);
+    }
+
+    /**
+     * Filter the query on the email column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByEmail('fooValue');   // WHERE email = 'fooValue'
+     * $query->filterByEmail('%fooValue%'); // WHERE email LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $email The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildClienteQuery The current query, for fluid interface
+     */
+    public function filterByEmail($email = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($email)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $email)) {
+                $email = str_replace('*', '%', $email);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(ClienteTableMap::COL_EMAIL, $email, $comparison);
+    }
+
+    /**
+     * Filter the query on the obscontrato column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByObscontrato('fooValue');   // WHERE obscontrato = 'fooValue'
+     * $query->filterByObscontrato('%fooValue%'); // WHERE obscontrato LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $obscontrato The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildClienteQuery The current query, for fluid interface
+     */
+    public function filterByObscontrato($obscontrato = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($obscontrato)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $obscontrato)) {
+                $obscontrato = str_replace('*', '%', $obscontrato);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(ClienteTableMap::COL_OBSCONTRATO, $obscontrato, $comparison);
     }
 
     /**

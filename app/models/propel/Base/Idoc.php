@@ -62,16 +62,10 @@ abstract class Idoc implements ActiveRecordInterface
     protected $virtualColumns = array();
 
     /**
-     * The value for the file field.
-     * @var        string
+     * The value for the id field.
+     * @var        int
      */
-    protected $file;
-
-    /**
-     * The value for the idcliente field.
-     * @var        string
-     */
-    protected $idcliente;
+    protected $id;
 
     /**
      * The value for the nome field.
@@ -80,10 +74,16 @@ abstract class Idoc implements ActiveRecordInterface
     protected $nome;
 
     /**
-     * The value for the id field.
-     * @var        int
+     * The value for the idcliente field.
+     * @var        string
      */
-    protected $id;
+    protected $idcliente;
+
+    /**
+     * The value for the file field.
+     * @var        string
+     */
+    protected $file;
 
     /**
      * @var        ChildCliente
@@ -316,23 +316,13 @@ abstract class Idoc implements ActiveRecordInterface
     }
 
     /**
-     * Get the [file] column value.
+     * Get the [id] column value.
      *
-     * @return string
+     * @return int
      */
-    public function getFile()
+    public function getId()
     {
-        return $this->file;
-    }
-
-    /**
-     * Get the [idcliente] column value.
-     *
-     * @return string
-     */
-    public function getIdcliente()
-    {
-        return $this->idcliente;
+        return $this->id;
     }
 
     /**
@@ -346,34 +336,64 @@ abstract class Idoc implements ActiveRecordInterface
     }
 
     /**
-     * Get the [id] column value.
+     * Get the [idcliente] column value.
      *
-     * @return int
+     * @return string
      */
-    public function getId()
+    public function getIdcliente()
     {
-        return $this->id;
+        return $this->idcliente;
     }
 
     /**
-     * Set the value of [file] column.
+     * Get the [file] column value.
+     *
+     * @return string
+     */
+    public function getFile()
+    {
+        return $this->file;
+    }
+
+    /**
+     * Set the value of [id] column.
+     *
+     * @param  int $v new value
+     * @return $this|\Idoc The current object (for fluent API support)
+     */
+    public function setId($v)
+    {
+        if ($v !== null) {
+            $v = (int) $v;
+        }
+
+        if ($this->id !== $v) {
+            $this->id = $v;
+            $this->modifiedColumns[IdocTableMap::COL_ID] = true;
+        }
+
+        return $this;
+    } // setId()
+
+    /**
+     * Set the value of [nome] column.
      *
      * @param  string $v new value
      * @return $this|\Idoc The current object (for fluent API support)
      */
-    public function setFile($v)
+    public function setNome($v)
     {
         if ($v !== null) {
             $v = (string) $v;
         }
 
-        if ($this->file !== $v) {
-            $this->file = $v;
-            $this->modifiedColumns[IdocTableMap::COL_FILE] = true;
+        if ($this->nome !== $v) {
+            $this->nome = $v;
+            $this->modifiedColumns[IdocTableMap::COL_NOME] = true;
         }
 
         return $this;
-    } // setFile()
+    } // setNome()
 
     /**
      * Set the value of [idcliente] column.
@@ -400,44 +420,24 @@ abstract class Idoc implements ActiveRecordInterface
     } // setIdcliente()
 
     /**
-     * Set the value of [nome] column.
+     * Set the value of [file] column.
      *
      * @param  string $v new value
      * @return $this|\Idoc The current object (for fluent API support)
      */
-    public function setNome($v)
+    public function setFile($v)
     {
         if ($v !== null) {
             $v = (string) $v;
         }
 
-        if ($this->nome !== $v) {
-            $this->nome = $v;
-            $this->modifiedColumns[IdocTableMap::COL_NOME] = true;
+        if ($this->file !== $v) {
+            $this->file = $v;
+            $this->modifiedColumns[IdocTableMap::COL_FILE] = true;
         }
 
         return $this;
-    } // setNome()
-
-    /**
-     * Set the value of [id] column.
-     *
-     * @param  int $v new value
-     * @return $this|\Idoc The current object (for fluent API support)
-     */
-    public function setId($v)
-    {
-        if ($v !== null) {
-            $v = (int) $v;
-        }
-
-        if ($this->id !== $v) {
-            $this->id = $v;
-            $this->modifiedColumns[IdocTableMap::COL_ID] = true;
-        }
-
-        return $this;
-    } // setId()
+    } // setFile()
 
     /**
      * Indicates whether the columns in this object are only set to default values.
@@ -475,17 +475,17 @@ abstract class Idoc implements ActiveRecordInterface
     {
         try {
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : IdocTableMap::translateFieldName('File', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->file = (null !== $col) ? (string) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : IdocTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : IdocTableMap::translateFieldName('Idcliente', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->idcliente = (null !== $col) ? (string) $col : null;
-
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : IdocTableMap::translateFieldName('Nome', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : IdocTableMap::translateFieldName('Nome', TableMap::TYPE_PHPNAME, $indexType)];
             $this->nome = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : IdocTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->id = (null !== $col) ? (int) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : IdocTableMap::translateFieldName('Idcliente', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->idcliente = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : IdocTableMap::translateFieldName('File', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->file = (null !== $col) ? (string) $col : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -716,17 +716,17 @@ abstract class Idoc implements ActiveRecordInterface
 
 
          // check the columns in natural order for more readable SQL queries
-        if ($this->isColumnModified(IdocTableMap::COL_FILE)) {
-            $modifiedColumns[':p' . $index++]  = 'file';
-        }
-        if ($this->isColumnModified(IdocTableMap::COL_IDCLIENTE)) {
-            $modifiedColumns[':p' . $index++]  = 'idcliente';
+        if ($this->isColumnModified(IdocTableMap::COL_ID)) {
+            $modifiedColumns[':p' . $index++]  = 'id';
         }
         if ($this->isColumnModified(IdocTableMap::COL_NOME)) {
             $modifiedColumns[':p' . $index++]  = 'nome';
         }
-        if ($this->isColumnModified(IdocTableMap::COL_ID)) {
-            $modifiedColumns[':p' . $index++]  = 'id';
+        if ($this->isColumnModified(IdocTableMap::COL_IDCLIENTE)) {
+            $modifiedColumns[':p' . $index++]  = 'idcliente';
+        }
+        if ($this->isColumnModified(IdocTableMap::COL_FILE)) {
+            $modifiedColumns[':p' . $index++]  = 'file';
         }
 
         $sql = sprintf(
@@ -739,17 +739,17 @@ abstract class Idoc implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-                    case 'file':
-                        $stmt->bindValue($identifier, $this->file, PDO::PARAM_STR);
-                        break;
-                    case 'idcliente':
-                        $stmt->bindValue($identifier, $this->idcliente, PDO::PARAM_INT);
+                    case 'id':
+                        $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
                     case 'nome':
                         $stmt->bindValue($identifier, $this->nome, PDO::PARAM_STR);
                         break;
-                    case 'id':
-                        $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
+                    case 'idcliente':
+                        $stmt->bindValue($identifier, $this->idcliente, PDO::PARAM_INT);
+                        break;
+                    case 'file':
+                        $stmt->bindValue($identifier, $this->file, PDO::PARAM_STR);
                         break;
                 }
             }
@@ -807,16 +807,16 @@ abstract class Idoc implements ActiveRecordInterface
     {
         switch ($pos) {
             case 0:
-                return $this->getFile();
+                return $this->getId();
                 break;
             case 1:
-                return $this->getIdcliente();
-                break;
-            case 2:
                 return $this->getNome();
                 break;
+            case 2:
+                return $this->getIdcliente();
+                break;
             case 3:
-                return $this->getId();
+                return $this->getFile();
                 break;
             default:
                 return null;
@@ -848,10 +848,10 @@ abstract class Idoc implements ActiveRecordInterface
         $alreadyDumpedObjects['Idoc'][$this->hashCode()] = true;
         $keys = IdocTableMap::getFieldNames($keyType);
         $result = array(
-            $keys[0] => $this->getFile(),
-            $keys[1] => $this->getIdcliente(),
-            $keys[2] => $this->getNome(),
-            $keys[3] => $this->getId(),
+            $keys[0] => $this->getId(),
+            $keys[1] => $this->getNome(),
+            $keys[2] => $this->getIdcliente(),
+            $keys[3] => $this->getFile(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -909,16 +909,16 @@ abstract class Idoc implements ActiveRecordInterface
     {
         switch ($pos) {
             case 0:
-                $this->setFile($value);
+                $this->setId($value);
                 break;
             case 1:
-                $this->setIdcliente($value);
-                break;
-            case 2:
                 $this->setNome($value);
                 break;
+            case 2:
+                $this->setIdcliente($value);
+                break;
             case 3:
-                $this->setId($value);
+                $this->setFile($value);
                 break;
         } // switch()
 
@@ -947,16 +947,16 @@ abstract class Idoc implements ActiveRecordInterface
         $keys = IdocTableMap::getFieldNames($keyType);
 
         if (array_key_exists($keys[0], $arr)) {
-            $this->setFile($arr[$keys[0]]);
+            $this->setId($arr[$keys[0]]);
         }
         if (array_key_exists($keys[1], $arr)) {
-            $this->setIdcliente($arr[$keys[1]]);
+            $this->setNome($arr[$keys[1]]);
         }
         if (array_key_exists($keys[2], $arr)) {
-            $this->setNome($arr[$keys[2]]);
+            $this->setIdcliente($arr[$keys[2]]);
         }
         if (array_key_exists($keys[3], $arr)) {
-            $this->setId($arr[$keys[3]]);
+            $this->setFile($arr[$keys[3]]);
         }
     }
 
@@ -999,17 +999,17 @@ abstract class Idoc implements ActiveRecordInterface
     {
         $criteria = new Criteria(IdocTableMap::DATABASE_NAME);
 
-        if ($this->isColumnModified(IdocTableMap::COL_FILE)) {
-            $criteria->add(IdocTableMap::COL_FILE, $this->file);
-        }
-        if ($this->isColumnModified(IdocTableMap::COL_IDCLIENTE)) {
-            $criteria->add(IdocTableMap::COL_IDCLIENTE, $this->idcliente);
+        if ($this->isColumnModified(IdocTableMap::COL_ID)) {
+            $criteria->add(IdocTableMap::COL_ID, $this->id);
         }
         if ($this->isColumnModified(IdocTableMap::COL_NOME)) {
             $criteria->add(IdocTableMap::COL_NOME, $this->nome);
         }
-        if ($this->isColumnModified(IdocTableMap::COL_ID)) {
-            $criteria->add(IdocTableMap::COL_ID, $this->id);
+        if ($this->isColumnModified(IdocTableMap::COL_IDCLIENTE)) {
+            $criteria->add(IdocTableMap::COL_IDCLIENTE, $this->idcliente);
+        }
+        if ($this->isColumnModified(IdocTableMap::COL_FILE)) {
+            $criteria->add(IdocTableMap::COL_FILE, $this->file);
         }
 
         return $criteria;
@@ -1097,9 +1097,9 @@ abstract class Idoc implements ActiveRecordInterface
      */
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
-        $copyObj->setFile($this->getFile());
-        $copyObj->setIdcliente($this->getIdcliente());
         $copyObj->setNome($this->getNome());
+        $copyObj->setIdcliente($this->getIdcliente());
+        $copyObj->setFile($this->getFile());
         if ($makeNew) {
             $copyObj->setNew(true);
             $copyObj->setId(NULL); // this is a auto-increment column, so set to default value
@@ -1189,10 +1189,10 @@ abstract class Idoc implements ActiveRecordInterface
         if (null !== $this->aCliente) {
             $this->aCliente->removeIdoc($this);
         }
-        $this->file = null;
-        $this->idcliente = null;
-        $this->nome = null;
         $this->id = null;
+        $this->nome = null;
+        $this->idcliente = null;
+        $this->file = null;
         $this->alreadyInSave = false;
         $this->clearAllReferences();
         $this->resetModified();
