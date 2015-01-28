@@ -5,8 +5,6 @@
 
 <h3>Dados Usuário</h3>
 
-@extends('cliente.menu')
-
  @if(Session::has('message-sucess'))
     <div role="alert" class="alert alert-success">
        {{ Session::get('message-sucess') }}
@@ -36,7 +34,7 @@
   </table>
     
     {{ Form::submit('Salvar',array('class' => 'btn btn-sm btn-success')); }}
-    <a href='/cliente/listar-login/{{ $id }}' class="btn btn-sm btn-info">Voltar</a>
+    <a href='/' class="btn btn-sm btn-info">Voltar</a>
     {{ Form::close() }}
 </div>
 

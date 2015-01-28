@@ -27,7 +27,7 @@
 <div class="table-responsive">
     
    
-  <table class="table">
+    <table class="table" id="no-more-tables">
       <thead>
           <tr>
             <th>Nome</th>
@@ -37,8 +37,8 @@
         
         @foreach ($clientes as $cliente)
             <tr>
-              <td scope="row">{{ $cliente->getNome() }}</td>
-              <td>
+              <td data-title="Nome" scope="row">{{ $cliente->getNome() }}</td>
+              <td data-title="Ferramentas">
                 <a href="/cliente/view/{{ $cliente->getId() }}" class="btn btn-xs btn-success">Visualizar</a>
                 @if(Auth::user()->tipo == 'admin')
                     @if($cliente->getAtivo())
