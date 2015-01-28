@@ -48,6 +48,10 @@ class FinanceiroController extends BaseController {
                }
                
                $pgto = new ClientePgtos();
+               
+               if($dados['idproduto'] != ""){
+                   $pgto->setIdproduto($dados['idproduto']);
+               }
                $pgto->setIdcliente($dados['idcliente']);
                $pgto->setDescricao($dados['descricao']);
                $pgto->setValor($dados['valor']);
