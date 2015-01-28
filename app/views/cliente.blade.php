@@ -14,11 +14,15 @@
 @endif
 
  @if(Session::has('message-sucess'))
+    <br>
+    <br>
     <div role="alert" class="alert alert-success">
        {{ Session::get('message-sucess') }}
     </div>
     @endif
     @if(Session::has('message-erro'))
+    <br>
+    <br>
     <div role="alert" class="alert alert-danger">
        {{ Session::get('message-erro') }}
     </div>

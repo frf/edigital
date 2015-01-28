@@ -66,7 +66,12 @@ class ClienteController extends BaseController {
                $id   = Auth::user()->idcliente;
                $usuarios = Usuario::where('idcliente', '=', $id)->get();
           }else{               
-               $usuarios = Usuario::where('tipo','<>','admin')->get();
+              $usuarios = Usuario::where('tipo','<>','admin')->where('idcliente','=',$id)->get();
+
+              if(!$usuarios->count()){
+                  return Redirect::to('/cliente/cadastrar-login/'.$id)->with('message-erro','Nenhum usuário encontrado!');
+              }
+              
           }
 
           return View::make('cliente.listar-login',array('usuarios'=>$usuarios,'id'=>$id));
@@ -253,7 +258,7 @@ class ClienteController extends BaseController {
 	{
             $method = Request::method();
            
-            $oCliente = UsuariosQuery::create()->filterById($id)->findOne();     
+            $oCliente = UsuariosQuery::create()->filterById($id)->filterByIdcliente($idCli)->findOne();     
            
             if(!$oCliente){
                 return Redirect::to('/cliente')->with('message-erro','Usuário não encontrado!');
