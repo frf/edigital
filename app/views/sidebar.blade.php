@@ -1,6 +1,5 @@
 @section('sidebar')
 
-
 @if(Auth::check())
     <!-- Fixed navbar -->
     <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -12,7 +11,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="/">e-Online</a>
+          <a class="navbar-brand" href="/">{{Config::get('edigital.siglaSistema')}}</a>
         </div>
 
         <div id="navbar" class="navbar-collapse collapse">
@@ -41,9 +40,11 @@
                  @endif
                  @if(Auth::user()->tipo == 'cliente')
                         @foreach(Config::get('edigital.menuCliente') as $key => $menu)
-                            <li @if(Request::segment(1) == $key) class="active" @endif>
-                                     <a href="/{{$key}}">{{ $menu }}</a>
-                            </li>                            
+                            @if(in_array($key,Config::get('edigital.moduloAtivo')))
+                                <li @if(Request::segment(1) == $key) class="active" @endif>
+                                         <a href="/{{$key}}">{{ $menu }}</a>
+                                </li>
+                            @endif
                         @endforeach
                  @endif                      
            </ul>    
@@ -68,7 +69,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="/">e-Online</a>
+          <a class="navbar-brand" href="/">{{Config::get('edigital.siglaSistema')}}</a>
         </div>
         <a href="{{ url('entrar') }}" class="btn btn-success navbar-btn navbar-right">Entrar</a>
         <!--/.nav-collapse -->
