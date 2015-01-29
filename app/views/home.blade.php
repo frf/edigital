@@ -37,7 +37,7 @@
                         <td data-title="Status" scope="row">{{ StatusChamado::find($chamado->status)->status_chamado }}</td>
                         <td data-title="Data" scope="row">{{ $chamado->data }}</td>
                         <td data-title="Ferramentas" scope="row">
-                            <a href="/atendimento/historico/{{ $chamado->id }}" class="btn btn-xs btn-primary">Visializar</a>                            
+                            <a href="/atendimento/historico/{{ $chamado->id }}" class="btn btn-xs btn-primary">Visualizar</a>                            
                         </td>
                     </tr>
                  @endforeach
