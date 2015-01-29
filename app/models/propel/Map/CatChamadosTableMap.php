@@ -72,14 +72,9 @@ class CatChamadosTableMap extends TableMap
     const NUM_HYDRATE_COLUMNS = 4;
 
     /**
-     * the column name for the updated_at field
+     * the column name for the id field
      */
-    const COL_UPDATED_AT = 'cat_chamados.updated_at';
-
-    /**
-     * the column name for the created_at field
-     */
-    const COL_CREATED_AT = 'cat_chamados.created_at';
+    const COL_ID = 'cat_chamados.id';
 
     /**
      * the column name for the cat_chamado field
@@ -87,9 +82,14 @@ class CatChamadosTableMap extends TableMap
     const COL_CAT_CHAMADO = 'cat_chamados.cat_chamado';
 
     /**
-     * the column name for the id field
+     * the column name for the created_at field
      */
-    const COL_ID = 'cat_chamados.id';
+    const COL_CREATED_AT = 'cat_chamados.created_at';
+
+    /**
+     * the column name for the updated_at field
+     */
+    const COL_UPDATED_AT = 'cat_chamados.updated_at';
 
     /**
      * The default string format for model objects of the related table
@@ -103,10 +103,10 @@ class CatChamadosTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('UpdatedAt', 'CreatedAt', 'CatChamado', 'Id', ),
-        self::TYPE_CAMELNAME     => array('updatedAt', 'createdAt', 'catChamado', 'id', ),
-        self::TYPE_COLNAME       => array(CatChamadosTableMap::COL_UPDATED_AT, CatChamadosTableMap::COL_CREATED_AT, CatChamadosTableMap::COL_CAT_CHAMADO, CatChamadosTableMap::COL_ID, ),
-        self::TYPE_FIELDNAME     => array('updated_at', 'created_at', 'cat_chamado', 'id', ),
+        self::TYPE_PHPNAME       => array('Id', 'CatChamado', 'CreatedAt', 'UpdatedAt', ),
+        self::TYPE_CAMELNAME     => array('id', 'catChamado', 'createdAt', 'updatedAt', ),
+        self::TYPE_COLNAME       => array(CatChamadosTableMap::COL_ID, CatChamadosTableMap::COL_CAT_CHAMADO, CatChamadosTableMap::COL_CREATED_AT, CatChamadosTableMap::COL_UPDATED_AT, ),
+        self::TYPE_FIELDNAME     => array('id', 'cat_chamado', 'created_at', 'updated_at', ),
         self::TYPE_NUM           => array(0, 1, 2, 3, )
     );
 
@@ -117,10 +117,10 @@ class CatChamadosTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('UpdatedAt' => 0, 'CreatedAt' => 1, 'CatChamado' => 2, 'Id' => 3, ),
-        self::TYPE_CAMELNAME     => array('updatedAt' => 0, 'createdAt' => 1, 'catChamado' => 2, 'id' => 3, ),
-        self::TYPE_COLNAME       => array(CatChamadosTableMap::COL_UPDATED_AT => 0, CatChamadosTableMap::COL_CREATED_AT => 1, CatChamadosTableMap::COL_CAT_CHAMADO => 2, CatChamadosTableMap::COL_ID => 3, ),
-        self::TYPE_FIELDNAME     => array('updated_at' => 0, 'created_at' => 1, 'cat_chamado' => 2, 'id' => 3, ),
+        self::TYPE_PHPNAME       => array('Id' => 0, 'CatChamado' => 1, 'CreatedAt' => 2, 'UpdatedAt' => 3, ),
+        self::TYPE_CAMELNAME     => array('id' => 0, 'catChamado' => 1, 'createdAt' => 2, 'updatedAt' => 3, ),
+        self::TYPE_COLNAME       => array(CatChamadosTableMap::COL_ID => 0, CatChamadosTableMap::COL_CAT_CHAMADO => 1, CatChamadosTableMap::COL_CREATED_AT => 2, CatChamadosTableMap::COL_UPDATED_AT => 3, ),
+        self::TYPE_FIELDNAME     => array('id' => 0, 'cat_chamado' => 1, 'created_at' => 2, 'updated_at' => 3, ),
         self::TYPE_NUM           => array(0, 1, 2, 3, )
     );
 
@@ -142,10 +142,10 @@ class CatChamadosTableMap extends TableMap
         $this->setUseIdGenerator(true);
         $this->setPrimaryKeyMethodInfo('cat_chamados_id_seq');
         // columns
-        $this->addColumn('updated_at', 'UpdatedAt', 'TIMESTAMP', true, null, null);
-        $this->addColumn('created_at', 'CreatedAt', 'TIMESTAMP', true, null, null);
-        $this->addColumn('cat_chamado', 'CatChamado', 'VARCHAR', true, 255, null);
         $this->addPrimaryKey('id', 'Id', 'INTEGER', true, null, null);
+        $this->addColumn('cat_chamado', 'CatChamado', 'VARCHAR', true, 255, null);
+        $this->addColumn('created_at', 'CreatedAt', 'TIMESTAMP', true, null, null);
+        $this->addColumn('updated_at', 'UpdatedAt', 'TIMESTAMP', true, null, null);
     } // initialize()
 
     /**
@@ -171,11 +171,11 @@ class CatChamadosTableMap extends TableMap
     public static function getPrimaryKeyHashFromRow($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
     {
         // If the PK cannot be derived from the row, return NULL.
-        if ($row[TableMap::TYPE_NUM == $indexType ? 3 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)] === null) {
+        if ($row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)] === null) {
             return null;
         }
 
-        return (string) $row[TableMap::TYPE_NUM == $indexType ? 3 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
+        return (string) $row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
     }
 
     /**
@@ -194,7 +194,7 @@ class CatChamadosTableMap extends TableMap
     {
         return (int) $row[
             $indexType == TableMap::TYPE_NUM
-                ? 3 + $offset
+                ? 0 + $offset
                 : self::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)
         ];
     }
@@ -296,15 +296,15 @@ class CatChamadosTableMap extends TableMap
     public static function addSelectColumns(Criteria $criteria, $alias = null)
     {
         if (null === $alias) {
-            $criteria->addSelectColumn(CatChamadosTableMap::COL_UPDATED_AT);
-            $criteria->addSelectColumn(CatChamadosTableMap::COL_CREATED_AT);
-            $criteria->addSelectColumn(CatChamadosTableMap::COL_CAT_CHAMADO);
             $criteria->addSelectColumn(CatChamadosTableMap::COL_ID);
+            $criteria->addSelectColumn(CatChamadosTableMap::COL_CAT_CHAMADO);
+            $criteria->addSelectColumn(CatChamadosTableMap::COL_CREATED_AT);
+            $criteria->addSelectColumn(CatChamadosTableMap::COL_UPDATED_AT);
         } else {
-            $criteria->addSelectColumn($alias . '.updated_at');
-            $criteria->addSelectColumn($alias . '.created_at');
-            $criteria->addSelectColumn($alias . '.cat_chamado');
             $criteria->addSelectColumn($alias . '.id');
+            $criteria->addSelectColumn($alias . '.cat_chamado');
+            $criteria->addSelectColumn($alias . '.created_at');
+            $criteria->addSelectColumn($alias . '.updated_at');
         }
     }
 

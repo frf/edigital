@@ -4,8 +4,6 @@ namespace Base;
 
 use \Categorias as ChildCategorias;
 use \CategoriasQuery as ChildCategoriasQuery;
-use \Clientes as ChildClientes;
-use \ClientesQuery as ChildClientesQuery;
 use \Documentos as ChildDocumentos;
 use \DocumentosDownloads as ChildDocumentosDownloads;
 use \DocumentosDownloadsQuery as ChildDocumentosDownloadsQuery;
@@ -123,9 +121,15 @@ abstract class Documentos implements ActiveRecordInterface
     protected $aCategorias;
 
     /**
-     * @var        ChildClientes
+     * @var        ChildDocumentos
      */
-    protected $aClientes;
+    protected $aDocumentosRelatedByIdcliente;
+
+    /**
+     * @var        ObjectCollection|ChildDocumentos[] Collection to store aggregation of ChildDocumentos objects.
+     */
+    protected $collDocumentossRelatedById;
+    protected $collDocumentossRelatedByIdPartial;
 
     /**
      * @var        ObjectCollection|ChildDocumentosDownloads[] Collection to store aggregation of ChildDocumentosDownloads objects.
@@ -140,6 +144,12 @@ abstract class Documentos implements ActiveRecordInterface
      * @var boolean
      */
     protected $alreadyInSave = false;
+
+    /**
+     * An array of objects scheduled for deletion.
+     * @var ObjectCollection|ChildDocumentos[]
+     */
+    protected $documentossRelatedByIdScheduledForDeletion = null;
 
     /**
      * An array of objects scheduled for deletion.
@@ -515,8 +525,8 @@ abstract class Documentos implements ActiveRecordInterface
             $this->modifiedColumns[DocumentosTableMap::COL_IDCLIENTE] = true;
         }
 
-        if ($this->aClientes !== null && $this->aClientes->getId() !== $v) {
-            $this->aClientes = null;
+        if ($this->aDocumentosRelatedByIdcliente !== null && $this->aDocumentosRelatedByIdcliente->getId() !== $v) {
+            $this->aDocumentosRelatedByIdcliente = null;
         }
 
         return $this;
@@ -714,8 +724,8 @@ abstract class Documentos implements ActiveRecordInterface
         if ($this->aCategorias !== null && $this->idcategoria !== $this->aCategorias->getId()) {
             $this->aCategorias = null;
         }
-        if ($this->aClientes !== null && $this->idcliente !== $this->aClientes->getId()) {
-            $this->aClientes = null;
+        if ($this->aDocumentosRelatedByIdcliente !== null && $this->idcliente !== $this->aDocumentosRelatedByIdcliente->getId()) {
+            $this->aDocumentosRelatedByIdcliente = null;
         }
     } // ensureConsistency
 
@@ -757,7 +767,9 @@ abstract class Documentos implements ActiveRecordInterface
         if ($deep) {  // also de-associate any related objects?
 
             $this->aCategorias = null;
-            $this->aClientes = null;
+            $this->aDocumentosRelatedByIdcliente = null;
+            $this->collDocumentossRelatedById = null;
+
             $this->collDocumentosDownloadss = null;
 
         } // if (deep)
@@ -871,11 +883,11 @@ abstract class Documentos implements ActiveRecordInterface
                 $this->setCategorias($this->aCategorias);
             }
 
-            if ($this->aClientes !== null) {
-                if ($this->aClientes->isModified() || $this->aClientes->isNew()) {
-                    $affectedRows += $this->aClientes->save($con);
+            if ($this->aDocumentosRelatedByIdcliente !== null) {
+                if ($this->aDocumentosRelatedByIdcliente->isModified() || $this->aDocumentosRelatedByIdcliente->isNew()) {
+                    $affectedRows += $this->aDocumentosRelatedByIdcliente->save($con);
                 }
-                $this->setClientes($this->aClientes);
+                $this->setDocumentosRelatedByIdcliente($this->aDocumentosRelatedByIdcliente);
             }
 
             if ($this->isNew() || $this->isModified()) {
@@ -887,6 +899,24 @@ abstract class Documentos implements ActiveRecordInterface
                     $affectedRows += $this->doUpdate($con);
                 }
                 $this->resetModified();
+            }
+
+            if ($this->documentossRelatedByIdScheduledForDeletion !== null) {
+                if (!$this->documentossRelatedByIdScheduledForDeletion->isEmpty()) {
+                    foreach ($this->documentossRelatedByIdScheduledForDeletion as $documentosRelatedById) {
+                        // need to save related object because we set the relation to null
+                        $documentosRelatedById->save($con);
+                    }
+                    $this->documentossRelatedByIdScheduledForDeletion = null;
+                }
+            }
+
+            if ($this->collDocumentossRelatedById !== null) {
+                foreach ($this->collDocumentossRelatedById as $referrerFK) {
+                    if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
+                        $affectedRows += $referrerFK->save($con);
+                    }
+                }
             }
 
             if ($this->documentosDownloadssScheduledForDeletion !== null) {
@@ -1147,20 +1177,35 @@ abstract class Documentos implements ActiveRecordInterface
 
                 $result[$key] = $this->aCategorias->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
             }
-            if (null !== $this->aClientes) {
+            if (null !== $this->aDocumentosRelatedByIdcliente) {
 
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
-                        $key = 'clientes';
+                        $key = 'documentos';
                         break;
                     case TableMap::TYPE_FIELDNAME:
-                        $key = 'clientes';
+                        $key = 'documentos';
                         break;
                     default:
-                        $key = 'Clientes';
+                        $key = 'Documentos';
                 }
 
-                $result[$key] = $this->aClientes->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
+                $result[$key] = $this->aDocumentosRelatedByIdcliente->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
+            }
+            if (null !== $this->collDocumentossRelatedById) {
+
+                switch ($keyType) {
+                    case TableMap::TYPE_CAMELNAME:
+                        $key = 'documentoss';
+                        break;
+                    case TableMap::TYPE_FIELDNAME:
+                        $key = 'documentoss';
+                        break;
+                    default:
+                        $key = 'Documentoss';
+                }
+
+                $result[$key] = $this->collDocumentossRelatedById->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
             if (null !== $this->collDocumentosDownloadss) {
 
@@ -1449,6 +1494,12 @@ abstract class Documentos implements ActiveRecordInterface
             // the getter/setter methods for fkey referrer objects.
             $copyObj->setNew(false);
 
+            foreach ($this->getDocumentossRelatedById() as $relObj) {
+                if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
+                    $copyObj->addDocumentosRelatedById($relObj->copy($deepCopy));
+                }
+            }
+
             foreach ($this->getDocumentosDownloadss() as $relObj) {
                 if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
                     $copyObj->addDocumentosDownloads($relObj->copy($deepCopy));
@@ -1537,13 +1588,13 @@ abstract class Documentos implements ActiveRecordInterface
     }
 
     /**
-     * Declares an association between this object and a ChildClientes object.
+     * Declares an association between this object and a ChildDocumentos object.
      *
-     * @param  ChildClientes $v
+     * @param  ChildDocumentos $v
      * @return $this|\Documentos The current object (for fluent API support)
      * @throws PropelException
      */
-    public function setClientes(ChildClientes $v = null)
+    public function setDocumentosRelatedByIdcliente(ChildDocumentos $v = null)
     {
         if ($v === null) {
             $this->setIdcliente(NULL);
@@ -1551,12 +1602,12 @@ abstract class Documentos implements ActiveRecordInterface
             $this->setIdcliente($v->getId());
         }
 
-        $this->aClientes = $v;
+        $this->aDocumentosRelatedByIdcliente = $v;
 
         // Add binding for other direction of this n:n relationship.
-        // If this object has already been added to the ChildClientes object, it will not be re-added.
+        // If this object has already been added to the ChildDocumentos object, it will not be re-added.
         if ($v !== null) {
-            $v->addDocumentos($this);
+            $v->addDocumentosRelatedById($this);
         }
 
 
@@ -1565,26 +1616,26 @@ abstract class Documentos implements ActiveRecordInterface
 
 
     /**
-     * Get the associated ChildClientes object
+     * Get the associated ChildDocumentos object
      *
      * @param  ConnectionInterface $con Optional Connection object.
-     * @return ChildClientes The associated ChildClientes object.
+     * @return ChildDocumentos The associated ChildDocumentos object.
      * @throws PropelException
      */
-    public function getClientes(ConnectionInterface $con = null)
+    public function getDocumentosRelatedByIdcliente(ConnectionInterface $con = null)
     {
-        if ($this->aClientes === null && ($this->idcliente !== null)) {
-            $this->aClientes = ChildClientesQuery::create()->findPk($this->idcliente, $con);
+        if ($this->aDocumentosRelatedByIdcliente === null && ($this->idcliente !== null)) {
+            $this->aDocumentosRelatedByIdcliente = ChildDocumentosQuery::create()->findPk($this->idcliente, $con);
             /* The following can be used additionally to
                 guarantee the related object contains a reference
                 to this object.  This level of coupling may, however, be
                 undesirable since it could result in an only partially populated collection
                 in the referenced object.
-                $this->aClientes->addDocumentoss($this);
+                $this->aDocumentosRelatedByIdcliente->addDocumentossRelatedById($this);
              */
         }
 
-        return $this->aClientes;
+        return $this->aDocumentosRelatedByIdcliente;
     }
 
 
@@ -1598,9 +1649,255 @@ abstract class Documentos implements ActiveRecordInterface
      */
     public function initRelation($relationName)
     {
+        if ('DocumentosRelatedById' == $relationName) {
+            return $this->initDocumentossRelatedById();
+        }
         if ('DocumentosDownloads' == $relationName) {
             return $this->initDocumentosDownloadss();
         }
+    }
+
+    /**
+     * Clears out the collDocumentossRelatedById collection
+     *
+     * This does not modify the database; however, it will remove any associated objects, causing
+     * them to be refetched by subsequent calls to accessor method.
+     *
+     * @return void
+     * @see        addDocumentossRelatedById()
+     */
+    public function clearDocumentossRelatedById()
+    {
+        $this->collDocumentossRelatedById = null; // important to set this to NULL since that means it is uninitialized
+    }
+
+    /**
+     * Reset is the collDocumentossRelatedById collection loaded partially.
+     */
+    public function resetPartialDocumentossRelatedById($v = true)
+    {
+        $this->collDocumentossRelatedByIdPartial = $v;
+    }
+
+    /**
+     * Initializes the collDocumentossRelatedById collection.
+     *
+     * By default this just sets the collDocumentossRelatedById collection to an empty array (like clearcollDocumentossRelatedById());
+     * however, you may wish to override this method in your stub class to provide setting appropriate
+     * to your application -- for example, setting the initial array to the values stored in database.
+     *
+     * @param      boolean $overrideExisting If set to true, the method call initializes
+     *                                        the collection even if it is not empty
+     *
+     * @return void
+     */
+    public function initDocumentossRelatedById($overrideExisting = true)
+    {
+        if (null !== $this->collDocumentossRelatedById && !$overrideExisting) {
+            return;
+        }
+        $this->collDocumentossRelatedById = new ObjectCollection();
+        $this->collDocumentossRelatedById->setModel('\Documentos');
+    }
+
+    /**
+     * Gets an array of ChildDocumentos objects which contain a foreign key that references this object.
+     *
+     * If the $criteria is not null, it is used to always fetch the results from the database.
+     * Otherwise the results are fetched from the database the first time, then cached.
+     * Next time the same method is called without $criteria, the cached collection is returned.
+     * If this ChildDocumentos is new, it will return
+     * an empty collection or the current collection; the criteria is ignored on a new object.
+     *
+     * @param      Criteria $criteria optional Criteria object to narrow the query
+     * @param      ConnectionInterface $con optional connection object
+     * @return ObjectCollection|ChildDocumentos[] List of ChildDocumentos objects
+     * @throws PropelException
+     */
+    public function getDocumentossRelatedById(Criteria $criteria = null, ConnectionInterface $con = null)
+    {
+        $partial = $this->collDocumentossRelatedByIdPartial && !$this->isNew();
+        if (null === $this->collDocumentossRelatedById || null !== $criteria  || $partial) {
+            if ($this->isNew() && null === $this->collDocumentossRelatedById) {
+                // return empty collection
+                $this->initDocumentossRelatedById();
+            } else {
+                $collDocumentossRelatedById = ChildDocumentosQuery::create(null, $criteria)
+                    ->filterByDocumentosRelatedByIdcliente($this)
+                    ->find($con);
+
+                if (null !== $criteria) {
+                    if (false !== $this->collDocumentossRelatedByIdPartial && count($collDocumentossRelatedById)) {
+                        $this->initDocumentossRelatedById(false);
+
+                        foreach ($collDocumentossRelatedById as $obj) {
+                            if (false == $this->collDocumentossRelatedById->contains($obj)) {
+                                $this->collDocumentossRelatedById->append($obj);
+                            }
+                        }
+
+                        $this->collDocumentossRelatedByIdPartial = true;
+                    }
+
+                    return $collDocumentossRelatedById;
+                }
+
+                if ($partial && $this->collDocumentossRelatedById) {
+                    foreach ($this->collDocumentossRelatedById as $obj) {
+                        if ($obj->isNew()) {
+                            $collDocumentossRelatedById[] = $obj;
+                        }
+                    }
+                }
+
+                $this->collDocumentossRelatedById = $collDocumentossRelatedById;
+                $this->collDocumentossRelatedByIdPartial = false;
+            }
+        }
+
+        return $this->collDocumentossRelatedById;
+    }
+
+    /**
+     * Sets a collection of ChildDocumentos objects related by a one-to-many relationship
+     * to the current object.
+     * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
+     * and new objects from the given Propel collection.
+     *
+     * @param      Collection $documentossRelatedById A Propel collection.
+     * @param      ConnectionInterface $con Optional connection object
+     * @return $this|ChildDocumentos The current object (for fluent API support)
+     */
+    public function setDocumentossRelatedById(Collection $documentossRelatedById, ConnectionInterface $con = null)
+    {
+        /** @var ChildDocumentos[] $documentossRelatedByIdToDelete */
+        $documentossRelatedByIdToDelete = $this->getDocumentossRelatedById(new Criteria(), $con)->diff($documentossRelatedById);
+
+
+        $this->documentossRelatedByIdScheduledForDeletion = $documentossRelatedByIdToDelete;
+
+        foreach ($documentossRelatedByIdToDelete as $documentosRelatedByIdRemoved) {
+            $documentosRelatedByIdRemoved->setDocumentosRelatedByIdcliente(null);
+        }
+
+        $this->collDocumentossRelatedById = null;
+        foreach ($documentossRelatedById as $documentosRelatedById) {
+            $this->addDocumentosRelatedById($documentosRelatedById);
+        }
+
+        $this->collDocumentossRelatedById = $documentossRelatedById;
+        $this->collDocumentossRelatedByIdPartial = false;
+
+        return $this;
+    }
+
+    /**
+     * Returns the number of related Documentos objects.
+     *
+     * @param      Criteria $criteria
+     * @param      boolean $distinct
+     * @param      ConnectionInterface $con
+     * @return int             Count of related Documentos objects.
+     * @throws PropelException
+     */
+    public function countDocumentossRelatedById(Criteria $criteria = null, $distinct = false, ConnectionInterface $con = null)
+    {
+        $partial = $this->collDocumentossRelatedByIdPartial && !$this->isNew();
+        if (null === $this->collDocumentossRelatedById || null !== $criteria || $partial) {
+            if ($this->isNew() && null === $this->collDocumentossRelatedById) {
+                return 0;
+            }
+
+            if ($partial && !$criteria) {
+                return count($this->getDocumentossRelatedById());
+            }
+
+            $query = ChildDocumentosQuery::create(null, $criteria);
+            if ($distinct) {
+                $query->distinct();
+            }
+
+            return $query
+                ->filterByDocumentosRelatedByIdcliente($this)
+                ->count($con);
+        }
+
+        return count($this->collDocumentossRelatedById);
+    }
+
+    /**
+     * Method called to associate a ChildDocumentos object to this object
+     * through the ChildDocumentos foreign key attribute.
+     *
+     * @param  ChildDocumentos $l ChildDocumentos
+     * @return $this|\Documentos The current object (for fluent API support)
+     */
+    public function addDocumentosRelatedById(ChildDocumentos $l)
+    {
+        if ($this->collDocumentossRelatedById === null) {
+            $this->initDocumentossRelatedById();
+            $this->collDocumentossRelatedByIdPartial = true;
+        }
+
+        if (!$this->collDocumentossRelatedById->contains($l)) {
+            $this->doAddDocumentosRelatedById($l);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param ChildDocumentos $documentosRelatedById The ChildDocumentos object to add.
+     */
+    protected function doAddDocumentosRelatedById(ChildDocumentos $documentosRelatedById)
+    {
+        $this->collDocumentossRelatedById[]= $documentosRelatedById;
+        $documentosRelatedById->setDocumentosRelatedByIdcliente($this);
+    }
+
+    /**
+     * @param  ChildDocumentos $documentosRelatedById The ChildDocumentos object to remove.
+     * @return $this|ChildDocumentos The current object (for fluent API support)
+     */
+    public function removeDocumentosRelatedById(ChildDocumentos $documentosRelatedById)
+    {
+        if ($this->getDocumentossRelatedById()->contains($documentosRelatedById)) {
+            $pos = $this->collDocumentossRelatedById->search($documentosRelatedById);
+            $this->collDocumentossRelatedById->remove($pos);
+            if (null === $this->documentossRelatedByIdScheduledForDeletion) {
+                $this->documentossRelatedByIdScheduledForDeletion = clone $this->collDocumentossRelatedById;
+                $this->documentossRelatedByIdScheduledForDeletion->clear();
+            }
+            $this->documentossRelatedByIdScheduledForDeletion[]= $documentosRelatedById;
+            $documentosRelatedById->setDocumentosRelatedByIdcliente(null);
+        }
+
+        return $this;
+    }
+
+
+    /**
+     * If this collection has already been initialized with
+     * an identical criteria, it returns the collection.
+     * Otherwise if this Documentos is new, it will return
+     * an empty collection; or if this Documentos has previously
+     * been saved, it will retrieve related DocumentossRelatedById from storage.
+     *
+     * This method is protected by default in order to keep the public
+     * api reasonable.  You can provide public methods for those you
+     * actually need in Documentos.
+     *
+     * @param      Criteria $criteria optional Criteria object to narrow the query
+     * @param      ConnectionInterface $con optional connection object
+     * @param      string $joinBehavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+     * @return ObjectCollection|ChildDocumentos[] List of ChildDocumentos objects
+     */
+    public function getDocumentossRelatedByIdJoinCategorias(Criteria $criteria = null, ConnectionInterface $con = null, $joinBehavior = Criteria::LEFT_JOIN)
+    {
+        $query = ChildDocumentosQuery::create(null, $criteria);
+        $query->joinWith('Categorias', $joinBehavior);
+
+        return $this->getDocumentossRelatedById($query, $con);
     }
 
     /**
@@ -1856,8 +2153,8 @@ abstract class Documentos implements ActiveRecordInterface
         if (null !== $this->aCategorias) {
             $this->aCategorias->removeDocumentos($this);
         }
-        if (null !== $this->aClientes) {
-            $this->aClientes->removeDocumentos($this);
+        if (null !== $this->aDocumentosRelatedByIdcliente) {
+            $this->aDocumentosRelatedByIdcliente->removeDocumentosRelatedById($this);
         }
         $this->id = null;
         $this->idcategoria = null;
@@ -1885,6 +2182,11 @@ abstract class Documentos implements ActiveRecordInterface
     public function clearAllReferences($deep = false)
     {
         if ($deep) {
+            if ($this->collDocumentossRelatedById) {
+                foreach ($this->collDocumentossRelatedById as $o) {
+                    $o->clearAllReferences($deep);
+                }
+            }
             if ($this->collDocumentosDownloadss) {
                 foreach ($this->collDocumentosDownloadss as $o) {
                     $o->clearAllReferences($deep);
@@ -1892,9 +2194,10 @@ abstract class Documentos implements ActiveRecordInterface
             }
         } // if ($deep)
 
+        $this->collDocumentossRelatedById = null;
         $this->collDocumentosDownloadss = null;
         $this->aCategorias = null;
-        $this->aClientes = null;
+        $this->aDocumentosRelatedByIdcliente = null;
     }
 
     /**

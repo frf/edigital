@@ -20,17 +20,17 @@ use Propel\Runtime\Exception\PropelException;
  *
  *
  *
- * @method     ChildMoedaQuery orderBySigla($order = Criteria::ASC) Order by the sigla column
- * @method     ChildMoedaQuery orderByCodigo($order = Criteria::ASC) Order by the codigo column
- * @method     ChildMoedaQuery orderBySimbolo($order = Criteria::ASC) Order by the simbolo column
- * @method     ChildMoedaQuery orderByNome($order = Criteria::ASC) Order by the nome column
  * @method     ChildMoedaQuery orderById($order = Criteria::ASC) Order by the id column
+ * @method     ChildMoedaQuery orderByNome($order = Criteria::ASC) Order by the nome column
+ * @method     ChildMoedaQuery orderBySimbolo($order = Criteria::ASC) Order by the simbolo column
+ * @method     ChildMoedaQuery orderByCodigo($order = Criteria::ASC) Order by the codigo column
+ * @method     ChildMoedaQuery orderBySigla($order = Criteria::ASC) Order by the sigla column
  *
- * @method     ChildMoedaQuery groupBySigla() Group by the sigla column
- * @method     ChildMoedaQuery groupByCodigo() Group by the codigo column
- * @method     ChildMoedaQuery groupBySimbolo() Group by the simbolo column
- * @method     ChildMoedaQuery groupByNome() Group by the nome column
  * @method     ChildMoedaQuery groupById() Group by the id column
+ * @method     ChildMoedaQuery groupByNome() Group by the nome column
+ * @method     ChildMoedaQuery groupBySimbolo() Group by the simbolo column
+ * @method     ChildMoedaQuery groupByCodigo() Group by the codigo column
+ * @method     ChildMoedaQuery groupBySigla() Group by the sigla column
  *
  * @method     ChildMoedaQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method     ChildMoedaQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
@@ -49,23 +49,33 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildMoeda findOne(ConnectionInterface $con = null) Return the first ChildMoeda matching the query
  * @method     ChildMoeda findOneOrCreate(ConnectionInterface $con = null) Return the first ChildMoeda matching the query, or a new ChildMoeda object populated from the query conditions when no match is found
  *
- * @method     ChildMoeda findOneBySigla(string $sigla) Return the first ChildMoeda filtered by the sigla column
- * @method     ChildMoeda findOneByCodigo(string $codigo) Return the first ChildMoeda filtered by the codigo column
- * @method     ChildMoeda findOneBySimbolo(string $simbolo) Return the first ChildMoeda filtered by the simbolo column
- * @method     ChildMoeda findOneByNome(string $nome) Return the first ChildMoeda filtered by the nome column
  * @method     ChildMoeda findOneById(int $id) Return the first ChildMoeda filtered by the id column
+ * @method     ChildMoeda findOneByNome(string $nome) Return the first ChildMoeda filtered by the nome column
+ * @method     ChildMoeda findOneBySimbolo(string $simbolo) Return the first ChildMoeda filtered by the simbolo column
+ * @method     ChildMoeda findOneByCodigo(string $codigo) Return the first ChildMoeda filtered by the codigo column
+ * @method     ChildMoeda findOneBySigla(string $sigla) Return the first ChildMoeda filtered by the sigla column *
+
+ * @method     ChildMoeda requirePk($key, ConnectionInterface $con = null) Return the ChildMoeda by primary key and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildMoeda requireOne(ConnectionInterface $con = null) Return the first ChildMoeda matching the query and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ *
+ * @method     ChildMoeda requireOneById(int $id) Return the first ChildMoeda filtered by the id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildMoeda requireOneByNome(string $nome) Return the first ChildMoeda filtered by the nome column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildMoeda requireOneBySimbolo(string $simbolo) Return the first ChildMoeda filtered by the simbolo column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildMoeda requireOneByCodigo(string $codigo) Return the first ChildMoeda filtered by the codigo column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildMoeda requireOneBySigla(string $sigla) Return the first ChildMoeda filtered by the sigla column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
  * @method     ChildMoeda[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildMoeda objects based on current ModelCriteria
- * @method     ChildMoeda[]|ObjectCollection findBySigla(string $sigla) Return ChildMoeda objects filtered by the sigla column
- * @method     ChildMoeda[]|ObjectCollection findByCodigo(string $codigo) Return ChildMoeda objects filtered by the codigo column
- * @method     ChildMoeda[]|ObjectCollection findBySimbolo(string $simbolo) Return ChildMoeda objects filtered by the simbolo column
- * @method     ChildMoeda[]|ObjectCollection findByNome(string $nome) Return ChildMoeda objects filtered by the nome column
  * @method     ChildMoeda[]|ObjectCollection findById(int $id) Return ChildMoeda objects filtered by the id column
+ * @method     ChildMoeda[]|ObjectCollection findByNome(string $nome) Return ChildMoeda objects filtered by the nome column
+ * @method     ChildMoeda[]|ObjectCollection findBySimbolo(string $simbolo) Return ChildMoeda objects filtered by the simbolo column
+ * @method     ChildMoeda[]|ObjectCollection findByCodigo(string $codigo) Return ChildMoeda objects filtered by the codigo column
+ * @method     ChildMoeda[]|ObjectCollection findBySigla(string $sigla) Return ChildMoeda objects filtered by the sigla column
  * @method     ChildMoeda[]|\Propel\Runtime\Util\PropelModelPager paginate($page = 1, $maxPerPage = 10, ConnectionInterface $con = null) Issue a SELECT query based on the current ModelCriteria and uses a page and a maximum number of results per page to compute an offset and a limit
  *
  */
 abstract class MoedaQuery extends ModelCriteria
 {
+    protected $entityNotFoundExceptionClass = '\\Propel\\Runtime\\Exception\\EntityNotFoundException';
 
     /**
      * Initializes internal state of \Base\MoedaQuery object.
@@ -152,7 +162,7 @@ abstract class MoedaQuery extends ModelCriteria
      */
     protected function findPkSimple($key, ConnectionInterface $con)
     {
-        $sql = 'SELECT sigla, codigo, simbolo, nome, id FROM moeda WHERE id = :p0';
+        $sql = 'SELECT id, nome, simbolo, codigo, sigla FROM moeda WHERE id = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -243,122 +253,6 @@ abstract class MoedaQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query on the sigla column
-     *
-     * Example usage:
-     * <code>
-     * $query->filterBySigla('fooValue');   // WHERE sigla = 'fooValue'
-     * $query->filterBySigla('%fooValue%'); // WHERE sigla LIKE '%fooValue%'
-     * </code>
-     *
-     * @param     string $sigla The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return $this|ChildMoedaQuery The current query, for fluid interface
-     */
-    public function filterBySigla($sigla = null, $comparison = null)
-    {
-        if (null === $comparison) {
-            if (is_array($sigla)) {
-                $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $sigla)) {
-                $sigla = str_replace('*', '%', $sigla);
-                $comparison = Criteria::LIKE;
-            }
-        }
-
-        return $this->addUsingAlias(MoedaTableMap::COL_SIGLA, $sigla, $comparison);
-    }
-
-    /**
-     * Filter the query on the codigo column
-     *
-     * Example usage:
-     * <code>
-     * $query->filterByCodigo('fooValue');   // WHERE codigo = 'fooValue'
-     * $query->filterByCodigo('%fooValue%'); // WHERE codigo LIKE '%fooValue%'
-     * </code>
-     *
-     * @param     string $codigo The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return $this|ChildMoedaQuery The current query, for fluid interface
-     */
-    public function filterByCodigo($codigo = null, $comparison = null)
-    {
-        if (null === $comparison) {
-            if (is_array($codigo)) {
-                $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $codigo)) {
-                $codigo = str_replace('*', '%', $codigo);
-                $comparison = Criteria::LIKE;
-            }
-        }
-
-        return $this->addUsingAlias(MoedaTableMap::COL_CODIGO, $codigo, $comparison);
-    }
-
-    /**
-     * Filter the query on the simbolo column
-     *
-     * Example usage:
-     * <code>
-     * $query->filterBySimbolo('fooValue');   // WHERE simbolo = 'fooValue'
-     * $query->filterBySimbolo('%fooValue%'); // WHERE simbolo LIKE '%fooValue%'
-     * </code>
-     *
-     * @param     string $simbolo The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return $this|ChildMoedaQuery The current query, for fluid interface
-     */
-    public function filterBySimbolo($simbolo = null, $comparison = null)
-    {
-        if (null === $comparison) {
-            if (is_array($simbolo)) {
-                $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $simbolo)) {
-                $simbolo = str_replace('*', '%', $simbolo);
-                $comparison = Criteria::LIKE;
-            }
-        }
-
-        return $this->addUsingAlias(MoedaTableMap::COL_SIMBOLO, $simbolo, $comparison);
-    }
-
-    /**
-     * Filter the query on the nome column
-     *
-     * Example usage:
-     * <code>
-     * $query->filterByNome('fooValue');   // WHERE nome = 'fooValue'
-     * $query->filterByNome('%fooValue%'); // WHERE nome LIKE '%fooValue%'
-     * </code>
-     *
-     * @param     string $nome The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return $this|ChildMoedaQuery The current query, for fluid interface
-     */
-    public function filterByNome($nome = null, $comparison = null)
-    {
-        if (null === $comparison) {
-            if (is_array($nome)) {
-                $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $nome)) {
-                $nome = str_replace('*', '%', $nome);
-                $comparison = Criteria::LIKE;
-            }
-        }
-
-        return $this->addUsingAlias(MoedaTableMap::COL_NOME, $nome, $comparison);
-    }
-
-    /**
      * Filter the query on the id column
      *
      * Example usage:
@@ -400,9 +294,125 @@ abstract class MoedaQuery extends ModelCriteria
     }
 
     /**
+     * Filter the query on the nome column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByNome('fooValue');   // WHERE nome = 'fooValue'
+     * $query->filterByNome('%fooValue%'); // WHERE nome LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $nome The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildMoedaQuery The current query, for fluid interface
+     */
+    public function filterByNome($nome = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($nome)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $nome)) {
+                $nome = str_replace('*', '%', $nome);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(MoedaTableMap::COL_NOME, $nome, $comparison);
+    }
+
+    /**
+     * Filter the query on the simbolo column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterBySimbolo('fooValue');   // WHERE simbolo = 'fooValue'
+     * $query->filterBySimbolo('%fooValue%'); // WHERE simbolo LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $simbolo The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildMoedaQuery The current query, for fluid interface
+     */
+    public function filterBySimbolo($simbolo = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($simbolo)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $simbolo)) {
+                $simbolo = str_replace('*', '%', $simbolo);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(MoedaTableMap::COL_SIMBOLO, $simbolo, $comparison);
+    }
+
+    /**
+     * Filter the query on the codigo column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByCodigo('fooValue');   // WHERE codigo = 'fooValue'
+     * $query->filterByCodigo('%fooValue%'); // WHERE codigo LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $codigo The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildMoedaQuery The current query, for fluid interface
+     */
+    public function filterByCodigo($codigo = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($codigo)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $codigo)) {
+                $codigo = str_replace('*', '%', $codigo);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(MoedaTableMap::COL_CODIGO, $codigo, $comparison);
+    }
+
+    /**
+     * Filter the query on the sigla column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterBySigla('fooValue');   // WHERE sigla = 'fooValue'
+     * $query->filterBySigla('%fooValue%'); // WHERE sigla LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $sigla The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildMoedaQuery The current query, for fluid interface
+     */
+    public function filterBySigla($sigla = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($sigla)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $sigla)) {
+                $sigla = str_replace('*', '%', $sigla);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(MoedaTableMap::COL_SIGLA, $sigla, $comparison);
+    }
+
+    /**
      * Filter the query by a related \ClientePgtos object
      *
-     * @param \ClientePgtos|ObjectCollection $clientePgtos  the related object to use as filter
+     * @param \ClientePgtos|ObjectCollection $clientePgtos the related object to use as filter
      * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return ChildMoedaQuery The current query, for fluid interface
@@ -475,7 +485,7 @@ abstract class MoedaQuery extends ModelCriteria
     /**
      * Filter the query by a related \Produtos object
      *
-     * @param \Produtos|ObjectCollection $produtos  the related object to use as filter
+     * @param \Produtos|ObjectCollection $produtos the related object to use as filter
      * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return ChildMoedaQuery The current query, for fluid interface

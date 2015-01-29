@@ -62,17 +62,10 @@ abstract class PasswordReminders implements ActiveRecordInterface
     protected $virtualColumns = array();
 
     /**
-<<<<<<< HEAD
      * The value for the email field.
      * @var        string
      */
     protected $email;
-=======
-     * The value for the created_at field.
-     * @var        \DateTime
-     */
-    protected $created_at;
->>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
 
     /**
      * The value for the token field.
@@ -81,17 +74,10 @@ abstract class PasswordReminders implements ActiveRecordInterface
     protected $token;
 
     /**
-<<<<<<< HEAD
      * The value for the created_at field.
      * @var        \DateTime
      */
     protected $created_at;
-=======
-     * The value for the email field.
-     * @var        string
-     */
-    protected $email;
->>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
 
     /**
      * Flag to prevent endless save loop, if this object is referenced
@@ -319,7 +305,6 @@ abstract class PasswordReminders implements ActiveRecordInterface
     }
 
     /**
-<<<<<<< HEAD
      * Get the [email] column value.
      *
      * @return string
@@ -327,25 +312,6 @@ abstract class PasswordReminders implements ActiveRecordInterface
     public function getEmail()
     {
         return $this->email;
-=======
-     * Get the [optionally formatted] temporal [created_at] column value.
-     *
-     *
-     * @param      string $format The date/time format string (either date()-style or strftime()-style).
-     *                            If format is NULL, then the raw DateTime object will be returned.
-     *
-     * @return string|DateTime Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL
-     *
-     * @throws PropelException - if unable to parse/validate the date/time value.
-     */
-    public function getCreatedAt($format = NULL)
-    {
-        if ($format === null) {
-            return $this->created_at;
-        } else {
-            return $this->created_at instanceof \DateTime ? $this->created_at->format($format) : null;
-        }
->>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
     }
 
     /**
@@ -359,7 +325,6 @@ abstract class PasswordReminders implements ActiveRecordInterface
     }
 
     /**
-<<<<<<< HEAD
      * Get the [optionally formatted] temporal [created_at] column value.
      *
      *
@@ -398,36 +363,6 @@ abstract class PasswordReminders implements ActiveRecordInterface
 
         return $this;
     } // setEmail()
-=======
-     * Get the [email] column value.
-     *
-     * @return string
-     */
-    public function getEmail()
-    {
-        return $this->email;
-    }
-
-    /**
-     * Sets the value of [created_at] column to a normalized version of the date/time value specified.
-     *
-     * @param  mixed $v string, integer (timestamp), or \DateTime value.
-     *               Empty strings are treated as NULL.
-     * @return $this|\PasswordReminders The current object (for fluent API support)
-     */
-    public function setCreatedAt($v)
-    {
-        $dt = PropelDateTime::newInstance($v, null, 'DateTime');
-        if ($this->created_at !== null || $dt !== null) {
-            if ($dt !== $this->created_at) {
-                $this->created_at = $dt;
-                $this->modifiedColumns[PasswordRemindersTableMap::COL_CREATED_AT] = true;
-            }
-        } // if either are not null
-
-        return $this;
-    } // setCreatedAt()
->>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
 
     /**
      * Set the value of [token] column.
@@ -450,7 +385,6 @@ abstract class PasswordReminders implements ActiveRecordInterface
     } // setToken()
 
     /**
-<<<<<<< HEAD
      * Sets the value of [created_at] column to a normalized version of the date/time value specified.
      *
      * @param  mixed $v string, integer (timestamp), or \DateTime value.
@@ -469,26 +403,6 @@ abstract class PasswordReminders implements ActiveRecordInterface
 
         return $this;
     } // setCreatedAt()
-=======
-     * Set the value of [email] column.
-     *
-     * @param  string $v new value
-     * @return $this|\PasswordReminders The current object (for fluent API support)
-     */
-    public function setEmail($v)
-    {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->email !== $v) {
-            $this->email = $v;
-            $this->modifiedColumns[PasswordRemindersTableMap::COL_EMAIL] = true;
-        }
-
-        return $this;
-    } // setEmail()
->>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
 
     /**
      * Indicates whether the columns in this object are only set to default values.
@@ -526,24 +440,14 @@ abstract class PasswordReminders implements ActiveRecordInterface
     {
         try {
 
-<<<<<<< HEAD
             $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : PasswordRemindersTableMap::translateFieldName('Email', TableMap::TYPE_PHPNAME, $indexType)];
             $this->email = (null !== $col) ? (string) $col : null;
-=======
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : PasswordRemindersTableMap::translateFieldName('CreatedAt', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->created_at = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
->>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
 
             $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : PasswordRemindersTableMap::translateFieldName('Token', TableMap::TYPE_PHPNAME, $indexType)];
             $this->token = (null !== $col) ? (string) $col : null;
 
-<<<<<<< HEAD
             $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : PasswordRemindersTableMap::translateFieldName('CreatedAt', TableMap::TYPE_PHPNAME, $indexType)];
             $this->created_at = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
-=======
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : PasswordRemindersTableMap::translateFieldName('Email', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->email = (null !== $col) ? (string) $col : null;
->>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
             $this->resetModified();
 
             $this->setNew(false);
@@ -745,24 +649,14 @@ abstract class PasswordReminders implements ActiveRecordInterface
 
 
          // check the columns in natural order for more readable SQL queries
-<<<<<<< HEAD
         if ($this->isColumnModified(PasswordRemindersTableMap::COL_EMAIL)) {
             $modifiedColumns[':p' . $index++]  = 'email';
-=======
-        if ($this->isColumnModified(PasswordRemindersTableMap::COL_CREATED_AT)) {
-            $modifiedColumns[':p' . $index++]  = 'created_at';
->>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
         }
         if ($this->isColumnModified(PasswordRemindersTableMap::COL_TOKEN)) {
             $modifiedColumns[':p' . $index++]  = 'token';
         }
-<<<<<<< HEAD
         if ($this->isColumnModified(PasswordRemindersTableMap::COL_CREATED_AT)) {
             $modifiedColumns[':p' . $index++]  = 'created_at';
-=======
-        if ($this->isColumnModified(PasswordRemindersTableMap::COL_EMAIL)) {
-            $modifiedColumns[':p' . $index++]  = 'email';
->>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
         }
 
         $sql = sprintf(
@@ -775,24 +669,14 @@ abstract class PasswordReminders implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-<<<<<<< HEAD
                     case 'email':
                         $stmt->bindValue($identifier, $this->email, PDO::PARAM_STR);
-=======
-                    case 'created_at':
-                        $stmt->bindValue($identifier, $this->created_at ? $this->created_at->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
->>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
                         break;
                     case 'token':
                         $stmt->bindValue($identifier, $this->token, PDO::PARAM_STR);
                         break;
-<<<<<<< HEAD
                     case 'created_at':
                         $stmt->bindValue($identifier, $this->created_at ? $this->created_at->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
-=======
-                    case 'email':
-                        $stmt->bindValue($identifier, $this->email, PDO::PARAM_STR);
->>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
                         break;
                 }
             }
@@ -850,21 +734,13 @@ abstract class PasswordReminders implements ActiveRecordInterface
     {
         switch ($pos) {
             case 0:
-<<<<<<< HEAD
                 return $this->getEmail();
-=======
-                return $this->getCreatedAt();
->>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
                 break;
             case 1:
                 return $this->getToken();
                 break;
             case 2:
-<<<<<<< HEAD
                 return $this->getCreatedAt();
-=======
-                return $this->getEmail();
->>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
                 break;
             default:
                 return null;
@@ -895,16 +771,18 @@ abstract class PasswordReminders implements ActiveRecordInterface
         $alreadyDumpedObjects['PasswordReminders'][$this->hashCode()] = true;
         $keys = PasswordRemindersTableMap::getFieldNames($keyType);
         $result = array(
-<<<<<<< HEAD
             $keys[0] => $this->getEmail(),
             $keys[1] => $this->getToken(),
             $keys[2] => $this->getCreatedAt(),
-=======
-            $keys[0] => $this->getCreatedAt(),
-            $keys[1] => $this->getToken(),
-            $keys[2] => $this->getEmail(),
->>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
         );
+
+        $utc = new \DateTimeZone('utc');
+        if ($result[$keys[2]] instanceof \DateTime) {
+            // When changing timezone we don't want to change existing instances
+            $dateTime = clone $result[$keys[2]];
+            $result[$keys[2]] = $dateTime->setTimezone($utc)->format('Y-m-d\TH:i:s\Z');
+        }
+
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
             $result[$key] = $virtualColumn;
@@ -944,21 +822,13 @@ abstract class PasswordReminders implements ActiveRecordInterface
     {
         switch ($pos) {
             case 0:
-<<<<<<< HEAD
                 $this->setEmail($value);
-=======
-                $this->setCreatedAt($value);
->>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
                 break;
             case 1:
                 $this->setToken($value);
                 break;
             case 2:
-<<<<<<< HEAD
                 $this->setCreatedAt($value);
-=======
-                $this->setEmail($value);
->>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
                 break;
         } // switch()
 
@@ -987,21 +857,13 @@ abstract class PasswordReminders implements ActiveRecordInterface
         $keys = PasswordRemindersTableMap::getFieldNames($keyType);
 
         if (array_key_exists($keys[0], $arr)) {
-<<<<<<< HEAD
             $this->setEmail($arr[$keys[0]]);
-=======
-            $this->setCreatedAt($arr[$keys[0]]);
->>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
         }
         if (array_key_exists($keys[1], $arr)) {
             $this->setToken($arr[$keys[1]]);
         }
         if (array_key_exists($keys[2], $arr)) {
-<<<<<<< HEAD
             $this->setCreatedAt($arr[$keys[2]]);
-=======
-            $this->setEmail($arr[$keys[2]]);
->>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
         }
     }
 
@@ -1044,24 +906,14 @@ abstract class PasswordReminders implements ActiveRecordInterface
     {
         $criteria = new Criteria(PasswordRemindersTableMap::DATABASE_NAME);
 
-<<<<<<< HEAD
         if ($this->isColumnModified(PasswordRemindersTableMap::COL_EMAIL)) {
             $criteria->add(PasswordRemindersTableMap::COL_EMAIL, $this->email);
-=======
-        if ($this->isColumnModified(PasswordRemindersTableMap::COL_CREATED_AT)) {
-            $criteria->add(PasswordRemindersTableMap::COL_CREATED_AT, $this->created_at);
->>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
         }
         if ($this->isColumnModified(PasswordRemindersTableMap::COL_TOKEN)) {
             $criteria->add(PasswordRemindersTableMap::COL_TOKEN, $this->token);
         }
-<<<<<<< HEAD
         if ($this->isColumnModified(PasswordRemindersTableMap::COL_CREATED_AT)) {
             $criteria->add(PasswordRemindersTableMap::COL_CREATED_AT, $this->created_at);
-=======
-        if ($this->isColumnModified(PasswordRemindersTableMap::COL_EMAIL)) {
-            $criteria->add(PasswordRemindersTableMap::COL_EMAIL, $this->email);
->>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
         }
 
         return $criteria;
@@ -1152,15 +1004,9 @@ abstract class PasswordReminders implements ActiveRecordInterface
      */
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
-<<<<<<< HEAD
         $copyObj->setEmail($this->getEmail());
         $copyObj->setToken($this->getToken());
         $copyObj->setCreatedAt($this->getCreatedAt());
-=======
-        $copyObj->setCreatedAt($this->getCreatedAt());
-        $copyObj->setToken($this->getToken());
-        $copyObj->setEmail($this->getEmail());
->>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
         if ($makeNew) {
             $copyObj->setNew(true);
         }
@@ -1195,15 +1041,9 @@ abstract class PasswordReminders implements ActiveRecordInterface
      */
     public function clear()
     {
-<<<<<<< HEAD
         $this->email = null;
         $this->token = null;
         $this->created_at = null;
-=======
-        $this->created_at = null;
-        $this->token = null;
-        $this->email = null;
->>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
         $this->alreadyInSave = false;
         $this->clearAllReferences();
         $this->resetModified();

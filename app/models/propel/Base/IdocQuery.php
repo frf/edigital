@@ -10,6 +10,7 @@ use Map\IdocTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
+use Propel\Runtime\ActiveQuery\ModelJoin;
 use Propel\Runtime\Collection\ObjectCollection;
 use Propel\Runtime\Connection\ConnectionInterface;
 use Propel\Runtime\Exception\PropelException;
@@ -33,13 +34,18 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildIdocQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method     ChildIdocQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
+ * @method     ChildIdocQuery leftJoinCliente($relationAlias = null) Adds a LEFT JOIN clause to the query using the Cliente relation
+ * @method     ChildIdocQuery rightJoinCliente($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Cliente relation
+ * @method     ChildIdocQuery innerJoinCliente($relationAlias = null) Adds a INNER JOIN clause to the query using the Cliente relation
+ *
+ * @method     \ClienteQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
+ *
  * @method     ChildIdoc findOne(ConnectionInterface $con = null) Return the first ChildIdoc matching the query
  * @method     ChildIdoc findOneOrCreate(ConnectionInterface $con = null) Return the first ChildIdoc matching the query, or a new ChildIdoc object populated from the query conditions when no match is found
  *
  * @method     ChildIdoc findOneById(int $id) Return the first ChildIdoc filtered by the id column
  * @method     ChildIdoc findOneByNome(string $nome) Return the first ChildIdoc filtered by the nome column
  * @method     ChildIdoc findOneByIdcliente(string $idcliente) Return the first ChildIdoc filtered by the idcliente column
-<<<<<<< HEAD
  * @method     ChildIdoc findOneByFile(string $file) Return the first ChildIdoc filtered by the file column *
 
  * @method     ChildIdoc requirePk($key, ConnectionInterface $con = null) Return the ChildIdoc by primary key and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
@@ -49,10 +55,6 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildIdoc requireOneByNome(string $nome) Return the first ChildIdoc filtered by the nome column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildIdoc requireOneByIdcliente(string $idcliente) Return the first ChildIdoc filtered by the idcliente column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildIdoc requireOneByFile(string $file) Return the first ChildIdoc filtered by the file column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
-=======
- * @method     ChildIdoc findOneByNome(string $nome) Return the first ChildIdoc filtered by the nome column
- * @method     ChildIdoc findOneById(int $id) Return the first ChildIdoc filtered by the id column
->>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
  *
  * @method     ChildIdoc[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildIdoc objects based on current ModelCriteria
  * @method     ChildIdoc[]|ObjectCollection findById(int $id) Return ChildIdoc objects filtered by the id column
@@ -321,6 +323,8 @@ abstract class IdocQuery extends ModelCriteria
      * $query->filterByIdcliente(array('min' => 12)); // WHERE idcliente > 12
      * </code>
      *
+     * @see       filterByCliente()
+     *
      * @param     mixed $idcliente The value to use as filter.
      *              Use scalar values for equality.
      *              Use array values for in_array() equivalent.
@@ -379,6 +383,83 @@ abstract class IdocQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(IdocTableMap::COL_FILE, $file, $comparison);
+    }
+
+    /**
+     * Filter the query by a related \Cliente object
+     *
+     * @param \Cliente|ObjectCollection $cliente The related object(s) to use as filter
+     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @throws \Propel\Runtime\Exception\PropelException
+     *
+     * @return ChildIdocQuery The current query, for fluid interface
+     */
+    public function filterByCliente($cliente, $comparison = null)
+    {
+        if ($cliente instanceof \Cliente) {
+            return $this
+                ->addUsingAlias(IdocTableMap::COL_IDCLIENTE, $cliente->getId(), $comparison);
+        } elseif ($cliente instanceof ObjectCollection) {
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+
+            return $this
+                ->addUsingAlias(IdocTableMap::COL_IDCLIENTE, $cliente->toKeyValue('PrimaryKey', 'Id'), $comparison);
+        } else {
+            throw new PropelException('filterByCliente() only accepts arguments of type \Cliente or Collection');
+        }
+    }
+
+    /**
+     * Adds a JOIN clause to the query using the Cliente relation
+     *
+     * @param     string $relationAlias optional alias for the relation
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return $this|ChildIdocQuery The current query, for fluid interface
+     */
+    public function joinCliente($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    {
+        $tableMap = $this->getTableMap();
+        $relationMap = $tableMap->getRelation('Cliente');
+
+        // create a ModelJoin object for this join
+        $join = new ModelJoin();
+        $join->setJoinType($joinType);
+        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+        if ($previousJoin = $this->getPreviousJoin()) {
+            $join->setPreviousJoin($previousJoin);
+        }
+
+        // add the ModelJoin to the current object
+        if ($relationAlias) {
+            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+            $this->addJoinObject($join, $relationAlias);
+        } else {
+            $this->addJoinObject($join, 'Cliente');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Use the Cliente relation Cliente object
+     *
+     * @see useQuery()
+     *
+     * @param     string $relationAlias optional alias for the relation,
+     *                                   to be used as main alias in the secondary query
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return \ClienteQuery A secondary query class using the current class as primary query
+     */
+    public function useClienteQuery($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    {
+        return $this
+            ->joinCliente($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'Cliente', '\ClienteQuery');
     }
 
     /**

@@ -4,6 +4,8 @@ namespace Base;
 
 use \Categorias as ChildCategorias;
 use \CategoriasQuery as ChildCategoriasQuery;
+use \Cliente as ChildCliente;
+use \ClienteQuery as ChildClienteQuery;
 use \Documentos as ChildDocumentos;
 use \DocumentosQuery as ChildDocumentosQuery;
 use \Exception;
@@ -70,16 +72,21 @@ abstract class Categorias implements ActiveRecordInterface
     protected $id;
 
     /**
-     * The value for the id_clientes field.
+     * The value for the id_cliente field.
      * @var        int
      */
-    protected $id_clientes;
+    protected $id_cliente;
 
     /**
      * The value for the nomecategoria field.
      * @var        string
      */
     protected $nomecategoria;
+
+    /**
+     * @var        ChildCliente
+     */
+    protected $aCliente;
 
     /**
      * @var        ObjectCollection|ChildDocumentos[] Collection to store aggregation of ChildDocumentos objects.
@@ -329,13 +336,13 @@ abstract class Categorias implements ActiveRecordInterface
     }
 
     /**
-     * Get the [id_clientes] column value.
+     * Get the [id_cliente] column value.
      *
      * @return int
      */
-    public function getIdClientes()
+    public function getIdCliente()
     {
-        return $this->id_clientes;
+        return $this->id_cliente;
     }
 
     /**
@@ -369,24 +376,28 @@ abstract class Categorias implements ActiveRecordInterface
     } // setId()
 
     /**
-     * Set the value of [id_clientes] column.
+     * Set the value of [id_cliente] column.
      *
      * @param  int $v new value
      * @return $this|\Categorias The current object (for fluent API support)
      */
-    public function setIdClientes($v)
+    public function setIdCliente($v)
     {
         if ($v !== null) {
             $v = (int) $v;
         }
 
-        if ($this->id_clientes !== $v) {
-            $this->id_clientes = $v;
-            $this->modifiedColumns[CategoriasTableMap::COL_ID_CLIENTES] = true;
+        if ($this->id_cliente !== $v) {
+            $this->id_cliente = $v;
+            $this->modifiedColumns[CategoriasTableMap::COL_ID_CLIENTE] = true;
+        }
+
+        if ($this->aCliente !== null && $this->aCliente->getId() !== $v) {
+            $this->aCliente = null;
         }
 
         return $this;
-    } // setIdClientes()
+    } // setIdCliente()
 
     /**
      * Set the value of [nomecategoria] column.
@@ -447,8 +458,8 @@ abstract class Categorias implements ActiveRecordInterface
             $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : CategoriasTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
             $this->id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : CategoriasTableMap::translateFieldName('IdClientes', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->id_clientes = (null !== $col) ? (int) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : CategoriasTableMap::translateFieldName('IdCliente', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->id_cliente = (null !== $col) ? (int) $col : null;
 
             $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : CategoriasTableMap::translateFieldName('Nomecategoria', TableMap::TYPE_PHPNAME, $indexType)];
             $this->nomecategoria = (null !== $col) ? (string) $col : null;
@@ -482,6 +493,9 @@ abstract class Categorias implements ActiveRecordInterface
      */
     public function ensureConsistency()
     {
+        if ($this->aCliente !== null && $this->id_cliente !== $this->aCliente->getId()) {
+            $this->aCliente = null;
+        }
     } // ensureConsistency
 
     /**
@@ -521,6 +535,7 @@ abstract class Categorias implements ActiveRecordInterface
 
         if ($deep) {  // also de-associate any related objects?
 
+            $this->aCliente = null;
             $this->collDocumentoss = null;
 
         } // if (deep)
@@ -622,6 +637,18 @@ abstract class Categorias implements ActiveRecordInterface
         if (!$this->alreadyInSave) {
             $this->alreadyInSave = true;
 
+            // We call the save method on the following object(s) if they
+            // were passed to this object by their corresponding set
+            // method.  This object relates to these object(s) by a
+            // foreign key reference.
+
+            if ($this->aCliente !== null) {
+                if ($this->aCliente->isModified() || $this->aCliente->isNew()) {
+                    $affectedRows += $this->aCliente->save($con);
+                }
+                $this->setCliente($this->aCliente);
+            }
+
             if ($this->isNew() || $this->isModified()) {
                 // persist changes
                 if ($this->isNew()) {
@@ -689,8 +716,8 @@ abstract class Categorias implements ActiveRecordInterface
         if ($this->isColumnModified(CategoriasTableMap::COL_ID)) {
             $modifiedColumns[':p' . $index++]  = 'id';
         }
-        if ($this->isColumnModified(CategoriasTableMap::COL_ID_CLIENTES)) {
-            $modifiedColumns[':p' . $index++]  = 'id_clientes';
+        if ($this->isColumnModified(CategoriasTableMap::COL_ID_CLIENTE)) {
+            $modifiedColumns[':p' . $index++]  = 'id_cliente';
         }
         if ($this->isColumnModified(CategoriasTableMap::COL_NOMECATEGORIA)) {
             $modifiedColumns[':p' . $index++]  = 'nomecategoria';
@@ -709,8 +736,8 @@ abstract class Categorias implements ActiveRecordInterface
                     case 'id':
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
-                    case 'id_clientes':
-                        $stmt->bindValue($identifier, $this->id_clientes, PDO::PARAM_INT);
+                    case 'id_cliente':
+                        $stmt->bindValue($identifier, $this->id_cliente, PDO::PARAM_INT);
                         break;
                     case 'nomecategoria':
                         $stmt->bindValue($identifier, $this->nomecategoria, PDO::PARAM_STR);
@@ -774,7 +801,7 @@ abstract class Categorias implements ActiveRecordInterface
                 return $this->getId();
                 break;
             case 1:
-                return $this->getIdClientes();
+                return $this->getIdCliente();
                 break;
             case 2:
                 return $this->getNomecategoria();
@@ -810,7 +837,7 @@ abstract class Categorias implements ActiveRecordInterface
         $keys = CategoriasTableMap::getFieldNames($keyType);
         $result = array(
             $keys[0] => $this->getId(),
-            $keys[1] => $this->getIdClientes(),
+            $keys[1] => $this->getIdCliente(),
             $keys[2] => $this->getNomecategoria(),
         );
         $virtualColumns = $this->virtualColumns;
@@ -819,6 +846,21 @@ abstract class Categorias implements ActiveRecordInterface
         }
 
         if ($includeForeignObjects) {
+            if (null !== $this->aCliente) {
+
+                switch ($keyType) {
+                    case TableMap::TYPE_CAMELNAME:
+                        $key = 'cliente';
+                        break;
+                    case TableMap::TYPE_FIELDNAME:
+                        $key = 'cliente';
+                        break;
+                    default:
+                        $key = 'Cliente';
+                }
+
+                $result[$key] = $this->aCliente->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
+            }
             if (null !== $this->collDocumentoss) {
 
                 switch ($keyType) {
@@ -872,7 +914,7 @@ abstract class Categorias implements ActiveRecordInterface
                 $this->setId($value);
                 break;
             case 1:
-                $this->setIdClientes($value);
+                $this->setIdCliente($value);
                 break;
             case 2:
                 $this->setNomecategoria($value);
@@ -907,7 +949,7 @@ abstract class Categorias implements ActiveRecordInterface
             $this->setId($arr[$keys[0]]);
         }
         if (array_key_exists($keys[1], $arr)) {
-            $this->setIdClientes($arr[$keys[1]]);
+            $this->setIdCliente($arr[$keys[1]]);
         }
         if (array_key_exists($keys[2], $arr)) {
             $this->setNomecategoria($arr[$keys[2]]);
@@ -956,8 +998,8 @@ abstract class Categorias implements ActiveRecordInterface
         if ($this->isColumnModified(CategoriasTableMap::COL_ID)) {
             $criteria->add(CategoriasTableMap::COL_ID, $this->id);
         }
-        if ($this->isColumnModified(CategoriasTableMap::COL_ID_CLIENTES)) {
-            $criteria->add(CategoriasTableMap::COL_ID_CLIENTES, $this->id_clientes);
+        if ($this->isColumnModified(CategoriasTableMap::COL_ID_CLIENTE)) {
+            $criteria->add(CategoriasTableMap::COL_ID_CLIENTE, $this->id_cliente);
         }
         if ($this->isColumnModified(CategoriasTableMap::COL_NOMECATEGORIA)) {
             $criteria->add(CategoriasTableMap::COL_NOMECATEGORIA, $this->nomecategoria);
@@ -1048,7 +1090,7 @@ abstract class Categorias implements ActiveRecordInterface
      */
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
-        $copyObj->setIdClientes($this->getIdClientes());
+        $copyObj->setIdCliente($this->getIdCliente());
         $copyObj->setNomecategoria($this->getNomecategoria());
 
         if ($deepCopy) {
@@ -1090,6 +1132,57 @@ abstract class Categorias implements ActiveRecordInterface
         $this->copyInto($copyObj, $deepCopy);
 
         return $copyObj;
+    }
+
+    /**
+     * Declares an association between this object and a ChildCliente object.
+     *
+     * @param  ChildCliente $v
+     * @return $this|\Categorias The current object (for fluent API support)
+     * @throws PropelException
+     */
+    public function setCliente(ChildCliente $v = null)
+    {
+        if ($v === null) {
+            $this->setIdCliente(NULL);
+        } else {
+            $this->setIdCliente($v->getId());
+        }
+
+        $this->aCliente = $v;
+
+        // Add binding for other direction of this n:n relationship.
+        // If this object has already been added to the ChildCliente object, it will not be re-added.
+        if ($v !== null) {
+            $v->addCategorias($this);
+        }
+
+
+        return $this;
+    }
+
+
+    /**
+     * Get the associated ChildCliente object
+     *
+     * @param  ConnectionInterface $con Optional Connection object.
+     * @return ChildCliente The associated ChildCliente object.
+     * @throws PropelException
+     */
+    public function getCliente(ConnectionInterface $con = null)
+    {
+        if ($this->aCliente === null && ($this->id_cliente !== null)) {
+            $this->aCliente = ChildClienteQuery::create()->findPk($this->id_cliente, $con);
+            /* The following can be used additionally to
+                guarantee the related object contains a reference
+                to this object.  This level of coupling may, however, be
+                undesirable since it could result in an only partially populated collection
+                in the referenced object.
+                $this->aCliente->addCategoriass($this);
+             */
+        }
+
+        return $this->aCliente;
     }
 
 
@@ -1343,10 +1436,10 @@ abstract class Categorias implements ActiveRecordInterface
      * @param      string $joinBehavior optional join type to use (defaults to Criteria::LEFT_JOIN)
      * @return ObjectCollection|ChildDocumentos[] List of ChildDocumentos objects
      */
-    public function getDocumentossJoinClientes(Criteria $criteria = null, ConnectionInterface $con = null, $joinBehavior = Criteria::LEFT_JOIN)
+    public function getDocumentossJoinDocumentosRelatedByIdcliente(Criteria $criteria = null, ConnectionInterface $con = null, $joinBehavior = Criteria::LEFT_JOIN)
     {
         $query = ChildDocumentosQuery::create(null, $criteria);
-        $query->joinWith('Clientes', $joinBehavior);
+        $query->joinWith('DocumentosRelatedByIdcliente', $joinBehavior);
 
         return $this->getDocumentoss($query, $con);
     }
@@ -1358,8 +1451,11 @@ abstract class Categorias implements ActiveRecordInterface
      */
     public function clear()
     {
+        if (null !== $this->aCliente) {
+            $this->aCliente->removeCategorias($this);
+        }
         $this->id = null;
-        $this->id_clientes = null;
+        $this->id_cliente = null;
         $this->nomecategoria = null;
         $this->alreadyInSave = false;
         $this->clearAllReferences();
@@ -1387,6 +1483,7 @@ abstract class Categorias implements ActiveRecordInterface
         } // if ($deep)
 
         $this->collDocumentoss = null;
+        $this->aCliente = null;
     }
 
     /**

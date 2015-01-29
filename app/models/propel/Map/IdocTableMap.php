@@ -144,7 +144,7 @@ class IdocTableMap extends TableMap
         // columns
         $this->addPrimaryKey('id', 'Id', 'INTEGER', true, null, null);
         $this->addColumn('nome', 'Nome', 'VARCHAR', false, 255, null);
-        $this->addColumn('idcliente', 'Idcliente', 'BIGINT', false, null, null);
+        $this->addForeignKey('idcliente', 'Idcliente', 'BIGINT', 'cliente', 'id', false, null, null);
         $this->addColumn('file', 'File', 'VARCHAR', false, 255, null);
     } // initialize()
 
@@ -153,6 +153,13 @@ class IdocTableMap extends TableMap
      */
     public function buildRelations()
     {
+        $this->addRelation('Cliente', '\\Cliente', RelationMap::MANY_TO_ONE, array (
+  0 =>
+  array (
+    0 => ':idcliente',
+    1 => ':id',
+  ),
+), 'CASCADE', 'CASCADE', null, false);
     } // buildRelations()
 
     /**

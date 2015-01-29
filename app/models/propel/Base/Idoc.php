@@ -2,6 +2,8 @@
 
 namespace Base;
 
+use \Cliente as ChildCliente;
+use \ClienteQuery as ChildClienteQuery;
 use \IdocQuery as ChildIdocQuery;
 use \Exception;
 use \PDO;
@@ -82,6 +84,11 @@ abstract class Idoc implements ActiveRecordInterface
      * @var        string
      */
     protected $file;
+
+    /**
+     * @var        ChildCliente
+     */
+    protected $aCliente;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced
@@ -405,6 +412,10 @@ abstract class Idoc implements ActiveRecordInterface
             $this->modifiedColumns[IdocTableMap::COL_IDCLIENTE] = true;
         }
 
+        if ($this->aCliente !== null && $this->aCliente->getId() !== $v) {
+            $this->aCliente = null;
+        }
+
         return $this;
     } // setIdcliente()
 
@@ -505,6 +516,9 @@ abstract class Idoc implements ActiveRecordInterface
      */
     public function ensureConsistency()
     {
+        if ($this->aCliente !== null && $this->idcliente !== $this->aCliente->getId()) {
+            $this->aCliente = null;
+        }
     } // ensureConsistency
 
     /**
@@ -544,6 +558,7 @@ abstract class Idoc implements ActiveRecordInterface
 
         if ($deep) {  // also de-associate any related objects?
 
+            $this->aCliente = null;
         } // if (deep)
     }
 
@@ -642,6 +657,18 @@ abstract class Idoc implements ActiveRecordInterface
         $affectedRows = 0; // initialize var to track total num of affected rows
         if (!$this->alreadyInSave) {
             $this->alreadyInSave = true;
+
+            // We call the save method on the following object(s) if they
+            // were passed to this object by their corresponding set
+            // method.  This object relates to these object(s) by a
+            // foreign key reference.
+
+            if ($this->aCliente !== null) {
+                if ($this->aCliente->isModified() || $this->aCliente->isNew()) {
+                    $affectedRows += $this->aCliente->save($con);
+                }
+                $this->setCliente($this->aCliente);
+            }
 
             if ($this->isNew() || $this->isModified()) {
                 // persist changes
@@ -808,10 +835,11 @@ abstract class Idoc implements ActiveRecordInterface
      *                    Defaults to TableMap::TYPE_PHPNAME.
      * @param     boolean $includeLazyLoadColumns (optional) Whether to include lazy loaded columns. Defaults to TRUE.
      * @param     array $alreadyDumpedObjects List of objects to skip to avoid recursion
+     * @param     boolean $includeForeignObjects (optional) Whether to include hydrated related objects. Default to FALSE.
      *
      * @return array an associative array containing the field names (as keys) and field values
      */
-    public function toArray($keyType = TableMap::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array())
+    public function toArray($keyType = TableMap::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array(), $includeForeignObjects = false)
     {
 
         if (isset($alreadyDumpedObjects['Idoc'][$this->hashCode()])) {
@@ -830,6 +858,23 @@ abstract class Idoc implements ActiveRecordInterface
             $result[$key] = $virtualColumn;
         }
 
+        if ($includeForeignObjects) {
+            if (null !== $this->aCliente) {
+
+                switch ($keyType) {
+                    case TableMap::TYPE_CAMELNAME:
+                        $key = 'cliente';
+                        break;
+                    case TableMap::TYPE_FIELDNAME:
+                        $key = 'cliente';
+                        break;
+                    default:
+                        $key = 'Cliente';
+                }
+
+                $result[$key] = $this->aCliente->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
+            }
+        }
 
         return $result;
     }
@@ -1084,12 +1129,66 @@ abstract class Idoc implements ActiveRecordInterface
     }
 
     /**
+     * Declares an association between this object and a ChildCliente object.
+     *
+     * @param  ChildCliente $v
+     * @return $this|\Idoc The current object (for fluent API support)
+     * @throws PropelException
+     */
+    public function setCliente(ChildCliente $v = null)
+    {
+        if ($v === null) {
+            $this->setIdcliente(NULL);
+        } else {
+            $this->setIdcliente($v->getId());
+        }
+
+        $this->aCliente = $v;
+
+        // Add binding for other direction of this n:n relationship.
+        // If this object has already been added to the ChildCliente object, it will not be re-added.
+        if ($v !== null) {
+            $v->addIdoc($this);
+        }
+
+
+        return $this;
+    }
+
+
+    /**
+     * Get the associated ChildCliente object
+     *
+     * @param  ConnectionInterface $con Optional Connection object.
+     * @return ChildCliente The associated ChildCliente object.
+     * @throws PropelException
+     */
+    public function getCliente(ConnectionInterface $con = null)
+    {
+        if ($this->aCliente === null && (($this->idcliente !== "" && $this->idcliente !== null))) {
+            $this->aCliente = ChildClienteQuery::create()->findPk($this->idcliente, $con);
+            /* The following can be used additionally to
+                guarantee the related object contains a reference
+                to this object.  This level of coupling may, however, be
+                undesirable since it could result in an only partially populated collection
+                in the referenced object.
+                $this->aCliente->addIdocs($this);
+             */
+        }
+
+        return $this->aCliente;
+    }
+
+    /**
      * Clears the current object, sets all attributes to their default values and removes
      * outgoing references as well as back-references (from other objects to this one. Results probably in a database
      * change of those foreign objects when you call `save` there).
      */
     public function clear()
     {
+        if (null !== $this->aCliente) {
+            $this->aCliente->removeIdoc($this);
+        }
         $this->id = null;
         $this->nome = null;
         $this->idcliente = null;
@@ -1114,6 +1213,7 @@ abstract class Idoc implements ActiveRecordInterface
         if ($deep) {
         } // if ($deep)
 
+        $this->aCliente = null;
     }
 
     /**

@@ -72,19 +72,9 @@ class MoedaTableMap extends TableMap
     const NUM_HYDRATE_COLUMNS = 5;
 
     /**
-     * the column name for the sigla field
+     * the column name for the id field
      */
-    const COL_SIGLA = 'moeda.sigla';
-
-    /**
-     * the column name for the codigo field
-     */
-    const COL_CODIGO = 'moeda.codigo';
-
-    /**
-     * the column name for the simbolo field
-     */
-    const COL_SIMBOLO = 'moeda.simbolo';
+    const COL_ID = 'moeda.id';
 
     /**
      * the column name for the nome field
@@ -92,9 +82,19 @@ class MoedaTableMap extends TableMap
     const COL_NOME = 'moeda.nome';
 
     /**
-     * the column name for the id field
+     * the column name for the simbolo field
      */
-    const COL_ID = 'moeda.id';
+    const COL_SIMBOLO = 'moeda.simbolo';
+
+    /**
+     * the column name for the codigo field
+     */
+    const COL_CODIGO = 'moeda.codigo';
+
+    /**
+     * the column name for the sigla field
+     */
+    const COL_SIGLA = 'moeda.sigla';
 
     /**
      * The default string format for model objects of the related table
@@ -108,10 +108,10 @@ class MoedaTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Sigla', 'Codigo', 'Simbolo', 'Nome', 'Id', ),
-        self::TYPE_CAMELNAME     => array('sigla', 'codigo', 'simbolo', 'nome', 'id', ),
-        self::TYPE_COLNAME       => array(MoedaTableMap::COL_SIGLA, MoedaTableMap::COL_CODIGO, MoedaTableMap::COL_SIMBOLO, MoedaTableMap::COL_NOME, MoedaTableMap::COL_ID, ),
-        self::TYPE_FIELDNAME     => array('sigla', 'codigo', 'simbolo', 'nome', 'id', ),
+        self::TYPE_PHPNAME       => array('Id', 'Nome', 'Simbolo', 'Codigo', 'Sigla', ),
+        self::TYPE_CAMELNAME     => array('id', 'nome', 'simbolo', 'codigo', 'sigla', ),
+        self::TYPE_COLNAME       => array(MoedaTableMap::COL_ID, MoedaTableMap::COL_NOME, MoedaTableMap::COL_SIMBOLO, MoedaTableMap::COL_CODIGO, MoedaTableMap::COL_SIGLA, ),
+        self::TYPE_FIELDNAME     => array('id', 'nome', 'simbolo', 'codigo', 'sigla', ),
         self::TYPE_NUM           => array(0, 1, 2, 3, 4, )
     );
 
@@ -122,10 +122,10 @@ class MoedaTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Sigla' => 0, 'Codigo' => 1, 'Simbolo' => 2, 'Nome' => 3, 'Id' => 4, ),
-        self::TYPE_CAMELNAME     => array('sigla' => 0, 'codigo' => 1, 'simbolo' => 2, 'nome' => 3, 'id' => 4, ),
-        self::TYPE_COLNAME       => array(MoedaTableMap::COL_SIGLA => 0, MoedaTableMap::COL_CODIGO => 1, MoedaTableMap::COL_SIMBOLO => 2, MoedaTableMap::COL_NOME => 3, MoedaTableMap::COL_ID => 4, ),
-        self::TYPE_FIELDNAME     => array('sigla' => 0, 'codigo' => 1, 'simbolo' => 2, 'nome' => 3, 'id' => 4, ),
+        self::TYPE_PHPNAME       => array('Id' => 0, 'Nome' => 1, 'Simbolo' => 2, 'Codigo' => 3, 'Sigla' => 4, ),
+        self::TYPE_CAMELNAME     => array('id' => 0, 'nome' => 1, 'simbolo' => 2, 'codigo' => 3, 'sigla' => 4, ),
+        self::TYPE_COLNAME       => array(MoedaTableMap::COL_ID => 0, MoedaTableMap::COL_NOME => 1, MoedaTableMap::COL_SIMBOLO => 2, MoedaTableMap::COL_CODIGO => 3, MoedaTableMap::COL_SIGLA => 4, ),
+        self::TYPE_FIELDNAME     => array('id' => 0, 'nome' => 1, 'simbolo' => 2, 'codigo' => 3, 'sigla' => 4, ),
         self::TYPE_NUM           => array(0, 1, 2, 3, 4, )
     );
 
@@ -147,11 +147,11 @@ class MoedaTableMap extends TableMap
         $this->setUseIdGenerator(true);
         $this->setPrimaryKeyMethodInfo('moeda_id_seq');
         // columns
-        $this->addColumn('sigla', 'Sigla', 'VARCHAR', false, 10, null);
-        $this->addColumn('codigo', 'Codigo', 'VARCHAR', false, 100, null);
-        $this->addColumn('simbolo', 'Simbolo', 'VARCHAR', false, 100, null);
-        $this->addColumn('nome', 'Nome', 'VARCHAR', false, 100, null);
         $this->addPrimaryKey('id', 'Id', 'INTEGER', true, null, null);
+        $this->addColumn('nome', 'Nome', 'VARCHAR', false, 100, null);
+        $this->addColumn('simbolo', 'Simbolo', 'VARCHAR', false, 100, null);
+        $this->addColumn('codigo', 'Codigo', 'VARCHAR', false, 100, null);
+        $this->addColumn('sigla', 'Sigla', 'VARCHAR', false, 10, null);
     } // initialize()
 
     /**
@@ -159,8 +159,20 @@ class MoedaTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('ClientePgtos', '\\ClientePgtos', RelationMap::ONE_TO_MANY, array('id' => 'idmoeda', ), null, null, 'ClientePgtoss');
-        $this->addRelation('Produtos', '\\Produtos', RelationMap::ONE_TO_MANY, array('id' => 'idmoeda', ), null, null, 'Produtoss');
+        $this->addRelation('ClientePgtos', '\\ClientePgtos', RelationMap::ONE_TO_MANY, array (
+  0 =>
+  array (
+    0 => ':idmoeda',
+    1 => ':id',
+  ),
+), null, null, 'ClientePgtoss', false);
+        $this->addRelation('Produtos', '\\Produtos', RelationMap::ONE_TO_MANY, array (
+  0 =>
+  array (
+    0 => ':idmoeda',
+    1 => ':id',
+  ),
+), null, null, 'Produtoss', false);
     } // buildRelations()
 
     /**
@@ -179,11 +191,11 @@ class MoedaTableMap extends TableMap
     public static function getPrimaryKeyHashFromRow($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
     {
         // If the PK cannot be derived from the row, return NULL.
-        if ($row[TableMap::TYPE_NUM == $indexType ? 4 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)] === null) {
+        if ($row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)] === null) {
             return null;
         }
 
-        return (string) $row[TableMap::TYPE_NUM == $indexType ? 4 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
+        return (string) $row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
     }
 
     /**
@@ -202,7 +214,7 @@ class MoedaTableMap extends TableMap
     {
         return (int) $row[
             $indexType == TableMap::TYPE_NUM
-                ? 4 + $offset
+                ? 0 + $offset
                 : self::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)
         ];
     }
@@ -304,17 +316,17 @@ class MoedaTableMap extends TableMap
     public static function addSelectColumns(Criteria $criteria, $alias = null)
     {
         if (null === $alias) {
-            $criteria->addSelectColumn(MoedaTableMap::COL_SIGLA);
-            $criteria->addSelectColumn(MoedaTableMap::COL_CODIGO);
-            $criteria->addSelectColumn(MoedaTableMap::COL_SIMBOLO);
-            $criteria->addSelectColumn(MoedaTableMap::COL_NOME);
             $criteria->addSelectColumn(MoedaTableMap::COL_ID);
+            $criteria->addSelectColumn(MoedaTableMap::COL_NOME);
+            $criteria->addSelectColumn(MoedaTableMap::COL_SIMBOLO);
+            $criteria->addSelectColumn(MoedaTableMap::COL_CODIGO);
+            $criteria->addSelectColumn(MoedaTableMap::COL_SIGLA);
         } else {
-            $criteria->addSelectColumn($alias . '.sigla');
-            $criteria->addSelectColumn($alias . '.codigo');
-            $criteria->addSelectColumn($alias . '.simbolo');
-            $criteria->addSelectColumn($alias . '.nome');
             $criteria->addSelectColumn($alias . '.id');
+            $criteria->addSelectColumn($alias . '.nome');
+            $criteria->addSelectColumn($alias . '.simbolo');
+            $criteria->addSelectColumn($alias . '.codigo');
+            $criteria->addSelectColumn($alias . '.sigla');
         }
     }
 

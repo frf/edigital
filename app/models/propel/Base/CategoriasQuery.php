@@ -21,40 +21,44 @@ use Propel\Runtime\Exception\PropelException;
  *
  *
  * @method     ChildCategoriasQuery orderById($order = Criteria::ASC) Order by the id column
- * @method     ChildCategoriasQuery orderByIdClientes($order = Criteria::ASC) Order by the id_clientes column
+ * @method     ChildCategoriasQuery orderByIdCliente($order = Criteria::ASC) Order by the id_cliente column
  * @method     ChildCategoriasQuery orderByNomecategoria($order = Criteria::ASC) Order by the nomecategoria column
  *
  * @method     ChildCategoriasQuery groupById() Group by the id column
- * @method     ChildCategoriasQuery groupByIdClientes() Group by the id_clientes column
+ * @method     ChildCategoriasQuery groupByIdCliente() Group by the id_cliente column
  * @method     ChildCategoriasQuery groupByNomecategoria() Group by the nomecategoria column
  *
  * @method     ChildCategoriasQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method     ChildCategoriasQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method     ChildCategoriasQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
+ * @method     ChildCategoriasQuery leftJoinCliente($relationAlias = null) Adds a LEFT JOIN clause to the query using the Cliente relation
+ * @method     ChildCategoriasQuery rightJoinCliente($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Cliente relation
+ * @method     ChildCategoriasQuery innerJoinCliente($relationAlias = null) Adds a INNER JOIN clause to the query using the Cliente relation
+ *
  * @method     ChildCategoriasQuery leftJoinDocumentos($relationAlias = null) Adds a LEFT JOIN clause to the query using the Documentos relation
  * @method     ChildCategoriasQuery rightJoinDocumentos($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Documentos relation
  * @method     ChildCategoriasQuery innerJoinDocumentos($relationAlias = null) Adds a INNER JOIN clause to the query using the Documentos relation
  *
- * @method     \DocumentosQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
+ * @method     \ClienteQuery|\DocumentosQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
  * @method     ChildCategorias findOne(ConnectionInterface $con = null) Return the first ChildCategorias matching the query
  * @method     ChildCategorias findOneOrCreate(ConnectionInterface $con = null) Return the first ChildCategorias matching the query, or a new ChildCategorias object populated from the query conditions when no match is found
  *
  * @method     ChildCategorias findOneById(int $id) Return the first ChildCategorias filtered by the id column
- * @method     ChildCategorias findOneByIdClientes(int $id_clientes) Return the first ChildCategorias filtered by the id_clientes column
+ * @method     ChildCategorias findOneByIdCliente(int $id_cliente) Return the first ChildCategorias filtered by the id_cliente column
  * @method     ChildCategorias findOneByNomecategoria(string $nomecategoria) Return the first ChildCategorias filtered by the nomecategoria column *
 
  * @method     ChildCategorias requirePk($key, ConnectionInterface $con = null) Return the ChildCategorias by primary key and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildCategorias requireOne(ConnectionInterface $con = null) Return the first ChildCategorias matching the query and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
  * @method     ChildCategorias requireOneById(int $id) Return the first ChildCategorias filtered by the id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildCategorias requireOneByIdClientes(int $id_clientes) Return the first ChildCategorias filtered by the id_clientes column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildCategorias requireOneByIdCliente(int $id_cliente) Return the first ChildCategorias filtered by the id_cliente column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildCategorias requireOneByNomecategoria(string $nomecategoria) Return the first ChildCategorias filtered by the nomecategoria column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
  * @method     ChildCategorias[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildCategorias objects based on current ModelCriteria
  * @method     ChildCategorias[]|ObjectCollection findById(int $id) Return ChildCategorias objects filtered by the id column
- * @method     ChildCategorias[]|ObjectCollection findByIdClientes(int $id_clientes) Return ChildCategorias objects filtered by the id_clientes column
+ * @method     ChildCategorias[]|ObjectCollection findByIdCliente(int $id_cliente) Return ChildCategorias objects filtered by the id_cliente column
  * @method     ChildCategorias[]|ObjectCollection findByNomecategoria(string $nomecategoria) Return ChildCategorias objects filtered by the nomecategoria column
  * @method     ChildCategorias[]|\Propel\Runtime\Util\PropelModelPager paginate($page = 1, $maxPerPage = 10, ConnectionInterface $con = null) Issue a SELECT query based on the current ModelCriteria and uses a page and a maximum number of results per page to compute an offset and a limit
  *
@@ -148,7 +152,7 @@ abstract class CategoriasQuery extends ModelCriteria
      */
     protected function findPkSimple($key, ConnectionInterface $con)
     {
-        $sql = 'SELECT id, id_clientes, nomecategoria FROM categorias WHERE id = :p0';
+        $sql = 'SELECT id, id_cliente, nomecategoria FROM categorias WHERE id = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -280,16 +284,18 @@ abstract class CategoriasQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query on the id_clientes column
+     * Filter the query on the id_cliente column
      *
      * Example usage:
      * <code>
-     * $query->filterByIdClientes(1234); // WHERE id_clientes = 1234
-     * $query->filterByIdClientes(array(12, 34)); // WHERE id_clientes IN (12, 34)
-     * $query->filterByIdClientes(array('min' => 12)); // WHERE id_clientes > 12
+     * $query->filterByIdCliente(1234); // WHERE id_cliente = 1234
+     * $query->filterByIdCliente(array(12, 34)); // WHERE id_cliente IN (12, 34)
+     * $query->filterByIdCliente(array('min' => 12)); // WHERE id_cliente > 12
      * </code>
      *
-     * @param     mixed $idClientes The value to use as filter.
+     * @see       filterByCliente()
+     *
+     * @param     mixed $idCliente The value to use as filter.
      *              Use scalar values for equality.
      *              Use array values for in_array() equivalent.
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
@@ -297,16 +303,16 @@ abstract class CategoriasQuery extends ModelCriteria
      *
      * @return $this|ChildCategoriasQuery The current query, for fluid interface
      */
-    public function filterByIdClientes($idClientes = null, $comparison = null)
+    public function filterByIdCliente($idCliente = null, $comparison = null)
     {
-        if (is_array($idClientes)) {
+        if (is_array($idCliente)) {
             $useMinMax = false;
-            if (isset($idClientes['min'])) {
-                $this->addUsingAlias(CategoriasTableMap::COL_ID_CLIENTES, $idClientes['min'], Criteria::GREATER_EQUAL);
+            if (isset($idCliente['min'])) {
+                $this->addUsingAlias(CategoriasTableMap::COL_ID_CLIENTE, $idCliente['min'], Criteria::GREATER_EQUAL);
                 $useMinMax = true;
             }
-            if (isset($idClientes['max'])) {
-                $this->addUsingAlias(CategoriasTableMap::COL_ID_CLIENTES, $idClientes['max'], Criteria::LESS_EQUAL);
+            if (isset($idCliente['max'])) {
+                $this->addUsingAlias(CategoriasTableMap::COL_ID_CLIENTE, $idCliente['max'], Criteria::LESS_EQUAL);
                 $useMinMax = true;
             }
             if ($useMinMax) {
@@ -317,7 +323,7 @@ abstract class CategoriasQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(CategoriasTableMap::COL_ID_CLIENTES, $idClientes, $comparison);
+        return $this->addUsingAlias(CategoriasTableMap::COL_ID_CLIENTE, $idCliente, $comparison);
     }
 
     /**
@@ -347,6 +353,83 @@ abstract class CategoriasQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(CategoriasTableMap::COL_NOMECATEGORIA, $nomecategoria, $comparison);
+    }
+
+    /**
+     * Filter the query by a related \Cliente object
+     *
+     * @param \Cliente|ObjectCollection $cliente The related object(s) to use as filter
+     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @throws \Propel\Runtime\Exception\PropelException
+     *
+     * @return ChildCategoriasQuery The current query, for fluid interface
+     */
+    public function filterByCliente($cliente, $comparison = null)
+    {
+        if ($cliente instanceof \Cliente) {
+            return $this
+                ->addUsingAlias(CategoriasTableMap::COL_ID_CLIENTE, $cliente->getId(), $comparison);
+        } elseif ($cliente instanceof ObjectCollection) {
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+
+            return $this
+                ->addUsingAlias(CategoriasTableMap::COL_ID_CLIENTE, $cliente->toKeyValue('PrimaryKey', 'Id'), $comparison);
+        } else {
+            throw new PropelException('filterByCliente() only accepts arguments of type \Cliente or Collection');
+        }
+    }
+
+    /**
+     * Adds a JOIN clause to the query using the Cliente relation
+     *
+     * @param     string $relationAlias optional alias for the relation
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return $this|ChildCategoriasQuery The current query, for fluid interface
+     */
+    public function joinCliente($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    {
+        $tableMap = $this->getTableMap();
+        $relationMap = $tableMap->getRelation('Cliente');
+
+        // create a ModelJoin object for this join
+        $join = new ModelJoin();
+        $join->setJoinType($joinType);
+        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+        if ($previousJoin = $this->getPreviousJoin()) {
+            $join->setPreviousJoin($previousJoin);
+        }
+
+        // add the ModelJoin to the current object
+        if ($relationAlias) {
+            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+            $this->addJoinObject($join, $relationAlias);
+        } else {
+            $this->addJoinObject($join, 'Cliente');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Use the Cliente relation Cliente object
+     *
+     * @see useQuery()
+     *
+     * @param     string $relationAlias optional alias for the relation,
+     *                                   to be used as main alias in the secondary query
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return \ClienteQuery A secondary query class using the current class as primary query
+     */
+    public function useClienteQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    {
+        return $this
+            ->joinCliente($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'Cliente', '\ClienteQuery');
     }
 
     /**
