@@ -147,7 +147,13 @@ class EnderecoTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('Clientes', '\\Clientes', RelationMap::MANY_TO_ONE, array('idcliente' => 'id', ), null, null);
+        $this->addRelation('Clientes', '\\Clientes', RelationMap::MANY_TO_ONE, array (
+  0 =>
+  array (
+    0 => ':idcliente',
+    1 => ':id',
+  ),
+), null, null, null, false);
     } // buildRelations()
 
     /**

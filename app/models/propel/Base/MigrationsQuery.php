@@ -19,19 +19,11 @@ use Propel\Runtime\Exception\PropelException;
  *
  *
  *
-<<<<<<< HEAD
  * @method     ChildMigrationsQuery orderByMigration($order = Criteria::ASC) Order by the migration column
  * @method     ChildMigrationsQuery orderByBatch($order = Criteria::ASC) Order by the batch column
  *
  * @method     ChildMigrationsQuery groupByMigration() Group by the migration column
  * @method     ChildMigrationsQuery groupByBatch() Group by the batch column
-=======
- * @method     ChildMigrationsQuery orderByBatch($order = Criteria::ASC) Order by the batch column
- * @method     ChildMigrationsQuery orderByMigration($order = Criteria::ASC) Order by the migration column
- *
- * @method     ChildMigrationsQuery groupByBatch() Group by the batch column
- * @method     ChildMigrationsQuery groupByMigration() Group by the migration column
->>>>>>> b8d39d004e8d70d7608919c9d53d0e5ce0f95c9b
  *
  * @method     ChildMigrationsQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method     ChildMigrationsQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
@@ -40,7 +32,6 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildMigrations findOne(ConnectionInterface $con = null) Return the first ChildMigrations matching the query
  * @method     ChildMigrations findOneOrCreate(ConnectionInterface $con = null) Return the first ChildMigrations matching the query, or a new ChildMigrations object populated from the query conditions when no match is found
  *
-<<<<<<< HEAD
  * @method     ChildMigrations findOneByMigration(string $migration) Return the first ChildMigrations filtered by the migration column
  * @method     ChildMigrations findOneByBatch(int $batch) Return the first ChildMigrations filtered by the batch column *
 
@@ -53,23 +44,12 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildMigrations[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildMigrations objects based on current ModelCriteria
  * @method     ChildMigrations[]|ObjectCollection findByMigration(string $migration) Return ChildMigrations objects filtered by the migration column
  * @method     ChildMigrations[]|ObjectCollection findByBatch(int $batch) Return ChildMigrations objects filtered by the batch column
-=======
- * @method     ChildMigrations findOneByBatch(int $batch) Return the first ChildMigrations filtered by the batch column
- * @method     ChildMigrations findOneByMigration(string $migration) Return the first ChildMigrations filtered by the migration column
- *
- * @method     ChildMigrations[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildMigrations objects based on current ModelCriteria
- * @method     ChildMigrations[]|ObjectCollection findByBatch(int $batch) Return ChildMigrations objects filtered by the batch column
- * @method     ChildMigrations[]|ObjectCollection findByMigration(string $migration) Return ChildMigrations objects filtered by the migration column
->>>>>>> b8d39d004e8d70d7608919c9d53d0e5ce0f95c9b
  * @method     ChildMigrations[]|\Propel\Runtime\Util\PropelModelPager paginate($page = 1, $maxPerPage = 10, ConnectionInterface $con = null) Issue a SELECT query based on the current ModelCriteria and uses a page and a maximum number of results per page to compute an offset and a limit
  *
  */
 abstract class MigrationsQuery extends ModelCriteria
 {
-<<<<<<< HEAD
     protected $entityNotFoundExceptionClass = '\\Propel\\Runtime\\Exception\\EntityNotFoundException';
-=======
->>>>>>> b8d39d004e8d70d7608919c9d53d0e5ce0f95c9b
 
     /**
      * Initializes internal state of \Base\MigrationsQuery object.
@@ -166,7 +146,6 @@ abstract class MigrationsQuery extends ModelCriteria
     }
 
     /**
-<<<<<<< HEAD
      * Filter the query on the migration column
      *
      * Example usage:
@@ -196,8 +175,6 @@ abstract class MigrationsQuery extends ModelCriteria
     }
 
     /**
-=======
->>>>>>> b8d39d004e8d70d7608919c9d53d0e5ce0f95c9b
      * Filter the query on the batch column
      *
      * Example usage:
@@ -239,38 +216,6 @@ abstract class MigrationsQuery extends ModelCriteria
     }
 
     /**
-<<<<<<< HEAD
-=======
-     * Filter the query on the migration column
-     *
-     * Example usage:
-     * <code>
-     * $query->filterByMigration('fooValue');   // WHERE migration = 'fooValue'
-     * $query->filterByMigration('%fooValue%'); // WHERE migration LIKE '%fooValue%'
-     * </code>
-     *
-     * @param     string $migration The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return $this|ChildMigrationsQuery The current query, for fluid interface
-     */
-    public function filterByMigration($migration = null, $comparison = null)
-    {
-        if (null === $comparison) {
-            if (is_array($migration)) {
-                $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $migration)) {
-                $migration = str_replace('*', '%', $migration);
-                $comparison = Criteria::LIKE;
-            }
-        }
-
-        return $this->addUsingAlias(MigrationsTableMap::COL_MIGRATION, $migration, $comparison);
-    }
-
-    /**
->>>>>>> b8d39d004e8d70d7608919c9d53d0e5ce0f95c9b
      * Exclude object from result
      *
      * @param   ChildMigrations $migrations Object to remove from the list of results

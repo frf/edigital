@@ -2,8 +2,8 @@
 
 namespace Map;
 
-use \Documentos;
-use \DocumentosQuery;
+use \DocumentosDownloads;
+use \DocumentosDownloadsQuery;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\InstancePoolTrait;
@@ -16,7 +16,7 @@ use Propel\Runtime\Map\TableMapTrait;
 
 
 /**
- * This class defines the structure of the 'documentos' table.
+ * This class defines the structure of the 'documentos_downloads' table.
  *
  *
  *
@@ -26,7 +26,7 @@ use Propel\Runtime\Map\TableMapTrait;
  * (i.e. if it's a text column type).
  *
  */
-class DocumentosTableMap extends TableMap
+class DocumentosDownloadsTableMap extends TableMap
 {
     use InstancePoolTrait;
     use TableMapTrait;
@@ -34,7 +34,7 @@ class DocumentosTableMap extends TableMap
     /**
      * The (dot-path) name of this class
      */
-    const CLASS_NAME = '.Map.DocumentosTableMap';
+    const CLASS_NAME = '.Map.DocumentosDownloadsTableMap';
 
     /**
      * The default database name for this class
@@ -44,22 +44,22 @@ class DocumentosTableMap extends TableMap
     /**
      * The table name for this class
      */
-    const TABLE_NAME = 'documentos';
+    const TABLE_NAME = 'documentos_downloads';
 
     /**
      * The related Propel class for this table
      */
-    const OM_CLASS = '\\Documentos';
+    const OM_CLASS = '\\DocumentosDownloads';
 
     /**
      * A class that can be returned by this tableMap
      */
-    const CLASS_DEFAULT = 'Documentos';
+    const CLASS_DEFAULT = 'DocumentosDownloads';
 
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 8;
+    const NUM_COLUMNS = 4;
 
     /**
      * The number of lazy-loaded columns
@@ -69,47 +69,27 @@ class DocumentosTableMap extends TableMap
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
      */
-    const NUM_HYDRATE_COLUMNS = 8;
+    const NUM_HYDRATE_COLUMNS = 4;
+
+    /**
+     * the column name for the iddocumento field
+     */
+    const COL_IDDOCUMENTO = 'documentos_downloads.iddocumento';
+
+    /**
+     * the column name for the idusuario field
+     */
+    const COL_IDUSUARIO = 'documentos_downloads.idusuario';
+
+    /**
+     * the column name for the dtdownload field
+     */
+    const COL_DTDOWNLOAD = 'documentos_downloads.dtdownload';
 
     /**
      * the column name for the id field
      */
-    const COL_ID = 'documentos.id';
-
-    /**
-     * the column name for the idcategoria field
-     */
-    const COL_IDCATEGORIA = 'documentos.idcategoria';
-
-    /**
-     * the column name for the idcliente field
-     */
-    const COL_IDCLIENTE = 'documentos.idcliente';
-
-    /**
-     * the column name for the caminhodoc field
-     */
-    const COL_CAMINHODOC = 'documentos.caminhodoc';
-
-    /**
-     * the column name for the datainclusao field
-     */
-    const COL_DATAINCLUSAO = 'documentos.datainclusao';
-
-    /**
-     * the column name for the nomedocumento field
-     */
-    const COL_NOMEDOCUMENTO = 'documentos.nomedocumento';
-
-    /**
-     * the column name for the descricao field
-     */
-    const COL_DESCRICAO = 'documentos.descricao';
-
-    /**
-     * the column name for the nomefisicodocumento field
-     */
-    const COL_NOMEFISICODOCUMENTO = 'documentos.nomefisicodocumento';
+    const COL_ID = 'documentos_downloads.id';
 
     /**
      * The default string format for model objects of the related table
@@ -123,11 +103,11 @@ class DocumentosTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'Idcategoria', 'Idcliente', 'Caminhodoc', 'Datainclusao', 'Nomedocumento', 'Descricao', 'Nomefisicodocumento', ),
-        self::TYPE_CAMELNAME     => array('id', 'idcategoria', 'idcliente', 'caminhodoc', 'datainclusao', 'nomedocumento', 'descricao', 'nomefisicodocumento', ),
-        self::TYPE_COLNAME       => array(DocumentosTableMap::COL_ID, DocumentosTableMap::COL_IDCATEGORIA, DocumentosTableMap::COL_IDCLIENTE, DocumentosTableMap::COL_CAMINHODOC, DocumentosTableMap::COL_DATAINCLUSAO, DocumentosTableMap::COL_NOMEDOCUMENTO, DocumentosTableMap::COL_DESCRICAO, DocumentosTableMap::COL_NOMEFISICODOCUMENTO, ),
-        self::TYPE_FIELDNAME     => array('id', 'idcategoria', 'idcliente', 'caminhodoc', 'datainclusao', 'nomedocumento', 'descricao', 'nomefisicodocumento', ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, )
+        self::TYPE_PHPNAME       => array('Iddocumento', 'Idusuario', 'Dtdownload', 'Id', ),
+        self::TYPE_CAMELNAME     => array('iddocumento', 'idusuario', 'dtdownload', 'id', ),
+        self::TYPE_COLNAME       => array(DocumentosDownloadsTableMap::COL_IDDOCUMENTO, DocumentosDownloadsTableMap::COL_IDUSUARIO, DocumentosDownloadsTableMap::COL_DTDOWNLOAD, DocumentosDownloadsTableMap::COL_ID, ),
+        self::TYPE_FIELDNAME     => array('iddocumento', 'idusuario', 'dtdownload', 'id', ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, )
     );
 
     /**
@@ -137,11 +117,11 @@ class DocumentosTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'Idcategoria' => 1, 'Idcliente' => 2, 'Caminhodoc' => 3, 'Datainclusao' => 4, 'Nomedocumento' => 5, 'Descricao' => 6, 'Nomefisicodocumento' => 7, ),
-        self::TYPE_CAMELNAME     => array('id' => 0, 'idcategoria' => 1, 'idcliente' => 2, 'caminhodoc' => 3, 'datainclusao' => 4, 'nomedocumento' => 5, 'descricao' => 6, 'nomefisicodocumento' => 7, ),
-        self::TYPE_COLNAME       => array(DocumentosTableMap::COL_ID => 0, DocumentosTableMap::COL_IDCATEGORIA => 1, DocumentosTableMap::COL_IDCLIENTE => 2, DocumentosTableMap::COL_CAMINHODOC => 3, DocumentosTableMap::COL_DATAINCLUSAO => 4, DocumentosTableMap::COL_NOMEDOCUMENTO => 5, DocumentosTableMap::COL_DESCRICAO => 6, DocumentosTableMap::COL_NOMEFISICODOCUMENTO => 7, ),
-        self::TYPE_FIELDNAME     => array('id' => 0, 'idcategoria' => 1, 'idcliente' => 2, 'caminhodoc' => 3, 'datainclusao' => 4, 'nomedocumento' => 5, 'descricao' => 6, 'nomefisicodocumento' => 7, ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, )
+        self::TYPE_PHPNAME       => array('Iddocumento' => 0, 'Idusuario' => 1, 'Dtdownload' => 2, 'Id' => 3, ),
+        self::TYPE_CAMELNAME     => array('iddocumento' => 0, 'idusuario' => 1, 'dtdownload' => 2, 'id' => 3, ),
+        self::TYPE_COLNAME       => array(DocumentosDownloadsTableMap::COL_IDDOCUMENTO => 0, DocumentosDownloadsTableMap::COL_IDUSUARIO => 1, DocumentosDownloadsTableMap::COL_DTDOWNLOAD => 2, DocumentosDownloadsTableMap::COL_ID => 3, ),
+        self::TYPE_FIELDNAME     => array('iddocumento' => 0, 'idusuario' => 1, 'dtdownload' => 2, 'id' => 3, ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, )
     );
 
     /**
@@ -154,22 +134,18 @@ class DocumentosTableMap extends TableMap
     public function initialize()
     {
         // attributes
-        $this->setName('documentos');
-        $this->setPhpName('Documentos');
+        $this->setName('documentos_downloads');
+        $this->setPhpName('DocumentosDownloads');
         $this->setIdentifierQuoting(false);
-        $this->setClassName('\\Documentos');
+        $this->setClassName('\\DocumentosDownloads');
         $this->setPackage('');
         $this->setUseIdGenerator(true);
-        $this->setPrimaryKeyMethodInfo('documentos_id_seq');
+        $this->setPrimaryKeyMethodInfo('documentos_downloads_id_seq');
         // columns
+        $this->addForeignKey('iddocumento', 'Iddocumento', 'INTEGER', 'documentos', 'id', true, null, null);
+        $this->addForeignKey('idusuario', 'Idusuario', 'INTEGER', 'usuarios', 'id', true, null, null);
+        $this->addColumn('dtdownload', 'Dtdownload', 'TIMESTAMP', false, null, null);
         $this->addPrimaryKey('id', 'Id', 'INTEGER', true, null, null);
-        $this->addForeignKey('idcategoria', 'Idcategoria', 'INTEGER', 'categorias', 'id', false, null, null);
-        $this->addForeignKey('idcliente', 'Idcliente', 'INTEGER', 'clientes', 'id', false, null, null);
-        $this->addColumn('caminhodoc', 'Caminhodoc', 'VARCHAR', false, 200, null);
-        $this->addColumn('datainclusao', 'Datainclusao', 'TIMESTAMP', false, null, null);
-        $this->addColumn('nomedocumento', 'Nomedocumento', 'VARCHAR', false, 200, null);
-        $this->addColumn('descricao', 'Descricao', 'VARCHAR', false, 200, null);
-        $this->addColumn('nomefisicodocumento', 'Nomefisicodocumento', 'VARCHAR', false, 255, null);
     } // initialize()
 
     /**
@@ -177,27 +153,20 @@ class DocumentosTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('Categorias', '\\Categorias', RelationMap::MANY_TO_ONE, array (
-  0 =>
-  array (
-    0 => ':idcategoria',
-    1 => ':id',
-  ),
-), null, null, null, false);
-        $this->addRelation('Clientes', '\\Clientes', RelationMap::MANY_TO_ONE, array (
-  0 =>
-  array (
-    0 => ':idcliente',
-    1 => ':id',
-  ),
-), null, null, null, false);
-        $this->addRelation('DocumentosDownloads', '\\DocumentosDownloads', RelationMap::ONE_TO_MANY, array (
+        $this->addRelation('Documentos', '\\Documentos', RelationMap::MANY_TO_ONE, array (
   0 =>
   array (
     0 => ':iddocumento',
     1 => ':id',
   ),
-), null, null, 'DocumentosDownloadss', false);
+), null, null, null, false);
+        $this->addRelation('Usuarios', '\\Usuarios', RelationMap::MANY_TO_ONE, array (
+  0 =>
+  array (
+    0 => ':idusuario',
+    1 => ':id',
+  ),
+), null, null, null, false);
     } // buildRelations()
 
     /**
@@ -216,11 +185,11 @@ class DocumentosTableMap extends TableMap
     public static function getPrimaryKeyHashFromRow($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
     {
         // If the PK cannot be derived from the row, return NULL.
-        if ($row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)] === null) {
+        if ($row[TableMap::TYPE_NUM == $indexType ? 3 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)] === null) {
             return null;
         }
 
-        return (string) $row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
+        return (string) $row[TableMap::TYPE_NUM == $indexType ? 3 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
     }
 
     /**
@@ -239,7 +208,7 @@ class DocumentosTableMap extends TableMap
     {
         return (int) $row[
             $indexType == TableMap::TYPE_NUM
-                ? 0 + $offset
+                ? 3 + $offset
                 : self::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)
         ];
     }
@@ -257,7 +226,7 @@ class DocumentosTableMap extends TableMap
      */
     public static function getOMClass($withPrefix = true)
     {
-        return $withPrefix ? DocumentosTableMap::CLASS_DEFAULT : DocumentosTableMap::OM_CLASS;
+        return $withPrefix ? DocumentosDownloadsTableMap::CLASS_DEFAULT : DocumentosDownloadsTableMap::OM_CLASS;
     }
 
     /**
@@ -271,22 +240,22 @@ class DocumentosTableMap extends TableMap
      *
      * @throws PropelException Any exceptions caught during processing will be
      *                         rethrown wrapped into a PropelException.
-     * @return array           (Documentos object, last column rank)
+     * @return array           (DocumentosDownloads object, last column rank)
      */
     public static function populateObject($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
     {
-        $key = DocumentosTableMap::getPrimaryKeyHashFromRow($row, $offset, $indexType);
-        if (null !== ($obj = DocumentosTableMap::getInstanceFromPool($key))) {
+        $key = DocumentosDownloadsTableMap::getPrimaryKeyHashFromRow($row, $offset, $indexType);
+        if (null !== ($obj = DocumentosDownloadsTableMap::getInstanceFromPool($key))) {
             // We no longer rehydrate the object, since this can cause data loss.
             // See http://www.propelorm.org/ticket/509
             // $obj->hydrate($row, $offset, true); // rehydrate
-            $col = $offset + DocumentosTableMap::NUM_HYDRATE_COLUMNS;
+            $col = $offset + DocumentosDownloadsTableMap::NUM_HYDRATE_COLUMNS;
         } else {
-            $cls = DocumentosTableMap::OM_CLASS;
-            /** @var Documentos $obj */
+            $cls = DocumentosDownloadsTableMap::OM_CLASS;
+            /** @var DocumentosDownloads $obj */
             $obj = new $cls();
             $col = $obj->hydrate($row, $offset, false, $indexType);
-            DocumentosTableMap::addInstanceToPool($obj, $key);
+            DocumentosDownloadsTableMap::addInstanceToPool($obj, $key);
         }
 
         return array($obj, $col);
@@ -309,18 +278,18 @@ class DocumentosTableMap extends TableMap
         $cls = static::getOMClass(false);
         // populate the object(s)
         while ($row = $dataFetcher->fetch()) {
-            $key = DocumentosTableMap::getPrimaryKeyHashFromRow($row, 0, $dataFetcher->getIndexType());
-            if (null !== ($obj = DocumentosTableMap::getInstanceFromPool($key))) {
+            $key = DocumentosDownloadsTableMap::getPrimaryKeyHashFromRow($row, 0, $dataFetcher->getIndexType());
+            if (null !== ($obj = DocumentosDownloadsTableMap::getInstanceFromPool($key))) {
                 // We no longer rehydrate the object, since this can cause data loss.
                 // See http://www.propelorm.org/ticket/509
                 // $obj->hydrate($row, 0, true); // rehydrate
                 $results[] = $obj;
             } else {
-                /** @var Documentos $obj */
+                /** @var DocumentosDownloads $obj */
                 $obj = new $cls();
                 $obj->hydrate($row);
                 $results[] = $obj;
-                DocumentosTableMap::addInstanceToPool($obj, $key);
+                DocumentosDownloadsTableMap::addInstanceToPool($obj, $key);
             } // if key exists
         }
 
@@ -341,23 +310,15 @@ class DocumentosTableMap extends TableMap
     public static function addSelectColumns(Criteria $criteria, $alias = null)
     {
         if (null === $alias) {
-            $criteria->addSelectColumn(DocumentosTableMap::COL_ID);
-            $criteria->addSelectColumn(DocumentosTableMap::COL_IDCATEGORIA);
-            $criteria->addSelectColumn(DocumentosTableMap::COL_IDCLIENTE);
-            $criteria->addSelectColumn(DocumentosTableMap::COL_CAMINHODOC);
-            $criteria->addSelectColumn(DocumentosTableMap::COL_DATAINCLUSAO);
-            $criteria->addSelectColumn(DocumentosTableMap::COL_NOMEDOCUMENTO);
-            $criteria->addSelectColumn(DocumentosTableMap::COL_DESCRICAO);
-            $criteria->addSelectColumn(DocumentosTableMap::COL_NOMEFISICODOCUMENTO);
+            $criteria->addSelectColumn(DocumentosDownloadsTableMap::COL_IDDOCUMENTO);
+            $criteria->addSelectColumn(DocumentosDownloadsTableMap::COL_IDUSUARIO);
+            $criteria->addSelectColumn(DocumentosDownloadsTableMap::COL_DTDOWNLOAD);
+            $criteria->addSelectColumn(DocumentosDownloadsTableMap::COL_ID);
         } else {
+            $criteria->addSelectColumn($alias . '.iddocumento');
+            $criteria->addSelectColumn($alias . '.idusuario');
+            $criteria->addSelectColumn($alias . '.dtdownload');
             $criteria->addSelectColumn($alias . '.id');
-            $criteria->addSelectColumn($alias . '.idcategoria');
-            $criteria->addSelectColumn($alias . '.idcliente');
-            $criteria->addSelectColumn($alias . '.caminhodoc');
-            $criteria->addSelectColumn($alias . '.datainclusao');
-            $criteria->addSelectColumn($alias . '.nomedocumento');
-            $criteria->addSelectColumn($alias . '.descricao');
-            $criteria->addSelectColumn($alias . '.nomefisicodocumento');
         }
     }
 
@@ -370,7 +331,7 @@ class DocumentosTableMap extends TableMap
      */
     public static function getTableMap()
     {
-        return Propel::getServiceContainer()->getDatabaseMap(DocumentosTableMap::DATABASE_NAME)->getTable(DocumentosTableMap::TABLE_NAME);
+        return Propel::getServiceContainer()->getDatabaseMap(DocumentosDownloadsTableMap::DATABASE_NAME)->getTable(DocumentosDownloadsTableMap::TABLE_NAME);
     }
 
     /**
@@ -378,16 +339,16 @@ class DocumentosTableMap extends TableMap
      */
     public static function buildTableMap()
     {
-        $dbMap = Propel::getServiceContainer()->getDatabaseMap(DocumentosTableMap::DATABASE_NAME);
-        if (!$dbMap->hasTable(DocumentosTableMap::TABLE_NAME)) {
-            $dbMap->addTableObject(new DocumentosTableMap());
+        $dbMap = Propel::getServiceContainer()->getDatabaseMap(DocumentosDownloadsTableMap::DATABASE_NAME);
+        if (!$dbMap->hasTable(DocumentosDownloadsTableMap::TABLE_NAME)) {
+            $dbMap->addTableObject(new DocumentosDownloadsTableMap());
         }
     }
 
     /**
-     * Performs a DELETE on the database, given a Documentos or Criteria object OR a primary key value.
+     * Performs a DELETE on the database, given a DocumentosDownloads or Criteria object OR a primary key value.
      *
-     * @param mixed               $values Criteria or Documentos object or primary key or array of primary keys
+     * @param mixed               $values Criteria or DocumentosDownloads object or primary key or array of primary keys
      *              which is used to create the DELETE statement
      * @param  ConnectionInterface $con the connection to use
      * @return int             The number of affected rows (if supported by underlying database driver).  This includes CASCADE-related rows
@@ -398,27 +359,27 @@ class DocumentosTableMap extends TableMap
      public static function doDelete($values, ConnectionInterface $con = null)
      {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(DocumentosTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(DocumentosDownloadsTableMap::DATABASE_NAME);
         }
 
         if ($values instanceof Criteria) {
             // rename for clarity
             $criteria = $values;
-        } elseif ($values instanceof \Documentos) { // it's a model object
+        } elseif ($values instanceof \DocumentosDownloads) { // it's a model object
             // create criteria based on pk values
             $criteria = $values->buildPkeyCriteria();
         } else { // it's a primary key, or an array of pks
-            $criteria = new Criteria(DocumentosTableMap::DATABASE_NAME);
-            $criteria->add(DocumentosTableMap::COL_ID, (array) $values, Criteria::IN);
+            $criteria = new Criteria(DocumentosDownloadsTableMap::DATABASE_NAME);
+            $criteria->add(DocumentosDownloadsTableMap::COL_ID, (array) $values, Criteria::IN);
         }
 
-        $query = DocumentosQuery::create()->mergeWith($criteria);
+        $query = DocumentosDownloadsQuery::create()->mergeWith($criteria);
 
         if ($values instanceof Criteria) {
-            DocumentosTableMap::clearInstancePool();
+            DocumentosDownloadsTableMap::clearInstancePool();
         } elseif (!is_object($values)) { // it's a primary key, or an array of pks
             foreach ((array) $values as $singleval) {
-                DocumentosTableMap::removeInstanceFromPool($singleval);
+                DocumentosDownloadsTableMap::removeInstanceFromPool($singleval);
             }
         }
 
@@ -426,20 +387,20 @@ class DocumentosTableMap extends TableMap
     }
 
     /**
-     * Deletes all rows from the documentos table.
+     * Deletes all rows from the documentos_downloads table.
      *
      * @param ConnectionInterface $con the connection to use
      * @return int The number of affected rows (if supported by underlying database driver).
      */
     public static function doDeleteAll(ConnectionInterface $con = null)
     {
-        return DocumentosQuery::create()->doDeleteAll($con);
+        return DocumentosDownloadsQuery::create()->doDeleteAll($con);
     }
 
     /**
-     * Performs an INSERT on the database, given a Documentos or Criteria object.
+     * Performs an INSERT on the database, given a DocumentosDownloads or Criteria object.
      *
-     * @param mixed               $criteria Criteria or Documentos object containing data that is used to create the INSERT statement.
+     * @param mixed               $criteria Criteria or DocumentosDownloads object containing data that is used to create the INSERT statement.
      * @param ConnectionInterface $con the ConnectionInterface connection to use
      * @return mixed           The new primary key.
      * @throws PropelException Any exceptions caught during processing will be
@@ -448,22 +409,22 @@ class DocumentosTableMap extends TableMap
     public static function doInsert($criteria, ConnectionInterface $con = null)
     {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(DocumentosTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(DocumentosDownloadsTableMap::DATABASE_NAME);
         }
 
         if ($criteria instanceof Criteria) {
             $criteria = clone $criteria; // rename for clarity
         } else {
-            $criteria = $criteria->buildCriteria(); // build Criteria from Documentos object
+            $criteria = $criteria->buildCriteria(); // build Criteria from DocumentosDownloads object
         }
 
-        if ($criteria->containsKey(DocumentosTableMap::COL_ID) && $criteria->keyContainsValue(DocumentosTableMap::COL_ID) ) {
-            throw new PropelException('Cannot insert a value for auto-increment primary key ('.DocumentosTableMap::COL_ID.')');
+        if ($criteria->containsKey(DocumentosDownloadsTableMap::COL_ID) && $criteria->keyContainsValue(DocumentosDownloadsTableMap::COL_ID) ) {
+            throw new PropelException('Cannot insert a value for auto-increment primary key ('.DocumentosDownloadsTableMap::COL_ID.')');
         }
 
 
         // Set the correct dbName
-        $query = DocumentosQuery::create()->mergeWith($criteria);
+        $query = DocumentosDownloadsQuery::create()->mergeWith($criteria);
 
         // use transaction because $criteria could contain info
         // for more than one table (I guess, conceivably)
@@ -472,7 +433,7 @@ class DocumentosTableMap extends TableMap
         });
     }
 
-} // DocumentosTableMap
+} // DocumentosDownloadsTableMap
 // This is the static code needed to register the TableMap for this table with the main Propel class.
 //
-DocumentosTableMap::buildTableMap();
+DocumentosDownloadsTableMap::buildTableMap();

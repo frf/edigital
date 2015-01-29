@@ -34,7 +34,7 @@
 <div class="form-group">
     <label for="categoria" class="col-lg-2 control-label">Categoria</label>
     <div class="col-lg-6">
-        {{ Form::select('categoria', array('1' => 'INSS', '2' => 'BOLETOS'), "categoria", array('class' => 'form-control')) }}
+        {{ Form::select('idcategoria', array('1' => 'INSS', '2' => 'BOLETOS'), "idcategoria", array('class' => 'form-control')) }}
     </div>
 </div>
 
@@ -48,7 +48,7 @@
 <div class="form-group">
     <div class="col-lg-offset-2 col-lg-10">
         {{ Form::submit('Salvar', array('class' => 'btn btn-primary')) }}
-        <a href="{{ url('/documento/listar') }}" title="Cancelar" class="btn btn-default">Cancelar</a>
+        <a href="{{ url('/documento/listar/')."/".$oCliente->getId() }}" title="Cancelar" class="btn btn-default">Cancelar</a>
     </div>
 </div>
 

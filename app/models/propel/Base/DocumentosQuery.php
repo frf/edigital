@@ -21,20 +21,22 @@ use Propel\Runtime\Exception\PropelException;
  *
  *
  * @method     ChildDocumentosQuery orderById($order = Criteria::ASC) Order by the id column
- * @method     ChildDocumentosQuery orderByIdCategorias($order = Criteria::ASC) Order by the id_categorias column
- * @method     ChildDocumentosQuery orderByEndereco($order = Criteria::ASC) Order by the endereco column
+ * @method     ChildDocumentosQuery orderByIdcategoria($order = Criteria::ASC) Order by the idcategoria column
+ * @method     ChildDocumentosQuery orderByIdcliente($order = Criteria::ASC) Order by the idcliente column
+ * @method     ChildDocumentosQuery orderByCaminhodoc($order = Criteria::ASC) Order by the caminhodoc column
  * @method     ChildDocumentosQuery orderByDatainclusao($order = Criteria::ASC) Order by the datainclusao column
- * @method     ChildDocumentosQuery orderByIdCliente($order = Criteria::ASC) Order by the id_cliente column
  * @method     ChildDocumentosQuery orderByNomedocumento($order = Criteria::ASC) Order by the nomedocumento column
  * @method     ChildDocumentosQuery orderByDescricao($order = Criteria::ASC) Order by the descricao column
+ * @method     ChildDocumentosQuery orderByNomefisicodocumento($order = Criteria::ASC) Order by the nomefisicodocumento column
  *
  * @method     ChildDocumentosQuery groupById() Group by the id column
- * @method     ChildDocumentosQuery groupByIdCategorias() Group by the id_categorias column
- * @method     ChildDocumentosQuery groupByEndereco() Group by the endereco column
+ * @method     ChildDocumentosQuery groupByIdcategoria() Group by the idcategoria column
+ * @method     ChildDocumentosQuery groupByIdcliente() Group by the idcliente column
+ * @method     ChildDocumentosQuery groupByCaminhodoc() Group by the caminhodoc column
  * @method     ChildDocumentosQuery groupByDatainclusao() Group by the datainclusao column
- * @method     ChildDocumentosQuery groupByIdCliente() Group by the id_cliente column
  * @method     ChildDocumentosQuery groupByNomedocumento() Group by the nomedocumento column
  * @method     ChildDocumentosQuery groupByDescricao() Group by the descricao column
+ * @method     ChildDocumentosQuery groupByNomefisicodocumento() Group by the nomefisicodocumento column
  *
  * @method     ChildDocumentosQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method     ChildDocumentosQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
@@ -48,38 +50,45 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildDocumentosQuery rightJoinClientes($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Clientes relation
  * @method     ChildDocumentosQuery innerJoinClientes($relationAlias = null) Adds a INNER JOIN clause to the query using the Clientes relation
  *
- * @method     \CategoriasQuery|\ClientesQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
+ * @method     ChildDocumentosQuery leftJoinDocumentosDownloads($relationAlias = null) Adds a LEFT JOIN clause to the query using the DocumentosDownloads relation
+ * @method     ChildDocumentosQuery rightJoinDocumentosDownloads($relationAlias = null) Adds a RIGHT JOIN clause to the query using the DocumentosDownloads relation
+ * @method     ChildDocumentosQuery innerJoinDocumentosDownloads($relationAlias = null) Adds a INNER JOIN clause to the query using the DocumentosDownloads relation
+ *
+ * @method     \CategoriasQuery|\ClientesQuery|\DocumentosDownloadsQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
  * @method     ChildDocumentos findOne(ConnectionInterface $con = null) Return the first ChildDocumentos matching the query
  * @method     ChildDocumentos findOneOrCreate(ConnectionInterface $con = null) Return the first ChildDocumentos matching the query, or a new ChildDocumentos object populated from the query conditions when no match is found
  *
  * @method     ChildDocumentos findOneById(int $id) Return the first ChildDocumentos filtered by the id column
- * @method     ChildDocumentos findOneByIdCategorias(int $id_categorias) Return the first ChildDocumentos filtered by the id_categorias column
- * @method     ChildDocumentos findOneByEndereco(string $endereco) Return the first ChildDocumentos filtered by the endereco column
+ * @method     ChildDocumentos findOneByIdcategoria(int $idcategoria) Return the first ChildDocumentos filtered by the idcategoria column
+ * @method     ChildDocumentos findOneByIdcliente(int $idcliente) Return the first ChildDocumentos filtered by the idcliente column
+ * @method     ChildDocumentos findOneByCaminhodoc(string $caminhodoc) Return the first ChildDocumentos filtered by the caminhodoc column
  * @method     ChildDocumentos findOneByDatainclusao(string $datainclusao) Return the first ChildDocumentos filtered by the datainclusao column
- * @method     ChildDocumentos findOneByIdCliente(int $id_cliente) Return the first ChildDocumentos filtered by the id_cliente column
  * @method     ChildDocumentos findOneByNomedocumento(string $nomedocumento) Return the first ChildDocumentos filtered by the nomedocumento column
- * @method     ChildDocumentos findOneByDescricao(string $descricao) Return the first ChildDocumentos filtered by the descricao column *
+ * @method     ChildDocumentos findOneByDescricao(string $descricao) Return the first ChildDocumentos filtered by the descricao column
+ * @method     ChildDocumentos findOneByNomefisicodocumento(string $nomefisicodocumento) Return the first ChildDocumentos filtered by the nomefisicodocumento column *
 
  * @method     ChildDocumentos requirePk($key, ConnectionInterface $con = null) Return the ChildDocumentos by primary key and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildDocumentos requireOne(ConnectionInterface $con = null) Return the first ChildDocumentos matching the query and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
  * @method     ChildDocumentos requireOneById(int $id) Return the first ChildDocumentos filtered by the id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildDocumentos requireOneByIdCategorias(int $id_categorias) Return the first ChildDocumentos filtered by the id_categorias column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildDocumentos requireOneByEndereco(string $endereco) Return the first ChildDocumentos filtered by the endereco column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildDocumentos requireOneByIdcategoria(int $idcategoria) Return the first ChildDocumentos filtered by the idcategoria column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildDocumentos requireOneByIdcliente(int $idcliente) Return the first ChildDocumentos filtered by the idcliente column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildDocumentos requireOneByCaminhodoc(string $caminhodoc) Return the first ChildDocumentos filtered by the caminhodoc column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildDocumentos requireOneByDatainclusao(string $datainclusao) Return the first ChildDocumentos filtered by the datainclusao column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildDocumentos requireOneByIdCliente(int $id_cliente) Return the first ChildDocumentos filtered by the id_cliente column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildDocumentos requireOneByNomedocumento(string $nomedocumento) Return the first ChildDocumentos filtered by the nomedocumento column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildDocumentos requireOneByDescricao(string $descricao) Return the first ChildDocumentos filtered by the descricao column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildDocumentos requireOneByNomefisicodocumento(string $nomefisicodocumento) Return the first ChildDocumentos filtered by the nomefisicodocumento column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
  * @method     ChildDocumentos[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildDocumentos objects based on current ModelCriteria
  * @method     ChildDocumentos[]|ObjectCollection findById(int $id) Return ChildDocumentos objects filtered by the id column
- * @method     ChildDocumentos[]|ObjectCollection findByIdCategorias(int $id_categorias) Return ChildDocumentos objects filtered by the id_categorias column
- * @method     ChildDocumentos[]|ObjectCollection findByEndereco(string $endereco) Return ChildDocumentos objects filtered by the endereco column
+ * @method     ChildDocumentos[]|ObjectCollection findByIdcategoria(int $idcategoria) Return ChildDocumentos objects filtered by the idcategoria column
+ * @method     ChildDocumentos[]|ObjectCollection findByIdcliente(int $idcliente) Return ChildDocumentos objects filtered by the idcliente column
+ * @method     ChildDocumentos[]|ObjectCollection findByCaminhodoc(string $caminhodoc) Return ChildDocumentos objects filtered by the caminhodoc column
  * @method     ChildDocumentos[]|ObjectCollection findByDatainclusao(string $datainclusao) Return ChildDocumentos objects filtered by the datainclusao column
- * @method     ChildDocumentos[]|ObjectCollection findByIdCliente(int $id_cliente) Return ChildDocumentos objects filtered by the id_cliente column
  * @method     ChildDocumentos[]|ObjectCollection findByNomedocumento(string $nomedocumento) Return ChildDocumentos objects filtered by the nomedocumento column
  * @method     ChildDocumentos[]|ObjectCollection findByDescricao(string $descricao) Return ChildDocumentos objects filtered by the descricao column
+ * @method     ChildDocumentos[]|ObjectCollection findByNomefisicodocumento(string $nomefisicodocumento) Return ChildDocumentos objects filtered by the nomefisicodocumento column
  * @method     ChildDocumentos[]|\Propel\Runtime\Util\PropelModelPager paginate($page = 1, $maxPerPage = 10, ConnectionInterface $con = null) Issue a SELECT query based on the current ModelCriteria and uses a page and a maximum number of results per page to compute an offset and a limit
  *
  */
@@ -172,7 +181,7 @@ abstract class DocumentosQuery extends ModelCriteria
      */
     protected function findPkSimple($key, ConnectionInterface $con)
     {
-        $sql = 'SELECT id, id_categorias, endereco, datainclusao, id_cliente, nomedocumento, descricao FROM documentos WHERE id = :p0';
+        $sql = 'SELECT id, idcategoria, idcliente, caminhodoc, datainclusao, nomedocumento, descricao, nomefisicodocumento FROM documentos WHERE id = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -304,18 +313,18 @@ abstract class DocumentosQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query on the id_categorias column
+     * Filter the query on the idcategoria column
      *
      * Example usage:
      * <code>
-     * $query->filterByIdCategorias(1234); // WHERE id_categorias = 1234
-     * $query->filterByIdCategorias(array(12, 34)); // WHERE id_categorias IN (12, 34)
-     * $query->filterByIdCategorias(array('min' => 12)); // WHERE id_categorias > 12
+     * $query->filterByIdcategoria(1234); // WHERE idcategoria = 1234
+     * $query->filterByIdcategoria(array(12, 34)); // WHERE idcategoria IN (12, 34)
+     * $query->filterByIdcategoria(array('min' => 12)); // WHERE idcategoria > 12
      * </code>
      *
      * @see       filterByCategorias()
      *
-     * @param     mixed $idCategorias The value to use as filter.
+     * @param     mixed $idcategoria The value to use as filter.
      *              Use scalar values for equality.
      *              Use array values for in_array() equivalent.
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
@@ -323,16 +332,16 @@ abstract class DocumentosQuery extends ModelCriteria
      *
      * @return $this|ChildDocumentosQuery The current query, for fluid interface
      */
-    public function filterByIdCategorias($idCategorias = null, $comparison = null)
+    public function filterByIdcategoria($idcategoria = null, $comparison = null)
     {
-        if (is_array($idCategorias)) {
+        if (is_array($idcategoria)) {
             $useMinMax = false;
-            if (isset($idCategorias['min'])) {
-                $this->addUsingAlias(DocumentosTableMap::COL_ID_CATEGORIAS, $idCategorias['min'], Criteria::GREATER_EQUAL);
+            if (isset($idcategoria['min'])) {
+                $this->addUsingAlias(DocumentosTableMap::COL_IDCATEGORIA, $idcategoria['min'], Criteria::GREATER_EQUAL);
                 $useMinMax = true;
             }
-            if (isset($idCategorias['max'])) {
-                $this->addUsingAlias(DocumentosTableMap::COL_ID_CATEGORIAS, $idCategorias['max'], Criteria::LESS_EQUAL);
+            if (isset($idcategoria['max'])) {
+                $this->addUsingAlias(DocumentosTableMap::COL_IDCATEGORIA, $idcategoria['max'], Criteria::LESS_EQUAL);
                 $useMinMax = true;
             }
             if ($useMinMax) {
@@ -343,36 +352,79 @@ abstract class DocumentosQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(DocumentosTableMap::COL_ID_CATEGORIAS, $idCategorias, $comparison);
+        return $this->addUsingAlias(DocumentosTableMap::COL_IDCATEGORIA, $idcategoria, $comparison);
     }
 
     /**
-     * Filter the query on the endereco column
+     * Filter the query on the idcliente column
      *
      * Example usage:
      * <code>
-     * $query->filterByEndereco('fooValue');   // WHERE endereco = 'fooValue'
-     * $query->filterByEndereco('%fooValue%'); // WHERE endereco LIKE '%fooValue%'
+     * $query->filterByIdcliente(1234); // WHERE idcliente = 1234
+     * $query->filterByIdcliente(array(12, 34)); // WHERE idcliente IN (12, 34)
+     * $query->filterByIdcliente(array('min' => 12)); // WHERE idcliente > 12
      * </code>
      *
-     * @param     string $endereco The value to use as filter.
+     * @see       filterByClientes()
+     *
+     * @param     mixed $idcliente The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildDocumentosQuery The current query, for fluid interface
+     */
+    public function filterByIdcliente($idcliente = null, $comparison = null)
+    {
+        if (is_array($idcliente)) {
+            $useMinMax = false;
+            if (isset($idcliente['min'])) {
+                $this->addUsingAlias(DocumentosTableMap::COL_IDCLIENTE, $idcliente['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($idcliente['max'])) {
+                $this->addUsingAlias(DocumentosTableMap::COL_IDCLIENTE, $idcliente['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(DocumentosTableMap::COL_IDCLIENTE, $idcliente, $comparison);
+    }
+
+    /**
+     * Filter the query on the caminhodoc column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByCaminhodoc('fooValue');   // WHERE caminhodoc = 'fooValue'
+     * $query->filterByCaminhodoc('%fooValue%'); // WHERE caminhodoc LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $caminhodoc The value to use as filter.
      *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildDocumentosQuery The current query, for fluid interface
      */
-    public function filterByEndereco($endereco = null, $comparison = null)
+    public function filterByCaminhodoc($caminhodoc = null, $comparison = null)
     {
         if (null === $comparison) {
-            if (is_array($endereco)) {
+            if (is_array($caminhodoc)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $endereco)) {
-                $endereco = str_replace('*', '%', $endereco);
+            } elseif (preg_match('/[\%\*]/', $caminhodoc)) {
+                $caminhodoc = str_replace('*', '%', $caminhodoc);
                 $comparison = Criteria::LIKE;
             }
         }
 
-        return $this->addUsingAlias(DocumentosTableMap::COL_ENDERECO, $endereco, $comparison);
+        return $this->addUsingAlias(DocumentosTableMap::COL_CAMINHODOC, $caminhodoc, $comparison);
     }
 
     /**
@@ -416,49 +468,6 @@ abstract class DocumentosQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(DocumentosTableMap::COL_DATAINCLUSAO, $datainclusao, $comparison);
-    }
-
-    /**
-     * Filter the query on the id_cliente column
-     *
-     * Example usage:
-     * <code>
-     * $query->filterByIdCliente(1234); // WHERE id_cliente = 1234
-     * $query->filterByIdCliente(array(12, 34)); // WHERE id_cliente IN (12, 34)
-     * $query->filterByIdCliente(array('min' => 12)); // WHERE id_cliente > 12
-     * </code>
-     *
-     * @see       filterByClientes()
-     *
-     * @param     mixed $idCliente The value to use as filter.
-     *              Use scalar values for equality.
-     *              Use array values for in_array() equivalent.
-     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return $this|ChildDocumentosQuery The current query, for fluid interface
-     */
-    public function filterByIdCliente($idCliente = null, $comparison = null)
-    {
-        if (is_array($idCliente)) {
-            $useMinMax = false;
-            if (isset($idCliente['min'])) {
-                $this->addUsingAlias(DocumentosTableMap::COL_ID_CLIENTE, $idCliente['min'], Criteria::GREATER_EQUAL);
-                $useMinMax = true;
-            }
-            if (isset($idCliente['max'])) {
-                $this->addUsingAlias(DocumentosTableMap::COL_ID_CLIENTE, $idCliente['max'], Criteria::LESS_EQUAL);
-                $useMinMax = true;
-            }
-            if ($useMinMax) {
-                return $this;
-            }
-            if (null === $comparison) {
-                $comparison = Criteria::IN;
-            }
-        }
-
-        return $this->addUsingAlias(DocumentosTableMap::COL_ID_CLIENTE, $idCliente, $comparison);
     }
 
     /**
@@ -520,6 +529,35 @@ abstract class DocumentosQuery extends ModelCriteria
     }
 
     /**
+     * Filter the query on the nomefisicodocumento column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByNomefisicodocumento('fooValue');   // WHERE nomefisicodocumento = 'fooValue'
+     * $query->filterByNomefisicodocumento('%fooValue%'); // WHERE nomefisicodocumento LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $nomefisicodocumento The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildDocumentosQuery The current query, for fluid interface
+     */
+    public function filterByNomefisicodocumento($nomefisicodocumento = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($nomefisicodocumento)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $nomefisicodocumento)) {
+                $nomefisicodocumento = str_replace('*', '%', $nomefisicodocumento);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(DocumentosTableMap::COL_NOMEFISICODOCUMENTO, $nomefisicodocumento, $comparison);
+    }
+
+    /**
      * Filter the query by a related \Categorias object
      *
      * @param \Categorias|ObjectCollection $categorias The related object(s) to use as filter
@@ -533,14 +571,14 @@ abstract class DocumentosQuery extends ModelCriteria
     {
         if ($categorias instanceof \Categorias) {
             return $this
-                ->addUsingAlias(DocumentosTableMap::COL_ID_CATEGORIAS, $categorias->getId(), $comparison);
+                ->addUsingAlias(DocumentosTableMap::COL_IDCATEGORIA, $categorias->getId(), $comparison);
         } elseif ($categorias instanceof ObjectCollection) {
             if (null === $comparison) {
                 $comparison = Criteria::IN;
             }
 
             return $this
-                ->addUsingAlias(DocumentosTableMap::COL_ID_CATEGORIAS, $categorias->toKeyValue('PrimaryKey', 'Id'), $comparison);
+                ->addUsingAlias(DocumentosTableMap::COL_IDCATEGORIA, $categorias->toKeyValue('PrimaryKey', 'Id'), $comparison);
         } else {
             throw new PropelException('filterByCategorias() only accepts arguments of type \Categorias or Collection');
         }
@@ -554,7 +592,7 @@ abstract class DocumentosQuery extends ModelCriteria
      *
      * @return $this|ChildDocumentosQuery The current query, for fluid interface
      */
-    public function joinCategorias($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    public function joinCategorias($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
     {
         $tableMap = $this->getTableMap();
         $relationMap = $tableMap->getRelation('Categorias');
@@ -589,7 +627,7 @@ abstract class DocumentosQuery extends ModelCriteria
      *
      * @return \CategoriasQuery A secondary query class using the current class as primary query
      */
-    public function useCategoriasQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    public function useCategoriasQuery($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
     {
         return $this
             ->joinCategorias($relationAlias, $joinType)
@@ -610,14 +648,14 @@ abstract class DocumentosQuery extends ModelCriteria
     {
         if ($clientes instanceof \Clientes) {
             return $this
-                ->addUsingAlias(DocumentosTableMap::COL_ID_CLIENTE, $clientes->getId(), $comparison);
+                ->addUsingAlias(DocumentosTableMap::COL_IDCLIENTE, $clientes->getId(), $comparison);
         } elseif ($clientes instanceof ObjectCollection) {
             if (null === $comparison) {
                 $comparison = Criteria::IN;
             }
 
             return $this
-                ->addUsingAlias(DocumentosTableMap::COL_ID_CLIENTE, $clientes->toKeyValue('PrimaryKey', 'Id'), $comparison);
+                ->addUsingAlias(DocumentosTableMap::COL_IDCLIENTE, $clientes->toKeyValue('PrimaryKey', 'Id'), $comparison);
         } else {
             throw new PropelException('filterByClientes() only accepts arguments of type \Clientes or Collection');
         }
@@ -631,7 +669,7 @@ abstract class DocumentosQuery extends ModelCriteria
      *
      * @return $this|ChildDocumentosQuery The current query, for fluid interface
      */
-    public function joinClientes($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    public function joinClientes($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
     {
         $tableMap = $this->getTableMap();
         $relationMap = $tableMap->getRelation('Clientes');
@@ -666,11 +704,84 @@ abstract class DocumentosQuery extends ModelCriteria
      *
      * @return \ClientesQuery A secondary query class using the current class as primary query
      */
-    public function useClientesQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    public function useClientesQuery($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
     {
         return $this
             ->joinClientes($relationAlias, $joinType)
             ->useQuery($relationAlias ? $relationAlias : 'Clientes', '\ClientesQuery');
+    }
+
+    /**
+     * Filter the query by a related \DocumentosDownloads object
+     *
+     * @param \DocumentosDownloads|ObjectCollection $documentosDownloads the related object to use as filter
+     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildDocumentosQuery The current query, for fluid interface
+     */
+    public function filterByDocumentosDownloads($documentosDownloads, $comparison = null)
+    {
+        if ($documentosDownloads instanceof \DocumentosDownloads) {
+            return $this
+                ->addUsingAlias(DocumentosTableMap::COL_ID, $documentosDownloads->getIddocumento(), $comparison);
+        } elseif ($documentosDownloads instanceof ObjectCollection) {
+            return $this
+                ->useDocumentosDownloadsQuery()
+                ->filterByPrimaryKeys($documentosDownloads->getPrimaryKeys())
+                ->endUse();
+        } else {
+            throw new PropelException('filterByDocumentosDownloads() only accepts arguments of type \DocumentosDownloads or Collection');
+        }
+    }
+
+    /**
+     * Adds a JOIN clause to the query using the DocumentosDownloads relation
+     *
+     * @param     string $relationAlias optional alias for the relation
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return $this|ChildDocumentosQuery The current query, for fluid interface
+     */
+    public function joinDocumentosDownloads($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    {
+        $tableMap = $this->getTableMap();
+        $relationMap = $tableMap->getRelation('DocumentosDownloads');
+
+        // create a ModelJoin object for this join
+        $join = new ModelJoin();
+        $join->setJoinType($joinType);
+        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+        if ($previousJoin = $this->getPreviousJoin()) {
+            $join->setPreviousJoin($previousJoin);
+        }
+
+        // add the ModelJoin to the current object
+        if ($relationAlias) {
+            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+            $this->addJoinObject($join, $relationAlias);
+        } else {
+            $this->addJoinObject($join, 'DocumentosDownloads');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Use the DocumentosDownloads relation DocumentosDownloads object
+     *
+     * @see useQuery()
+     *
+     * @param     string $relationAlias optional alias for the relation,
+     *                                   to be used as main alias in the secondary query
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return \DocumentosDownloadsQuery A secondary query class using the current class as primary query
+     */
+    public function useDocumentosDownloadsQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    {
+        return $this
+            ->joinDocumentosDownloads($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'DocumentosDownloads', '\DocumentosDownloadsQuery');
     }
 
     /**

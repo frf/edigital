@@ -410,7 +410,7 @@ abstract class ClientesQuery extends ModelCriteria
     /**
      * Filter the query by a related \Documentos object
      *
-     * @param \Documentos|ObjectCollection $documentos  the related object to use as filter
+     * @param \Documentos|ObjectCollection $documentos the related object to use as filter
      * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return ChildClientesQuery The current query, for fluid interface
@@ -419,7 +419,7 @@ abstract class ClientesQuery extends ModelCriteria
     {
         if ($documentos instanceof \Documentos) {
             return $this
-                ->addUsingAlias(ClientesTableMap::COL_ID, $documentos->getIdCliente(), $comparison);
+                ->addUsingAlias(ClientesTableMap::COL_ID, $documentos->getIdcliente(), $comparison);
         } elseif ($documentos instanceof ObjectCollection) {
             return $this
                 ->useDocumentosQuery()
@@ -438,7 +438,7 @@ abstract class ClientesQuery extends ModelCriteria
      *
      * @return $this|ChildClientesQuery The current query, for fluid interface
      */
-    public function joinDocumentos($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    public function joinDocumentos($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
     {
         $tableMap = $this->getTableMap();
         $relationMap = $tableMap->getRelation('Documentos');
@@ -473,7 +473,7 @@ abstract class ClientesQuery extends ModelCriteria
      *
      * @return \DocumentosQuery A secondary query class using the current class as primary query
      */
-    public function useDocumentosQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    public function useDocumentosQuery($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
     {
         return $this
             ->joinDocumentos($relationAlias, $joinType)
@@ -483,7 +483,7 @@ abstract class ClientesQuery extends ModelCriteria
     /**
      * Filter the query by a related \Endereco object
      *
-     * @param \Endereco|ObjectCollection $endereco  the related object to use as filter
+     * @param \Endereco|ObjectCollection $endereco the related object to use as filter
      * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return ChildClientesQuery The current query, for fluid interface

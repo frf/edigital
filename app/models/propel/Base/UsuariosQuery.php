@@ -10,10 +10,7 @@ use Map\UsuariosTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
-<<<<<<< HEAD
-=======
 use Propel\Runtime\ActiveQuery\ModelJoin;
->>>>>>> b8d39d004e8d70d7608919c9d53d0e5ce0f95c9b
 use Propel\Runtime\Collection\ObjectCollection;
 use Propel\Runtime\Connection\ConnectionInterface;
 use Propel\Runtime\Exception\PropelException;
@@ -23,7 +20,6 @@ use Propel\Runtime\Exception\PropelException;
  *
  *
  *
-<<<<<<< HEAD
  * @method     ChildUsuariosQuery orderById($order = Criteria::ASC) Order by the id column
  * @method     ChildUsuariosQuery orderByEmail($order = Criteria::ASC) Order by the email column
  * @method     ChildUsuariosQuery orderBySenha($order = Criteria::ASC) Order by the senha column
@@ -41,33 +37,17 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildUsuariosQuery groupByRememberToken() Group by the remember_token column
  * @method     ChildUsuariosQuery groupByCreatedAt() Group by the created_at column
  * @method     ChildUsuariosQuery groupByUpdatedAt() Group by the updated_at column
-=======
- * @method     ChildUsuariosQuery orderByIdcliente($order = Criteria::ASC) Order by the idcliente column
- * @method     ChildUsuariosQuery orderByUpdatedAt($order = Criteria::ASC) Order by the updated_at column
- * @method     ChildUsuariosQuery orderByCreatedAt($order = Criteria::ASC) Order by the created_at column
- * @method     ChildUsuariosQuery orderByRememberToken($order = Criteria::ASC) Order by the remember_token column
- * @method     ChildUsuariosQuery orderByTipo($order = Criteria::ASC) Order by the tipo column
- * @method     ChildUsuariosQuery orderByNome($order = Criteria::ASC) Order by the nome column
- * @method     ChildUsuariosQuery orderBySenha($order = Criteria::ASC) Order by the senha column
- * @method     ChildUsuariosQuery orderByEmail($order = Criteria::ASC) Order by the email column
- * @method     ChildUsuariosQuery orderById($order = Criteria::ASC) Order by the id column
- *
- * @method     ChildUsuariosQuery groupByIdcliente() Group by the idcliente column
- * @method     ChildUsuariosQuery groupByUpdatedAt() Group by the updated_at column
- * @method     ChildUsuariosQuery groupByCreatedAt() Group by the created_at column
- * @method     ChildUsuariosQuery groupByRememberToken() Group by the remember_token column
- * @method     ChildUsuariosQuery groupByTipo() Group by the tipo column
- * @method     ChildUsuariosQuery groupByNome() Group by the nome column
- * @method     ChildUsuariosQuery groupBySenha() Group by the senha column
- * @method     ChildUsuariosQuery groupByEmail() Group by the email column
- * @method     ChildUsuariosQuery groupById() Group by the id column
->>>>>>> b8d39d004e8d70d7608919c9d53d0e5ce0f95c9b
  *
  * @method     ChildUsuariosQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method     ChildUsuariosQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method     ChildUsuariosQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
-<<<<<<< HEAD
+ * @method     ChildUsuariosQuery leftJoinDocumentosDownloads($relationAlias = null) Adds a LEFT JOIN clause to the query using the DocumentosDownloads relation
+ * @method     ChildUsuariosQuery rightJoinDocumentosDownloads($relationAlias = null) Adds a RIGHT JOIN clause to the query using the DocumentosDownloads relation
+ * @method     ChildUsuariosQuery innerJoinDocumentosDownloads($relationAlias = null) Adds a INNER JOIN clause to the query using the DocumentosDownloads relation
+ *
+ * @method     \DocumentosDownloadsQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
+ *
  * @method     ChildUsuarios findOne(ConnectionInterface $con = null) Return the first ChildUsuarios matching the query
  * @method     ChildUsuarios findOneOrCreate(ConnectionInterface $con = null) Return the first ChildUsuarios matching the query, or a new ChildUsuarios object populated from the query conditions when no match is found
  *
@@ -101,46 +81,12 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildUsuarios[]|ObjectCollection findByRememberToken(string $remember_token) Return ChildUsuarios objects filtered by the remember_token column
  * @method     ChildUsuarios[]|ObjectCollection findByCreatedAt(string $created_at) Return ChildUsuarios objects filtered by the created_at column
  * @method     ChildUsuarios[]|ObjectCollection findByUpdatedAt(string $updated_at) Return ChildUsuarios objects filtered by the updated_at column
-=======
- * @method     ChildUsuariosQuery leftJoinCliente($relationAlias = null) Adds a LEFT JOIN clause to the query using the Cliente relation
- * @method     ChildUsuariosQuery rightJoinCliente($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Cliente relation
- * @method     ChildUsuariosQuery innerJoinCliente($relationAlias = null) Adds a INNER JOIN clause to the query using the Cliente relation
- *
- * @method     \ClienteQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
- *
- * @method     ChildUsuarios findOne(ConnectionInterface $con = null) Return the first ChildUsuarios matching the query
- * @method     ChildUsuarios findOneOrCreate(ConnectionInterface $con = null) Return the first ChildUsuarios matching the query, or a new ChildUsuarios object populated from the query conditions when no match is found
- *
- * @method     ChildUsuarios findOneByIdcliente(int $idcliente) Return the first ChildUsuarios filtered by the idcliente column
- * @method     ChildUsuarios findOneByUpdatedAt(string $updated_at) Return the first ChildUsuarios filtered by the updated_at column
- * @method     ChildUsuarios findOneByCreatedAt(string $created_at) Return the first ChildUsuarios filtered by the created_at column
- * @method     ChildUsuarios findOneByRememberToken(string $remember_token) Return the first ChildUsuarios filtered by the remember_token column
- * @method     ChildUsuarios findOneByTipo(string $tipo) Return the first ChildUsuarios filtered by the tipo column
- * @method     ChildUsuarios findOneByNome(string $nome) Return the first ChildUsuarios filtered by the nome column
- * @method     ChildUsuarios findOneBySenha(string $senha) Return the first ChildUsuarios filtered by the senha column
- * @method     ChildUsuarios findOneByEmail(string $email) Return the first ChildUsuarios filtered by the email column
- * @method     ChildUsuarios findOneById(int $id) Return the first ChildUsuarios filtered by the id column
- *
- * @method     ChildUsuarios[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildUsuarios objects based on current ModelCriteria
- * @method     ChildUsuarios[]|ObjectCollection findByIdcliente(int $idcliente) Return ChildUsuarios objects filtered by the idcliente column
- * @method     ChildUsuarios[]|ObjectCollection findByUpdatedAt(string $updated_at) Return ChildUsuarios objects filtered by the updated_at column
- * @method     ChildUsuarios[]|ObjectCollection findByCreatedAt(string $created_at) Return ChildUsuarios objects filtered by the created_at column
- * @method     ChildUsuarios[]|ObjectCollection findByRememberToken(string $remember_token) Return ChildUsuarios objects filtered by the remember_token column
- * @method     ChildUsuarios[]|ObjectCollection findByTipo(string $tipo) Return ChildUsuarios objects filtered by the tipo column
- * @method     ChildUsuarios[]|ObjectCollection findByNome(string $nome) Return ChildUsuarios objects filtered by the nome column
- * @method     ChildUsuarios[]|ObjectCollection findBySenha(string $senha) Return ChildUsuarios objects filtered by the senha column
- * @method     ChildUsuarios[]|ObjectCollection findByEmail(string $email) Return ChildUsuarios objects filtered by the email column
- * @method     ChildUsuarios[]|ObjectCollection findById(int $id) Return ChildUsuarios objects filtered by the id column
->>>>>>> b8d39d004e8d70d7608919c9d53d0e5ce0f95c9b
  * @method     ChildUsuarios[]|\Propel\Runtime\Util\PropelModelPager paginate($page = 1, $maxPerPage = 10, ConnectionInterface $con = null) Issue a SELECT query based on the current ModelCriteria and uses a page and a maximum number of results per page to compute an offset and a limit
  *
  */
 abstract class UsuariosQuery extends ModelCriteria
 {
-<<<<<<< HEAD
     protected $entityNotFoundExceptionClass = '\\Propel\\Runtime\\Exception\\EntityNotFoundException';
-=======
->>>>>>> b8d39d004e8d70d7608919c9d53d0e5ce0f95c9b
 
     /**
      * Initializes internal state of \Base\UsuariosQuery object.
@@ -227,11 +173,7 @@ abstract class UsuariosQuery extends ModelCriteria
      */
     protected function findPkSimple($key, ConnectionInterface $con)
     {
-<<<<<<< HEAD
         $sql = 'SELECT id, email, senha, nome, tipo, remember_token, created_at, updated_at FROM usuarios WHERE id = :p0';
-=======
-        $sql = 'SELECT idcliente, updated_at, created_at, remember_token, tipo, nome, senha, email, id FROM usuarios WHERE id = :p0';
->>>>>>> b8d39d004e8d70d7608919c9d53d0e5ce0f95c9b
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -322,7 +264,6 @@ abstract class UsuariosQuery extends ModelCriteria
     }
 
     /**
-<<<<<<< HEAD
      * Filter the query on the id column
      *
      * Example usage:
@@ -333,20 +274,6 @@ abstract class UsuariosQuery extends ModelCriteria
      * </code>
      *
      * @param     mixed $id The value to use as filter.
-=======
-     * Filter the query on the idcliente column
-     *
-     * Example usage:
-     * <code>
-     * $query->filterByIdcliente(1234); // WHERE idcliente = 1234
-     * $query->filterByIdcliente(array(12, 34)); // WHERE idcliente IN (12, 34)
-     * $query->filterByIdcliente(array('min' => 12)); // WHERE idcliente > 12
-     * </code>
-     *
-     * @see       filterByCliente()
-     *
-     * @param     mixed $idcliente The value to use as filter.
->>>>>>> b8d39d004e8d70d7608919c9d53d0e5ce0f95c9b
      *              Use scalar values for equality.
      *              Use array values for in_array() equivalent.
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
@@ -354,7 +281,6 @@ abstract class UsuariosQuery extends ModelCriteria
      *
      * @return $this|ChildUsuariosQuery The current query, for fluid interface
      */
-<<<<<<< HEAD
     public function filterById($id = null, $comparison = null)
     {
         if (is_array($id)) {
@@ -365,18 +291,6 @@ abstract class UsuariosQuery extends ModelCriteria
             }
             if (isset($id['max'])) {
                 $this->addUsingAlias(UsuariosTableMap::COL_ID, $id['max'], Criteria::LESS_EQUAL);
-=======
-    public function filterByIdcliente($idcliente = null, $comparison = null)
-    {
-        if (is_array($idcliente)) {
-            $useMinMax = false;
-            if (isset($idcliente['min'])) {
-                $this->addUsingAlias(UsuariosTableMap::COL_IDCLIENTE, $idcliente['min'], Criteria::GREATER_EQUAL);
-                $useMinMax = true;
-            }
-            if (isset($idcliente['max'])) {
-                $this->addUsingAlias(UsuariosTableMap::COL_IDCLIENTE, $idcliente['max'], Criteria::LESS_EQUAL);
->>>>>>> b8d39d004e8d70d7608919c9d53d0e5ce0f95c9b
                 $useMinMax = true;
             }
             if ($useMinMax) {
@@ -387,7 +301,6 @@ abstract class UsuariosQuery extends ModelCriteria
             }
         }
 
-<<<<<<< HEAD
         return $this->addUsingAlias(UsuariosTableMap::COL_ID, $id, $comparison);
     }
 
@@ -401,113 +314,11 @@ abstract class UsuariosQuery extends ModelCriteria
      * </code>
      *
      * @param     string $email The value to use as filter.
-=======
-        return $this->addUsingAlias(UsuariosTableMap::COL_IDCLIENTE, $idcliente, $comparison);
-    }
-
-    /**
-     * Filter the query on the updated_at column
-     *
-     * Example usage:
-     * <code>
-     * $query->filterByUpdatedAt('2011-03-14'); // WHERE updated_at = '2011-03-14'
-     * $query->filterByUpdatedAt('now'); // WHERE updated_at = '2011-03-14'
-     * $query->filterByUpdatedAt(array('max' => 'yesterday')); // WHERE updated_at > '2011-03-13'
-     * </code>
-     *
-     * @param     mixed $updatedAt The value to use as filter.
-     *              Values can be integers (unix timestamps), DateTime objects, or strings.
-     *              Empty strings are treated as NULL.
-     *              Use scalar values for equality.
-     *              Use array values for in_array() equivalent.
-     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return $this|ChildUsuariosQuery The current query, for fluid interface
-     */
-    public function filterByUpdatedAt($updatedAt = null, $comparison = null)
-    {
-        if (is_array($updatedAt)) {
-            $useMinMax = false;
-            if (isset($updatedAt['min'])) {
-                $this->addUsingAlias(UsuariosTableMap::COL_UPDATED_AT, $updatedAt['min'], Criteria::GREATER_EQUAL);
-                $useMinMax = true;
-            }
-            if (isset($updatedAt['max'])) {
-                $this->addUsingAlias(UsuariosTableMap::COL_UPDATED_AT, $updatedAt['max'], Criteria::LESS_EQUAL);
-                $useMinMax = true;
-            }
-            if ($useMinMax) {
-                return $this;
-            }
-            if (null === $comparison) {
-                $comparison = Criteria::IN;
-            }
-        }
-
-        return $this->addUsingAlias(UsuariosTableMap::COL_UPDATED_AT, $updatedAt, $comparison);
-    }
-
-    /**
-     * Filter the query on the created_at column
-     *
-     * Example usage:
-     * <code>
-     * $query->filterByCreatedAt('2011-03-14'); // WHERE created_at = '2011-03-14'
-     * $query->filterByCreatedAt('now'); // WHERE created_at = '2011-03-14'
-     * $query->filterByCreatedAt(array('max' => 'yesterday')); // WHERE created_at > '2011-03-13'
-     * </code>
-     *
-     * @param     mixed $createdAt The value to use as filter.
-     *              Values can be integers (unix timestamps), DateTime objects, or strings.
-     *              Empty strings are treated as NULL.
-     *              Use scalar values for equality.
-     *              Use array values for in_array() equivalent.
-     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return $this|ChildUsuariosQuery The current query, for fluid interface
-     */
-    public function filterByCreatedAt($createdAt = null, $comparison = null)
-    {
-        if (is_array($createdAt)) {
-            $useMinMax = false;
-            if (isset($createdAt['min'])) {
-                $this->addUsingAlias(UsuariosTableMap::COL_CREATED_AT, $createdAt['min'], Criteria::GREATER_EQUAL);
-                $useMinMax = true;
-            }
-            if (isset($createdAt['max'])) {
-                $this->addUsingAlias(UsuariosTableMap::COL_CREATED_AT, $createdAt['max'], Criteria::LESS_EQUAL);
-                $useMinMax = true;
-            }
-            if ($useMinMax) {
-                return $this;
-            }
-            if (null === $comparison) {
-                $comparison = Criteria::IN;
-            }
-        }
-
-        return $this->addUsingAlias(UsuariosTableMap::COL_CREATED_AT, $createdAt, $comparison);
-    }
-
-    /**
-     * Filter the query on the remember_token column
-     *
-     * Example usage:
-     * <code>
-     * $query->filterByRememberToken('fooValue');   // WHERE remember_token = 'fooValue'
-     * $query->filterByRememberToken('%fooValue%'); // WHERE remember_token LIKE '%fooValue%'
-     * </code>
-     *
-     * @param     string $rememberToken The value to use as filter.
->>>>>>> b8d39d004e8d70d7608919c9d53d0e5ce0f95c9b
      *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildUsuariosQuery The current query, for fluid interface
      */
-<<<<<<< HEAD
     public function filterByEmail($email = null, $comparison = null)
     {
         if (null === $comparison) {
@@ -515,20 +326,10 @@ abstract class UsuariosQuery extends ModelCriteria
                 $comparison = Criteria::IN;
             } elseif (preg_match('/[\%\*]/', $email)) {
                 $email = str_replace('*', '%', $email);
-=======
-    public function filterByRememberToken($rememberToken = null, $comparison = null)
-    {
-        if (null === $comparison) {
-            if (is_array($rememberToken)) {
-                $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $rememberToken)) {
-                $rememberToken = str_replace('*', '%', $rememberToken);
->>>>>>> b8d39d004e8d70d7608919c9d53d0e5ce0f95c9b
                 $comparison = Criteria::LIKE;
             }
         }
 
-<<<<<<< HEAD
         return $this->addUsingAlias(UsuariosTableMap::COL_EMAIL, $email, $comparison);
     }
 
@@ -542,27 +343,11 @@ abstract class UsuariosQuery extends ModelCriteria
      * </code>
      *
      * @param     string $senha The value to use as filter.
-=======
-        return $this->addUsingAlias(UsuariosTableMap::COL_REMEMBER_TOKEN, $rememberToken, $comparison);
-    }
-
-    /**
-     * Filter the query on the tipo column
-     *
-     * Example usage:
-     * <code>
-     * $query->filterByTipo('fooValue');   // WHERE tipo = 'fooValue'
-     * $query->filterByTipo('%fooValue%'); // WHERE tipo LIKE '%fooValue%'
-     * </code>
-     *
-     * @param     string $tipo The value to use as filter.
->>>>>>> b8d39d004e8d70d7608919c9d53d0e5ce0f95c9b
      *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildUsuariosQuery The current query, for fluid interface
      */
-<<<<<<< HEAD
     public function filterBySenha($senha = null, $comparison = null)
     {
         if (null === $comparison) {
@@ -570,24 +355,11 @@ abstract class UsuariosQuery extends ModelCriteria
                 $comparison = Criteria::IN;
             } elseif (preg_match('/[\%\*]/', $senha)) {
                 $senha = str_replace('*', '%', $senha);
-=======
-    public function filterByTipo($tipo = null, $comparison = null)
-    {
-        if (null === $comparison) {
-            if (is_array($tipo)) {
-                $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $tipo)) {
-                $tipo = str_replace('*', '%', $tipo);
->>>>>>> b8d39d004e8d70d7608919c9d53d0e5ce0f95c9b
                 $comparison = Criteria::LIKE;
             }
         }
 
-<<<<<<< HEAD
         return $this->addUsingAlias(UsuariosTableMap::COL_SENHA, $senha, $comparison);
-=======
-        return $this->addUsingAlias(UsuariosTableMap::COL_TIPO, $tipo, $comparison);
->>>>>>> b8d39d004e8d70d7608919c9d53d0e5ce0f95c9b
     }
 
     /**
@@ -620,7 +392,6 @@ abstract class UsuariosQuery extends ModelCriteria
     }
 
     /**
-<<<<<<< HEAD
      * Filter the query on the tipo column
      *
      * Example usage:
@@ -630,23 +401,11 @@ abstract class UsuariosQuery extends ModelCriteria
      * </code>
      *
      * @param     string $tipo The value to use as filter.
-=======
-     * Filter the query on the senha column
-     *
-     * Example usage:
-     * <code>
-     * $query->filterBySenha('fooValue');   // WHERE senha = 'fooValue'
-     * $query->filterBySenha('%fooValue%'); // WHERE senha LIKE '%fooValue%'
-     * </code>
-     *
-     * @param     string $senha The value to use as filter.
->>>>>>> b8d39d004e8d70d7608919c9d53d0e5ce0f95c9b
      *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildUsuariosQuery The current query, for fluid interface
      */
-<<<<<<< HEAD
     public function filterByTipo($tipo = null, $comparison = null)
     {
         if (null === $comparison) {
@@ -654,20 +413,10 @@ abstract class UsuariosQuery extends ModelCriteria
                 $comparison = Criteria::IN;
             } elseif (preg_match('/[\%\*]/', $tipo)) {
                 $tipo = str_replace('*', '%', $tipo);
-=======
-    public function filterBySenha($senha = null, $comparison = null)
-    {
-        if (null === $comparison) {
-            if (is_array($senha)) {
-                $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $senha)) {
-                $senha = str_replace('*', '%', $senha);
->>>>>>> b8d39d004e8d70d7608919c9d53d0e5ce0f95c9b
                 $comparison = Criteria::LIKE;
             }
         }
 
-<<<<<<< HEAD
         return $this->addUsingAlias(UsuariosTableMap::COL_TIPO, $tipo, $comparison);
     }
 
@@ -681,27 +430,11 @@ abstract class UsuariosQuery extends ModelCriteria
      * </code>
      *
      * @param     string $rememberToken The value to use as filter.
-=======
-        return $this->addUsingAlias(UsuariosTableMap::COL_SENHA, $senha, $comparison);
-    }
-
-    /**
-     * Filter the query on the email column
-     *
-     * Example usage:
-     * <code>
-     * $query->filterByEmail('fooValue');   // WHERE email = 'fooValue'
-     * $query->filterByEmail('%fooValue%'); // WHERE email LIKE '%fooValue%'
-     * </code>
-     *
-     * @param     string $email The value to use as filter.
->>>>>>> b8d39d004e8d70d7608919c9d53d0e5ce0f95c9b
      *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildUsuariosQuery The current query, for fluid interface
      */
-<<<<<<< HEAD
     public function filterByRememberToken($rememberToken = null, $comparison = null)
     {
         if (null === $comparison) {
@@ -709,20 +442,10 @@ abstract class UsuariosQuery extends ModelCriteria
                 $comparison = Criteria::IN;
             } elseif (preg_match('/[\%\*]/', $rememberToken)) {
                 $rememberToken = str_replace('*', '%', $rememberToken);
-=======
-    public function filterByEmail($email = null, $comparison = null)
-    {
-        if (null === $comparison) {
-            if (is_array($email)) {
-                $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $email)) {
-                $email = str_replace('*', '%', $email);
->>>>>>> b8d39d004e8d70d7608919c9d53d0e5ce0f95c9b
                 $comparison = Criteria::LIKE;
             }
         }
 
-<<<<<<< HEAD
         return $this->addUsingAlias(UsuariosTableMap::COL_REMEMBER_TOKEN, $rememberToken, $comparison);
     }
 
@@ -739,22 +462,6 @@ abstract class UsuariosQuery extends ModelCriteria
      * @param     mixed $createdAt The value to use as filter.
      *              Values can be integers (unix timestamps), DateTime objects, or strings.
      *              Empty strings are treated as NULL.
-=======
-        return $this->addUsingAlias(UsuariosTableMap::COL_EMAIL, $email, $comparison);
-    }
-
-    /**
-     * Filter the query on the id column
-     *
-     * Example usage:
-     * <code>
-     * $query->filterById(1234); // WHERE id = 1234
-     * $query->filterById(array(12, 34)); // WHERE id IN (12, 34)
-     * $query->filterById(array('min' => 12)); // WHERE id > 12
-     * </code>
-     *
-     * @param     mixed $id The value to use as filter.
->>>>>>> b8d39d004e8d70d7608919c9d53d0e5ce0f95c9b
      *              Use scalar values for equality.
      *              Use array values for in_array() equivalent.
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
@@ -762,7 +469,6 @@ abstract class UsuariosQuery extends ModelCriteria
      *
      * @return $this|ChildUsuariosQuery The current query, for fluid interface
      */
-<<<<<<< HEAD
     public function filterByCreatedAt($createdAt = null, $comparison = null)
     {
         if (is_array($createdAt)) {
@@ -773,18 +479,6 @@ abstract class UsuariosQuery extends ModelCriteria
             }
             if (isset($createdAt['max'])) {
                 $this->addUsingAlias(UsuariosTableMap::COL_CREATED_AT, $createdAt['max'], Criteria::LESS_EQUAL);
-=======
-    public function filterById($id = null, $comparison = null)
-    {
-        if (is_array($id)) {
-            $useMinMax = false;
-            if (isset($id['min'])) {
-                $this->addUsingAlias(UsuariosTableMap::COL_ID, $id['min'], Criteria::GREATER_EQUAL);
-                $useMinMax = true;
-            }
-            if (isset($id['max'])) {
-                $this->addUsingAlias(UsuariosTableMap::COL_ID, $id['max'], Criteria::LESS_EQUAL);
->>>>>>> b8d39d004e8d70d7608919c9d53d0e5ce0f95c9b
                 $useMinMax = true;
             }
             if ($useMinMax) {
@@ -795,7 +489,6 @@ abstract class UsuariosQuery extends ModelCriteria
             }
         }
 
-<<<<<<< HEAD
         return $this->addUsingAlias(UsuariosTableMap::COL_CREATED_AT, $createdAt, $comparison);
     }
 
@@ -840,49 +533,43 @@ abstract class UsuariosQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(UsuariosTableMap::COL_UPDATED_AT, $updatedAt, $comparison);
-=======
-        return $this->addUsingAlias(UsuariosTableMap::COL_ID, $id, $comparison);
     }
 
     /**
-     * Filter the query by a related \Cliente object
+     * Filter the query by a related \DocumentosDownloads object
      *
-     * @param \Cliente|ObjectCollection $cliente The related object(s) to use as filter
+     * @param \DocumentosDownloads|ObjectCollection $documentosDownloads the related object to use as filter
      * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @throws \Propel\Runtime\Exception\PropelException
      *
      * @return ChildUsuariosQuery The current query, for fluid interface
      */
-    public function filterByCliente($cliente, $comparison = null)
+    public function filterByDocumentosDownloads($documentosDownloads, $comparison = null)
     {
-        if ($cliente instanceof \Cliente) {
+        if ($documentosDownloads instanceof \DocumentosDownloads) {
             return $this
-                ->addUsingAlias(UsuariosTableMap::COL_IDCLIENTE, $cliente->getId(), $comparison);
-        } elseif ($cliente instanceof ObjectCollection) {
-            if (null === $comparison) {
-                $comparison = Criteria::IN;
-            }
-
+                ->addUsingAlias(UsuariosTableMap::COL_ID, $documentosDownloads->getIdusuario(), $comparison);
+        } elseif ($documentosDownloads instanceof ObjectCollection) {
             return $this
-                ->addUsingAlias(UsuariosTableMap::COL_IDCLIENTE, $cliente->toKeyValue('PrimaryKey', 'Id'), $comparison);
+                ->useDocumentosDownloadsQuery()
+                ->filterByPrimaryKeys($documentosDownloads->getPrimaryKeys())
+                ->endUse();
         } else {
-            throw new PropelException('filterByCliente() only accepts arguments of type \Cliente or Collection');
+            throw new PropelException('filterByDocumentosDownloads() only accepts arguments of type \DocumentosDownloads or Collection');
         }
     }
 
     /**
-     * Adds a JOIN clause to the query using the Cliente relation
+     * Adds a JOIN clause to the query using the DocumentosDownloads relation
      *
      * @param     string $relationAlias optional alias for the relation
      * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
      *
      * @return $this|ChildUsuariosQuery The current query, for fluid interface
      */
-    public function joinCliente($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    public function joinDocumentosDownloads($relationAlias = null, $joinType = Criteria::INNER_JOIN)
     {
         $tableMap = $this->getTableMap();
-        $relationMap = $tableMap->getRelation('Cliente');
+        $relationMap = $tableMap->getRelation('DocumentosDownloads');
 
         // create a ModelJoin object for this join
         $join = new ModelJoin();
@@ -897,14 +584,14 @@ abstract class UsuariosQuery extends ModelCriteria
             $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
             $this->addJoinObject($join, $relationAlias);
         } else {
-            $this->addJoinObject($join, 'Cliente');
+            $this->addJoinObject($join, 'DocumentosDownloads');
         }
 
         return $this;
     }
 
     /**
-     * Use the Cliente relation Cliente object
+     * Use the DocumentosDownloads relation DocumentosDownloads object
      *
      * @see useQuery()
      *
@@ -912,14 +599,13 @@ abstract class UsuariosQuery extends ModelCriteria
      *                                   to be used as main alias in the secondary query
      * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
      *
-     * @return \ClienteQuery A secondary query class using the current class as primary query
+     * @return \DocumentosDownloadsQuery A secondary query class using the current class as primary query
      */
-    public function useClienteQuery($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    public function useDocumentosDownloadsQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
     {
         return $this
-            ->joinCliente($relationAlias, $joinType)
-            ->useQuery($relationAlias ? $relationAlias : 'Cliente', '\ClienteQuery');
->>>>>>> b8d39d004e8d70d7608919c9d53d0e5ce0f95c9b
+            ->joinDocumentosDownloads($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'DocumentosDownloads', '\DocumentosDownloadsQuery');
     }
 
     /**

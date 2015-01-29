@@ -6,6 +6,9 @@ use \Categorias as ChildCategorias;
 use \CategoriasQuery as ChildCategoriasQuery;
 use \Clientes as ChildClientes;
 use \ClientesQuery as ChildClientesQuery;
+use \Documentos as ChildDocumentos;
+use \DocumentosDownloads as ChildDocumentosDownloads;
+use \DocumentosDownloadsQuery as ChildDocumentosDownloadsQuery;
 use \DocumentosQuery as ChildDocumentosQuery;
 use \DateTime;
 use \Exception;
@@ -16,6 +19,7 @@ use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
 use Propel\Runtime\ActiveRecord\ActiveRecordInterface;
 use Propel\Runtime\Collection\Collection;
+use Propel\Runtime\Collection\ObjectCollection;
 use Propel\Runtime\Connection\ConnectionInterface;
 use Propel\Runtime\Exception\BadMethodCallException;
 use Propel\Runtime\Exception\LogicException;
@@ -72,28 +76,28 @@ abstract class Documentos implements ActiveRecordInterface
     protected $id;
 
     /**
-     * The value for the id_categorias field.
+     * The value for the idcategoria field.
      * @var        int
      */
-    protected $id_categorias;
+    protected $idcategoria;
 
     /**
-     * The value for the endereco field.
+     * The value for the idcliente field.
+     * @var        int
+     */
+    protected $idcliente;
+
+    /**
+     * The value for the caminhodoc field.
      * @var        string
      */
-    protected $endereco;
+    protected $caminhodoc;
 
     /**
      * The value for the datainclusao field.
      * @var        \DateTime
      */
     protected $datainclusao;
-
-    /**
-     * The value for the id_cliente field.
-     * @var        int
-     */
-    protected $id_cliente;
 
     /**
      * The value for the nomedocumento field.
@@ -108,6 +112,12 @@ abstract class Documentos implements ActiveRecordInterface
     protected $descricao;
 
     /**
+     * The value for the nomefisicodocumento field.
+     * @var        string
+     */
+    protected $nomefisicodocumento;
+
+    /**
      * @var        ChildCategorias
      */
     protected $aCategorias;
@@ -118,12 +128,24 @@ abstract class Documentos implements ActiveRecordInterface
     protected $aClientes;
 
     /**
+     * @var        ObjectCollection|ChildDocumentosDownloads[] Collection to store aggregation of ChildDocumentosDownloads objects.
+     */
+    protected $collDocumentosDownloadss;
+    protected $collDocumentosDownloadssPartial;
+
+    /**
      * Flag to prevent endless save loop, if this object is referenced
      * by another object which falls in this transaction.
      *
      * @var boolean
      */
     protected $alreadyInSave = false;
+
+    /**
+     * An array of objects scheduled for deletion.
+     * @var ObjectCollection|ChildDocumentosDownloads[]
+     */
+    protected $documentosDownloadssScheduledForDeletion = null;
 
     /**
      * Initializes internal state of Base\Documentos object.
@@ -353,23 +375,33 @@ abstract class Documentos implements ActiveRecordInterface
     }
 
     /**
-     * Get the [id_categorias] column value.
+     * Get the [idcategoria] column value.
      *
      * @return int
      */
-    public function getIdCategorias()
+    public function getIdcategoria()
     {
-        return $this->id_categorias;
+        return $this->idcategoria;
     }
 
     /**
-     * Get the [endereco] column value.
+     * Get the [idcliente] column value.
+     *
+     * @return int
+     */
+    public function getIdcliente()
+    {
+        return $this->idcliente;
+    }
+
+    /**
+     * Get the [caminhodoc] column value.
      *
      * @return string
      */
-    public function getEndereco()
+    public function getCaminhodoc()
     {
-        return $this->endereco;
+        return $this->caminhodoc;
     }
 
     /**
@@ -393,16 +425,6 @@ abstract class Documentos implements ActiveRecordInterface
     }
 
     /**
-     * Get the [id_cliente] column value.
-     *
-     * @return int
-     */
-    public function getIdCliente()
-    {
-        return $this->id_cliente;
-    }
-
-    /**
      * Get the [nomedocumento] column value.
      *
      * @return string
@@ -420,6 +442,16 @@ abstract class Documentos implements ActiveRecordInterface
     public function getDescricao()
     {
         return $this->descricao;
+    }
+
+    /**
+     * Get the [nomefisicodocumento] column value.
+     *
+     * @return string
+     */
+    public function getNomefisicodocumento()
+    {
+        return $this->nomefisicodocumento;
     }
 
     /**
@@ -443,20 +475,20 @@ abstract class Documentos implements ActiveRecordInterface
     } // setId()
 
     /**
-     * Set the value of [id_categorias] column.
+     * Set the value of [idcategoria] column.
      *
      * @param  int $v new value
      * @return $this|\Documentos The current object (for fluent API support)
      */
-    public function setIdCategorias($v)
+    public function setIdcategoria($v)
     {
         if ($v !== null) {
             $v = (int) $v;
         }
 
-        if ($this->id_categorias !== $v) {
-            $this->id_categorias = $v;
-            $this->modifiedColumns[DocumentosTableMap::COL_ID_CATEGORIAS] = true;
+        if ($this->idcategoria !== $v) {
+            $this->idcategoria = $v;
+            $this->modifiedColumns[DocumentosTableMap::COL_IDCATEGORIA] = true;
         }
 
         if ($this->aCategorias !== null && $this->aCategorias->getId() !== $v) {
@@ -464,27 +496,51 @@ abstract class Documentos implements ActiveRecordInterface
         }
 
         return $this;
-    } // setIdCategorias()
+    } // setIdcategoria()
 
     /**
-     * Set the value of [endereco] column.
+     * Set the value of [idcliente] column.
+     *
+     * @param  int $v new value
+     * @return $this|\Documentos The current object (for fluent API support)
+     */
+    public function setIdcliente($v)
+    {
+        if ($v !== null) {
+            $v = (int) $v;
+        }
+
+        if ($this->idcliente !== $v) {
+            $this->idcliente = $v;
+            $this->modifiedColumns[DocumentosTableMap::COL_IDCLIENTE] = true;
+        }
+
+        if ($this->aClientes !== null && $this->aClientes->getId() !== $v) {
+            $this->aClientes = null;
+        }
+
+        return $this;
+    } // setIdcliente()
+
+    /**
+     * Set the value of [caminhodoc] column.
      *
      * @param  string $v new value
      * @return $this|\Documentos The current object (for fluent API support)
      */
-    public function setEndereco($v)
+    public function setCaminhodoc($v)
     {
         if ($v !== null) {
             $v = (string) $v;
         }
 
-        if ($this->endereco !== $v) {
-            $this->endereco = $v;
-            $this->modifiedColumns[DocumentosTableMap::COL_ENDERECO] = true;
+        if ($this->caminhodoc !== $v) {
+            $this->caminhodoc = $v;
+            $this->modifiedColumns[DocumentosTableMap::COL_CAMINHODOC] = true;
         }
 
         return $this;
-    } // setEndereco()
+    } // setCaminhodoc()
 
     /**
      * Sets the value of [datainclusao] column to a normalized version of the date/time value specified.
@@ -505,30 +561,6 @@ abstract class Documentos implements ActiveRecordInterface
 
         return $this;
     } // setDatainclusao()
-
-    /**
-     * Set the value of [id_cliente] column.
-     *
-     * @param  int $v new value
-     * @return $this|\Documentos The current object (for fluent API support)
-     */
-    public function setIdCliente($v)
-    {
-        if ($v !== null) {
-            $v = (int) $v;
-        }
-
-        if ($this->id_cliente !== $v) {
-            $this->id_cliente = $v;
-            $this->modifiedColumns[DocumentosTableMap::COL_ID_CLIENTE] = true;
-        }
-
-        if ($this->aClientes !== null && $this->aClientes->getId() !== $v) {
-            $this->aClientes = null;
-        }
-
-        return $this;
-    } // setIdCliente()
 
     /**
      * Set the value of [nomedocumento] column.
@@ -571,6 +603,26 @@ abstract class Documentos implements ActiveRecordInterface
     } // setDescricao()
 
     /**
+     * Set the value of [nomefisicodocumento] column.
+     *
+     * @param  string $v new value
+     * @return $this|\Documentos The current object (for fluent API support)
+     */
+    public function setNomefisicodocumento($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->nomefisicodocumento !== $v) {
+            $this->nomefisicodocumento = $v;
+            $this->modifiedColumns[DocumentosTableMap::COL_NOMEFISICODOCUMENTO] = true;
+        }
+
+        return $this;
+    } // setNomefisicodocumento()
+
+    /**
      * Indicates whether the columns in this object are only set to default values.
      *
      * This method can be used in conjunction with isModified() to indicate whether an object is both
@@ -609,23 +661,26 @@ abstract class Documentos implements ActiveRecordInterface
             $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : DocumentosTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
             $this->id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : DocumentosTableMap::translateFieldName('IdCategorias', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->id_categorias = (null !== $col) ? (int) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : DocumentosTableMap::translateFieldName('Idcategoria', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->idcategoria = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : DocumentosTableMap::translateFieldName('Endereco', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->endereco = (null !== $col) ? (string) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : DocumentosTableMap::translateFieldName('Idcliente', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->idcliente = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : DocumentosTableMap::translateFieldName('Datainclusao', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : DocumentosTableMap::translateFieldName('Caminhodoc', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->caminhodoc = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : DocumentosTableMap::translateFieldName('Datainclusao', TableMap::TYPE_PHPNAME, $indexType)];
             $this->datainclusao = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
-
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : DocumentosTableMap::translateFieldName('IdCliente', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->id_cliente = (null !== $col) ? (int) $col : null;
 
             $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : DocumentosTableMap::translateFieldName('Nomedocumento', TableMap::TYPE_PHPNAME, $indexType)];
             $this->nomedocumento = (null !== $col) ? (string) $col : null;
 
             $col = $row[TableMap::TYPE_NUM == $indexType ? 6 + $startcol : DocumentosTableMap::translateFieldName('Descricao', TableMap::TYPE_PHPNAME, $indexType)];
             $this->descricao = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 7 + $startcol : DocumentosTableMap::translateFieldName('Nomefisicodocumento', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->nomefisicodocumento = (null !== $col) ? (string) $col : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -634,7 +689,7 @@ abstract class Documentos implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 7; // 7 = DocumentosTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 8; // 8 = DocumentosTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException(sprintf('Error populating %s object', '\\Documentos'), 0, $e);
@@ -656,10 +711,10 @@ abstract class Documentos implements ActiveRecordInterface
      */
     public function ensureConsistency()
     {
-        if ($this->aCategorias !== null && $this->id_categorias !== $this->aCategorias->getId()) {
+        if ($this->aCategorias !== null && $this->idcategoria !== $this->aCategorias->getId()) {
             $this->aCategorias = null;
         }
-        if ($this->aClientes !== null && $this->id_cliente !== $this->aClientes->getId()) {
+        if ($this->aClientes !== null && $this->idcliente !== $this->aClientes->getId()) {
             $this->aClientes = null;
         }
     } // ensureConsistency
@@ -703,6 +758,8 @@ abstract class Documentos implements ActiveRecordInterface
 
             $this->aCategorias = null;
             $this->aClientes = null;
+            $this->collDocumentosDownloadss = null;
+
         } // if (deep)
     }
 
@@ -832,6 +889,23 @@ abstract class Documentos implements ActiveRecordInterface
                 $this->resetModified();
             }
 
+            if ($this->documentosDownloadssScheduledForDeletion !== null) {
+                if (!$this->documentosDownloadssScheduledForDeletion->isEmpty()) {
+                    \DocumentosDownloadsQuery::create()
+                        ->filterByPrimaryKeys($this->documentosDownloadssScheduledForDeletion->getPrimaryKeys(false))
+                        ->delete($con);
+                    $this->documentosDownloadssScheduledForDeletion = null;
+                }
+            }
+
+            if ($this->collDocumentosDownloadss !== null) {
+                foreach ($this->collDocumentosDownloadss as $referrerFK) {
+                    if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
+                        $affectedRows += $referrerFK->save($con);
+                    }
+                }
+            }
+
             $this->alreadyInSave = false;
 
         }
@@ -870,23 +944,26 @@ abstract class Documentos implements ActiveRecordInterface
         if ($this->isColumnModified(DocumentosTableMap::COL_ID)) {
             $modifiedColumns[':p' . $index++]  = 'id';
         }
-        if ($this->isColumnModified(DocumentosTableMap::COL_ID_CATEGORIAS)) {
-            $modifiedColumns[':p' . $index++]  = 'id_categorias';
+        if ($this->isColumnModified(DocumentosTableMap::COL_IDCATEGORIA)) {
+            $modifiedColumns[':p' . $index++]  = 'idcategoria';
         }
-        if ($this->isColumnModified(DocumentosTableMap::COL_ENDERECO)) {
-            $modifiedColumns[':p' . $index++]  = 'endereco';
+        if ($this->isColumnModified(DocumentosTableMap::COL_IDCLIENTE)) {
+            $modifiedColumns[':p' . $index++]  = 'idcliente';
+        }
+        if ($this->isColumnModified(DocumentosTableMap::COL_CAMINHODOC)) {
+            $modifiedColumns[':p' . $index++]  = 'caminhodoc';
         }
         if ($this->isColumnModified(DocumentosTableMap::COL_DATAINCLUSAO)) {
             $modifiedColumns[':p' . $index++]  = 'datainclusao';
-        }
-        if ($this->isColumnModified(DocumentosTableMap::COL_ID_CLIENTE)) {
-            $modifiedColumns[':p' . $index++]  = 'id_cliente';
         }
         if ($this->isColumnModified(DocumentosTableMap::COL_NOMEDOCUMENTO)) {
             $modifiedColumns[':p' . $index++]  = 'nomedocumento';
         }
         if ($this->isColumnModified(DocumentosTableMap::COL_DESCRICAO)) {
             $modifiedColumns[':p' . $index++]  = 'descricao';
+        }
+        if ($this->isColumnModified(DocumentosTableMap::COL_NOMEFISICODOCUMENTO)) {
+            $modifiedColumns[':p' . $index++]  = 'nomefisicodocumento';
         }
 
         $sql = sprintf(
@@ -902,23 +979,26 @@ abstract class Documentos implements ActiveRecordInterface
                     case 'id':
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
-                    case 'id_categorias':
-                        $stmt->bindValue($identifier, $this->id_categorias, PDO::PARAM_INT);
+                    case 'idcategoria':
+                        $stmt->bindValue($identifier, $this->idcategoria, PDO::PARAM_INT);
                         break;
-                    case 'endereco':
-                        $stmt->bindValue($identifier, $this->endereco, PDO::PARAM_STR);
+                    case 'idcliente':
+                        $stmt->bindValue($identifier, $this->idcliente, PDO::PARAM_INT);
+                        break;
+                    case 'caminhodoc':
+                        $stmt->bindValue($identifier, $this->caminhodoc, PDO::PARAM_STR);
                         break;
                     case 'datainclusao':
                         $stmt->bindValue($identifier, $this->datainclusao ? $this->datainclusao->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
-                        break;
-                    case 'id_cliente':
-                        $stmt->bindValue($identifier, $this->id_cliente, PDO::PARAM_INT);
                         break;
                     case 'nomedocumento':
                         $stmt->bindValue($identifier, $this->nomedocumento, PDO::PARAM_STR);
                         break;
                     case 'descricao':
                         $stmt->bindValue($identifier, $this->descricao, PDO::PARAM_STR);
+                        break;
+                    case 'nomefisicodocumento':
+                        $stmt->bindValue($identifier, $this->nomefisicodocumento, PDO::PARAM_STR);
                         break;
                 }
             }
@@ -979,22 +1059,25 @@ abstract class Documentos implements ActiveRecordInterface
                 return $this->getId();
                 break;
             case 1:
-                return $this->getIdCategorias();
+                return $this->getIdcategoria();
                 break;
             case 2:
-                return $this->getEndereco();
+                return $this->getIdcliente();
                 break;
             case 3:
-                return $this->getDatainclusao();
+                return $this->getCaminhodoc();
                 break;
             case 4:
-                return $this->getIdCliente();
+                return $this->getDatainclusao();
                 break;
             case 5:
                 return $this->getNomedocumento();
                 break;
             case 6:
                 return $this->getDescricao();
+                break;
+            case 7:
+                return $this->getNomefisicodocumento();
                 break;
             default:
                 return null;
@@ -1027,19 +1110,20 @@ abstract class Documentos implements ActiveRecordInterface
         $keys = DocumentosTableMap::getFieldNames($keyType);
         $result = array(
             $keys[0] => $this->getId(),
-            $keys[1] => $this->getIdCategorias(),
-            $keys[2] => $this->getEndereco(),
-            $keys[3] => $this->getDatainclusao(),
-            $keys[4] => $this->getIdCliente(),
+            $keys[1] => $this->getIdcategoria(),
+            $keys[2] => $this->getIdcliente(),
+            $keys[3] => $this->getCaminhodoc(),
+            $keys[4] => $this->getDatainclusao(),
             $keys[5] => $this->getNomedocumento(),
             $keys[6] => $this->getDescricao(),
+            $keys[7] => $this->getNomefisicodocumento(),
         );
 
         $utc = new \DateTimeZone('utc');
-        if ($result[$keys[3]] instanceof \DateTime) {
+        if ($result[$keys[4]] instanceof \DateTime) {
             // When changing timezone we don't want to change existing instances
-            $dateTime = clone $result[$keys[3]];
-            $result[$keys[3]] = $dateTime->setTimezone($utc)->format('Y-m-d\TH:i:s\Z');
+            $dateTime = clone $result[$keys[4]];
+            $result[$keys[4]] = $dateTime->setTimezone($utc)->format('Y-m-d\TH:i:s\Z');
         }
 
         $virtualColumns = $this->virtualColumns;
@@ -1077,6 +1161,21 @@ abstract class Documentos implements ActiveRecordInterface
                 }
 
                 $result[$key] = $this->aClientes->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
+            }
+            if (null !== $this->collDocumentosDownloadss) {
+
+                switch ($keyType) {
+                    case TableMap::TYPE_CAMELNAME:
+                        $key = 'documentosDownloadss';
+                        break;
+                    case TableMap::TYPE_FIELDNAME:
+                        $key = 'documentos_downloadss';
+                        break;
+                    default:
+                        $key = 'DocumentosDownloadss';
+                }
+
+                $result[$key] = $this->collDocumentosDownloadss->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
         }
 
@@ -1116,22 +1215,25 @@ abstract class Documentos implements ActiveRecordInterface
                 $this->setId($value);
                 break;
             case 1:
-                $this->setIdCategorias($value);
+                $this->setIdcategoria($value);
                 break;
             case 2:
-                $this->setEndereco($value);
+                $this->setIdcliente($value);
                 break;
             case 3:
-                $this->setDatainclusao($value);
+                $this->setCaminhodoc($value);
                 break;
             case 4:
-                $this->setIdCliente($value);
+                $this->setDatainclusao($value);
                 break;
             case 5:
                 $this->setNomedocumento($value);
                 break;
             case 6:
                 $this->setDescricao($value);
+                break;
+            case 7:
+                $this->setNomefisicodocumento($value);
                 break;
         } // switch()
 
@@ -1163,22 +1265,25 @@ abstract class Documentos implements ActiveRecordInterface
             $this->setId($arr[$keys[0]]);
         }
         if (array_key_exists($keys[1], $arr)) {
-            $this->setIdCategorias($arr[$keys[1]]);
+            $this->setIdcategoria($arr[$keys[1]]);
         }
         if (array_key_exists($keys[2], $arr)) {
-            $this->setEndereco($arr[$keys[2]]);
+            $this->setIdcliente($arr[$keys[2]]);
         }
         if (array_key_exists($keys[3], $arr)) {
-            $this->setDatainclusao($arr[$keys[3]]);
+            $this->setCaminhodoc($arr[$keys[3]]);
         }
         if (array_key_exists($keys[4], $arr)) {
-            $this->setIdCliente($arr[$keys[4]]);
+            $this->setDatainclusao($arr[$keys[4]]);
         }
         if (array_key_exists($keys[5], $arr)) {
             $this->setNomedocumento($arr[$keys[5]]);
         }
         if (array_key_exists($keys[6], $arr)) {
             $this->setDescricao($arr[$keys[6]]);
+        }
+        if (array_key_exists($keys[7], $arr)) {
+            $this->setNomefisicodocumento($arr[$keys[7]]);
         }
     }
 
@@ -1224,23 +1329,26 @@ abstract class Documentos implements ActiveRecordInterface
         if ($this->isColumnModified(DocumentosTableMap::COL_ID)) {
             $criteria->add(DocumentosTableMap::COL_ID, $this->id);
         }
-        if ($this->isColumnModified(DocumentosTableMap::COL_ID_CATEGORIAS)) {
-            $criteria->add(DocumentosTableMap::COL_ID_CATEGORIAS, $this->id_categorias);
+        if ($this->isColumnModified(DocumentosTableMap::COL_IDCATEGORIA)) {
+            $criteria->add(DocumentosTableMap::COL_IDCATEGORIA, $this->idcategoria);
         }
-        if ($this->isColumnModified(DocumentosTableMap::COL_ENDERECO)) {
-            $criteria->add(DocumentosTableMap::COL_ENDERECO, $this->endereco);
+        if ($this->isColumnModified(DocumentosTableMap::COL_IDCLIENTE)) {
+            $criteria->add(DocumentosTableMap::COL_IDCLIENTE, $this->idcliente);
+        }
+        if ($this->isColumnModified(DocumentosTableMap::COL_CAMINHODOC)) {
+            $criteria->add(DocumentosTableMap::COL_CAMINHODOC, $this->caminhodoc);
         }
         if ($this->isColumnModified(DocumentosTableMap::COL_DATAINCLUSAO)) {
             $criteria->add(DocumentosTableMap::COL_DATAINCLUSAO, $this->datainclusao);
-        }
-        if ($this->isColumnModified(DocumentosTableMap::COL_ID_CLIENTE)) {
-            $criteria->add(DocumentosTableMap::COL_ID_CLIENTE, $this->id_cliente);
         }
         if ($this->isColumnModified(DocumentosTableMap::COL_NOMEDOCUMENTO)) {
             $criteria->add(DocumentosTableMap::COL_NOMEDOCUMENTO, $this->nomedocumento);
         }
         if ($this->isColumnModified(DocumentosTableMap::COL_DESCRICAO)) {
             $criteria->add(DocumentosTableMap::COL_DESCRICAO, $this->descricao);
+        }
+        if ($this->isColumnModified(DocumentosTableMap::COL_NOMEFISICODOCUMENTO)) {
+            $criteria->add(DocumentosTableMap::COL_NOMEFISICODOCUMENTO, $this->nomefisicodocumento);
         }
 
         return $criteria;
@@ -1328,12 +1436,27 @@ abstract class Documentos implements ActiveRecordInterface
      */
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
-        $copyObj->setIdCategorias($this->getIdCategorias());
-        $copyObj->setEndereco($this->getEndereco());
+        $copyObj->setIdcategoria($this->getIdcategoria());
+        $copyObj->setIdcliente($this->getIdcliente());
+        $copyObj->setCaminhodoc($this->getCaminhodoc());
         $copyObj->setDatainclusao($this->getDatainclusao());
-        $copyObj->setIdCliente($this->getIdCliente());
         $copyObj->setNomedocumento($this->getNomedocumento());
         $copyObj->setDescricao($this->getDescricao());
+        $copyObj->setNomefisicodocumento($this->getNomefisicodocumento());
+
+        if ($deepCopy) {
+            // important: temporarily setNew(false) because this affects the behavior of
+            // the getter/setter methods for fkey referrer objects.
+            $copyObj->setNew(false);
+
+            foreach ($this->getDocumentosDownloadss() as $relObj) {
+                if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
+                    $copyObj->addDocumentosDownloads($relObj->copy($deepCopy));
+                }
+            }
+
+        } // if ($deepCopy)
+
         if ($makeNew) {
             $copyObj->setNew(true);
             $copyObj->setId(NULL); // this is a auto-increment column, so set to default value
@@ -1372,9 +1495,9 @@ abstract class Documentos implements ActiveRecordInterface
     public function setCategorias(ChildCategorias $v = null)
     {
         if ($v === null) {
-            $this->setIdCategorias(NULL);
+            $this->setIdcategoria(NULL);
         } else {
-            $this->setIdCategorias($v->getId());
+            $this->setIdcategoria($v->getId());
         }
 
         $this->aCategorias = $v;
@@ -1399,8 +1522,8 @@ abstract class Documentos implements ActiveRecordInterface
      */
     public function getCategorias(ConnectionInterface $con = null)
     {
-        if ($this->aCategorias === null && ($this->id_categorias !== null)) {
-            $this->aCategorias = ChildCategoriasQuery::create()->findPk($this->id_categorias, $con);
+        if ($this->aCategorias === null && ($this->idcategoria !== null)) {
+            $this->aCategorias = ChildCategoriasQuery::create()->findPk($this->idcategoria, $con);
             /* The following can be used additionally to
                 guarantee the related object contains a reference
                 to this object.  This level of coupling may, however, be
@@ -1423,9 +1546,9 @@ abstract class Documentos implements ActiveRecordInterface
     public function setClientes(ChildClientes $v = null)
     {
         if ($v === null) {
-            $this->setIdCliente(NULL);
+            $this->setIdcliente(NULL);
         } else {
-            $this->setIdCliente($v->getId());
+            $this->setIdcliente($v->getId());
         }
 
         $this->aClientes = $v;
@@ -1450,8 +1573,8 @@ abstract class Documentos implements ActiveRecordInterface
      */
     public function getClientes(ConnectionInterface $con = null)
     {
-        if ($this->aClientes === null && ($this->id_cliente !== null)) {
-            $this->aClientes = ChildClientesQuery::create()->findPk($this->id_cliente, $con);
+        if ($this->aClientes === null && ($this->idcliente !== null)) {
+            $this->aClientes = ChildClientesQuery::create()->findPk($this->idcliente, $con);
             /* The following can be used additionally to
                 guarantee the related object contains a reference
                 to this object.  This level of coupling may, however, be
@@ -1462,6 +1585,265 @@ abstract class Documentos implements ActiveRecordInterface
         }
 
         return $this->aClientes;
+    }
+
+
+    /**
+     * Initializes a collection based on the name of a relation.
+     * Avoids crafting an 'init[$relationName]s' method name
+     * that wouldn't work when StandardEnglishPluralizer is used.
+     *
+     * @param      string $relationName The name of the relation to initialize
+     * @return void
+     */
+    public function initRelation($relationName)
+    {
+        if ('DocumentosDownloads' == $relationName) {
+            return $this->initDocumentosDownloadss();
+        }
+    }
+
+    /**
+     * Clears out the collDocumentosDownloadss collection
+     *
+     * This does not modify the database; however, it will remove any associated objects, causing
+     * them to be refetched by subsequent calls to accessor method.
+     *
+     * @return void
+     * @see        addDocumentosDownloadss()
+     */
+    public function clearDocumentosDownloadss()
+    {
+        $this->collDocumentosDownloadss = null; // important to set this to NULL since that means it is uninitialized
+    }
+
+    /**
+     * Reset is the collDocumentosDownloadss collection loaded partially.
+     */
+    public function resetPartialDocumentosDownloadss($v = true)
+    {
+        $this->collDocumentosDownloadssPartial = $v;
+    }
+
+    /**
+     * Initializes the collDocumentosDownloadss collection.
+     *
+     * By default this just sets the collDocumentosDownloadss collection to an empty array (like clearcollDocumentosDownloadss());
+     * however, you may wish to override this method in your stub class to provide setting appropriate
+     * to your application -- for example, setting the initial array to the values stored in database.
+     *
+     * @param      boolean $overrideExisting If set to true, the method call initializes
+     *                                        the collection even if it is not empty
+     *
+     * @return void
+     */
+    public function initDocumentosDownloadss($overrideExisting = true)
+    {
+        if (null !== $this->collDocumentosDownloadss && !$overrideExisting) {
+            return;
+        }
+        $this->collDocumentosDownloadss = new ObjectCollection();
+        $this->collDocumentosDownloadss->setModel('\DocumentosDownloads');
+    }
+
+    /**
+     * Gets an array of ChildDocumentosDownloads objects which contain a foreign key that references this object.
+     *
+     * If the $criteria is not null, it is used to always fetch the results from the database.
+     * Otherwise the results are fetched from the database the first time, then cached.
+     * Next time the same method is called without $criteria, the cached collection is returned.
+     * If this ChildDocumentos is new, it will return
+     * an empty collection or the current collection; the criteria is ignored on a new object.
+     *
+     * @param      Criteria $criteria optional Criteria object to narrow the query
+     * @param      ConnectionInterface $con optional connection object
+     * @return ObjectCollection|ChildDocumentosDownloads[] List of ChildDocumentosDownloads objects
+     * @throws PropelException
+     */
+    public function getDocumentosDownloadss(Criteria $criteria = null, ConnectionInterface $con = null)
+    {
+        $partial = $this->collDocumentosDownloadssPartial && !$this->isNew();
+        if (null === $this->collDocumentosDownloadss || null !== $criteria  || $partial) {
+            if ($this->isNew() && null === $this->collDocumentosDownloadss) {
+                // return empty collection
+                $this->initDocumentosDownloadss();
+            } else {
+                $collDocumentosDownloadss = ChildDocumentosDownloadsQuery::create(null, $criteria)
+                    ->filterByDocumentos($this)
+                    ->find($con);
+
+                if (null !== $criteria) {
+                    if (false !== $this->collDocumentosDownloadssPartial && count($collDocumentosDownloadss)) {
+                        $this->initDocumentosDownloadss(false);
+
+                        foreach ($collDocumentosDownloadss as $obj) {
+                            if (false == $this->collDocumentosDownloadss->contains($obj)) {
+                                $this->collDocumentosDownloadss->append($obj);
+                            }
+                        }
+
+                        $this->collDocumentosDownloadssPartial = true;
+                    }
+
+                    return $collDocumentosDownloadss;
+                }
+
+                if ($partial && $this->collDocumentosDownloadss) {
+                    foreach ($this->collDocumentosDownloadss as $obj) {
+                        if ($obj->isNew()) {
+                            $collDocumentosDownloadss[] = $obj;
+                        }
+                    }
+                }
+
+                $this->collDocumentosDownloadss = $collDocumentosDownloadss;
+                $this->collDocumentosDownloadssPartial = false;
+            }
+        }
+
+        return $this->collDocumentosDownloadss;
+    }
+
+    /**
+     * Sets a collection of ChildDocumentosDownloads objects related by a one-to-many relationship
+     * to the current object.
+     * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
+     * and new objects from the given Propel collection.
+     *
+     * @param      Collection $documentosDownloadss A Propel collection.
+     * @param      ConnectionInterface $con Optional connection object
+     * @return $this|ChildDocumentos The current object (for fluent API support)
+     */
+    public function setDocumentosDownloadss(Collection $documentosDownloadss, ConnectionInterface $con = null)
+    {
+        /** @var ChildDocumentosDownloads[] $documentosDownloadssToDelete */
+        $documentosDownloadssToDelete = $this->getDocumentosDownloadss(new Criteria(), $con)->diff($documentosDownloadss);
+
+
+        $this->documentosDownloadssScheduledForDeletion = $documentosDownloadssToDelete;
+
+        foreach ($documentosDownloadssToDelete as $documentosDownloadsRemoved) {
+            $documentosDownloadsRemoved->setDocumentos(null);
+        }
+
+        $this->collDocumentosDownloadss = null;
+        foreach ($documentosDownloadss as $documentosDownloads) {
+            $this->addDocumentosDownloads($documentosDownloads);
+        }
+
+        $this->collDocumentosDownloadss = $documentosDownloadss;
+        $this->collDocumentosDownloadssPartial = false;
+
+        return $this;
+    }
+
+    /**
+     * Returns the number of related DocumentosDownloads objects.
+     *
+     * @param      Criteria $criteria
+     * @param      boolean $distinct
+     * @param      ConnectionInterface $con
+     * @return int             Count of related DocumentosDownloads objects.
+     * @throws PropelException
+     */
+    public function countDocumentosDownloadss(Criteria $criteria = null, $distinct = false, ConnectionInterface $con = null)
+    {
+        $partial = $this->collDocumentosDownloadssPartial && !$this->isNew();
+        if (null === $this->collDocumentosDownloadss || null !== $criteria || $partial) {
+            if ($this->isNew() && null === $this->collDocumentosDownloadss) {
+                return 0;
+            }
+
+            if ($partial && !$criteria) {
+                return count($this->getDocumentosDownloadss());
+            }
+
+            $query = ChildDocumentosDownloadsQuery::create(null, $criteria);
+            if ($distinct) {
+                $query->distinct();
+            }
+
+            return $query
+                ->filterByDocumentos($this)
+                ->count($con);
+        }
+
+        return count($this->collDocumentosDownloadss);
+    }
+
+    /**
+     * Method called to associate a ChildDocumentosDownloads object to this object
+     * through the ChildDocumentosDownloads foreign key attribute.
+     *
+     * @param  ChildDocumentosDownloads $l ChildDocumentosDownloads
+     * @return $this|\Documentos The current object (for fluent API support)
+     */
+    public function addDocumentosDownloads(ChildDocumentosDownloads $l)
+    {
+        if ($this->collDocumentosDownloadss === null) {
+            $this->initDocumentosDownloadss();
+            $this->collDocumentosDownloadssPartial = true;
+        }
+
+        if (!$this->collDocumentosDownloadss->contains($l)) {
+            $this->doAddDocumentosDownloads($l);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param ChildDocumentosDownloads $documentosDownloads The ChildDocumentosDownloads object to add.
+     */
+    protected function doAddDocumentosDownloads(ChildDocumentosDownloads $documentosDownloads)
+    {
+        $this->collDocumentosDownloadss[]= $documentosDownloads;
+        $documentosDownloads->setDocumentos($this);
+    }
+
+    /**
+     * @param  ChildDocumentosDownloads $documentosDownloads The ChildDocumentosDownloads object to remove.
+     * @return $this|ChildDocumentos The current object (for fluent API support)
+     */
+    public function removeDocumentosDownloads(ChildDocumentosDownloads $documentosDownloads)
+    {
+        if ($this->getDocumentosDownloadss()->contains($documentosDownloads)) {
+            $pos = $this->collDocumentosDownloadss->search($documentosDownloads);
+            $this->collDocumentosDownloadss->remove($pos);
+            if (null === $this->documentosDownloadssScheduledForDeletion) {
+                $this->documentosDownloadssScheduledForDeletion = clone $this->collDocumentosDownloadss;
+                $this->documentosDownloadssScheduledForDeletion->clear();
+            }
+            $this->documentosDownloadssScheduledForDeletion[]= clone $documentosDownloads;
+            $documentosDownloads->setDocumentos(null);
+        }
+
+        return $this;
+    }
+
+
+    /**
+     * If this collection has already been initialized with
+     * an identical criteria, it returns the collection.
+     * Otherwise if this Documentos is new, it will return
+     * an empty collection; or if this Documentos has previously
+     * been saved, it will retrieve related DocumentosDownloadss from storage.
+     *
+     * This method is protected by default in order to keep the public
+     * api reasonable.  You can provide public methods for those you
+     * actually need in Documentos.
+     *
+     * @param      Criteria $criteria optional Criteria object to narrow the query
+     * @param      ConnectionInterface $con optional connection object
+     * @param      string $joinBehavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+     * @return ObjectCollection|ChildDocumentosDownloads[] List of ChildDocumentosDownloads objects
+     */
+    public function getDocumentosDownloadssJoinUsuarios(Criteria $criteria = null, ConnectionInterface $con = null, $joinBehavior = Criteria::LEFT_JOIN)
+    {
+        $query = ChildDocumentosDownloadsQuery::create(null, $criteria);
+        $query->joinWith('Usuarios', $joinBehavior);
+
+        return $this->getDocumentosDownloadss($query, $con);
     }
 
     /**
@@ -1478,12 +1860,13 @@ abstract class Documentos implements ActiveRecordInterface
             $this->aClientes->removeDocumentos($this);
         }
         $this->id = null;
-        $this->id_categorias = null;
-        $this->endereco = null;
+        $this->idcategoria = null;
+        $this->idcliente = null;
+        $this->caminhodoc = null;
         $this->datainclusao = null;
-        $this->id_cliente = null;
         $this->nomedocumento = null;
         $this->descricao = null;
+        $this->nomefisicodocumento = null;
         $this->alreadyInSave = false;
         $this->clearAllReferences();
         $this->resetModified();
@@ -1502,8 +1885,14 @@ abstract class Documentos implements ActiveRecordInterface
     public function clearAllReferences($deep = false)
     {
         if ($deep) {
+            if ($this->collDocumentosDownloadss) {
+                foreach ($this->collDocumentosDownloadss as $o) {
+                    $o->clearAllReferences($deep);
+                }
+            }
         } // if ($deep)
 
+        $this->collDocumentosDownloadss = null;
         $this->aCategorias = null;
         $this->aClientes = null;
     }
