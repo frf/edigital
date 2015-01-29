@@ -52,11 +52,18 @@ class HomeController extends BaseController {
                         'email' => Input::get('email'),
                         'password' => Input::get('senha')
                             ), $remember)) {
+                
+                $oUsuario = UsuariosQuery::create()->findPk(Auth::user()->id);
+                
+                if($oUsuario->getIsdelete()){
+                    return Redirect::to('entrar')
+                                ->with('flash_error','Usuário desativado.');
+                }
+                
                 return Redirect::to('/');
             } else {
                 return Redirect::to('entrar')
-                                ->with('flash_error', 1)
-                                ->withInput();
+                                ->with('flash_error','E-mail ou senha inválidos.');
             }
         }
 

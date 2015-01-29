@@ -31,6 +31,9 @@
       <th>Email</th><td scope="row">{{ Form::text('email',$email,array('class' => 'form-control')) }}</td>           
     </tr>
     <tr>
+      <th>Linguagem</th><td scope="row">{{ Form::select('lang', array('pt'=>'PT','en'=>'EN'),1,array('class' => 'form-control input-small')) }}</td>           
+    </tr>
+    <tr>
       <th>Senha</th><td scope="row">{{ Form::password('senha',array('class' => 'form-control')) }}</td>           
     </tr>
  

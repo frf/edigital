@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <database name="edigital" defaultIdMethod="native" defaultPhpNamingMethod="underscore">
   <table name="cat_chamados" idMethod="native" phpName="CatChamados">
+<<<<<<< HEAD
     <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
     <column name="cat_chamado" phpName="CatChamado" type="VARCHAR" size="255" required="true"/>
     <column name="created_at" phpName="CreatedAt" type="TIMESTAMP" required="true"/>
@@ -14,6 +15,13 @@
       <reference local="id_cliente" foreign="id"/>
     </foreign-key>
   </table>
+=======
+    <column name="updated_at" phpName="UpdatedAt" type="TIMESTAMP" required="true"/>
+    <column name="created_at" phpName="CreatedAt" type="TIMESTAMP" required="true"/>
+    <column name="cat_chamado" phpName="CatChamado" type="VARCHAR" size="255" required="true"/>
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+  </table>
+>>>>>>> 37891107abfeaa82e780a885a8cf06658072894a
   <table name="chamados" idMethod="native" phpName="Chamados">
     <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
     <column name="categoria" phpName="Categoria" type="INTEGER" required="true"/>
@@ -38,6 +46,7 @@
   <table name="cliente_pgtos" idMethod="native" phpName="ClientePgtos">
     <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
     <column name="valor" phpName="Valor" type="DECIMAL" size="10" scale="2"/>
+<<<<<<< HEAD
     <column name="idproduto" phpName="Idproduto" type="INTEGER"/>
     <column name="idcliente" phpName="Idcliente" type="INTEGER"/>
     <column name="idmoeda" phpName="Idmoeda" type="INTEGER"/>
@@ -68,26 +77,31 @@
       <reference local="idcategoria" foreign="id"/>
     </foreign-key>
     <foreign-key foreignTable="documentos" name="documentos_idcliente_fkey">
+=======
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <foreign-key foreignTable="cliente" name="cliente_pgtos_idcliente_fkey">
+>>>>>>> 37891107abfeaa82e780a885a8cf06658072894a
       <reference local="idcliente" foreign="id"/>
     </foreign-key>
-  </table>
-  <table name="documentos_downloads" idMethod="native" phpName="DocumentosDownloads">
-    <column name="iddocumento" phpName="Iddocumento" type="INTEGER" required="true"/>
-    <column name="idusuario" phpName="Idusuario" type="INTEGER" required="true"/>
-    <column name="dtdownload" phpName="Dtdownload" type="TIMESTAMP"/>
-    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
-    <foreign-key foreignTable="documentos" name="documentos_downloads_iddocumento_fkey">
-      <reference local="iddocumento" foreign="id"/>
+    <foreign-key foreignTable="moeda" name="cliente_pgtos_idmoeda_fkey">
+      <reference local="idmoeda" foreign="id"/>
     </foreign-key>
-    <foreign-key foreignTable="usuarios" name="documentos_downloads_idusuario_fkey">
-      <reference local="idusuario" foreign="id"/>
+    <foreign-key foreignTable="produtos" name="cliente_pgtos_idproduto_fkey">
+      <reference local="idproduto" foreign="id"/>
     </foreign-key>
   </table>
   <table name="idoc" idMethod="native" phpName="Idoc">
+<<<<<<< HEAD
     <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
     <column name="nome" phpName="Nome" type="VARCHAR" size="255"/>
     <column name="idcliente" phpName="Idcliente" type="BIGINT"/>
     <column name="file" phpName="File" type="VARCHAR" size="255"/>
+=======
+    <column name="file" phpName="File" type="VARCHAR" size="255"/>
+    <column name="idcliente" phpName="Idcliente" type="BIGINT"/>
+    <column name="nome" phpName="Nome" type="VARCHAR" size="255"/>
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+>>>>>>> 37891107abfeaa82e780a885a8cf06658072894a
     <foreign-key foreignTable="cliente" name="idoc_idcliente_fkey" onDelete="CASCADE" onUpdate="CASCADE">
       <reference local="idcliente" foreign="id"/>
     </foreign-key>
@@ -105,25 +119,33 @@
     </foreign-key>
   </table>
   <table name="migrations" idMethod="native" phpName="Migrations">
+<<<<<<< HEAD
     <column name="migration" phpName="Migration" type="VARCHAR" size="255" required="true"/>
     <column name="batch" phpName="Batch" type="INTEGER" required="true"/>
+=======
+    <column name="batch" phpName="Batch" type="INTEGER" required="true"/>
+    <column name="migration" phpName="Migration" type="VARCHAR" size="255" required="true"/>
+>>>>>>> 37891107abfeaa82e780a885a8cf06658072894a
   </table>
   <table name="moeda" idMethod="native" phpName="Moeda">
     <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+<<<<<<< HEAD
     <column name="nome" phpName="Nome" type="VARCHAR" size="100"/>
     <column name="simbolo" phpName="Simbolo" type="VARCHAR" size="100"/>
     <column name="codigo" phpName="Codigo" type="VARCHAR" size="100"/>
     <column name="sigla" phpName="Sigla" type="VARCHAR" size="10"/>
+=======
+>>>>>>> 37891107abfeaa82e780a885a8cf06658072894a
   </table>
   <table name="password_reminders" idMethod="native" phpName="PasswordReminders">
-    <column name="email" phpName="Email" type="VARCHAR" size="255" required="true"/>
-    <column name="token" phpName="Token" type="VARCHAR" size="255" required="true"/>
     <column name="created_at" phpName="CreatedAt" type="TIMESTAMP" required="true"/>
+    <column name="token" phpName="Token" type="VARCHAR" size="255" required="true"/>
+    <column name="email" phpName="Email" type="VARCHAR" size="255" required="true"/>
     <index name="password_reminders_email_index">
-      <index-column name="email"/>
+      <index-column name="email" size="255"/>
     </index>
     <index name="password_reminders_token_index">
-      <index-column name="token"/>
+      <index-column name="token" size="255"/>
     </index>
   </table>
   <table name="produtos" idMethod="native" phpName="Produtos">
@@ -147,6 +169,7 @@
     <column name="updated_at" phpName="UpdatedAt" type="TIMESTAMP" required="true"/>
   </table>
   <table name="usuarios" idMethod="native" phpName="Usuarios">
+<<<<<<< HEAD
     <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
     <column name="email" phpName="Email" type="VARCHAR" size="255" required="true"/>
     <column name="senha" phpName="Senha" type="VARCHAR" size="60" required="true"/>
@@ -158,11 +181,28 @@
     <column name="idcliente" phpName="Idcliente" type="INTEGER"/>
     <column name="isdelete" phpName="Isdelete" type="BOOLEAN" size="1" defaultValue="false"/>
     <column name="lang" phpName="Lang" type="CHAR" size="2"/>
+=======
+    <column name="lang" phpName="Lang" type="CHAR" size="2"/>
+    <column name="isdelete" phpName="Isdelete" type="BOOLEAN" size="1" defaultValue="false"/>
+    <column name="idcliente" phpName="Idcliente" type="INTEGER"/>
+    <column name="updated_at" phpName="UpdatedAt" type="TIMESTAMP" required="true"/>
+    <column name="created_at" phpName="CreatedAt" type="TIMESTAMP" required="true"/>
+    <column name="remember_token" phpName="RememberToken" type="VARCHAR" size="100"/>
+    <column name="tipo" phpName="Tipo" type="VARCHAR" size="255" required="true"/>
+    <column name="nome" phpName="Nome" type="VARCHAR" size="255" required="true"/>
+    <column name="senha" phpName="Senha" type="VARCHAR" size="60" required="true"/>
+    <column name="email" phpName="Email" type="VARCHAR" size="255" required="true"/>
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+>>>>>>> 37891107abfeaa82e780a885a8cf06658072894a
     <foreign-key foreignTable="cliente" name="usuarios_idcliente_fkey">
       <reference local="idcliente" foreign="id"/>
     </foreign-key>
     <unique name="usuarios_email_unique">
+<<<<<<< HEAD
       <unique-column name="email"/>
+=======
+      <unique-column name="email" size="255"/>
+>>>>>>> 37891107abfeaa82e780a885a8cf06658072894a
     </unique>
   </table>
 </database>

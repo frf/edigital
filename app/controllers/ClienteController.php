@@ -244,6 +244,13 @@ class ClienteController extends BaseController {
               $oLogin->nome      = Input::get('nome');
               $oLogin->email     = Input::get('email');
               $oLogin->tipo      = 'cliente';
+              
+              if(Input::get('lang')){
+                  $oLogin->lang      = Input::get('lang');
+              }else{
+                  $oLogin->lang      = 'pt';
+              }
+              
               $oLogin->idcliente = $id;
               
               $oCliente = UsuariosQuery::create()
