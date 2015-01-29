@@ -36,9 +36,15 @@ Route::group(array('before' => 'auth'), function()
     Route::get('/cliente/ativar/{id}', 'ClienteController@ativar');
     Route::get('/cliente/excluir/{id}', 'ClienteController@excluir');
     Route::get('/cliente/excluir-login/{id}/{idCli}', 'ClienteController@excluirLogin');
+    Route::get('/cliente/dados/{id}', 'ClienteController@dadosCliente');
+    Route::get('/cliente/novo', 'ClienteController@novo');
+    Route::post('/cliente/novo', 'ClienteController@novo');
     
     Route::get('/financeiro', 'FinanceiroController@index');
     Route::get('/financeiro/novo-lancamento', 'FinanceiroController@novoLancamento');
+    Route::get('/financeiro/pago/{id}', 'FinanceiroController@efetuarPagamento');
+    Route::get('/financeiro/pendente/{id}', 'FinanceiroController@efetuarPagamento');
+    Route::get('/financeiro/excluir-lancamento/{id}', 'FinanceiroController@excluirLancamento');
     Route::post('/financeiro/salvar-lancamento', 'FinanceiroController@salvarLancamento');
     
     
@@ -47,6 +53,11 @@ Route::group(array('before' => 'auth'), function()
     Route::get('/atendimento', 'AtendimentoController@index');
     Route::get('/atendimento/cadastrar', 'AtendimentoController@getCadastrar');
     Route::post('/atendimento/cadastrar', 'AtendimentoController@postCadastrar');
+    Route::get('/atendimento/cat_chamado', 'AtendimentoController@getCatChamado');
+    Route::post('/atendimento/cat_chamado', 'AtendimentoController@postCatChamado');
+    Route::get('/atendimento/edi_cat_chamado/{id}', 'AtendimentoController@getEdiCatChamado');
+    Route::post('/atendimento/edi_cat_chamado/{id}', 'AtendimentoController@postEdiCatChamado');
+    Route::get('/atendimento/del_cat_chamado/{id}', 'AtendimentoController@getDelCatChamado');
     Route::get('/atendimento/historico/{id}', 'AtendimentoController@getHistorico');
     Route::post('/atendimento/historico/{id}', 'AtendimentoController@postHistorico');
 

@@ -10,15 +10,19 @@
 @endif
 
 @if(Auth::user()->tipo == 'admin')
-    <a href="#" class="btn btn-primary btn-large"><i class="icon-white icon-plus"></i> Novo Cliente</a>
+    <a href="/cliente/novo" class="btn btn-primary btn-large"><i class="icon-white icon-plus"></i> Novo Cliente</a>
 @endif
 
  @if(Session::has('message-sucess'))
+    <br>
+    <br>
     <div role="alert" class="alert alert-success">
        {{ Session::get('message-sucess') }}
     </div>
     @endif
     @if(Session::has('message-erro'))
+    <br>
+    <br>
     <div role="alert" class="alert alert-danger">
        {{ Session::get('message-erro') }}
     </div>
@@ -27,7 +31,7 @@
 <div class="table-responsive">
     
    
-  <table class="table">
+    <table class="table" id="no-more-tables">
       <thead>
           <tr>
             <th>Nome</th>
@@ -37,8 +41,8 @@
         
         @foreach ($clientes as $cliente)
             <tr>
-              <td scope="row">{{ $cliente->getNome() }}</td>
-              <td>
+              <td data-title="Nome" scope="row">{{ $cliente->getNome() }}</td>
+              <td data-title="Ferramentas">
                 <a href="/cliente/view/{{ $cliente->getId() }}" class="btn btn-xs btn-success">Visualizar</a>
                 @if(Auth::user()->tipo == 'admin')
                     @if($cliente->getAtivo())

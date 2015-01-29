@@ -15,6 +15,7 @@ class Chamados extends Migration {
 		Schema::create('chamados', function($table){
             $table->increments('id');
             $table->string('usuario');
+            $table->string('email');
             $table->integer('categoria');
             $table->string('titulo');
             $table->integer('status');

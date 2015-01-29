@@ -3,6 +3,8 @@
 namespace Base;
 
 use \ChamadosQuery as ChildChamadosQuery;
+use \Usuarios as ChildUsuarios;
+use \UsuariosQuery as ChildUsuariosQuery;
 use \DateTime;
 use \Exception;
 use \PDO;
@@ -62,6 +64,12 @@ abstract class Chamados implements ActiveRecordInterface
     protected $virtualColumns = array();
 
     /**
+     * The value for the idusuario field.
+     * @var        int
+     */
+    protected $idusuario;
+
+    /**
      * The value for the updated_at field.
      * @var        \DateTime
      */
@@ -104,16 +112,15 @@ abstract class Chamados implements ActiveRecordInterface
     protected $categoria;
 
     /**
-     * The value for the usuario field.
-     * @var        string
-     */
-    protected $usuario;
-
-    /**
      * The value for the id field.
      * @var        int
      */
     protected $id;
+
+    /**
+     * @var        ChildUsuarios
+     */
+    protected $aUsuarios;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced
@@ -341,6 +348,16 @@ abstract class Chamados implements ActiveRecordInterface
     }
 
     /**
+     * Get the [idusuario] column value.
+     *
+     * @return int
+     */
+    public function getIdusuario()
+    {
+        return $this->idusuario;
+    }
+
+    /**
      * Get the [optionally formatted] temporal [updated_at] column value.
      *
      *
@@ -431,16 +448,6 @@ abstract class Chamados implements ActiveRecordInterface
     }
 
     /**
-     * Get the [usuario] column value.
-     *
-     * @return string
-     */
-    public function getUsuario()
-    {
-        return $this->usuario;
-    }
-
-    /**
      * Get the [id] column value.
      *
      * @return int
@@ -449,6 +456,30 @@ abstract class Chamados implements ActiveRecordInterface
     {
         return $this->id;
     }
+
+    /**
+     * Set the value of [idusuario] column.
+     *
+     * @param  int $v new value
+     * @return $this|\Chamados The current object (for fluent API support)
+     */
+    public function setIdusuario($v)
+    {
+        if ($v !== null) {
+            $v = (int) $v;
+        }
+
+        if ($this->idusuario !== $v) {
+            $this->idusuario = $v;
+            $this->modifiedColumns[ChamadosTableMap::COL_IDUSUARIO] = true;
+        }
+
+        if ($this->aUsuarios !== null && $this->aUsuarios->getId() !== $v) {
+            $this->aUsuarios = null;
+        }
+
+        return $this;
+    } // setIdusuario()
 
     /**
      * Sets the value of [updated_at] column to a normalized version of the date/time value specified.
@@ -591,26 +622,6 @@ abstract class Chamados implements ActiveRecordInterface
     } // setCategoria()
 
     /**
-     * Set the value of [usuario] column.
-     *
-     * @param  string $v new value
-     * @return $this|\Chamados The current object (for fluent API support)
-     */
-    public function setUsuario($v)
-    {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->usuario !== $v) {
-            $this->usuario = $v;
-            $this->modifiedColumns[ChamadosTableMap::COL_USUARIO] = true;
-        }
-
-        return $this;
-    } // setUsuario()
-
-    /**
      * Set the value of [id] column.
      *
      * @param  int $v new value
@@ -666,29 +677,29 @@ abstract class Chamados implements ActiveRecordInterface
     {
         try {
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : ChamadosTableMap::translateFieldName('UpdatedAt', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : ChamadosTableMap::translateFieldName('Idusuario', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->idusuario = (null !== $col) ? (int) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : ChamadosTableMap::translateFieldName('UpdatedAt', TableMap::TYPE_PHPNAME, $indexType)];
             $this->updated_at = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : ChamadosTableMap::translateFieldName('CreatedAt', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : ChamadosTableMap::translateFieldName('CreatedAt', TableMap::TYPE_PHPNAME, $indexType)];
             $this->created_at = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : ChamadosTableMap::translateFieldName('Data', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : ChamadosTableMap::translateFieldName('Data', TableMap::TYPE_PHPNAME, $indexType)];
             $this->data = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : ChamadosTableMap::translateFieldName('Mensagem', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : ChamadosTableMap::translateFieldName('Mensagem', TableMap::TYPE_PHPNAME, $indexType)];
             $this->mensagem = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : ChamadosTableMap::translateFieldName('Status', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : ChamadosTableMap::translateFieldName('Status', TableMap::TYPE_PHPNAME, $indexType)];
             $this->status = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : ChamadosTableMap::translateFieldName('Titulo', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 6 + $startcol : ChamadosTableMap::translateFieldName('Titulo', TableMap::TYPE_PHPNAME, $indexType)];
             $this->titulo = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 6 + $startcol : ChamadosTableMap::translateFieldName('Categoria', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 7 + $startcol : ChamadosTableMap::translateFieldName('Categoria', TableMap::TYPE_PHPNAME, $indexType)];
             $this->categoria = (null !== $col) ? (int) $col : null;
-
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 7 + $startcol : ChamadosTableMap::translateFieldName('Usuario', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->usuario = (null !== $col) ? (string) $col : null;
 
             $col = $row[TableMap::TYPE_NUM == $indexType ? 8 + $startcol : ChamadosTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
             $this->id = (null !== $col) ? (int) $col : null;
@@ -722,6 +733,9 @@ abstract class Chamados implements ActiveRecordInterface
      */
     public function ensureConsistency()
     {
+        if ($this->aUsuarios !== null && $this->idusuario !== $this->aUsuarios->getId()) {
+            $this->aUsuarios = null;
+        }
     } // ensureConsistency
 
     /**
@@ -761,6 +775,7 @@ abstract class Chamados implements ActiveRecordInterface
 
         if ($deep) {  // also de-associate any related objects?
 
+            $this->aUsuarios = null;
         } // if (deep)
     }
 
@@ -860,6 +875,18 @@ abstract class Chamados implements ActiveRecordInterface
         if (!$this->alreadyInSave) {
             $this->alreadyInSave = true;
 
+            // We call the save method on the following object(s) if they
+            // were passed to this object by their corresponding set
+            // method.  This object relates to these object(s) by a
+            // foreign key reference.
+
+            if ($this->aUsuarios !== null) {
+                if ($this->aUsuarios->isModified() || $this->aUsuarios->isNew()) {
+                    $affectedRows += $this->aUsuarios->save($con);
+                }
+                $this->setUsuarios($this->aUsuarios);
+            }
+
             if ($this->isNew() || $this->isModified()) {
                 // persist changes
                 if ($this->isNew()) {
@@ -906,6 +933,9 @@ abstract class Chamados implements ActiveRecordInterface
 
 
          // check the columns in natural order for more readable SQL queries
+        if ($this->isColumnModified(ChamadosTableMap::COL_IDUSUARIO)) {
+            $modifiedColumns[':p' . $index++]  = 'idusuario';
+        }
         if ($this->isColumnModified(ChamadosTableMap::COL_UPDATED_AT)) {
             $modifiedColumns[':p' . $index++]  = 'updated_at';
         }
@@ -927,9 +957,6 @@ abstract class Chamados implements ActiveRecordInterface
         if ($this->isColumnModified(ChamadosTableMap::COL_CATEGORIA)) {
             $modifiedColumns[':p' . $index++]  = 'categoria';
         }
-        if ($this->isColumnModified(ChamadosTableMap::COL_USUARIO)) {
-            $modifiedColumns[':p' . $index++]  = 'usuario';
-        }
         if ($this->isColumnModified(ChamadosTableMap::COL_ID)) {
             $modifiedColumns[':p' . $index++]  = 'id';
         }
@@ -944,6 +971,9 @@ abstract class Chamados implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
+                    case 'idusuario':
+                        $stmt->bindValue($identifier, $this->idusuario, PDO::PARAM_INT);
+                        break;
                     case 'updated_at':
                         $stmt->bindValue($identifier, $this->updated_at ? $this->updated_at->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
                         break;
@@ -964,9 +994,6 @@ abstract class Chamados implements ActiveRecordInterface
                         break;
                     case 'categoria':
                         $stmt->bindValue($identifier, $this->categoria, PDO::PARAM_INT);
-                        break;
-                    case 'usuario':
-                        $stmt->bindValue($identifier, $this->usuario, PDO::PARAM_STR);
                         break;
                     case 'id':
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
@@ -1027,28 +1054,28 @@ abstract class Chamados implements ActiveRecordInterface
     {
         switch ($pos) {
             case 0:
-                return $this->getUpdatedAt();
+                return $this->getIdusuario();
                 break;
             case 1:
-                return $this->getCreatedAt();
+                return $this->getUpdatedAt();
                 break;
             case 2:
-                return $this->getData();
+                return $this->getCreatedAt();
                 break;
             case 3:
-                return $this->getMensagem();
+                return $this->getData();
                 break;
             case 4:
-                return $this->getStatus();
+                return $this->getMensagem();
                 break;
             case 5:
-                return $this->getTitulo();
+                return $this->getStatus();
                 break;
             case 6:
-                return $this->getCategoria();
+                return $this->getTitulo();
                 break;
             case 7:
-                return $this->getUsuario();
+                return $this->getCategoria();
                 break;
             case 8:
                 return $this->getId();
@@ -1070,10 +1097,11 @@ abstract class Chamados implements ActiveRecordInterface
      *                    Defaults to TableMap::TYPE_PHPNAME.
      * @param     boolean $includeLazyLoadColumns (optional) Whether to include lazy loaded columns. Defaults to TRUE.
      * @param     array $alreadyDumpedObjects List of objects to skip to avoid recursion
+     * @param     boolean $includeForeignObjects (optional) Whether to include hydrated related objects. Default to FALSE.
      *
      * @return array an associative array containing the field names (as keys) and field values
      */
-    public function toArray($keyType = TableMap::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array())
+    public function toArray($keyType = TableMap::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array(), $includeForeignObjects = false)
     {
 
         if (isset($alreadyDumpedObjects['Chamados'][$this->hashCode()])) {
@@ -1082,14 +1110,14 @@ abstract class Chamados implements ActiveRecordInterface
         $alreadyDumpedObjects['Chamados'][$this->hashCode()] = true;
         $keys = ChamadosTableMap::getFieldNames($keyType);
         $result = array(
-            $keys[0] => $this->getUpdatedAt(),
-            $keys[1] => $this->getCreatedAt(),
-            $keys[2] => $this->getData(),
-            $keys[3] => $this->getMensagem(),
-            $keys[4] => $this->getStatus(),
-            $keys[5] => $this->getTitulo(),
-            $keys[6] => $this->getCategoria(),
-            $keys[7] => $this->getUsuario(),
+            $keys[0] => $this->getIdusuario(),
+            $keys[1] => $this->getUpdatedAt(),
+            $keys[2] => $this->getCreatedAt(),
+            $keys[3] => $this->getData(),
+            $keys[4] => $this->getMensagem(),
+            $keys[5] => $this->getStatus(),
+            $keys[6] => $this->getTitulo(),
+            $keys[7] => $this->getCategoria(),
             $keys[8] => $this->getId(),
         );
         $virtualColumns = $this->virtualColumns;
@@ -1097,6 +1125,23 @@ abstract class Chamados implements ActiveRecordInterface
             $result[$key] = $virtualColumn;
         }
 
+        if ($includeForeignObjects) {
+            if (null !== $this->aUsuarios) {
+
+                switch ($keyType) {
+                    case TableMap::TYPE_CAMELNAME:
+                        $key = 'usuarios';
+                        break;
+                    case TableMap::TYPE_FIELDNAME:
+                        $key = 'usuarios';
+                        break;
+                    default:
+                        $key = 'Usuarios';
+                }
+
+                $result[$key] = $this->aUsuarios->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
+            }
+        }
 
         return $result;
     }
@@ -1131,28 +1176,28 @@ abstract class Chamados implements ActiveRecordInterface
     {
         switch ($pos) {
             case 0:
-                $this->setUpdatedAt($value);
+                $this->setIdusuario($value);
                 break;
             case 1:
-                $this->setCreatedAt($value);
+                $this->setUpdatedAt($value);
                 break;
             case 2:
-                $this->setData($value);
+                $this->setCreatedAt($value);
                 break;
             case 3:
-                $this->setMensagem($value);
+                $this->setData($value);
                 break;
             case 4:
-                $this->setStatus($value);
+                $this->setMensagem($value);
                 break;
             case 5:
-                $this->setTitulo($value);
+                $this->setStatus($value);
                 break;
             case 6:
-                $this->setCategoria($value);
+                $this->setTitulo($value);
                 break;
             case 7:
-                $this->setUsuario($value);
+                $this->setCategoria($value);
                 break;
             case 8:
                 $this->setId($value);
@@ -1184,28 +1229,28 @@ abstract class Chamados implements ActiveRecordInterface
         $keys = ChamadosTableMap::getFieldNames($keyType);
 
         if (array_key_exists($keys[0], $arr)) {
-            $this->setUpdatedAt($arr[$keys[0]]);
+            $this->setIdusuario($arr[$keys[0]]);
         }
         if (array_key_exists($keys[1], $arr)) {
-            $this->setCreatedAt($arr[$keys[1]]);
+            $this->setUpdatedAt($arr[$keys[1]]);
         }
         if (array_key_exists($keys[2], $arr)) {
-            $this->setData($arr[$keys[2]]);
+            $this->setCreatedAt($arr[$keys[2]]);
         }
         if (array_key_exists($keys[3], $arr)) {
-            $this->setMensagem($arr[$keys[3]]);
+            $this->setData($arr[$keys[3]]);
         }
         if (array_key_exists($keys[4], $arr)) {
-            $this->setStatus($arr[$keys[4]]);
+            $this->setMensagem($arr[$keys[4]]);
         }
         if (array_key_exists($keys[5], $arr)) {
-            $this->setTitulo($arr[$keys[5]]);
+            $this->setStatus($arr[$keys[5]]);
         }
         if (array_key_exists($keys[6], $arr)) {
-            $this->setCategoria($arr[$keys[6]]);
+            $this->setTitulo($arr[$keys[6]]);
         }
         if (array_key_exists($keys[7], $arr)) {
-            $this->setUsuario($arr[$keys[7]]);
+            $this->setCategoria($arr[$keys[7]]);
         }
         if (array_key_exists($keys[8], $arr)) {
             $this->setId($arr[$keys[8]]);
@@ -1251,6 +1296,9 @@ abstract class Chamados implements ActiveRecordInterface
     {
         $criteria = new Criteria(ChamadosTableMap::DATABASE_NAME);
 
+        if ($this->isColumnModified(ChamadosTableMap::COL_IDUSUARIO)) {
+            $criteria->add(ChamadosTableMap::COL_IDUSUARIO, $this->idusuario);
+        }
         if ($this->isColumnModified(ChamadosTableMap::COL_UPDATED_AT)) {
             $criteria->add(ChamadosTableMap::COL_UPDATED_AT, $this->updated_at);
         }
@@ -1271,9 +1319,6 @@ abstract class Chamados implements ActiveRecordInterface
         }
         if ($this->isColumnModified(ChamadosTableMap::COL_CATEGORIA)) {
             $criteria->add(ChamadosTableMap::COL_CATEGORIA, $this->categoria);
-        }
-        if ($this->isColumnModified(ChamadosTableMap::COL_USUARIO)) {
-            $criteria->add(ChamadosTableMap::COL_USUARIO, $this->usuario);
         }
         if ($this->isColumnModified(ChamadosTableMap::COL_ID)) {
             $criteria->add(ChamadosTableMap::COL_ID, $this->id);
@@ -1364,6 +1409,7 @@ abstract class Chamados implements ActiveRecordInterface
      */
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
+        $copyObj->setIdusuario($this->getIdusuario());
         $copyObj->setUpdatedAt($this->getUpdatedAt());
         $copyObj->setCreatedAt($this->getCreatedAt());
         $copyObj->setData($this->getData());
@@ -1371,7 +1417,6 @@ abstract class Chamados implements ActiveRecordInterface
         $copyObj->setStatus($this->getStatus());
         $copyObj->setTitulo($this->getTitulo());
         $copyObj->setCategoria($this->getCategoria());
-        $copyObj->setUsuario($this->getUsuario());
         if ($makeNew) {
             $copyObj->setNew(true);
             $copyObj->setId(NULL); // this is a auto-increment column, so set to default value
@@ -1401,12 +1446,67 @@ abstract class Chamados implements ActiveRecordInterface
     }
 
     /**
+     * Declares an association between this object and a ChildUsuarios object.
+     *
+     * @param  ChildUsuarios $v
+     * @return $this|\Chamados The current object (for fluent API support)
+     * @throws PropelException
+     */
+    public function setUsuarios(ChildUsuarios $v = null)
+    {
+        if ($v === null) {
+            $this->setIdusuario(NULL);
+        } else {
+            $this->setIdusuario($v->getId());
+        }
+
+        $this->aUsuarios = $v;
+
+        // Add binding for other direction of this n:n relationship.
+        // If this object has already been added to the ChildUsuarios object, it will not be re-added.
+        if ($v !== null) {
+            $v->addChamados($this);
+        }
+
+
+        return $this;
+    }
+
+
+    /**
+     * Get the associated ChildUsuarios object
+     *
+     * @param  ConnectionInterface $con Optional Connection object.
+     * @return ChildUsuarios The associated ChildUsuarios object.
+     * @throws PropelException
+     */
+    public function getUsuarios(ConnectionInterface $con = null)
+    {
+        if ($this->aUsuarios === null && ($this->idusuario !== null)) {
+            $this->aUsuarios = ChildUsuariosQuery::create()->findPk($this->idusuario, $con);
+            /* The following can be used additionally to
+                guarantee the related object contains a reference
+                to this object.  This level of coupling may, however, be
+                undesirable since it could result in an only partially populated collection
+                in the referenced object.
+                $this->aUsuarios->addChamadoss($this);
+             */
+        }
+
+        return $this->aUsuarios;
+    }
+
+    /**
      * Clears the current object, sets all attributes to their default values and removes
      * outgoing references as well as back-references (from other objects to this one. Results probably in a database
      * change of those foreign objects when you call `save` there).
      */
     public function clear()
     {
+        if (null !== $this->aUsuarios) {
+            $this->aUsuarios->removeChamados($this);
+        }
+        $this->idusuario = null;
         $this->updated_at = null;
         $this->created_at = null;
         $this->data = null;
@@ -1414,7 +1514,6 @@ abstract class Chamados implements ActiveRecordInterface
         $this->status = null;
         $this->titulo = null;
         $this->categoria = null;
-        $this->usuario = null;
         $this->id = null;
         $this->alreadyInSave = false;
         $this->clearAllReferences();
@@ -1436,6 +1535,7 @@ abstract class Chamados implements ActiveRecordInterface
         if ($deep) {
         } // if ($deep)
 
+        $this->aUsuarios = null;
     }
 
     /**

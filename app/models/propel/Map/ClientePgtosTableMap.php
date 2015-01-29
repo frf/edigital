@@ -59,7 +59,7 @@ class ClientePgtosTableMap extends TableMap
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 8;
+    const NUM_COLUMNS = 9;
 
     /**
      * The number of lazy-loaded columns
@@ -69,7 +69,12 @@ class ClientePgtosTableMap extends TableMap
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
      */
-    const NUM_HYDRATE_COLUMNS = 8;
+    const NUM_HYDRATE_COLUMNS = 9;
+
+    /**
+     * the column name for the dtpagamento field
+     */
+    const COL_DTPAGAMENTO = 'cliente_pgtos.dtpagamento';
 
     /**
      * the column name for the nota field
@@ -123,11 +128,11 @@ class ClientePgtosTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Nota', 'Ispaid', 'Descricao', 'Idmoeda', 'Idcliente', 'Idproduto', 'Valor', 'Id', ),
-        self::TYPE_CAMELNAME     => array('nota', 'ispaid', 'descricao', 'idmoeda', 'idcliente', 'idproduto', 'valor', 'id', ),
-        self::TYPE_COLNAME       => array(ClientePgtosTableMap::COL_NOTA, ClientePgtosTableMap::COL_ISPAID, ClientePgtosTableMap::COL_DESCRICAO, ClientePgtosTableMap::COL_IDMOEDA, ClientePgtosTableMap::COL_IDCLIENTE, ClientePgtosTableMap::COL_IDPRODUTO, ClientePgtosTableMap::COL_VALOR, ClientePgtosTableMap::COL_ID, ),
-        self::TYPE_FIELDNAME     => array('nota', 'ispaid', 'descricao', 'idmoeda', 'idcliente', 'idproduto', 'valor', 'id', ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, )
+        self::TYPE_PHPNAME       => array('Dtpagamento', 'Nota', 'Ispaid', 'Descricao', 'Idmoeda', 'Idcliente', 'Idproduto', 'Valor', 'Id', ),
+        self::TYPE_CAMELNAME     => array('dtpagamento', 'nota', 'ispaid', 'descricao', 'idmoeda', 'idcliente', 'idproduto', 'valor', 'id', ),
+        self::TYPE_COLNAME       => array(ClientePgtosTableMap::COL_DTPAGAMENTO, ClientePgtosTableMap::COL_NOTA, ClientePgtosTableMap::COL_ISPAID, ClientePgtosTableMap::COL_DESCRICAO, ClientePgtosTableMap::COL_IDMOEDA, ClientePgtosTableMap::COL_IDCLIENTE, ClientePgtosTableMap::COL_IDPRODUTO, ClientePgtosTableMap::COL_VALOR, ClientePgtosTableMap::COL_ID, ),
+        self::TYPE_FIELDNAME     => array('dtpagamento', 'nota', 'ispaid', 'descricao', 'idmoeda', 'idcliente', 'idproduto', 'valor', 'id', ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, )
     );
 
     /**
@@ -137,11 +142,11 @@ class ClientePgtosTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Nota' => 0, 'Ispaid' => 1, 'Descricao' => 2, 'Idmoeda' => 3, 'Idcliente' => 4, 'Idproduto' => 5, 'Valor' => 6, 'Id' => 7, ),
-        self::TYPE_CAMELNAME     => array('nota' => 0, 'ispaid' => 1, 'descricao' => 2, 'idmoeda' => 3, 'idcliente' => 4, 'idproduto' => 5, 'valor' => 6, 'id' => 7, ),
-        self::TYPE_COLNAME       => array(ClientePgtosTableMap::COL_NOTA => 0, ClientePgtosTableMap::COL_ISPAID => 1, ClientePgtosTableMap::COL_DESCRICAO => 2, ClientePgtosTableMap::COL_IDMOEDA => 3, ClientePgtosTableMap::COL_IDCLIENTE => 4, ClientePgtosTableMap::COL_IDPRODUTO => 5, ClientePgtosTableMap::COL_VALOR => 6, ClientePgtosTableMap::COL_ID => 7, ),
-        self::TYPE_FIELDNAME     => array('nota' => 0, 'ispaid' => 1, 'descricao' => 2, 'idmoeda' => 3, 'idcliente' => 4, 'idproduto' => 5, 'valor' => 6, 'id' => 7, ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, )
+        self::TYPE_PHPNAME       => array('Dtpagamento' => 0, 'Nota' => 1, 'Ispaid' => 2, 'Descricao' => 3, 'Idmoeda' => 4, 'Idcliente' => 5, 'Idproduto' => 6, 'Valor' => 7, 'Id' => 8, ),
+        self::TYPE_CAMELNAME     => array('dtpagamento' => 0, 'nota' => 1, 'ispaid' => 2, 'descricao' => 3, 'idmoeda' => 4, 'idcliente' => 5, 'idproduto' => 6, 'valor' => 7, 'id' => 8, ),
+        self::TYPE_COLNAME       => array(ClientePgtosTableMap::COL_DTPAGAMENTO => 0, ClientePgtosTableMap::COL_NOTA => 1, ClientePgtosTableMap::COL_ISPAID => 2, ClientePgtosTableMap::COL_DESCRICAO => 3, ClientePgtosTableMap::COL_IDMOEDA => 4, ClientePgtosTableMap::COL_IDCLIENTE => 5, ClientePgtosTableMap::COL_IDPRODUTO => 6, ClientePgtosTableMap::COL_VALOR => 7, ClientePgtosTableMap::COL_ID => 8, ),
+        self::TYPE_FIELDNAME     => array('dtpagamento' => 0, 'nota' => 1, 'ispaid' => 2, 'descricao' => 3, 'idmoeda' => 4, 'idcliente' => 5, 'idproduto' => 6, 'valor' => 7, 'id' => 8, ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, )
     );
 
     /**
@@ -162,6 +167,7 @@ class ClientePgtosTableMap extends TableMap
         $this->setUseIdGenerator(true);
         $this->setPrimaryKeyMethodInfo('cliente_pgtos_id_seq');
         // columns
+        $this->addColumn('dtpagamento', 'Dtpagamento', 'TIMESTAMP', false, null, null);
         $this->addColumn('nota', 'Nota', 'VARCHAR', false, 200, null);
         $this->addColumn('ispaid', 'Ispaid', 'BOOLEAN', false, 1, false);
         $this->addColumn('descricao', 'Descricao', 'VARCHAR', false, 200, null);
@@ -198,11 +204,11 @@ class ClientePgtosTableMap extends TableMap
     public static function getPrimaryKeyHashFromRow($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
     {
         // If the PK cannot be derived from the row, return NULL.
-        if ($row[TableMap::TYPE_NUM == $indexType ? 7 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)] === null) {
+        if ($row[TableMap::TYPE_NUM == $indexType ? 8 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)] === null) {
             return null;
         }
 
-        return (string) $row[TableMap::TYPE_NUM == $indexType ? 7 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
+        return (string) $row[TableMap::TYPE_NUM == $indexType ? 8 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
     }
 
     /**
@@ -221,7 +227,7 @@ class ClientePgtosTableMap extends TableMap
     {
         return (int) $row[
             $indexType == TableMap::TYPE_NUM
-                ? 7 + $offset
+                ? 8 + $offset
                 : self::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)
         ];
     }
@@ -323,6 +329,7 @@ class ClientePgtosTableMap extends TableMap
     public static function addSelectColumns(Criteria $criteria, $alias = null)
     {
         if (null === $alias) {
+            $criteria->addSelectColumn(ClientePgtosTableMap::COL_DTPAGAMENTO);
             $criteria->addSelectColumn(ClientePgtosTableMap::COL_NOTA);
             $criteria->addSelectColumn(ClientePgtosTableMap::COL_ISPAID);
             $criteria->addSelectColumn(ClientePgtosTableMap::COL_DESCRICAO);
@@ -332,6 +339,7 @@ class ClientePgtosTableMap extends TableMap
             $criteria->addSelectColumn(ClientePgtosTableMap::COL_VALOR);
             $criteria->addSelectColumn(ClientePgtosTableMap::COL_ID);
         } else {
+            $criteria->addSelectColumn($alias . '.dtpagamento');
             $criteria->addSelectColumn($alias . '.nota');
             $criteria->addSelectColumn($alias . '.ispaid');
             $criteria->addSelectColumn($alias . '.descricao');

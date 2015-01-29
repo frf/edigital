@@ -65,14 +65,14 @@ ALTER SEQUENCE cat_chamados_id_seq OWNED BY cat_chamados.id;
 
 CREATE TABLE chamados (
     id integer NOT NULL,
-    usuario character varying(255) NOT NULL,
     categoria integer NOT NULL,
     titulo character varying(255) NOT NULL,
     status integer NOT NULL,
     mensagem character varying(255) NOT NULL,
     data character varying(255) NOT NULL,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    idusuario integer
 );
 
 
@@ -103,7 +103,8 @@ CREATE TABLE cliente (
     id integer NOT NULL,
     nome character varying(255),
     ativo boolean DEFAULT false,
-    email character varying(200)
+    email character varying(200),
+    obscontrato text
 );
 
 
@@ -138,7 +139,8 @@ CREATE TABLE cliente_pgtos (
     idmoeda integer,
     descricao character varying(200),
     ispaid boolean DEFAULT false,
-    nota character varying(200)
+    nota character varying(200),
+    dtpagamento timestamp without time zone
 );
 
 
@@ -200,10 +202,10 @@ CREATE TABLE mensagens (
     id integer NOT NULL,
     mensagem text NOT NULL,
     id_chamado integer NOT NULL,
-    no_usuario character varying(255) NOT NULL,
     data character varying(255) NOT NULL,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    idusuario integer
 );
 
 
@@ -287,7 +289,9 @@ CREATE TABLE produtos (
     id integer NOT NULL,
     nome character varying(200),
     valor numeric(10,2),
-    idmoeda integer
+    idmoeda integer,
+    idcliente integer,
+    tipo character(1)
 );
 
 
@@ -355,6 +359,7 @@ CREATE TABLE usuarios (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     idcliente integer,
+    isdelete boolean DEFAULT false,
     CONSTRAINT usuarios_tipo_check CHECK (((tipo)::text = ANY (ARRAY[('admin'::character varying)::text, ('cliente'::character varying)::text])))
 );
 
@@ -468,44 +473,44 @@ SELECT pg_catalog.setval('cat_chamados_id_seq', 1, false);
 -- Data for Name: chamados; Type: TABLE DATA; Schema: public; Owner: -
 --
 
+INSERT INTO chamados VALUES (1, 3, 'ddddddd', 2, 'ddddddddddd', '28/01/2015 16:17:24', '2015-01-28 16:17:24', '2015-01-28 16:50:36', 6);
 
 
 --
 -- Name: chamados_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('chamados_id_seq', 1, false);
+SELECT pg_catalog.setval('chamados_id_seq', 1, true);
 
 
 --
 -- Data for Name: cliente; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-INSERT INTO cliente VALUES (1, 'FSI Tecnologia', true, 'contato@fsitecnologia.com.br');
+INSERT INTO cliente VALUES (1, 'FSI Tecnologia', true, 'contato@fsitecnologia.com.br', 'Atendimento no horário comercial 7:30 h às 17:30 h, fora dele a CONTRATADA acrescerá 25% sobre o valor cobrado por hora presencial ou à distância, 50% aos sábado, bem como 100% aos domingos.');
+INSERT INTO cliente VALUES (7, 'Kranunion', true, 'flavia.farias@kranunion.de', '');
 
 
 --
 -- Name: cliente_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('cliente_id_seq', 1, true);
+SELECT pg_catalog.setval('cliente_id_seq', 7, true);
 
 
 --
 -- Data for Name: cliente_pgtos; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-INSERT INTO cliente_pgtos VALUES (15, 180.00, 1, 1, 1, NULL, false, NULL);
-INSERT INTO cliente_pgtos VALUES (16, 111.00, NULL, 1, 1, 'Remocao de mouse', false, NULL);
-INSERT INTO cliente_pgtos VALUES (17, 100.00, NULL, 1, 1, 'Remocao de virus', true, '1_aff73827b36764c6c511dcc3f6dbeac4');
-INSERT INTO cliente_pgtos VALUES (18, 123.58, NULL, 1, 1, 'Troca de Teclado', true, '1_df9ea5e721a070c0cac00526a507e979');
+INSERT INTO cliente_pgtos VALUES (25, 300.00, NULL, 7, 1, 'Atendimento', true, NULL, '2015-01-28 18:00:00');
+INSERT INTO cliente_pgtos VALUES (26, 111.00, NULL, 1, 1, 'dddd', false, '1_bfd5422fb2a112bdeb6456428188a111.pdf', NULL);
 
 
 --
 -- Name: cliente_pgtos_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('cliente_pgtos_id_seq', 18, true);
+SELECT pg_catalog.setval('cliente_pgtos_id_seq', 26, true);
 
 
 --
@@ -525,13 +530,17 @@ SELECT pg_catalog.setval('idoc_id_seq', 1, false);
 -- Data for Name: mensagens; Type: TABLE DATA; Schema: public; Owner: -
 --
 
+INSERT INTO mensagens VALUES (1, 'vvvvvvvvvvvvvvvvv', 1, '28/01/2015 16:21:10', '2015-01-28 16:21:10', '2015-01-28 16:21:10', 6);
+INSERT INTO mensagens VALUES (2, 'Sra Flavia,
+
+Estamos providenciando a analise e retornamos o mais breve possivel.', 1, '28/01/2015 16:50:36', '2015-01-28 16:50:36', '2015-01-28 16:50:36', 2);
 
 
 --
 -- Name: mensagens_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('mensagens_id_seq', 1, false);
+SELECT pg_catalog.setval('mensagens_id_seq', 2, true);
 
 
 --
@@ -567,14 +576,13 @@ SELECT pg_catalog.setval('moeda_id_seq', 2, true);
 -- Data for Name: produtos; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-INSERT INTO produtos VALUES (1, 'Visita técnica sem contrato', 180.00, 1);
 
 
 --
 -- Name: produtos_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('produtos_id_seq', 1, true);
+SELECT pg_catalog.setval('produtos_id_seq', 2, true);
 
 
 --
@@ -597,15 +605,16 @@ SELECT pg_catalog.setval('status_chamados_id_seq', 1, false);
 -- Data for Name: usuarios; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-INSERT INTO usuarios VALUES (1, 'cliente@cliente.com.br', '$2y$10$AthyydEb/ar2cnkppjQ8t..yBaZL/yhQfwJrH0qKEo0zDV4IpC2/6', 'Cliente', 'cliente', NULL, '2015-01-23 15:47:46', '2015-01-23 15:47:46', 1);
-INSERT INTO usuarios VALUES (2, 'admin@edigital.com.br', '$2y$10$/SRBYYXdz/J61U8kvPOybOGBGoq6ps1767aVq0rODf7xI9NMjFPF.', 'Administrador', 'admin', NULL, '2015-01-23 15:47:46', '2015-01-23 15:47:46', NULL);
+INSERT INTO usuarios VALUES (2, 'admin@edigital.com.br', '$2y$10$uK9dUoKcELBRQRbGkWYv5ucmbuDL.XfG43fvBfA6DJXbnmAi9/1a2', 'Administrador', 'admin', '2YZ3ZJKm3hQRoN7lVbPeimVmr6O83cvBR2OsfmsMPCTG5w6PaMjKFtHPeWzl', '2015-01-23 15:47:46', '2015-01-28 16:51:09', NULL, false);
+INSERT INTO usuarios VALUES (6, 'flavia.farias@kranunion.de', '$2y$10$NHmsV6BSdoPdd9yD.Da0..IMHQ5O1e7TeJf.jaxAJh7zAnA7IP/aW', 'Flavia Farias', 'cliente', 'e9LZWoqbdvBTjl4DY0HEQwytnLdotzXx7oeKCvtW7tmyuPUVzJqRxT0LEmtD', '2015-01-28 16:12:26', '2015-01-28 18:24:46', 7, false);
+INSERT INTO usuarios VALUES (1, 'cliente@cliente.com.br', '$2y$10$AthyydEb/ar2cnkppjQ8t..yBaZL/yhQfwJrH0qKEo0zDV4IpC2/6', 'Cliente', 'cliente', NULL, '2015-01-23 15:47:46', '2015-01-23 15:47:46', 1, false);
 
 
 --
 -- Name: usuarios_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('usuarios_id_seq', 2, true);
+SELECT pg_catalog.setval('usuarios_id_seq', 6, true);
 
 
 --
@@ -711,6 +720,14 @@ CREATE INDEX password_reminders_token_index ON password_reminders USING btree (t
 
 
 --
+-- Name: chamados_idusuario_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY chamados
+    ADD CONSTRAINT chamados_idusuario_fkey FOREIGN KEY (idusuario) REFERENCES usuarios(id);
+
+
+--
 -- Name: cliente_pgtos_idcliente_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -740,6 +757,22 @@ ALTER TABLE ONLY cliente_pgtos
 
 ALTER TABLE ONLY idoc
     ADD CONSTRAINT idoc_idcliente_fkey FOREIGN KEY (idcliente) REFERENCES cliente(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: mensagens_idusuario_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY mensagens
+    ADD CONSTRAINT mensagens_idusuario_fkey FOREIGN KEY (idusuario) REFERENCES usuarios(id);
+
+
+--
+-- Name: produtos_idcliente_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY produtos
+    ADD CONSTRAINT produtos_idcliente_fkey FOREIGN KEY (idcliente) REFERENCES cliente(id);
 
 
 --

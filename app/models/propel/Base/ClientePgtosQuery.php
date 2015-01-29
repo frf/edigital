@@ -20,6 +20,7 @@ use Propel\Runtime\Exception\PropelException;
  *
  *
  *
+ * @method     ChildClientePgtosQuery orderByDtpagamento($order = Criteria::ASC) Order by the dtpagamento column
  * @method     ChildClientePgtosQuery orderByNota($order = Criteria::ASC) Order by the nota column
  * @method     ChildClientePgtosQuery orderByIspaid($order = Criteria::ASC) Order by the ispaid column
  * @method     ChildClientePgtosQuery orderByDescricao($order = Criteria::ASC) Order by the descricao column
@@ -29,6 +30,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildClientePgtosQuery orderByValor($order = Criteria::ASC) Order by the valor column
  * @method     ChildClientePgtosQuery orderById($order = Criteria::ASC) Order by the id column
  *
+ * @method     ChildClientePgtosQuery groupByDtpagamento() Group by the dtpagamento column
  * @method     ChildClientePgtosQuery groupByNota() Group by the nota column
  * @method     ChildClientePgtosQuery groupByIspaid() Group by the ispaid column
  * @method     ChildClientePgtosQuery groupByDescricao() Group by the descricao column
@@ -59,6 +61,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildClientePgtos findOne(ConnectionInterface $con = null) Return the first ChildClientePgtos matching the query
  * @method     ChildClientePgtos findOneOrCreate(ConnectionInterface $con = null) Return the first ChildClientePgtos matching the query, or a new ChildClientePgtos object populated from the query conditions when no match is found
  *
+ * @method     ChildClientePgtos findOneByDtpagamento(string $dtpagamento) Return the first ChildClientePgtos filtered by the dtpagamento column
  * @method     ChildClientePgtos findOneByNota(string $nota) Return the first ChildClientePgtos filtered by the nota column
  * @method     ChildClientePgtos findOneByIspaid(boolean $ispaid) Return the first ChildClientePgtos filtered by the ispaid column
  * @method     ChildClientePgtos findOneByDescricao(string $descricao) Return the first ChildClientePgtos filtered by the descricao column
@@ -69,6 +72,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildClientePgtos findOneById(int $id) Return the first ChildClientePgtos filtered by the id column
  *
  * @method     ChildClientePgtos[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildClientePgtos objects based on current ModelCriteria
+ * @method     ChildClientePgtos[]|ObjectCollection findByDtpagamento(string $dtpagamento) Return ChildClientePgtos objects filtered by the dtpagamento column
  * @method     ChildClientePgtos[]|ObjectCollection findByNota(string $nota) Return ChildClientePgtos objects filtered by the nota column
  * @method     ChildClientePgtos[]|ObjectCollection findByIspaid(boolean $ispaid) Return ChildClientePgtos objects filtered by the ispaid column
  * @method     ChildClientePgtos[]|ObjectCollection findByDescricao(string $descricao) Return ChildClientePgtos objects filtered by the descricao column
@@ -168,7 +172,7 @@ abstract class ClientePgtosQuery extends ModelCriteria
      */
     protected function findPkSimple($key, ConnectionInterface $con)
     {
-        $sql = 'SELECT nota, ispaid, descricao, idmoeda, idcliente, idproduto, valor, id FROM cliente_pgtos WHERE id = :p0';
+        $sql = 'SELECT dtpagamento, nota, ispaid, descricao, idmoeda, idcliente, idproduto, valor, id FROM cliente_pgtos WHERE id = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -256,6 +260,49 @@ abstract class ClientePgtosQuery extends ModelCriteria
     {
 
         return $this->addUsingAlias(ClientePgtosTableMap::COL_ID, $keys, Criteria::IN);
+    }
+
+    /**
+     * Filter the query on the dtpagamento column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByDtpagamento('2011-03-14'); // WHERE dtpagamento = '2011-03-14'
+     * $query->filterByDtpagamento('now'); // WHERE dtpagamento = '2011-03-14'
+     * $query->filterByDtpagamento(array('max' => 'yesterday')); // WHERE dtpagamento > '2011-03-13'
+     * </code>
+     *
+     * @param     mixed $dtpagamento The value to use as filter.
+     *              Values can be integers (unix timestamps), DateTime objects, or strings.
+     *              Empty strings are treated as NULL.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildClientePgtosQuery The current query, for fluid interface
+     */
+    public function filterByDtpagamento($dtpagamento = null, $comparison = null)
+    {
+        if (is_array($dtpagamento)) {
+            $useMinMax = false;
+            if (isset($dtpagamento['min'])) {
+                $this->addUsingAlias(ClientePgtosTableMap::COL_DTPAGAMENTO, $dtpagamento['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($dtpagamento['max'])) {
+                $this->addUsingAlias(ClientePgtosTableMap::COL_DTPAGAMENTO, $dtpagamento['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(ClientePgtosTableMap::COL_DTPAGAMENTO, $dtpagamento, $comparison);
     }
 
     /**

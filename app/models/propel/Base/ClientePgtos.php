@@ -9,6 +9,7 @@ use \Moeda as ChildMoeda;
 use \MoedaQuery as ChildMoedaQuery;
 use \Produtos as ChildProdutos;
 use \ProdutosQuery as ChildProdutosQuery;
+use \DateTime;
 use \Exception;
 use \PDO;
 use Map\ClientePgtosTableMap;
@@ -23,6 +24,7 @@ use Propel\Runtime\Exception\LogicException;
 use Propel\Runtime\Exception\PropelException;
 use Propel\Runtime\Map\TableMap;
 use Propel\Runtime\Parser\AbstractParser;
+use Propel\Runtime\Util\PropelDateTime;
 
 /**
  * Base class that represents a row from the 'cliente_pgtos' table.
@@ -64,6 +66,12 @@ abstract class ClientePgtos implements ActiveRecordInterface
      * @var array
      */
     protected $virtualColumns = array();
+
+    /**
+     * The value for the dtpagamento field.
+     * @var        \DateTime
+     */
+    protected $dtpagamento;
 
     /**
      * The value for the nota field.
@@ -368,6 +376,26 @@ abstract class ClientePgtos implements ActiveRecordInterface
     }
 
     /**
+     * Get the [optionally formatted] temporal [dtpagamento] column value.
+     *
+     *
+     * @param      string $format The date/time format string (either date()-style or strftime()-style).
+     *                            If format is NULL, then the raw DateTime object will be returned.
+     *
+     * @return string|DateTime Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL
+     *
+     * @throws PropelException - if unable to parse/validate the date/time value.
+     */
+    public function getDtpagamento($format = NULL)
+    {
+        if ($format === null) {
+            return $this->dtpagamento;
+        } else {
+            return $this->dtpagamento instanceof \DateTime ? $this->dtpagamento->format($format) : null;
+        }
+    }
+
+    /**
      * Get the [nota] column value.
      *
      * @return string
@@ -456,6 +484,26 @@ abstract class ClientePgtos implements ActiveRecordInterface
     {
         return $this->id;
     }
+
+    /**
+     * Sets the value of [dtpagamento] column to a normalized version of the date/time value specified.
+     *
+     * @param  mixed $v string, integer (timestamp), or \DateTime value.
+     *               Empty strings are treated as NULL.
+     * @return $this|\ClientePgtos The current object (for fluent API support)
+     */
+    public function setDtpagamento($v)
+    {
+        $dt = PropelDateTime::newInstance($v, null, 'DateTime');
+        if ($this->dtpagamento !== null || $dt !== null) {
+            if ($dt !== $this->dtpagamento) {
+                $this->dtpagamento = $dt;
+                $this->modifiedColumns[ClientePgtosTableMap::COL_DTPAGAMENTO] = true;
+            }
+        } // if either are not null
+
+        return $this;
+    } // setDtpagamento()
 
     /**
      * Set the value of [nota] column.
@@ -677,28 +725,31 @@ abstract class ClientePgtos implements ActiveRecordInterface
     {
         try {
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : ClientePgtosTableMap::translateFieldName('Nota', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : ClientePgtosTableMap::translateFieldName('Dtpagamento', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->dtpagamento = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : ClientePgtosTableMap::translateFieldName('Nota', TableMap::TYPE_PHPNAME, $indexType)];
             $this->nota = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : ClientePgtosTableMap::translateFieldName('Ispaid', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : ClientePgtosTableMap::translateFieldName('Ispaid', TableMap::TYPE_PHPNAME, $indexType)];
             $this->ispaid = (null !== $col) ? (boolean) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : ClientePgtosTableMap::translateFieldName('Descricao', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : ClientePgtosTableMap::translateFieldName('Descricao', TableMap::TYPE_PHPNAME, $indexType)];
             $this->descricao = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : ClientePgtosTableMap::translateFieldName('Idmoeda', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : ClientePgtosTableMap::translateFieldName('Idmoeda', TableMap::TYPE_PHPNAME, $indexType)];
             $this->idmoeda = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : ClientePgtosTableMap::translateFieldName('Idcliente', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : ClientePgtosTableMap::translateFieldName('Idcliente', TableMap::TYPE_PHPNAME, $indexType)];
             $this->idcliente = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : ClientePgtosTableMap::translateFieldName('Idproduto', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 6 + $startcol : ClientePgtosTableMap::translateFieldName('Idproduto', TableMap::TYPE_PHPNAME, $indexType)];
             $this->idproduto = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 6 + $startcol : ClientePgtosTableMap::translateFieldName('Valor', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 7 + $startcol : ClientePgtosTableMap::translateFieldName('Valor', TableMap::TYPE_PHPNAME, $indexType)];
             $this->valor = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 7 + $startcol : ClientePgtosTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 8 + $startcol : ClientePgtosTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
             $this->id = (null !== $col) ? (int) $col : null;
             $this->resetModified();
 
@@ -708,7 +759,7 @@ abstract class ClientePgtos implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 8; // 8 = ClientePgtosTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 9; // 9 = ClientePgtosTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException(sprintf('Error populating %s object', '\\ClientePgtos'), 0, $e);
@@ -952,6 +1003,9 @@ abstract class ClientePgtos implements ActiveRecordInterface
 
 
          // check the columns in natural order for more readable SQL queries
+        if ($this->isColumnModified(ClientePgtosTableMap::COL_DTPAGAMENTO)) {
+            $modifiedColumns[':p' . $index++]  = 'dtpagamento';
+        }
         if ($this->isColumnModified(ClientePgtosTableMap::COL_NOTA)) {
             $modifiedColumns[':p' . $index++]  = 'nota';
         }
@@ -987,6 +1041,9 @@ abstract class ClientePgtos implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
+                    case 'dtpagamento':
+                        $stmt->bindValue($identifier, $this->dtpagamento ? $this->dtpagamento->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
+                        break;
                     case 'nota':
                         $stmt->bindValue($identifier, $this->nota, PDO::PARAM_STR);
                         break;
@@ -1067,27 +1124,30 @@ abstract class ClientePgtos implements ActiveRecordInterface
     {
         switch ($pos) {
             case 0:
-                return $this->getNota();
+                return $this->getDtpagamento();
                 break;
             case 1:
-                return $this->getIspaid();
+                return $this->getNota();
                 break;
             case 2:
-                return $this->getDescricao();
+                return $this->getIspaid();
                 break;
             case 3:
-                return $this->getIdmoeda();
+                return $this->getDescricao();
                 break;
             case 4:
-                return $this->getIdcliente();
+                return $this->getIdmoeda();
                 break;
             case 5:
-                return $this->getIdproduto();
+                return $this->getIdcliente();
                 break;
             case 6:
-                return $this->getValor();
+                return $this->getIdproduto();
                 break;
             case 7:
+                return $this->getValor();
+                break;
+            case 8:
                 return $this->getId();
                 break;
             default:
@@ -1120,14 +1180,15 @@ abstract class ClientePgtos implements ActiveRecordInterface
         $alreadyDumpedObjects['ClientePgtos'][$this->hashCode()] = true;
         $keys = ClientePgtosTableMap::getFieldNames($keyType);
         $result = array(
-            $keys[0] => $this->getNota(),
-            $keys[1] => $this->getIspaid(),
-            $keys[2] => $this->getDescricao(),
-            $keys[3] => $this->getIdmoeda(),
-            $keys[4] => $this->getIdcliente(),
-            $keys[5] => $this->getIdproduto(),
-            $keys[6] => $this->getValor(),
-            $keys[7] => $this->getId(),
+            $keys[0] => $this->getDtpagamento(),
+            $keys[1] => $this->getNota(),
+            $keys[2] => $this->getIspaid(),
+            $keys[3] => $this->getDescricao(),
+            $keys[4] => $this->getIdmoeda(),
+            $keys[5] => $this->getIdcliente(),
+            $keys[6] => $this->getIdproduto(),
+            $keys[7] => $this->getValor(),
+            $keys[8] => $this->getId(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -1215,27 +1276,30 @@ abstract class ClientePgtos implements ActiveRecordInterface
     {
         switch ($pos) {
             case 0:
-                $this->setNota($value);
+                $this->setDtpagamento($value);
                 break;
             case 1:
-                $this->setIspaid($value);
+                $this->setNota($value);
                 break;
             case 2:
-                $this->setDescricao($value);
+                $this->setIspaid($value);
                 break;
             case 3:
-                $this->setIdmoeda($value);
+                $this->setDescricao($value);
                 break;
             case 4:
-                $this->setIdcliente($value);
+                $this->setIdmoeda($value);
                 break;
             case 5:
-                $this->setIdproduto($value);
+                $this->setIdcliente($value);
                 break;
             case 6:
-                $this->setValor($value);
+                $this->setIdproduto($value);
                 break;
             case 7:
+                $this->setValor($value);
+                break;
+            case 8:
                 $this->setId($value);
                 break;
         } // switch()
@@ -1265,28 +1329,31 @@ abstract class ClientePgtos implements ActiveRecordInterface
         $keys = ClientePgtosTableMap::getFieldNames($keyType);
 
         if (array_key_exists($keys[0], $arr)) {
-            $this->setNota($arr[$keys[0]]);
+            $this->setDtpagamento($arr[$keys[0]]);
         }
         if (array_key_exists($keys[1], $arr)) {
-            $this->setIspaid($arr[$keys[1]]);
+            $this->setNota($arr[$keys[1]]);
         }
         if (array_key_exists($keys[2], $arr)) {
-            $this->setDescricao($arr[$keys[2]]);
+            $this->setIspaid($arr[$keys[2]]);
         }
         if (array_key_exists($keys[3], $arr)) {
-            $this->setIdmoeda($arr[$keys[3]]);
+            $this->setDescricao($arr[$keys[3]]);
         }
         if (array_key_exists($keys[4], $arr)) {
-            $this->setIdcliente($arr[$keys[4]]);
+            $this->setIdmoeda($arr[$keys[4]]);
         }
         if (array_key_exists($keys[5], $arr)) {
-            $this->setIdproduto($arr[$keys[5]]);
+            $this->setIdcliente($arr[$keys[5]]);
         }
         if (array_key_exists($keys[6], $arr)) {
-            $this->setValor($arr[$keys[6]]);
+            $this->setIdproduto($arr[$keys[6]]);
         }
         if (array_key_exists($keys[7], $arr)) {
-            $this->setId($arr[$keys[7]]);
+            $this->setValor($arr[$keys[7]]);
+        }
+        if (array_key_exists($keys[8], $arr)) {
+            $this->setId($arr[$keys[8]]);
         }
     }
 
@@ -1329,6 +1396,9 @@ abstract class ClientePgtos implements ActiveRecordInterface
     {
         $criteria = new Criteria(ClientePgtosTableMap::DATABASE_NAME);
 
+        if ($this->isColumnModified(ClientePgtosTableMap::COL_DTPAGAMENTO)) {
+            $criteria->add(ClientePgtosTableMap::COL_DTPAGAMENTO, $this->dtpagamento);
+        }
         if ($this->isColumnModified(ClientePgtosTableMap::COL_NOTA)) {
             $criteria->add(ClientePgtosTableMap::COL_NOTA, $this->nota);
         }
@@ -1439,6 +1509,7 @@ abstract class ClientePgtos implements ActiveRecordInterface
      */
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
+        $copyObj->setDtpagamento($this->getDtpagamento());
         $copyObj->setNota($this->getNota());
         $copyObj->setIspaid($this->getIspaid());
         $copyObj->setDescricao($this->getDescricao());
@@ -1643,6 +1714,7 @@ abstract class ClientePgtos implements ActiveRecordInterface
         if (null !== $this->aProdutos) {
             $this->aProdutos->removeClientePgtos($this);
         }
+        $this->dtpagamento = null;
         $this->nota = null;
         $this->ispaid = null;
         $this->descricao = null;

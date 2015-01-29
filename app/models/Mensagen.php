@@ -8,5 +8,13 @@
 
 class Mensagen extends Eloquent
 {
-
+    
+   /*
+     * Relacionamento com tabela de usuario
+     * hasOne('Usuario','fk','localfk')
+     */
+    
+    public function usuario() {
+        return $this->hasOne('usuario','id','idusuario'); // this matches the Eloquent model
+    }
 } 

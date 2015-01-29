@@ -39,6 +39,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildIdoc findOneById(int $id) Return the first ChildIdoc filtered by the id column
  * @method     ChildIdoc findOneByNome(string $nome) Return the first ChildIdoc filtered by the nome column
  * @method     ChildIdoc findOneByIdcliente(string $idcliente) Return the first ChildIdoc filtered by the idcliente column
+<<<<<<< HEAD
  * @method     ChildIdoc findOneByFile(string $file) Return the first ChildIdoc filtered by the file column *
 
  * @method     ChildIdoc requirePk($key, ConnectionInterface $con = null) Return the ChildIdoc by primary key and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
@@ -48,6 +49,10 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildIdoc requireOneByNome(string $nome) Return the first ChildIdoc filtered by the nome column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildIdoc requireOneByIdcliente(string $idcliente) Return the first ChildIdoc filtered by the idcliente column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildIdoc requireOneByFile(string $file) Return the first ChildIdoc filtered by the file column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+=======
+ * @method     ChildIdoc findOneByNome(string $nome) Return the first ChildIdoc filtered by the nome column
+ * @method     ChildIdoc findOneById(int $id) Return the first ChildIdoc filtered by the id column
+>>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
  *
  * @method     ChildIdoc[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildIdoc objects based on current ModelCriteria
  * @method     ChildIdoc[]|ObjectCollection findById(int $id) Return ChildIdoc objects filtered by the id column
