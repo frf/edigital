@@ -40,9 +40,8 @@ class AtendimentoController extends BaseController {
             $chamado = new Chamado();
             $chamado->categoria = Input::get('categoria');
             $chamado->titulo = Input::get('titulo');
-            $chamado->email = Auth::user()->email;
             $chamado->status = Input::get('status');
-            $chamado->usuario = Auth::user()->id;
+            $chamado->idusuario = Auth::user()->id;
             $chamado->mensagem = Input::get('mensagem');
             $chamado->data = date('d/m/Y H:i:s');
             $chamado->save();
@@ -50,7 +49,7 @@ class AtendimentoController extends BaseController {
             return Redirect::to('/atendimento')->with('success',"<strong>Sucesso!</strong> Chamado cadastrado.");
         }catch (Exception $e){
 
-            return Redirect::to('/atendimento')->with('warning',"<strong>Atenção!</strong> O Chamado não foi cadastrado.");
+            return Redirect::to('/atendimento')->with('warning',"<strong>Atenção!</strong> O Chamado não foi cadastrado." . $e->getMessage());
         }
     }
 
@@ -139,7 +138,7 @@ class AtendimentoController extends BaseController {
 
             $mensagem   = new Mensagen();
             $mensagem->mensagem     = Input::get('mensagem');
-            $mensagem->no_usuario   = Input::get('no_usuario');
+            $mensagem->idusuario   = Auth::user()->id;
             $mensagem->id_chamado   = Input::get('id_chamado');
             $mensagem->data         = date('d/m/Y H:i:s');
             $mensagem->save();

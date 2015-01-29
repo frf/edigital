@@ -51,7 +51,8 @@
             </tr>
             <tr>
                 <td style="background-color: #F3F3F3"><b>Usuário</b></td>
-                <td>{{ Auth::user($chamado->usuario)->nome }}</td>
+            
+                <td>{{ $chamado->usuario->nome }}</td>
             </tr>
             <tr>
                 <td style="background-color: #F3F3F3"><b>Mensagem</b></td>
@@ -61,10 +62,11 @@
 
         <!-- Se existe alguma mensgem, a mesma deverá ser exibida aqui. -->
         @if($count != 0)
-            <p><b>{{ "Mensagens:" }}</b></p>
+            <p>
+                <b>{{ "Mensagens:" }}</b></p>
             @foreach($mensagem as $aMensagem)
                 <div style="border: 1px solid; border-radius: 5px; padding: 10px 10px 10px 10px; background-color: #ffffff">
-                    <b>Usuário: </b>{{ $aMensagem->no_usuario }}<br />
+                    <b>Usuário: </b>{{ $aMensagem->usuario->nome }}<br />
                     <b>Data: </b>{{ $aMensagem->data }}<br />
                     <b>Mensagem</b><br />
                     {{ $aMensagem->mensagem}}
@@ -81,8 +83,7 @@
         @if($chamado->status != 3)
             <form method="post" id="form_his">
                 <input type="hidden" name="id_chamado" value="{{ $chamado->id }}" />
-                <input type="hidden" name="no_usuario" value="{{ $usuario }}" />
-
+               
                 <p><b>Nova mensagem:</b></p>
                 <div style="border: 1px solid; border-radius: 5px">
                     <textarea style="width: 100%; height: 100px" name="mensagem" id="mensagem"></textarea>
@@ -116,14 +117,14 @@
                 <br />
 
                 <div id="salvar_his" style="width: 65px; float: left">
-                    <input type="submit" value="Salvar" id="salvar" class="btn btn-primary btn-sm" />
+                    <input type="submit" value="Salvar" id="salvar" class="btn btn-success btn-sm" />
                 </div>
-                    <a href="/atendimento" class="btn btn-default btn-sm" >Voltar</a>
+                    <a href="/atendimento" class="btn btn-info btn-sm" >Voltar</a>
             </form>
         @endif
 
         @if($chamado->status == 3)
-                <a href="/atendimento" class="btn btn-default btn-sm">Voltar</a>
+                <a href="/atendimento" class="btn btn-info btn-sm">Voltar</a>
             <br />
         @endif
 

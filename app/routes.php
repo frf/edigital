@@ -37,9 +37,13 @@ Route::group(array('before' => 'auth'), function()
     Route::get('/cliente/excluir/{id}', 'ClienteController@excluir');
     Route::get('/cliente/excluir-login/{id}/{idCli}', 'ClienteController@excluirLogin');
     Route::get('/cliente/dados/{id}', 'ClienteController@dadosCliente');
+    Route::get('/cliente/novo', 'ClienteController@novo');
+    Route::post('/cliente/novo', 'ClienteController@novo');
     
     Route::get('/financeiro', 'FinanceiroController@index');
     Route::get('/financeiro/novo-lancamento', 'FinanceiroController@novoLancamento');
+    Route::get('/financeiro/pago/{id}', 'FinanceiroController@efetuarPagamento');
+    Route::get('/financeiro/pendente/{id}', 'FinanceiroController@efetuarPagamento');
     Route::post('/financeiro/salvar-lancamento', 'FinanceiroController@salvarLancamento');
     
     

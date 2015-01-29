@@ -20,23 +20,25 @@ use Propel\Runtime\Exception\PropelException;
  *
  *
  *
- * @method     ChildClientePgtosQuery orderById($order = Criteria::ASC) Order by the id column
- * @method     ChildClientePgtosQuery orderByValor($order = Criteria::ASC) Order by the valor column
- * @method     ChildClientePgtosQuery orderByIdproduto($order = Criteria::ASC) Order by the idproduto column
- * @method     ChildClientePgtosQuery orderByIdcliente($order = Criteria::ASC) Order by the idcliente column
- * @method     ChildClientePgtosQuery orderByIdmoeda($order = Criteria::ASC) Order by the idmoeda column
- * @method     ChildClientePgtosQuery orderByDescricao($order = Criteria::ASC) Order by the descricao column
- * @method     ChildClientePgtosQuery orderByIspaid($order = Criteria::ASC) Order by the ispaid column
+ * @method     ChildClientePgtosQuery orderByDtpagamento($order = Criteria::ASC) Order by the dtpagamento column
  * @method     ChildClientePgtosQuery orderByNota($order = Criteria::ASC) Order by the nota column
+ * @method     ChildClientePgtosQuery orderByIspaid($order = Criteria::ASC) Order by the ispaid column
+ * @method     ChildClientePgtosQuery orderByDescricao($order = Criteria::ASC) Order by the descricao column
+ * @method     ChildClientePgtosQuery orderByIdmoeda($order = Criteria::ASC) Order by the idmoeda column
+ * @method     ChildClientePgtosQuery orderByIdcliente($order = Criteria::ASC) Order by the idcliente column
+ * @method     ChildClientePgtosQuery orderByIdproduto($order = Criteria::ASC) Order by the idproduto column
+ * @method     ChildClientePgtosQuery orderByValor($order = Criteria::ASC) Order by the valor column
+ * @method     ChildClientePgtosQuery orderById($order = Criteria::ASC) Order by the id column
  *
- * @method     ChildClientePgtosQuery groupById() Group by the id column
- * @method     ChildClientePgtosQuery groupByValor() Group by the valor column
- * @method     ChildClientePgtosQuery groupByIdproduto() Group by the idproduto column
- * @method     ChildClientePgtosQuery groupByIdcliente() Group by the idcliente column
- * @method     ChildClientePgtosQuery groupByIdmoeda() Group by the idmoeda column
- * @method     ChildClientePgtosQuery groupByDescricao() Group by the descricao column
- * @method     ChildClientePgtosQuery groupByIspaid() Group by the ispaid column
+ * @method     ChildClientePgtosQuery groupByDtpagamento() Group by the dtpagamento column
  * @method     ChildClientePgtosQuery groupByNota() Group by the nota column
+ * @method     ChildClientePgtosQuery groupByIspaid() Group by the ispaid column
+ * @method     ChildClientePgtosQuery groupByDescricao() Group by the descricao column
+ * @method     ChildClientePgtosQuery groupByIdmoeda() Group by the idmoeda column
+ * @method     ChildClientePgtosQuery groupByIdcliente() Group by the idcliente column
+ * @method     ChildClientePgtosQuery groupByIdproduto() Group by the idproduto column
+ * @method     ChildClientePgtosQuery groupByValor() Group by the valor column
+ * @method     ChildClientePgtosQuery groupById() Group by the id column
  *
  * @method     ChildClientePgtosQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method     ChildClientePgtosQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
@@ -59,42 +61,31 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildClientePgtos findOne(ConnectionInterface $con = null) Return the first ChildClientePgtos matching the query
  * @method     ChildClientePgtos findOneOrCreate(ConnectionInterface $con = null) Return the first ChildClientePgtos matching the query, or a new ChildClientePgtos object populated from the query conditions when no match is found
  *
- * @method     ChildClientePgtos findOneById(int $id) Return the first ChildClientePgtos filtered by the id column
- * @method     ChildClientePgtos findOneByValor(string $valor) Return the first ChildClientePgtos filtered by the valor column
- * @method     ChildClientePgtos findOneByIdproduto(int $idproduto) Return the first ChildClientePgtos filtered by the idproduto column
- * @method     ChildClientePgtos findOneByIdcliente(int $idcliente) Return the first ChildClientePgtos filtered by the idcliente column
- * @method     ChildClientePgtos findOneByIdmoeda(int $idmoeda) Return the first ChildClientePgtos filtered by the idmoeda column
- * @method     ChildClientePgtos findOneByDescricao(string $descricao) Return the first ChildClientePgtos filtered by the descricao column
+ * @method     ChildClientePgtos findOneByDtpagamento(string $dtpagamento) Return the first ChildClientePgtos filtered by the dtpagamento column
+ * @method     ChildClientePgtos findOneByNota(string $nota) Return the first ChildClientePgtos filtered by the nota column
  * @method     ChildClientePgtos findOneByIspaid(boolean $ispaid) Return the first ChildClientePgtos filtered by the ispaid column
- * @method     ChildClientePgtos findOneByNota(string $nota) Return the first ChildClientePgtos filtered by the nota column *
-
- * @method     ChildClientePgtos requirePk($key, ConnectionInterface $con = null) Return the ChildClientePgtos by primary key and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildClientePgtos requireOne(ConnectionInterface $con = null) Return the first ChildClientePgtos matching the query and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- *
- * @method     ChildClientePgtos requireOneById(int $id) Return the first ChildClientePgtos filtered by the id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildClientePgtos requireOneByValor(string $valor) Return the first ChildClientePgtos filtered by the valor column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildClientePgtos requireOneByIdproduto(int $idproduto) Return the first ChildClientePgtos filtered by the idproduto column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildClientePgtos requireOneByIdcliente(int $idcliente) Return the first ChildClientePgtos filtered by the idcliente column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildClientePgtos requireOneByIdmoeda(int $idmoeda) Return the first ChildClientePgtos filtered by the idmoeda column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildClientePgtos requireOneByDescricao(string $descricao) Return the first ChildClientePgtos filtered by the descricao column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildClientePgtos requireOneByIspaid(boolean $ispaid) Return the first ChildClientePgtos filtered by the ispaid column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildClientePgtos requireOneByNota(string $nota) Return the first ChildClientePgtos filtered by the nota column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildClientePgtos findOneByDescricao(string $descricao) Return the first ChildClientePgtos filtered by the descricao column
+ * @method     ChildClientePgtos findOneByIdmoeda(int $idmoeda) Return the first ChildClientePgtos filtered by the idmoeda column
+ * @method     ChildClientePgtos findOneByIdcliente(int $idcliente) Return the first ChildClientePgtos filtered by the idcliente column
+ * @method     ChildClientePgtos findOneByIdproduto(int $idproduto) Return the first ChildClientePgtos filtered by the idproduto column
+ * @method     ChildClientePgtos findOneByValor(string $valor) Return the first ChildClientePgtos filtered by the valor column
+ * @method     ChildClientePgtos findOneById(int $id) Return the first ChildClientePgtos filtered by the id column
  *
  * @method     ChildClientePgtos[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildClientePgtos objects based on current ModelCriteria
- * @method     ChildClientePgtos[]|ObjectCollection findById(int $id) Return ChildClientePgtos objects filtered by the id column
- * @method     ChildClientePgtos[]|ObjectCollection findByValor(string $valor) Return ChildClientePgtos objects filtered by the valor column
- * @method     ChildClientePgtos[]|ObjectCollection findByIdproduto(int $idproduto) Return ChildClientePgtos objects filtered by the idproduto column
- * @method     ChildClientePgtos[]|ObjectCollection findByIdcliente(int $idcliente) Return ChildClientePgtos objects filtered by the idcliente column
- * @method     ChildClientePgtos[]|ObjectCollection findByIdmoeda(int $idmoeda) Return ChildClientePgtos objects filtered by the idmoeda column
- * @method     ChildClientePgtos[]|ObjectCollection findByDescricao(string $descricao) Return ChildClientePgtos objects filtered by the descricao column
- * @method     ChildClientePgtos[]|ObjectCollection findByIspaid(boolean $ispaid) Return ChildClientePgtos objects filtered by the ispaid column
+ * @method     ChildClientePgtos[]|ObjectCollection findByDtpagamento(string $dtpagamento) Return ChildClientePgtos objects filtered by the dtpagamento column
  * @method     ChildClientePgtos[]|ObjectCollection findByNota(string $nota) Return ChildClientePgtos objects filtered by the nota column
+ * @method     ChildClientePgtos[]|ObjectCollection findByIspaid(boolean $ispaid) Return ChildClientePgtos objects filtered by the ispaid column
+ * @method     ChildClientePgtos[]|ObjectCollection findByDescricao(string $descricao) Return ChildClientePgtos objects filtered by the descricao column
+ * @method     ChildClientePgtos[]|ObjectCollection findByIdmoeda(int $idmoeda) Return ChildClientePgtos objects filtered by the idmoeda column
+ * @method     ChildClientePgtos[]|ObjectCollection findByIdcliente(int $idcliente) Return ChildClientePgtos objects filtered by the idcliente column
+ * @method     ChildClientePgtos[]|ObjectCollection findByIdproduto(int $idproduto) Return ChildClientePgtos objects filtered by the idproduto column
+ * @method     ChildClientePgtos[]|ObjectCollection findByValor(string $valor) Return ChildClientePgtos objects filtered by the valor column
+ * @method     ChildClientePgtos[]|ObjectCollection findById(int $id) Return ChildClientePgtos objects filtered by the id column
  * @method     ChildClientePgtos[]|\Propel\Runtime\Util\PropelModelPager paginate($page = 1, $maxPerPage = 10, ConnectionInterface $con = null) Issue a SELECT query based on the current ModelCriteria and uses a page and a maximum number of results per page to compute an offset and a limit
  *
  */
 abstract class ClientePgtosQuery extends ModelCriteria
 {
-    protected $entityNotFoundExceptionClass = '\\Propel\\Runtime\\Exception\\EntityNotFoundException';
 
     /**
      * Initializes internal state of \Base\ClientePgtosQuery object.
@@ -181,7 +172,7 @@ abstract class ClientePgtosQuery extends ModelCriteria
      */
     protected function findPkSimple($key, ConnectionInterface $con)
     {
-        $sql = 'SELECT id, valor, idproduto, idcliente, idmoeda, descricao, ispaid, nota FROM cliente_pgtos WHERE id = :p0';
+        $sql = 'SELECT dtpagamento, nota, ispaid, descricao, idmoeda, idcliente, idproduto, valor, id FROM cliente_pgtos WHERE id = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -272,16 +263,18 @@ abstract class ClientePgtosQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query on the id column
+     * Filter the query on the dtpagamento column
      *
      * Example usage:
      * <code>
-     * $query->filterById(1234); // WHERE id = 1234
-     * $query->filterById(array(12, 34)); // WHERE id IN (12, 34)
-     * $query->filterById(array('min' => 12)); // WHERE id > 12
+     * $query->filterByDtpagamento('2011-03-14'); // WHERE dtpagamento = '2011-03-14'
+     * $query->filterByDtpagamento('now'); // WHERE dtpagamento = '2011-03-14'
+     * $query->filterByDtpagamento(array('max' => 'yesterday')); // WHERE dtpagamento > '2011-03-13'
      * </code>
      *
-     * @param     mixed $id The value to use as filter.
+     * @param     mixed $dtpagamento The value to use as filter.
+     *              Values can be integers (unix timestamps), DateTime objects, or strings.
+     *              Empty strings are treated as NULL.
      *              Use scalar values for equality.
      *              Use array values for in_array() equivalent.
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
@@ -289,16 +282,16 @@ abstract class ClientePgtosQuery extends ModelCriteria
      *
      * @return $this|ChildClientePgtosQuery The current query, for fluid interface
      */
-    public function filterById($id = null, $comparison = null)
+    public function filterByDtpagamento($dtpagamento = null, $comparison = null)
     {
-        if (is_array($id)) {
+        if (is_array($dtpagamento)) {
             $useMinMax = false;
-            if (isset($id['min'])) {
-                $this->addUsingAlias(ClientePgtosTableMap::COL_ID, $id['min'], Criteria::GREATER_EQUAL);
+            if (isset($dtpagamento['min'])) {
+                $this->addUsingAlias(ClientePgtosTableMap::COL_DTPAGAMENTO, $dtpagamento['min'], Criteria::GREATER_EQUAL);
                 $useMinMax = true;
             }
-            if (isset($id['max'])) {
-                $this->addUsingAlias(ClientePgtosTableMap::COL_ID, $id['max'], Criteria::LESS_EQUAL);
+            if (isset($dtpagamento['max'])) {
+                $this->addUsingAlias(ClientePgtosTableMap::COL_DTPAGAMENTO, $dtpagamento['max'], Criteria::LESS_EQUAL);
                 $useMinMax = true;
             }
             if ($useMinMax) {
@@ -309,134 +302,92 @@ abstract class ClientePgtosQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(ClientePgtosTableMap::COL_ID, $id, $comparison);
+        return $this->addUsingAlias(ClientePgtosTableMap::COL_DTPAGAMENTO, $dtpagamento, $comparison);
     }
 
     /**
-     * Filter the query on the valor column
+     * Filter the query on the nota column
      *
      * Example usage:
      * <code>
-     * $query->filterByValor(1234); // WHERE valor = 1234
-     * $query->filterByValor(array(12, 34)); // WHERE valor IN (12, 34)
-     * $query->filterByValor(array('min' => 12)); // WHERE valor > 12
+     * $query->filterByNota('fooValue');   // WHERE nota = 'fooValue'
+     * $query->filterByNota('%fooValue%'); // WHERE nota LIKE '%fooValue%'
      * </code>
      *
-     * @param     mixed $valor The value to use as filter.
-     *              Use scalar values for equality.
-     *              Use array values for in_array() equivalent.
-     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $nota The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildClientePgtosQuery The current query, for fluid interface
      */
-    public function filterByValor($valor = null, $comparison = null)
+    public function filterByNota($nota = null, $comparison = null)
     {
-        if (is_array($valor)) {
-            $useMinMax = false;
-            if (isset($valor['min'])) {
-                $this->addUsingAlias(ClientePgtosTableMap::COL_VALOR, $valor['min'], Criteria::GREATER_EQUAL);
-                $useMinMax = true;
-            }
-            if (isset($valor['max'])) {
-                $this->addUsingAlias(ClientePgtosTableMap::COL_VALOR, $valor['max'], Criteria::LESS_EQUAL);
-                $useMinMax = true;
-            }
-            if ($useMinMax) {
-                return $this;
-            }
-            if (null === $comparison) {
+        if (null === $comparison) {
+            if (is_array($nota)) {
                 $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $nota)) {
+                $nota = str_replace('*', '%', $nota);
+                $comparison = Criteria::LIKE;
             }
         }
 
-        return $this->addUsingAlias(ClientePgtosTableMap::COL_VALOR, $valor, $comparison);
+        return $this->addUsingAlias(ClientePgtosTableMap::COL_NOTA, $nota, $comparison);
     }
 
     /**
-     * Filter the query on the idproduto column
+     * Filter the query on the ispaid column
      *
      * Example usage:
      * <code>
-     * $query->filterByIdproduto(1234); // WHERE idproduto = 1234
-     * $query->filterByIdproduto(array(12, 34)); // WHERE idproduto IN (12, 34)
-     * $query->filterByIdproduto(array('min' => 12)); // WHERE idproduto > 12
+     * $query->filterByIspaid(true); // WHERE ispaid = true
+     * $query->filterByIspaid('yes'); // WHERE ispaid = true
      * </code>
      *
-     * @see       filterByProdutos()
-     *
-     * @param     mixed $idproduto The value to use as filter.
-     *              Use scalar values for equality.
-     *              Use array values for in_array() equivalent.
-     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     boolean|string $ispaid The value to use as filter.
+     *              Non-boolean arguments are converted using the following rules:
+     *                * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
+     *                * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
+     *              Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildClientePgtosQuery The current query, for fluid interface
      */
-    public function filterByIdproduto($idproduto = null, $comparison = null)
+    public function filterByIspaid($ispaid = null, $comparison = null)
     {
-        if (is_array($idproduto)) {
-            $useMinMax = false;
-            if (isset($idproduto['min'])) {
-                $this->addUsingAlias(ClientePgtosTableMap::COL_IDPRODUTO, $idproduto['min'], Criteria::GREATER_EQUAL);
-                $useMinMax = true;
-            }
-            if (isset($idproduto['max'])) {
-                $this->addUsingAlias(ClientePgtosTableMap::COL_IDPRODUTO, $idproduto['max'], Criteria::LESS_EQUAL);
-                $useMinMax = true;
-            }
-            if ($useMinMax) {
-                return $this;
-            }
-            if (null === $comparison) {
-                $comparison = Criteria::IN;
-            }
+        if (is_string($ispaid)) {
+            $ispaid = in_array(strtolower($ispaid), array('false', 'off', '-', 'no', 'n', '0', '')) ? false : true;
         }
 
-        return $this->addUsingAlias(ClientePgtosTableMap::COL_IDPRODUTO, $idproduto, $comparison);
+        return $this->addUsingAlias(ClientePgtosTableMap::COL_ISPAID, $ispaid, $comparison);
     }
 
     /**
-     * Filter the query on the idcliente column
+     * Filter the query on the descricao column
      *
      * Example usage:
      * <code>
-     * $query->filterByIdcliente(1234); // WHERE idcliente = 1234
-     * $query->filterByIdcliente(array(12, 34)); // WHERE idcliente IN (12, 34)
-     * $query->filterByIdcliente(array('min' => 12)); // WHERE idcliente > 12
+     * $query->filterByDescricao('fooValue');   // WHERE descricao = 'fooValue'
+     * $query->filterByDescricao('%fooValue%'); // WHERE descricao LIKE '%fooValue%'
      * </code>
      *
-     * @see       filterByCliente()
-     *
-     * @param     mixed $idcliente The value to use as filter.
-     *              Use scalar values for equality.
-     *              Use array values for in_array() equivalent.
-     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $descricao The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildClientePgtosQuery The current query, for fluid interface
      */
-    public function filterByIdcliente($idcliente = null, $comparison = null)
+    public function filterByDescricao($descricao = null, $comparison = null)
     {
-        if (is_array($idcliente)) {
-            $useMinMax = false;
-            if (isset($idcliente['min'])) {
-                $this->addUsingAlias(ClientePgtosTableMap::COL_IDCLIENTE, $idcliente['min'], Criteria::GREATER_EQUAL);
-                $useMinMax = true;
-            }
-            if (isset($idcliente['max'])) {
-                $this->addUsingAlias(ClientePgtosTableMap::COL_IDCLIENTE, $idcliente['max'], Criteria::LESS_EQUAL);
-                $useMinMax = true;
-            }
-            if ($useMinMax) {
-                return $this;
-            }
-            if (null === $comparison) {
+        if (null === $comparison) {
+            if (is_array($descricao)) {
                 $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $descricao)) {
+                $descricao = str_replace('*', '%', $descricao);
+                $comparison = Criteria::LIKE;
             }
         }
 
-        return $this->addUsingAlias(ClientePgtosTableMap::COL_IDCLIENTE, $idcliente, $comparison);
+        return $this->addUsingAlias(ClientePgtosTableMap::COL_DESCRICAO, $descricao, $comparison);
     }
 
     /**
@@ -483,88 +434,171 @@ abstract class ClientePgtosQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query on the descricao column
+     * Filter the query on the idcliente column
      *
      * Example usage:
      * <code>
-     * $query->filterByDescricao('fooValue');   // WHERE descricao = 'fooValue'
-     * $query->filterByDescricao('%fooValue%'); // WHERE descricao LIKE '%fooValue%'
+     * $query->filterByIdcliente(1234); // WHERE idcliente = 1234
+     * $query->filterByIdcliente(array(12, 34)); // WHERE idcliente IN (12, 34)
+     * $query->filterByIdcliente(array('min' => 12)); // WHERE idcliente > 12
      * </code>
      *
-     * @param     string $descricao The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
+     * @see       filterByCliente()
+     *
+     * @param     mixed $idcliente The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildClientePgtosQuery The current query, for fluid interface
      */
-    public function filterByDescricao($descricao = null, $comparison = null)
+    public function filterByIdcliente($idcliente = null, $comparison = null)
     {
-        if (null === $comparison) {
-            if (is_array($descricao)) {
+        if (is_array($idcliente)) {
+            $useMinMax = false;
+            if (isset($idcliente['min'])) {
+                $this->addUsingAlias(ClientePgtosTableMap::COL_IDCLIENTE, $idcliente['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($idcliente['max'])) {
+                $this->addUsingAlias(ClientePgtosTableMap::COL_IDCLIENTE, $idcliente['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $descricao)) {
-                $descricao = str_replace('*', '%', $descricao);
-                $comparison = Criteria::LIKE;
             }
         }
 
-        return $this->addUsingAlias(ClientePgtosTableMap::COL_DESCRICAO, $descricao, $comparison);
+        return $this->addUsingAlias(ClientePgtosTableMap::COL_IDCLIENTE, $idcliente, $comparison);
     }
 
     /**
-     * Filter the query on the ispaid column
+     * Filter the query on the idproduto column
      *
      * Example usage:
      * <code>
-     * $query->filterByIspaid(true); // WHERE ispaid = true
-     * $query->filterByIspaid('yes'); // WHERE ispaid = true
+     * $query->filterByIdproduto(1234); // WHERE idproduto = 1234
+     * $query->filterByIdproduto(array(12, 34)); // WHERE idproduto IN (12, 34)
+     * $query->filterByIdproduto(array('min' => 12)); // WHERE idproduto > 12
      * </code>
      *
-     * @param     boolean|string $ispaid The value to use as filter.
-     *              Non-boolean arguments are converted using the following rules:
-     *                * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
-     *                * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
-     *              Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
+     * @see       filterByProdutos()
+     *
+     * @param     mixed $idproduto The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildClientePgtosQuery The current query, for fluid interface
      */
-    public function filterByIspaid($ispaid = null, $comparison = null)
+    public function filterByIdproduto($idproduto = null, $comparison = null)
     {
-        if (is_string($ispaid)) {
-            $ispaid = in_array(strtolower($ispaid), array('false', 'off', '-', 'no', 'n', '0', '')) ? false : true;
-        }
-
-        return $this->addUsingAlias(ClientePgtosTableMap::COL_ISPAID, $ispaid, $comparison);
-    }
-
-    /**
-     * Filter the query on the nota column
-     *
-     * Example usage:
-     * <code>
-     * $query->filterByNota('fooValue');   // WHERE nota = 'fooValue'
-     * $query->filterByNota('%fooValue%'); // WHERE nota LIKE '%fooValue%'
-     * </code>
-     *
-     * @param     string $nota The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return $this|ChildClientePgtosQuery The current query, for fluid interface
-     */
-    public function filterByNota($nota = null, $comparison = null)
-    {
-        if (null === $comparison) {
-            if (is_array($nota)) {
+        if (is_array($idproduto)) {
+            $useMinMax = false;
+            if (isset($idproduto['min'])) {
+                $this->addUsingAlias(ClientePgtosTableMap::COL_IDPRODUTO, $idproduto['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($idproduto['max'])) {
+                $this->addUsingAlias(ClientePgtosTableMap::COL_IDPRODUTO, $idproduto['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $nota)) {
-                $nota = str_replace('*', '%', $nota);
-                $comparison = Criteria::LIKE;
             }
         }
 
-        return $this->addUsingAlias(ClientePgtosTableMap::COL_NOTA, $nota, $comparison);
+        return $this->addUsingAlias(ClientePgtosTableMap::COL_IDPRODUTO, $idproduto, $comparison);
+    }
+
+    /**
+     * Filter the query on the valor column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByValor(1234); // WHERE valor = 1234
+     * $query->filterByValor(array(12, 34)); // WHERE valor IN (12, 34)
+     * $query->filterByValor(array('min' => 12)); // WHERE valor > 12
+     * </code>
+     *
+     * @param     mixed $valor The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildClientePgtosQuery The current query, for fluid interface
+     */
+    public function filterByValor($valor = null, $comparison = null)
+    {
+        if (is_array($valor)) {
+            $useMinMax = false;
+            if (isset($valor['min'])) {
+                $this->addUsingAlias(ClientePgtosTableMap::COL_VALOR, $valor['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($valor['max'])) {
+                $this->addUsingAlias(ClientePgtosTableMap::COL_VALOR, $valor['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(ClientePgtosTableMap::COL_VALOR, $valor, $comparison);
+    }
+
+    /**
+     * Filter the query on the id column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterById(1234); // WHERE id = 1234
+     * $query->filterById(array(12, 34)); // WHERE id IN (12, 34)
+     * $query->filterById(array('min' => 12)); // WHERE id > 12
+     * </code>
+     *
+     * @param     mixed $id The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildClientePgtosQuery The current query, for fluid interface
+     */
+    public function filterById($id = null, $comparison = null)
+    {
+        if (is_array($id)) {
+            $useMinMax = false;
+            if (isset($id['min'])) {
+                $this->addUsingAlias(ClientePgtosTableMap::COL_ID, $id['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($id['max'])) {
+                $this->addUsingAlias(ClientePgtosTableMap::COL_ID, $id['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(ClientePgtosTableMap::COL_ID, $id, $comparison);
     }
 
     /**

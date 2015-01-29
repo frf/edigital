@@ -36,7 +36,7 @@ class ClienteController extends BaseController {
           $dados['nomeUsuario'] = "Fulano";
           $dados['clientes'] = $oClientes;
           
-          return View::make('cliente',$dados);
+          return View::make('cliente.cliente',$dados);
 	}
         public function dadosCliente($id){
             if($id == ""){
@@ -66,7 +66,12 @@ class ClienteController extends BaseController {
                $id   = Auth::user()->idcliente;
                $usuarios = Usuario::where('idcliente', '=', $id)->get();
           }else{               
-               $usuarios = Usuario::all();
+              $usuarios = Usuario::where('tipo','<>','admin')->where('idcliente','=',$id)->get();
+
+              if(!$usuarios->count()){
+                  return Redirect::to('/cliente/cadastrar-login/'.$id)->with('message-erro','Nenhum usuário encontrado!');
+              }
+              
           }
 
           return View::make('cliente.listar-login',array('usuarios'=>$usuarios,'id'=>$id));
@@ -176,6 +181,29 @@ class ClienteController extends BaseController {
           return View::make('cliente.editar',array('cliente'=>$oCliente,'loginCliente'=>$loginCliente,'id'=>$id));
           
 	}
+        public function novo()
+	{
+          $method = Request::method();
+          
+          $nome  = Input::get('nome');
+          $email = Input::get('email');
+          $obscontrato = Input::get('obscontrato');
+           
+          if (Request::isMethod('post'))
+          {
+              $oCliente = new Cliente();
+              $oCliente->setNome($nome);
+              $oCliente->setEmail($email);
+              $oCliente->setObscontrato($obscontrato);
+              $oCliente->setAtivo(true);
+              $oCliente->save();
+        
+              return Redirect::to('/cliente')->with('message-sucess','Cadastrado com sucesso!');
+          }
+          
+          return View::make('cliente.novo');
+          
+	}
         public function cadastrarLogin($id)
 	{
           $method = Request::method();
@@ -244,6 +272,9 @@ class ClienteController extends BaseController {
                 return Redirect::to('/cliente')->with('message-erro','Nenhum cliente encontrado!');
             }          
           
+            $oCliente->getClientePgtoss()->delete();
+            $oCliente->getProdutoss()->delete();
+            $oCliente->getUsuarioss()->delete();
             $oCliente->delete();
             
             return Redirect::to('/cliente')->with('message-sucess','Cliente excluído com sucesso!');
@@ -253,7 +284,7 @@ class ClienteController extends BaseController {
 	{
             $method = Request::method();
            
-            $oCliente = UsuariosQuery::create()->filterById($id)->findOne();     
+            $oCliente = UsuariosQuery::create()->filterById($id)->filterByIdcliente($idCli)->findOne();     
            
             if(!$oCliente){
                 return Redirect::to('/cliente')->with('message-erro','Usuário não encontrado!');

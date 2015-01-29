@@ -19,10 +19,34 @@ class FinanceiroController extends BaseController {
        public function index()
 	{
       
-          $dados['pgtos'] = ClientePgtosQuery::create()->find();
+          $dados['pgtos'] = ClientePgtosQuery::create()->orderByIspaid()->orderByDtpagamento(Criteria::DESC)->find();
           
           
           return View::make('financeiro.index',$dados);
+	}
+       public function efetuarPagamento($id)
+	{
+         if(is_numeric($id)){
+            $tipo = Request::segment(2);      
+            $pgto = ClientePgtosQuery::create()->findPk($id);
+          
+            if($tipo == "pago"){
+                $pgto->setIspaid(true);
+                $pgto->setDtpagamento(date('Y-m-d H:i:s'));
+            }else if($tipo == "pendente"){
+                $pgto->setIspaid(false);
+                $pgto->setDtpagamento(null);
+            }else{
+                return Redirect::to('/financeiro')->with('message-erro','Erro no pagamento!');
+            }
+            
+            $pgto->save();
+          
+            return Redirect::to('/financeiro')->with('message-sucess','Status alterado com sucesso!');
+         }else{
+            return Redirect::to('/financeiro')->with('message-erro','Erro no pagamento!');
+         }
+          
 	}
        public function novoLancamento()
 	{

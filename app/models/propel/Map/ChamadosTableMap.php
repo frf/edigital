@@ -72,39 +72,14 @@ class ChamadosTableMap extends TableMap
     const NUM_HYDRATE_COLUMNS = 9;
 
     /**
-     * the column name for the id field
+     * the column name for the idusuario field
      */
-    const COL_ID = 'chamados.id';
+    const COL_IDUSUARIO = 'chamados.idusuario';
 
     /**
-     * the column name for the usuario field
+     * the column name for the updated_at field
      */
-    const COL_USUARIO = 'chamados.usuario';
-
-    /**
-     * the column name for the categoria field
-     */
-    const COL_CATEGORIA = 'chamados.categoria';
-
-    /**
-     * the column name for the titulo field
-     */
-    const COL_TITULO = 'chamados.titulo';
-
-    /**
-     * the column name for the status field
-     */
-    const COL_STATUS = 'chamados.status';
-
-    /**
-     * the column name for the mensagem field
-     */
-    const COL_MENSAGEM = 'chamados.mensagem';
-
-    /**
-     * the column name for the data field
-     */
-    const COL_DATA = 'chamados.data';
+    const COL_UPDATED_AT = 'chamados.updated_at';
 
     /**
      * the column name for the created_at field
@@ -112,9 +87,34 @@ class ChamadosTableMap extends TableMap
     const COL_CREATED_AT = 'chamados.created_at';
 
     /**
-     * the column name for the updated_at field
+     * the column name for the data field
      */
-    const COL_UPDATED_AT = 'chamados.updated_at';
+    const COL_DATA = 'chamados.data';
+
+    /**
+     * the column name for the mensagem field
+     */
+    const COL_MENSAGEM = 'chamados.mensagem';
+
+    /**
+     * the column name for the status field
+     */
+    const COL_STATUS = 'chamados.status';
+
+    /**
+     * the column name for the titulo field
+     */
+    const COL_TITULO = 'chamados.titulo';
+
+    /**
+     * the column name for the categoria field
+     */
+    const COL_CATEGORIA = 'chamados.categoria';
+
+    /**
+     * the column name for the id field
+     */
+    const COL_ID = 'chamados.id';
 
     /**
      * The default string format for model objects of the related table
@@ -128,10 +128,10 @@ class ChamadosTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'Usuario', 'Categoria', 'Titulo', 'Status', 'Mensagem', 'Data', 'CreatedAt', 'UpdatedAt', ),
-        self::TYPE_CAMELNAME     => array('id', 'usuario', 'categoria', 'titulo', 'status', 'mensagem', 'data', 'createdAt', 'updatedAt', ),
-        self::TYPE_COLNAME       => array(ChamadosTableMap::COL_ID, ChamadosTableMap::COL_USUARIO, ChamadosTableMap::COL_CATEGORIA, ChamadosTableMap::COL_TITULO, ChamadosTableMap::COL_STATUS, ChamadosTableMap::COL_MENSAGEM, ChamadosTableMap::COL_DATA, ChamadosTableMap::COL_CREATED_AT, ChamadosTableMap::COL_UPDATED_AT, ),
-        self::TYPE_FIELDNAME     => array('id', 'usuario', 'categoria', 'titulo', 'status', 'mensagem', 'data', 'created_at', 'updated_at', ),
+        self::TYPE_PHPNAME       => array('Idusuario', 'UpdatedAt', 'CreatedAt', 'Data', 'Mensagem', 'Status', 'Titulo', 'Categoria', 'Id', ),
+        self::TYPE_CAMELNAME     => array('idusuario', 'updatedAt', 'createdAt', 'data', 'mensagem', 'status', 'titulo', 'categoria', 'id', ),
+        self::TYPE_COLNAME       => array(ChamadosTableMap::COL_IDUSUARIO, ChamadosTableMap::COL_UPDATED_AT, ChamadosTableMap::COL_CREATED_AT, ChamadosTableMap::COL_DATA, ChamadosTableMap::COL_MENSAGEM, ChamadosTableMap::COL_STATUS, ChamadosTableMap::COL_TITULO, ChamadosTableMap::COL_CATEGORIA, ChamadosTableMap::COL_ID, ),
+        self::TYPE_FIELDNAME     => array('idusuario', 'updated_at', 'created_at', 'data', 'mensagem', 'status', 'titulo', 'categoria', 'id', ),
         self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, )
     );
 
@@ -142,10 +142,10 @@ class ChamadosTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'Usuario' => 1, 'Categoria' => 2, 'Titulo' => 3, 'Status' => 4, 'Mensagem' => 5, 'Data' => 6, 'CreatedAt' => 7, 'UpdatedAt' => 8, ),
-        self::TYPE_CAMELNAME     => array('id' => 0, 'usuario' => 1, 'categoria' => 2, 'titulo' => 3, 'status' => 4, 'mensagem' => 5, 'data' => 6, 'createdAt' => 7, 'updatedAt' => 8, ),
-        self::TYPE_COLNAME       => array(ChamadosTableMap::COL_ID => 0, ChamadosTableMap::COL_USUARIO => 1, ChamadosTableMap::COL_CATEGORIA => 2, ChamadosTableMap::COL_TITULO => 3, ChamadosTableMap::COL_STATUS => 4, ChamadosTableMap::COL_MENSAGEM => 5, ChamadosTableMap::COL_DATA => 6, ChamadosTableMap::COL_CREATED_AT => 7, ChamadosTableMap::COL_UPDATED_AT => 8, ),
-        self::TYPE_FIELDNAME     => array('id' => 0, 'usuario' => 1, 'categoria' => 2, 'titulo' => 3, 'status' => 4, 'mensagem' => 5, 'data' => 6, 'created_at' => 7, 'updated_at' => 8, ),
+        self::TYPE_PHPNAME       => array('Idusuario' => 0, 'UpdatedAt' => 1, 'CreatedAt' => 2, 'Data' => 3, 'Mensagem' => 4, 'Status' => 5, 'Titulo' => 6, 'Categoria' => 7, 'Id' => 8, ),
+        self::TYPE_CAMELNAME     => array('idusuario' => 0, 'updatedAt' => 1, 'createdAt' => 2, 'data' => 3, 'mensagem' => 4, 'status' => 5, 'titulo' => 6, 'categoria' => 7, 'id' => 8, ),
+        self::TYPE_COLNAME       => array(ChamadosTableMap::COL_IDUSUARIO => 0, ChamadosTableMap::COL_UPDATED_AT => 1, ChamadosTableMap::COL_CREATED_AT => 2, ChamadosTableMap::COL_DATA => 3, ChamadosTableMap::COL_MENSAGEM => 4, ChamadosTableMap::COL_STATUS => 5, ChamadosTableMap::COL_TITULO => 6, ChamadosTableMap::COL_CATEGORIA => 7, ChamadosTableMap::COL_ID => 8, ),
+        self::TYPE_FIELDNAME     => array('idusuario' => 0, 'updated_at' => 1, 'created_at' => 2, 'data' => 3, 'mensagem' => 4, 'status' => 5, 'titulo' => 6, 'categoria' => 7, 'id' => 8, ),
         self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, )
     );
 
@@ -167,15 +167,15 @@ class ChamadosTableMap extends TableMap
         $this->setUseIdGenerator(true);
         $this->setPrimaryKeyMethodInfo('chamados_id_seq');
         // columns
-        $this->addPrimaryKey('id', 'Id', 'INTEGER', true, null, null);
-        $this->addColumn('usuario', 'Usuario', 'VARCHAR', true, 255, null);
-        $this->addColumn('categoria', 'Categoria', 'INTEGER', true, null, null);
-        $this->addColumn('titulo', 'Titulo', 'VARCHAR', true, 255, null);
-        $this->addColumn('status', 'Status', 'INTEGER', true, null, null);
-        $this->addColumn('mensagem', 'Mensagem', 'VARCHAR', true, 255, null);
-        $this->addColumn('data', 'Data', 'VARCHAR', true, 255, null);
-        $this->addColumn('created_at', 'CreatedAt', 'TIMESTAMP', true, null, null);
+        $this->addForeignKey('idusuario', 'Idusuario', 'INTEGER', 'usuarios', 'id', false, null, null);
         $this->addColumn('updated_at', 'UpdatedAt', 'TIMESTAMP', true, null, null);
+        $this->addColumn('created_at', 'CreatedAt', 'TIMESTAMP', true, null, null);
+        $this->addColumn('data', 'Data', 'VARCHAR', true, 255, null);
+        $this->addColumn('mensagem', 'Mensagem', 'VARCHAR', true, 255, null);
+        $this->addColumn('status', 'Status', 'INTEGER', true, null, null);
+        $this->addColumn('titulo', 'Titulo', 'VARCHAR', true, 255, null);
+        $this->addColumn('categoria', 'Categoria', 'INTEGER', true, null, null);
+        $this->addPrimaryKey('id', 'Id', 'INTEGER', true, null, null);
     } // initialize()
 
     /**
@@ -183,6 +183,7 @@ class ChamadosTableMap extends TableMap
      */
     public function buildRelations()
     {
+        $this->addRelation('Usuarios', '\\Usuarios', RelationMap::MANY_TO_ONE, array('idusuario' => 'id', ), null, null);
     } // buildRelations()
 
     /**
@@ -201,11 +202,11 @@ class ChamadosTableMap extends TableMap
     public static function getPrimaryKeyHashFromRow($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
     {
         // If the PK cannot be derived from the row, return NULL.
-        if ($row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)] === null) {
+        if ($row[TableMap::TYPE_NUM == $indexType ? 8 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)] === null) {
             return null;
         }
 
-        return (string) $row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
+        return (string) $row[TableMap::TYPE_NUM == $indexType ? 8 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
     }
 
     /**
@@ -224,7 +225,7 @@ class ChamadosTableMap extends TableMap
     {
         return (int) $row[
             $indexType == TableMap::TYPE_NUM
-                ? 0 + $offset
+                ? 8 + $offset
                 : self::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)
         ];
     }
@@ -326,25 +327,25 @@ class ChamadosTableMap extends TableMap
     public static function addSelectColumns(Criteria $criteria, $alias = null)
     {
         if (null === $alias) {
-            $criteria->addSelectColumn(ChamadosTableMap::COL_ID);
-            $criteria->addSelectColumn(ChamadosTableMap::COL_USUARIO);
-            $criteria->addSelectColumn(ChamadosTableMap::COL_CATEGORIA);
-            $criteria->addSelectColumn(ChamadosTableMap::COL_TITULO);
-            $criteria->addSelectColumn(ChamadosTableMap::COL_STATUS);
-            $criteria->addSelectColumn(ChamadosTableMap::COL_MENSAGEM);
-            $criteria->addSelectColumn(ChamadosTableMap::COL_DATA);
-            $criteria->addSelectColumn(ChamadosTableMap::COL_CREATED_AT);
+            $criteria->addSelectColumn(ChamadosTableMap::COL_IDUSUARIO);
             $criteria->addSelectColumn(ChamadosTableMap::COL_UPDATED_AT);
+            $criteria->addSelectColumn(ChamadosTableMap::COL_CREATED_AT);
+            $criteria->addSelectColumn(ChamadosTableMap::COL_DATA);
+            $criteria->addSelectColumn(ChamadosTableMap::COL_MENSAGEM);
+            $criteria->addSelectColumn(ChamadosTableMap::COL_STATUS);
+            $criteria->addSelectColumn(ChamadosTableMap::COL_TITULO);
+            $criteria->addSelectColumn(ChamadosTableMap::COL_CATEGORIA);
+            $criteria->addSelectColumn(ChamadosTableMap::COL_ID);
         } else {
-            $criteria->addSelectColumn($alias . '.id');
-            $criteria->addSelectColumn($alias . '.usuario');
-            $criteria->addSelectColumn($alias . '.categoria');
-            $criteria->addSelectColumn($alias . '.titulo');
-            $criteria->addSelectColumn($alias . '.status');
-            $criteria->addSelectColumn($alias . '.mensagem');
-            $criteria->addSelectColumn($alias . '.data');
-            $criteria->addSelectColumn($alias . '.created_at');
+            $criteria->addSelectColumn($alias . '.idusuario');
             $criteria->addSelectColumn($alias . '.updated_at');
+            $criteria->addSelectColumn($alias . '.created_at');
+            $criteria->addSelectColumn($alias . '.data');
+            $criteria->addSelectColumn($alias . '.mensagem');
+            $criteria->addSelectColumn($alias . '.status');
+            $criteria->addSelectColumn($alias . '.titulo');
+            $criteria->addSelectColumn($alias . '.categoria');
+            $criteria->addSelectColumn($alias . '.id');
         }
     }
 
