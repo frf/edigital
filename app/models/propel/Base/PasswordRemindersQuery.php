@@ -19,13 +19,13 @@ use Propel\Runtime\Exception\PropelException;
  *
  *
  *
- * @method     ChildPasswordRemindersQuery orderByCreatedAt($order = Criteria::ASC) Order by the created_at column
- * @method     ChildPasswordRemindersQuery orderByToken($order = Criteria::ASC) Order by the token column
  * @method     ChildPasswordRemindersQuery orderByEmail($order = Criteria::ASC) Order by the email column
+ * @method     ChildPasswordRemindersQuery orderByToken($order = Criteria::ASC) Order by the token column
+ * @method     ChildPasswordRemindersQuery orderByCreatedAt($order = Criteria::ASC) Order by the created_at column
  *
- * @method     ChildPasswordRemindersQuery groupByCreatedAt() Group by the created_at column
- * @method     ChildPasswordRemindersQuery groupByToken() Group by the token column
  * @method     ChildPasswordRemindersQuery groupByEmail() Group by the email column
+ * @method     ChildPasswordRemindersQuery groupByToken() Group by the token column
+ * @method     ChildPasswordRemindersQuery groupByCreatedAt() Group by the created_at column
  *
  * @method     ChildPasswordRemindersQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method     ChildPasswordRemindersQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
@@ -34,19 +34,27 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildPasswordReminders findOne(ConnectionInterface $con = null) Return the first ChildPasswordReminders matching the query
  * @method     ChildPasswordReminders findOneOrCreate(ConnectionInterface $con = null) Return the first ChildPasswordReminders matching the query, or a new ChildPasswordReminders object populated from the query conditions when no match is found
  *
- * @method     ChildPasswordReminders findOneByCreatedAt(string $created_at) Return the first ChildPasswordReminders filtered by the created_at column
- * @method     ChildPasswordReminders findOneByToken(string $token) Return the first ChildPasswordReminders filtered by the token column
  * @method     ChildPasswordReminders findOneByEmail(string $email) Return the first ChildPasswordReminders filtered by the email column
+ * @method     ChildPasswordReminders findOneByToken(string $token) Return the first ChildPasswordReminders filtered by the token column
+ * @method     ChildPasswordReminders findOneByCreatedAt(string $created_at) Return the first ChildPasswordReminders filtered by the created_at column *
+
+ * @method     ChildPasswordReminders requirePk($key, ConnectionInterface $con = null) Return the ChildPasswordReminders by primary key and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildPasswordReminders requireOne(ConnectionInterface $con = null) Return the first ChildPasswordReminders matching the query and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ *
+ * @method     ChildPasswordReminders requireOneByEmail(string $email) Return the first ChildPasswordReminders filtered by the email column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildPasswordReminders requireOneByToken(string $token) Return the first ChildPasswordReminders filtered by the token column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildPasswordReminders requireOneByCreatedAt(string $created_at) Return the first ChildPasswordReminders filtered by the created_at column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
  * @method     ChildPasswordReminders[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildPasswordReminders objects based on current ModelCriteria
- * @method     ChildPasswordReminders[]|ObjectCollection findByCreatedAt(string $created_at) Return ChildPasswordReminders objects filtered by the created_at column
- * @method     ChildPasswordReminders[]|ObjectCollection findByToken(string $token) Return ChildPasswordReminders objects filtered by the token column
  * @method     ChildPasswordReminders[]|ObjectCollection findByEmail(string $email) Return ChildPasswordReminders objects filtered by the email column
+ * @method     ChildPasswordReminders[]|ObjectCollection findByToken(string $token) Return ChildPasswordReminders objects filtered by the token column
+ * @method     ChildPasswordReminders[]|ObjectCollection findByCreatedAt(string $created_at) Return ChildPasswordReminders objects filtered by the created_at column
  * @method     ChildPasswordReminders[]|\Propel\Runtime\Util\PropelModelPager paginate($page = 1, $maxPerPage = 10, ConnectionInterface $con = null) Issue a SELECT query based on the current ModelCriteria and uses a page and a maximum number of results per page to compute an offset and a limit
  *
  */
 abstract class PasswordRemindersQuery extends ModelCriteria
 {
+    protected $entityNotFoundExceptionClass = '\\Propel\\Runtime\\Exception\\EntityNotFoundException';
 
     /**
      * Initializes internal state of \Base\PasswordRemindersQuery object.
@@ -143,6 +151,64 @@ abstract class PasswordRemindersQuery extends ModelCriteria
     }
 
     /**
+     * Filter the query on the email column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByEmail('fooValue');   // WHERE email = 'fooValue'
+     * $query->filterByEmail('%fooValue%'); // WHERE email LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $email The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildPasswordRemindersQuery The current query, for fluid interface
+     */
+    public function filterByEmail($email = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($email)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $email)) {
+                $email = str_replace('*', '%', $email);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(PasswordRemindersTableMap::COL_EMAIL, $email, $comparison);
+    }
+
+    /**
+     * Filter the query on the token column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByToken('fooValue');   // WHERE token = 'fooValue'
+     * $query->filterByToken('%fooValue%'); // WHERE token LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $token The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildPasswordRemindersQuery The current query, for fluid interface
+     */
+    public function filterByToken($token = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($token)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $token)) {
+                $token = str_replace('*', '%', $token);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(PasswordRemindersTableMap::COL_TOKEN, $token, $comparison);
+    }
+
+    /**
      * Filter the query on the created_at column
      *
      * Example usage:
@@ -183,64 +249,6 @@ abstract class PasswordRemindersQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(PasswordRemindersTableMap::COL_CREATED_AT, $createdAt, $comparison);
-    }
-
-    /**
-     * Filter the query on the token column
-     *
-     * Example usage:
-     * <code>
-     * $query->filterByToken('fooValue');   // WHERE token = 'fooValue'
-     * $query->filterByToken('%fooValue%'); // WHERE token LIKE '%fooValue%'
-     * </code>
-     *
-     * @param     string $token The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return $this|ChildPasswordRemindersQuery The current query, for fluid interface
-     */
-    public function filterByToken($token = null, $comparison = null)
-    {
-        if (null === $comparison) {
-            if (is_array($token)) {
-                $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $token)) {
-                $token = str_replace('*', '%', $token);
-                $comparison = Criteria::LIKE;
-            }
-        }
-
-        return $this->addUsingAlias(PasswordRemindersTableMap::COL_TOKEN, $token, $comparison);
-    }
-
-    /**
-     * Filter the query on the email column
-     *
-     * Example usage:
-     * <code>
-     * $query->filterByEmail('fooValue');   // WHERE email = 'fooValue'
-     * $query->filterByEmail('%fooValue%'); // WHERE email LIKE '%fooValue%'
-     * </code>
-     *
-     * @param     string $email The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return $this|ChildPasswordRemindersQuery The current query, for fluid interface
-     */
-    public function filterByEmail($email = null, $comparison = null)
-    {
-        if (null === $comparison) {
-            if (is_array($email)) {
-                $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $email)) {
-                $email = str_replace('*', '%', $email);
-                $comparison = Criteria::LIKE;
-            }
-        }
-
-        return $this->addUsingAlias(PasswordRemindersTableMap::COL_EMAIL, $email, $comparison);
     }
 
     /**

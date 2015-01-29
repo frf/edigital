@@ -12,7 +12,8 @@
 @section('content')
 
 <script src="/js/atendimento.js"></script>
-
+    <h3>Todos os Chamados</h3>
+    
     @if(Session::has('success'))
         <div class="alert alert-success alert-dismissible" role="alert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -26,17 +27,10 @@
             {{ Session::get('warning') }}
         </div>
     @endif
-
-
-    <div style="padding-top: 30px; font-size: 13px">
-        <h3><b>Todos os Chamados</b></h3>
-
+    <div class="table-responsive table-striped" id="no-more-tables">
         @if(Auth::user()->tipo == 'cliente')
-            <a href="/atendimento/cadastrar" class="btn btn-primary">Novo Chamado</a>
-
+        <a href="/atendimento/cadastrar" class="btn btn-primary margem">Novo Chamado</a>
         @endif
-        <br />
-        <br />
         <table class="table" id="no-more-tables">
             <thead>
                 <thead>

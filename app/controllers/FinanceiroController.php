@@ -60,6 +60,19 @@ class FinanceiroController extends BaseController {
         
             return View::make('financeiro.novo-lancamento',array('clientes'=> $aCliente));
         }
+        public function excluirLancamento($id){
+            $method = Request::method();
+           
+            $oPgto = Base\ClientePgtosQuery::create()->filterById($id)->findOne();     
+           
+            if(!$oPgto){
+                return Redirect::to('/financeiro')->with('message-erro','Nenhum pagamento encontrado!');
+            }          
+          
+            $oPgto->delete();
+            
+            return Redirect::to('/financeiro')->with('message-sucess','Pagamento excluído com sucesso!');
+        }
        public function salvarLancamento()
 	{
            $dados = Input::all();
@@ -68,23 +81,33 @@ class FinanceiroController extends BaseController {
            if($dados['valor'] != "" && $dados['idcliente'] != ""){
            
                if(Input::hasFile('nota')){
-                    $fileNome = $dados['idcliente']. "_" .md5($file->getClientOriginalName() . date('Ymd'));
+                    $fileName = $dados['idcliente']. "_" .md5($file->getClientOriginalName() . date('Ymd'));
                }
                
                $pgto = new ClientePgtos();
                
-               if($dados['idproduto'] != ""){
+               if(isset($dados['idproduto'])){
                    $pgto->setIdproduto($dados['idproduto']);
                }
                $pgto->setIdcliente($dados['idcliente']);
                $pgto->setDescricao($dados['descricao']);
                $pgto->setValor($dados['valor']);
-               $pgto->setIspaid($dados['ispaid']);
+               
+               if(isset($dados['ispaid'])){
+                   $pgto->setIspaid($dados['ispaid']);
+               }else{
+                   $pgto->setIspaid(false);
+               }
+               if(isset($dados['aviso'])){
+                   /*
+                    * Avisar cliente de nova postagem
+                    */
+               }
                $pgto->setIdmoeda(Config::get('edigital.moeda'));
                
                if(Input::hasFile('nota')){
-                   $pgto->setNota($fileNome);
-                   $file->move(__DIR__.'/../storage/nota/',$fileNome);               
+                   $pgto->setNota($fileName);
+                   $file->move(__DIR__.'/../storage/nota/',$fileName);               
                }
                
                $pgto->save();

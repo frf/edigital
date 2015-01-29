@@ -16,14 +16,20 @@ class HomeController extends BaseController {
 
         public function index() {
 
-            $header['nomeEmpresa'] = Config::get('edigital.nomeSistema');   
+            $header['nomeEmpresa']  = Config::get('edigital.nomeSistema');   
+            $header['chamados']     = array();
+            $header['pgtos']        = array();
+            
             
             if(Auth::check()){
-                $oCliente = Base\ClienteQuery::create()->filterById(Auth::user()->idcliente)->findOne();
-                $header['nomeEmpresa']  = $oCliente->getNome();            
                 $header['nomeUsuario']  = Auth::user()->nome;
-                $header['chamados']     = Chamado::orderBy('id', 'DESC')->paginate(3);
-                $header['pgtos']        = ClientePgtosQuery::create()->orderByIspaid()->limit(3)->orderByDtpagamento(Criteria::DESC)->find();
+                
+                if(Auth::user()->tipo == 'cliente'){
+                    $oCliente = Base\ClienteQuery::create()->filterById(Auth::user()->idcliente)->findOne();                    
+                    $header['nomeEmpresa']  = $oCliente->getNome();                    
+                    $header['chamados']     = Chamado::orderBy('id', 'DESC')->paginate(3);
+                    $header['pgtos']        = ClientePgtosQuery::create()->orderByIspaid()->limit(3)->orderByDtpagamento(Criteria::DESC)->find();
+                }
             }
 
             return View::make('home', $header);

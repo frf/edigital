@@ -41,7 +41,9 @@ body {
 #footer {
     background-color: #f5f5f5;
 }
-
+.btn.margem{
+    margin-bottom: 20px;
+}
 /* 
 Max width before this PARTICULAR table gets nasty
 This query will take effect for any screen smaller than 760px

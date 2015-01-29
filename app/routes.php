@@ -44,6 +44,7 @@ Route::group(array('before' => 'auth'), function()
     Route::get('/financeiro/novo-lancamento', 'FinanceiroController@novoLancamento');
     Route::get('/financeiro/pago/{id}', 'FinanceiroController@efetuarPagamento');
     Route::get('/financeiro/pendente/{id}', 'FinanceiroController@efetuarPagamento');
+    Route::get('/financeiro/excluir-lancamento/{id}', 'FinanceiroController@excluirLancamento');
     Route::post('/financeiro/salvar-lancamento', 'FinanceiroController@salvarLancamento');
     
     

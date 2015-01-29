@@ -85,7 +85,7 @@
             <th>Nota Fiscal</th><td scope="row">{{ Form::file('nota',null,array('class' => 'form-control')) }}</td>           
           </tr>
           <tr> 
-            <th>Pago?</th><td scope="row">{{ Form::checkbox('ispaid',1) }}</td>           
+            <th>Pago?</th><td scope="row">{{ Form::checkbox('ispaid',1,null) }}</td>           
           </tr>
           <tr> 
             <th>Avisar ao cliente?</th><td scope="row">{{ Form::checkbox('aviso',1,null) }}</td>           

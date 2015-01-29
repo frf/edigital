@@ -60,16 +60,16 @@ abstract class Migrations implements ActiveRecordInterface
     protected $virtualColumns = array();
 
     /**
-     * The value for the batch field.
-     * @var        int
-     */
-    protected $batch;
-
-    /**
      * The value for the migration field.
      * @var        string
      */
     protected $migration;
+
+    /**
+     * The value for the batch field.
+     * @var        int
+     */
+    protected $batch;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced
@@ -297,16 +297,6 @@ abstract class Migrations implements ActiveRecordInterface
     }
 
     /**
-     * Get the [batch] column value.
-     *
-     * @return int
-     */
-    public function getBatch()
-    {
-        return $this->batch;
-    }
-
-    /**
      * Get the [migration] column value.
      *
      * @return string
@@ -317,24 +307,14 @@ abstract class Migrations implements ActiveRecordInterface
     }
 
     /**
-     * Set the value of [batch] column.
+     * Get the [batch] column value.
      *
-     * @param  int $v new value
-     * @return $this|\Migrations The current object (for fluent API support)
+     * @return int
      */
-    public function setBatch($v)
+    public function getBatch()
     {
-        if ($v !== null) {
-            $v = (int) $v;
-        }
-
-        if ($this->batch !== $v) {
-            $this->batch = $v;
-            $this->modifiedColumns[MigrationsTableMap::COL_BATCH] = true;
-        }
-
-        return $this;
-    } // setBatch()
+        return $this->batch;
+    }
 
     /**
      * Set the value of [migration] column.
@@ -355,6 +335,26 @@ abstract class Migrations implements ActiveRecordInterface
 
         return $this;
     } // setMigration()
+
+    /**
+     * Set the value of [batch] column.
+     *
+     * @param  int $v new value
+     * @return $this|\Migrations The current object (for fluent API support)
+     */
+    public function setBatch($v)
+    {
+        if ($v !== null) {
+            $v = (int) $v;
+        }
+
+        if ($this->batch !== $v) {
+            $this->batch = $v;
+            $this->modifiedColumns[MigrationsTableMap::COL_BATCH] = true;
+        }
+
+        return $this;
+    } // setBatch()
 
     /**
      * Indicates whether the columns in this object are only set to default values.
@@ -392,11 +392,11 @@ abstract class Migrations implements ActiveRecordInterface
     {
         try {
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : MigrationsTableMap::translateFieldName('Batch', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->batch = (null !== $col) ? (int) $col : null;
-
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : MigrationsTableMap::translateFieldName('Migration', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : MigrationsTableMap::translateFieldName('Migration', TableMap::TYPE_PHPNAME, $indexType)];
             $this->migration = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : MigrationsTableMap::translateFieldName('Batch', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->batch = (null !== $col) ? (int) $col : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -598,11 +598,11 @@ abstract class Migrations implements ActiveRecordInterface
 
 
          // check the columns in natural order for more readable SQL queries
-        if ($this->isColumnModified(MigrationsTableMap::COL_BATCH)) {
-            $modifiedColumns[':p' . $index++]  = 'batch';
-        }
         if ($this->isColumnModified(MigrationsTableMap::COL_MIGRATION)) {
             $modifiedColumns[':p' . $index++]  = 'migration';
+        }
+        if ($this->isColumnModified(MigrationsTableMap::COL_BATCH)) {
+            $modifiedColumns[':p' . $index++]  = 'batch';
         }
 
         $sql = sprintf(
@@ -615,11 +615,11 @@ abstract class Migrations implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-                    case 'batch':
-                        $stmt->bindValue($identifier, $this->batch, PDO::PARAM_INT);
-                        break;
                     case 'migration':
                         $stmt->bindValue($identifier, $this->migration, PDO::PARAM_STR);
+                        break;
+                    case 'batch':
+                        $stmt->bindValue($identifier, $this->batch, PDO::PARAM_INT);
                         break;
                 }
             }
@@ -677,10 +677,10 @@ abstract class Migrations implements ActiveRecordInterface
     {
         switch ($pos) {
             case 0:
-                return $this->getBatch();
+                return $this->getMigration();
                 break;
             case 1:
-                return $this->getMigration();
+                return $this->getBatch();
                 break;
             default:
                 return null;
@@ -711,8 +711,8 @@ abstract class Migrations implements ActiveRecordInterface
         $alreadyDumpedObjects['Migrations'][$this->hashCode()] = true;
         $keys = MigrationsTableMap::getFieldNames($keyType);
         $result = array(
-            $keys[0] => $this->getBatch(),
-            $keys[1] => $this->getMigration(),
+            $keys[0] => $this->getMigration(),
+            $keys[1] => $this->getBatch(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -753,10 +753,10 @@ abstract class Migrations implements ActiveRecordInterface
     {
         switch ($pos) {
             case 0:
-                $this->setBatch($value);
+                $this->setMigration($value);
                 break;
             case 1:
-                $this->setMigration($value);
+                $this->setBatch($value);
                 break;
         } // switch()
 
@@ -785,10 +785,10 @@ abstract class Migrations implements ActiveRecordInterface
         $keys = MigrationsTableMap::getFieldNames($keyType);
 
         if (array_key_exists($keys[0], $arr)) {
-            $this->setBatch($arr[$keys[0]]);
+            $this->setMigration($arr[$keys[0]]);
         }
         if (array_key_exists($keys[1], $arr)) {
-            $this->setMigration($arr[$keys[1]]);
+            $this->setBatch($arr[$keys[1]]);
         }
     }
 
@@ -831,11 +831,11 @@ abstract class Migrations implements ActiveRecordInterface
     {
         $criteria = new Criteria(MigrationsTableMap::DATABASE_NAME);
 
-        if ($this->isColumnModified(MigrationsTableMap::COL_BATCH)) {
-            $criteria->add(MigrationsTableMap::COL_BATCH, $this->batch);
-        }
         if ($this->isColumnModified(MigrationsTableMap::COL_MIGRATION)) {
             $criteria->add(MigrationsTableMap::COL_MIGRATION, $this->migration);
+        }
+        if ($this->isColumnModified(MigrationsTableMap::COL_BATCH)) {
+            $criteria->add(MigrationsTableMap::COL_BATCH, $this->batch);
         }
 
         return $criteria;
@@ -926,8 +926,8 @@ abstract class Migrations implements ActiveRecordInterface
      */
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
-        $copyObj->setBatch($this->getBatch());
         $copyObj->setMigration($this->getMigration());
+        $copyObj->setBatch($this->getBatch());
         if ($makeNew) {
             $copyObj->setNew(true);
         }
@@ -962,8 +962,8 @@ abstract class Migrations implements ActiveRecordInterface
      */
     public function clear()
     {
-        $this->batch = null;
         $this->migration = null;
+        $this->batch = null;
         $this->alreadyInSave = false;
         $this->clearAllReferences();
         $this->resetModified();

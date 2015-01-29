@@ -47,11 +47,13 @@
               <td data-title="Nome Cliente" scope="row">{{ $pgto->getCliente()->getNome() }}</td>
               <td data-title="Dt Pgto" scope="row">{{ $pgto->getDtpagamento('d/m/Y H:i') }}</td>
               <td data-title="Ferramenta" scope="row">
-                  @if($pgto->getIsPaid())
+                    @if($pgto->getIsPaid())
                         <a href="/financeiro/pendente/{{ $pgto->getId() }}" class="btn btn-xs btn-success">Pago</a>
                     @else 
                         <a href="/financeiro/pago/{{ $pgto->getId() }}" class="btn btn-xs btn-warning">Pendente</a>
                     @endif
+                    
+                    <a href="/financeiro/excluir-lancamento/{{ $pgto->getId() }}" class="btn btn-xs btn-danger">Excluir</a>
               </td>              
             </tr>
         @endforeach
