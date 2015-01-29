@@ -17,13 +17,13 @@
             </div>
             
             @if (Session::has('flash_error'))
-                <div class="alert alert-danger">E-mail ou senha inválidos.</div>
+                <div class="alert alert-danger">{{ Session::get('flash_error') }}</div>
             @endif
             
-            <label class="checkbox">
+           <!-- <label class="checkbox">
                 {{ Form::checkbox('remember', 'remember', true) }} Lembre-se de mim
             </label>
-            
+            -->
             {{ Form::submit('Entrar', array('class' => 'btn btn-lg btn-primary btn-block')) }}
 
         {{ Form::close() }}
