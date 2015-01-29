@@ -49,7 +49,7 @@
             });
        }
     }
-</script>
+</script> 
 <h3>Lançamento Financeiro</h3>
  @if(Session::has('message-sucess'))
     <div role="alert" class="alert alert-success">
