@@ -16,6 +16,16 @@ class BaseController extends Controller {
 		{
 			$this->layout = View::make($this->layout);
 		}
+                
+                if(Auth::check()){
+                    if(Auth::user()->lang != ""){
+                        App::setLocale(Auth::user()->lang);
+                    }else{
+                        App::setLocale('pt');
+                    }
+                }
+                
+                
 	}
 
 }

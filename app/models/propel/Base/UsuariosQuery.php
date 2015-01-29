@@ -20,6 +20,7 @@ use Propel\Runtime\Exception\PropelException;
  *
  *
  *
+ * @method     ChildUsuariosQuery orderByLang($order = Criteria::ASC) Order by the lang column
  * @method     ChildUsuariosQuery orderByIsdelete($order = Criteria::ASC) Order by the isdelete column
  * @method     ChildUsuariosQuery orderByIdcliente($order = Criteria::ASC) Order by the idcliente column
  * @method     ChildUsuariosQuery orderByUpdatedAt($order = Criteria::ASC) Order by the updated_at column
@@ -31,6 +32,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildUsuariosQuery orderByEmail($order = Criteria::ASC) Order by the email column
  * @method     ChildUsuariosQuery orderById($order = Criteria::ASC) Order by the id column
  *
+ * @method     ChildUsuariosQuery groupByLang() Group by the lang column
  * @method     ChildUsuariosQuery groupByIsdelete() Group by the isdelete column
  * @method     ChildUsuariosQuery groupByIdcliente() Group by the idcliente column
  * @method     ChildUsuariosQuery groupByUpdatedAt() Group by the updated_at column
@@ -63,6 +65,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildUsuarios findOne(ConnectionInterface $con = null) Return the first ChildUsuarios matching the query
  * @method     ChildUsuarios findOneOrCreate(ConnectionInterface $con = null) Return the first ChildUsuarios matching the query, or a new ChildUsuarios object populated from the query conditions when no match is found
  *
+ * @method     ChildUsuarios findOneByLang(string $lang) Return the first ChildUsuarios filtered by the lang column
  * @method     ChildUsuarios findOneByIsdelete(boolean $isdelete) Return the first ChildUsuarios filtered by the isdelete column
  * @method     ChildUsuarios findOneByIdcliente(int $idcliente) Return the first ChildUsuarios filtered by the idcliente column
  * @method     ChildUsuarios findOneByUpdatedAt(string $updated_at) Return the first ChildUsuarios filtered by the updated_at column
@@ -75,6 +78,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildUsuarios findOneById(int $id) Return the first ChildUsuarios filtered by the id column
  *
  * @method     ChildUsuarios[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildUsuarios objects based on current ModelCriteria
+ * @method     ChildUsuarios[]|ObjectCollection findByLang(string $lang) Return ChildUsuarios objects filtered by the lang column
  * @method     ChildUsuarios[]|ObjectCollection findByIsdelete(boolean $isdelete) Return ChildUsuarios objects filtered by the isdelete column
  * @method     ChildUsuarios[]|ObjectCollection findByIdcliente(int $idcliente) Return ChildUsuarios objects filtered by the idcliente column
  * @method     ChildUsuarios[]|ObjectCollection findByUpdatedAt(string $updated_at) Return ChildUsuarios objects filtered by the updated_at column
@@ -176,7 +180,7 @@ abstract class UsuariosQuery extends ModelCriteria
      */
     protected function findPkSimple($key, ConnectionInterface $con)
     {
-        $sql = 'SELECT isdelete, idcliente, updated_at, created_at, remember_token, tipo, nome, senha, email, id FROM usuarios WHERE id = :p0';
+        $sql = 'SELECT lang, isdelete, idcliente, updated_at, created_at, remember_token, tipo, nome, senha, email, id FROM usuarios WHERE id = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -264,6 +268,35 @@ abstract class UsuariosQuery extends ModelCriteria
     {
 
         return $this->addUsingAlias(UsuariosTableMap::COL_ID, $keys, Criteria::IN);
+    }
+
+    /**
+     * Filter the query on the lang column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByLang('fooValue');   // WHERE lang = 'fooValue'
+     * $query->filterByLang('%fooValue%'); // WHERE lang LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $lang The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildUsuariosQuery The current query, for fluid interface
+     */
+    public function filterByLang($lang = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($lang)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $lang)) {
+                $lang = str_replace('*', '%', $lang);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(UsuariosTableMap::COL_LANG, $lang, $comparison);
     }
 
     /**

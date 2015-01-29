@@ -59,7 +59,7 @@ class UsuariosTableMap extends TableMap
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 10;
+    const NUM_COLUMNS = 11;
 
     /**
      * The number of lazy-loaded columns
@@ -69,7 +69,12 @@ class UsuariosTableMap extends TableMap
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
      */
-    const NUM_HYDRATE_COLUMNS = 10;
+    const NUM_HYDRATE_COLUMNS = 11;
+
+    /**
+     * the column name for the lang field
+     */
+    const COL_LANG = 'usuarios.lang';
 
     /**
      * the column name for the isdelete field
@@ -133,11 +138,11 @@ class UsuariosTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Isdelete', 'Idcliente', 'UpdatedAt', 'CreatedAt', 'RememberToken', 'Tipo', 'Nome', 'Senha', 'Email', 'Id', ),
-        self::TYPE_CAMELNAME     => array('isdelete', 'idcliente', 'updatedAt', 'createdAt', 'rememberToken', 'tipo', 'nome', 'senha', 'email', 'id', ),
-        self::TYPE_COLNAME       => array(UsuariosTableMap::COL_ISDELETE, UsuariosTableMap::COL_IDCLIENTE, UsuariosTableMap::COL_UPDATED_AT, UsuariosTableMap::COL_CREATED_AT, UsuariosTableMap::COL_REMEMBER_TOKEN, UsuariosTableMap::COL_TIPO, UsuariosTableMap::COL_NOME, UsuariosTableMap::COL_SENHA, UsuariosTableMap::COL_EMAIL, UsuariosTableMap::COL_ID, ),
-        self::TYPE_FIELDNAME     => array('isdelete', 'idcliente', 'updated_at', 'created_at', 'remember_token', 'tipo', 'nome', 'senha', 'email', 'id', ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, )
+        self::TYPE_PHPNAME       => array('Lang', 'Isdelete', 'Idcliente', 'UpdatedAt', 'CreatedAt', 'RememberToken', 'Tipo', 'Nome', 'Senha', 'Email', 'Id', ),
+        self::TYPE_CAMELNAME     => array('lang', 'isdelete', 'idcliente', 'updatedAt', 'createdAt', 'rememberToken', 'tipo', 'nome', 'senha', 'email', 'id', ),
+        self::TYPE_COLNAME       => array(UsuariosTableMap::COL_LANG, UsuariosTableMap::COL_ISDELETE, UsuariosTableMap::COL_IDCLIENTE, UsuariosTableMap::COL_UPDATED_AT, UsuariosTableMap::COL_CREATED_AT, UsuariosTableMap::COL_REMEMBER_TOKEN, UsuariosTableMap::COL_TIPO, UsuariosTableMap::COL_NOME, UsuariosTableMap::COL_SENHA, UsuariosTableMap::COL_EMAIL, UsuariosTableMap::COL_ID, ),
+        self::TYPE_FIELDNAME     => array('lang', 'isdelete', 'idcliente', 'updated_at', 'created_at', 'remember_token', 'tipo', 'nome', 'senha', 'email', 'id', ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, )
     );
 
     /**
@@ -147,11 +152,11 @@ class UsuariosTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Isdelete' => 0, 'Idcliente' => 1, 'UpdatedAt' => 2, 'CreatedAt' => 3, 'RememberToken' => 4, 'Tipo' => 5, 'Nome' => 6, 'Senha' => 7, 'Email' => 8, 'Id' => 9, ),
-        self::TYPE_CAMELNAME     => array('isdelete' => 0, 'idcliente' => 1, 'updatedAt' => 2, 'createdAt' => 3, 'rememberToken' => 4, 'tipo' => 5, 'nome' => 6, 'senha' => 7, 'email' => 8, 'id' => 9, ),
-        self::TYPE_COLNAME       => array(UsuariosTableMap::COL_ISDELETE => 0, UsuariosTableMap::COL_IDCLIENTE => 1, UsuariosTableMap::COL_UPDATED_AT => 2, UsuariosTableMap::COL_CREATED_AT => 3, UsuariosTableMap::COL_REMEMBER_TOKEN => 4, UsuariosTableMap::COL_TIPO => 5, UsuariosTableMap::COL_NOME => 6, UsuariosTableMap::COL_SENHA => 7, UsuariosTableMap::COL_EMAIL => 8, UsuariosTableMap::COL_ID => 9, ),
-        self::TYPE_FIELDNAME     => array('isdelete' => 0, 'idcliente' => 1, 'updated_at' => 2, 'created_at' => 3, 'remember_token' => 4, 'tipo' => 5, 'nome' => 6, 'senha' => 7, 'email' => 8, 'id' => 9, ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, )
+        self::TYPE_PHPNAME       => array('Lang' => 0, 'Isdelete' => 1, 'Idcliente' => 2, 'UpdatedAt' => 3, 'CreatedAt' => 4, 'RememberToken' => 5, 'Tipo' => 6, 'Nome' => 7, 'Senha' => 8, 'Email' => 9, 'Id' => 10, ),
+        self::TYPE_CAMELNAME     => array('lang' => 0, 'isdelete' => 1, 'idcliente' => 2, 'updatedAt' => 3, 'createdAt' => 4, 'rememberToken' => 5, 'tipo' => 6, 'nome' => 7, 'senha' => 8, 'email' => 9, 'id' => 10, ),
+        self::TYPE_COLNAME       => array(UsuariosTableMap::COL_LANG => 0, UsuariosTableMap::COL_ISDELETE => 1, UsuariosTableMap::COL_IDCLIENTE => 2, UsuariosTableMap::COL_UPDATED_AT => 3, UsuariosTableMap::COL_CREATED_AT => 4, UsuariosTableMap::COL_REMEMBER_TOKEN => 5, UsuariosTableMap::COL_TIPO => 6, UsuariosTableMap::COL_NOME => 7, UsuariosTableMap::COL_SENHA => 8, UsuariosTableMap::COL_EMAIL => 9, UsuariosTableMap::COL_ID => 10, ),
+        self::TYPE_FIELDNAME     => array('lang' => 0, 'isdelete' => 1, 'idcliente' => 2, 'updated_at' => 3, 'created_at' => 4, 'remember_token' => 5, 'tipo' => 6, 'nome' => 7, 'senha' => 8, 'email' => 9, 'id' => 10, ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, )
     );
 
     /**
@@ -172,6 +177,7 @@ class UsuariosTableMap extends TableMap
         $this->setUseIdGenerator(true);
         $this->setPrimaryKeyMethodInfo('usuarios_id_seq');
         // columns
+        $this->addColumn('lang', 'Lang', 'CHAR', false, 2, null);
         $this->addColumn('isdelete', 'Isdelete', 'BOOLEAN', false, 1, false);
         $this->addForeignKey('idcliente', 'Idcliente', 'INTEGER', 'cliente', 'id', false, null, null);
         $this->addColumn('updated_at', 'UpdatedAt', 'TIMESTAMP', true, null, null);
@@ -210,11 +216,11 @@ class UsuariosTableMap extends TableMap
     public static function getPrimaryKeyHashFromRow($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
     {
         // If the PK cannot be derived from the row, return NULL.
-        if ($row[TableMap::TYPE_NUM == $indexType ? 9 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)] === null) {
+        if ($row[TableMap::TYPE_NUM == $indexType ? 10 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)] === null) {
             return null;
         }
 
-        return (string) $row[TableMap::TYPE_NUM == $indexType ? 9 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
+        return (string) $row[TableMap::TYPE_NUM == $indexType ? 10 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
     }
 
     /**
@@ -233,7 +239,7 @@ class UsuariosTableMap extends TableMap
     {
         return (int) $row[
             $indexType == TableMap::TYPE_NUM
-                ? 9 + $offset
+                ? 10 + $offset
                 : self::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)
         ];
     }
@@ -335,6 +341,7 @@ class UsuariosTableMap extends TableMap
     public static function addSelectColumns(Criteria $criteria, $alias = null)
     {
         if (null === $alias) {
+            $criteria->addSelectColumn(UsuariosTableMap::COL_LANG);
             $criteria->addSelectColumn(UsuariosTableMap::COL_ISDELETE);
             $criteria->addSelectColumn(UsuariosTableMap::COL_IDCLIENTE);
             $criteria->addSelectColumn(UsuariosTableMap::COL_UPDATED_AT);
@@ -346,6 +353,7 @@ class UsuariosTableMap extends TableMap
             $criteria->addSelectColumn(UsuariosTableMap::COL_EMAIL);
             $criteria->addSelectColumn(UsuariosTableMap::COL_ID);
         } else {
+            $criteria->addSelectColumn($alias . '.lang');
             $criteria->addSelectColumn($alias . '.isdelete');
             $criteria->addSelectColumn($alias . '.idcliente');
             $criteria->addSelectColumn($alias . '.updated_at');

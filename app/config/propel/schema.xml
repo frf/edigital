@@ -111,6 +111,7 @@
     <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
   </table>
   <table name="usuarios" idMethod="native" phpName="Usuarios">
+    <column name="lang" phpName="Lang" type="CHAR" size="2"/>
     <column name="isdelete" phpName="Isdelete" type="BOOLEAN" size="1" defaultValue="false"/>
     <column name="idcliente" phpName="Idcliente" type="INTEGER"/>
     <column name="updated_at" phpName="UpdatedAt" type="TIMESTAMP" required="true"/>

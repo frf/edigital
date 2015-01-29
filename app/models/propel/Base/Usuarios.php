@@ -70,6 +70,12 @@ abstract class Usuarios implements ActiveRecordInterface
     protected $virtualColumns = array();
 
     /**
+     * The value for the lang field.
+     * @var        string
+     */
+    protected $lang;
+
+    /**
      * The value for the isdelete field.
      * Note: this column has a database default value of: false
      * @var        boolean
@@ -398,6 +404,16 @@ abstract class Usuarios implements ActiveRecordInterface
     }
 
     /**
+     * Get the [lang] column value.
+     *
+     * @return string
+     */
+    public function getLang()
+    {
+        return $this->lang;
+    }
+
+    /**
      * Get the [isdelete] column value.
      *
      * @return boolean
@@ -526,6 +542,26 @@ abstract class Usuarios implements ActiveRecordInterface
     {
         return $this->id;
     }
+
+    /**
+     * Set the value of [lang] column.
+     *
+     * @param  string $v new value
+     * @return $this|\Usuarios The current object (for fluent API support)
+     */
+    public function setLang($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->lang !== $v) {
+            $this->lang = $v;
+            $this->modifiedColumns[UsuariosTableMap::COL_LANG] = true;
+        }
+
+        return $this;
+    } // setLang()
 
     /**
      * Sets the value of the [isdelete] column.
@@ -779,34 +815,37 @@ abstract class Usuarios implements ActiveRecordInterface
     {
         try {
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : UsuariosTableMap::translateFieldName('Isdelete', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : UsuariosTableMap::translateFieldName('Lang', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->lang = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : UsuariosTableMap::translateFieldName('Isdelete', TableMap::TYPE_PHPNAME, $indexType)];
             $this->isdelete = (null !== $col) ? (boolean) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : UsuariosTableMap::translateFieldName('Idcliente', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : UsuariosTableMap::translateFieldName('Idcliente', TableMap::TYPE_PHPNAME, $indexType)];
             $this->idcliente = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : UsuariosTableMap::translateFieldName('UpdatedAt', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : UsuariosTableMap::translateFieldName('UpdatedAt', TableMap::TYPE_PHPNAME, $indexType)];
             $this->updated_at = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : UsuariosTableMap::translateFieldName('CreatedAt', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : UsuariosTableMap::translateFieldName('CreatedAt', TableMap::TYPE_PHPNAME, $indexType)];
             $this->created_at = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : UsuariosTableMap::translateFieldName('RememberToken', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : UsuariosTableMap::translateFieldName('RememberToken', TableMap::TYPE_PHPNAME, $indexType)];
             $this->remember_token = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : UsuariosTableMap::translateFieldName('Tipo', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 6 + $startcol : UsuariosTableMap::translateFieldName('Tipo', TableMap::TYPE_PHPNAME, $indexType)];
             $this->tipo = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 6 + $startcol : UsuariosTableMap::translateFieldName('Nome', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 7 + $startcol : UsuariosTableMap::translateFieldName('Nome', TableMap::TYPE_PHPNAME, $indexType)];
             $this->nome = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 7 + $startcol : UsuariosTableMap::translateFieldName('Senha', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 8 + $startcol : UsuariosTableMap::translateFieldName('Senha', TableMap::TYPE_PHPNAME, $indexType)];
             $this->senha = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 8 + $startcol : UsuariosTableMap::translateFieldName('Email', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 9 + $startcol : UsuariosTableMap::translateFieldName('Email', TableMap::TYPE_PHPNAME, $indexType)];
             $this->email = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 9 + $startcol : UsuariosTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 10 + $startcol : UsuariosTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
             $this->id = (null !== $col) ? (int) $col : null;
             $this->resetModified();
 
@@ -816,7 +855,7 @@ abstract class Usuarios implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 10; // 10 = UsuariosTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 11; // 11 = UsuariosTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException(sprintf('Error populating %s object', '\\Usuarios'), 0, $e);
@@ -1078,6 +1117,9 @@ abstract class Usuarios implements ActiveRecordInterface
 
 
          // check the columns in natural order for more readable SQL queries
+        if ($this->isColumnModified(UsuariosTableMap::COL_LANG)) {
+            $modifiedColumns[':p' . $index++]  = 'lang';
+        }
         if ($this->isColumnModified(UsuariosTableMap::COL_ISDELETE)) {
             $modifiedColumns[':p' . $index++]  = 'isdelete';
         }
@@ -1119,6 +1161,9 @@ abstract class Usuarios implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
+                    case 'lang':
+                        $stmt->bindValue($identifier, $this->lang, PDO::PARAM_STR);
+                        break;
                     case 'isdelete':
                         $stmt->bindValue($identifier, $this->isdelete, PDO::PARAM_BOOL);
                         break;
@@ -1205,33 +1250,36 @@ abstract class Usuarios implements ActiveRecordInterface
     {
         switch ($pos) {
             case 0:
-                return $this->getIsdelete();
+                return $this->getLang();
                 break;
             case 1:
-                return $this->getIdcliente();
+                return $this->getIsdelete();
                 break;
             case 2:
-                return $this->getUpdatedAt();
+                return $this->getIdcliente();
                 break;
             case 3:
-                return $this->getCreatedAt();
+                return $this->getUpdatedAt();
                 break;
             case 4:
-                return $this->getRememberToken();
+                return $this->getCreatedAt();
                 break;
             case 5:
-                return $this->getTipo();
+                return $this->getRememberToken();
                 break;
             case 6:
-                return $this->getNome();
+                return $this->getTipo();
                 break;
             case 7:
-                return $this->getSenha();
+                return $this->getNome();
                 break;
             case 8:
-                return $this->getEmail();
+                return $this->getSenha();
                 break;
             case 9:
+                return $this->getEmail();
+                break;
+            case 10:
                 return $this->getId();
                 break;
             default:
@@ -1264,16 +1312,17 @@ abstract class Usuarios implements ActiveRecordInterface
         $alreadyDumpedObjects['Usuarios'][$this->hashCode()] = true;
         $keys = UsuariosTableMap::getFieldNames($keyType);
         $result = array(
-            $keys[0] => $this->getIsdelete(),
-            $keys[1] => $this->getIdcliente(),
-            $keys[2] => $this->getUpdatedAt(),
-            $keys[3] => $this->getCreatedAt(),
-            $keys[4] => $this->getRememberToken(),
-            $keys[5] => $this->getTipo(),
-            $keys[6] => $this->getNome(),
-            $keys[7] => $this->getSenha(),
-            $keys[8] => $this->getEmail(),
-            $keys[9] => $this->getId(),
+            $keys[0] => $this->getLang(),
+            $keys[1] => $this->getIsdelete(),
+            $keys[2] => $this->getIdcliente(),
+            $keys[3] => $this->getUpdatedAt(),
+            $keys[4] => $this->getCreatedAt(),
+            $keys[5] => $this->getRememberToken(),
+            $keys[6] => $this->getTipo(),
+            $keys[7] => $this->getNome(),
+            $keys[8] => $this->getSenha(),
+            $keys[9] => $this->getEmail(),
+            $keys[10] => $this->getId(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -1361,33 +1410,36 @@ abstract class Usuarios implements ActiveRecordInterface
     {
         switch ($pos) {
             case 0:
-                $this->setIsdelete($value);
+                $this->setLang($value);
                 break;
             case 1:
-                $this->setIdcliente($value);
+                $this->setIsdelete($value);
                 break;
             case 2:
-                $this->setUpdatedAt($value);
+                $this->setIdcliente($value);
                 break;
             case 3:
-                $this->setCreatedAt($value);
+                $this->setUpdatedAt($value);
                 break;
             case 4:
-                $this->setRememberToken($value);
+                $this->setCreatedAt($value);
                 break;
             case 5:
-                $this->setTipo($value);
+                $this->setRememberToken($value);
                 break;
             case 6:
-                $this->setNome($value);
+                $this->setTipo($value);
                 break;
             case 7:
-                $this->setSenha($value);
+                $this->setNome($value);
                 break;
             case 8:
-                $this->setEmail($value);
+                $this->setSenha($value);
                 break;
             case 9:
+                $this->setEmail($value);
+                break;
+            case 10:
                 $this->setId($value);
                 break;
         } // switch()
@@ -1417,34 +1469,37 @@ abstract class Usuarios implements ActiveRecordInterface
         $keys = UsuariosTableMap::getFieldNames($keyType);
 
         if (array_key_exists($keys[0], $arr)) {
-            $this->setIsdelete($arr[$keys[0]]);
+            $this->setLang($arr[$keys[0]]);
         }
         if (array_key_exists($keys[1], $arr)) {
-            $this->setIdcliente($arr[$keys[1]]);
+            $this->setIsdelete($arr[$keys[1]]);
         }
         if (array_key_exists($keys[2], $arr)) {
-            $this->setUpdatedAt($arr[$keys[2]]);
+            $this->setIdcliente($arr[$keys[2]]);
         }
         if (array_key_exists($keys[3], $arr)) {
-            $this->setCreatedAt($arr[$keys[3]]);
+            $this->setUpdatedAt($arr[$keys[3]]);
         }
         if (array_key_exists($keys[4], $arr)) {
-            $this->setRememberToken($arr[$keys[4]]);
+            $this->setCreatedAt($arr[$keys[4]]);
         }
         if (array_key_exists($keys[5], $arr)) {
-            $this->setTipo($arr[$keys[5]]);
+            $this->setRememberToken($arr[$keys[5]]);
         }
         if (array_key_exists($keys[6], $arr)) {
-            $this->setNome($arr[$keys[6]]);
+            $this->setTipo($arr[$keys[6]]);
         }
         if (array_key_exists($keys[7], $arr)) {
-            $this->setSenha($arr[$keys[7]]);
+            $this->setNome($arr[$keys[7]]);
         }
         if (array_key_exists($keys[8], $arr)) {
-            $this->setEmail($arr[$keys[8]]);
+            $this->setSenha($arr[$keys[8]]);
         }
         if (array_key_exists($keys[9], $arr)) {
-            $this->setId($arr[$keys[9]]);
+            $this->setEmail($arr[$keys[9]]);
+        }
+        if (array_key_exists($keys[10], $arr)) {
+            $this->setId($arr[$keys[10]]);
         }
     }
 
@@ -1487,6 +1542,9 @@ abstract class Usuarios implements ActiveRecordInterface
     {
         $criteria = new Criteria(UsuariosTableMap::DATABASE_NAME);
 
+        if ($this->isColumnModified(UsuariosTableMap::COL_LANG)) {
+            $criteria->add(UsuariosTableMap::COL_LANG, $this->lang);
+        }
         if ($this->isColumnModified(UsuariosTableMap::COL_ISDELETE)) {
             $criteria->add(UsuariosTableMap::COL_ISDELETE, $this->isdelete);
         }
@@ -1603,6 +1661,7 @@ abstract class Usuarios implements ActiveRecordInterface
      */
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
+        $copyObj->setLang($this->getLang());
         $copyObj->setIsdelete($this->getIsdelete());
         $copyObj->setIdcliente($this->getIdcliente());
         $copyObj->setUpdatedAt($this->getUpdatedAt());
@@ -2176,6 +2235,7 @@ abstract class Usuarios implements ActiveRecordInterface
         if (null !== $this->aCliente) {
             $this->aCliente->removeUsuarios($this);
         }
+        $this->lang = null;
         $this->isdelete = null;
         $this->idcliente = null;
         $this->updated_at = null;

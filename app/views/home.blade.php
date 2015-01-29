@@ -6,7 +6,7 @@
     <div class="jumbotron">
         <h2>{{$nomeEmpresa}}</h2>
         @if(Auth::check())
-            <p>Olá, {{ $nomeUsuario }}</p>
+            <p>{{ Lang::get('messages.welcome', array('usuario' => $nomeUsuario)) }}</p>
         @endif
     </div>
     
