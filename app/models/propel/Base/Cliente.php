@@ -8,6 +8,8 @@ use \Cliente as ChildCliente;
 use \ClientePgtos as ChildClientePgtos;
 use \ClientePgtosQuery as ChildClientePgtosQuery;
 use \ClienteQuery as ChildClienteQuery;
+use \Documentos as ChildDocumentos;
+use \DocumentosQuery as ChildDocumentosQuery;
 use \Idoc as ChildIdoc;
 use \IdocQuery as ChildIdocQuery;
 use \Produtos as ChildProdutos;
@@ -115,6 +117,12 @@ abstract class Cliente implements ActiveRecordInterface
     protected $collClientePgtossPartial;
 
     /**
+     * @var        ObjectCollection|ChildDocumentos[] Collection to store aggregation of ChildDocumentos objects.
+     */
+    protected $collDocumentoss;
+    protected $collDocumentossPartial;
+
+    /**
      * @var        ObjectCollection|ChildIdoc[] Collection to store aggregation of ChildIdoc objects.
      */
     protected $collIdocs;
@@ -151,6 +159,12 @@ abstract class Cliente implements ActiveRecordInterface
      * @var ObjectCollection|ChildClientePgtos[]
      */
     protected $clientePgtossScheduledForDeletion = null;
+
+    /**
+     * An array of objects scheduled for deletion.
+     * @var ObjectCollection|ChildDocumentos[]
+     */
+    protected $documentossScheduledForDeletion = null;
 
     /**
      * An array of objects scheduled for deletion.
@@ -695,6 +709,8 @@ abstract class Cliente implements ActiveRecordInterface
 
             $this->collClientePgtoss = null;
 
+            $this->collDocumentoss = null;
+
             $this->collIdocs = null;
 
             $this->collProdutoss = null;
@@ -840,6 +856,24 @@ abstract class Cliente implements ActiveRecordInterface
 
             if ($this->collClientePgtoss !== null) {
                 foreach ($this->collClientePgtoss as $referrerFK) {
+                    if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
+                        $affectedRows += $referrerFK->save($con);
+                    }
+                }
+            }
+
+            if ($this->documentossScheduledForDeletion !== null) {
+                if (!$this->documentossScheduledForDeletion->isEmpty()) {
+                    foreach ($this->documentossScheduledForDeletion as $documentos) {
+                        // need to save related object because we set the relation to null
+                        $documentos->save($con);
+                    }
+                    $this->documentossScheduledForDeletion = null;
+                }
+            }
+
+            if ($this->collDocumentoss !== null) {
+                foreach ($this->collDocumentoss as $referrerFK) {
                     if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
                         $affectedRows += $referrerFK->save($con);
                     }
@@ -1116,6 +1150,21 @@ abstract class Cliente implements ActiveRecordInterface
                 }
 
                 $result[$key] = $this->collClientePgtoss->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+            }
+            if (null !== $this->collDocumentoss) {
+
+                switch ($keyType) {
+                    case TableMap::TYPE_CAMELNAME:
+                        $key = 'documentoss';
+                        break;
+                    case TableMap::TYPE_FIELDNAME:
+                        $key = 'documentoss';
+                        break;
+                    default:
+                        $key = 'Documentoss';
+                }
+
+                $result[$key] = $this->collDocumentoss->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
             if (null !== $this->collIdocs) {
 
@@ -1416,6 +1465,12 @@ abstract class Cliente implements ActiveRecordInterface
                 }
             }
 
+            foreach ($this->getDocumentoss() as $relObj) {
+                if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
+                    $copyObj->addDocumentos($relObj->copy($deepCopy));
+                }
+            }
+
             foreach ($this->getIdocs() as $relObj) {
                 if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
                     $copyObj->addIdoc($relObj->copy($deepCopy));
@@ -1480,6 +1535,9 @@ abstract class Cliente implements ActiveRecordInterface
         }
         if ('ClientePgtos' == $relationName) {
             return $this->initClientePgtoss();
+        }
+        if ('Documentos' == $relationName) {
+            return $this->initDocumentoss();
         }
         if ('Idoc' == $relationName) {
             return $this->initIdocs();
@@ -1976,6 +2034,249 @@ abstract class Cliente implements ActiveRecordInterface
         $query->joinWith('Produtos', $joinBehavior);
 
         return $this->getClientePgtoss($query, $con);
+    }
+
+    /**
+     * Clears out the collDocumentoss collection
+     *
+     * This does not modify the database; however, it will remove any associated objects, causing
+     * them to be refetched by subsequent calls to accessor method.
+     *
+     * @return void
+     * @see        addDocumentoss()
+     */
+    public function clearDocumentoss()
+    {
+        $this->collDocumentoss = null; // important to set this to NULL since that means it is uninitialized
+    }
+
+    /**
+     * Reset is the collDocumentoss collection loaded partially.
+     */
+    public function resetPartialDocumentoss($v = true)
+    {
+        $this->collDocumentossPartial = $v;
+    }
+
+    /**
+     * Initializes the collDocumentoss collection.
+     *
+     * By default this just sets the collDocumentoss collection to an empty array (like clearcollDocumentoss());
+     * however, you may wish to override this method in your stub class to provide setting appropriate
+     * to your application -- for example, setting the initial array to the values stored in database.
+     *
+     * @param      boolean $overrideExisting If set to true, the method call initializes
+     *                                        the collection even if it is not empty
+     *
+     * @return void
+     */
+    public function initDocumentoss($overrideExisting = true)
+    {
+        if (null !== $this->collDocumentoss && !$overrideExisting) {
+            return;
+        }
+        $this->collDocumentoss = new ObjectCollection();
+        $this->collDocumentoss->setModel('\Documentos');
+    }
+
+    /**
+     * Gets an array of ChildDocumentos objects which contain a foreign key that references this object.
+     *
+     * If the $criteria is not null, it is used to always fetch the results from the database.
+     * Otherwise the results are fetched from the database the first time, then cached.
+     * Next time the same method is called without $criteria, the cached collection is returned.
+     * If this ChildCliente is new, it will return
+     * an empty collection or the current collection; the criteria is ignored on a new object.
+     *
+     * @param      Criteria $criteria optional Criteria object to narrow the query
+     * @param      ConnectionInterface $con optional connection object
+     * @return ObjectCollection|ChildDocumentos[] List of ChildDocumentos objects
+     * @throws PropelException
+     */
+    public function getDocumentoss(Criteria $criteria = null, ConnectionInterface $con = null)
+    {
+        $partial = $this->collDocumentossPartial && !$this->isNew();
+        if (null === $this->collDocumentoss || null !== $criteria  || $partial) {
+            if ($this->isNew() && null === $this->collDocumentoss) {
+                // return empty collection
+                $this->initDocumentoss();
+            } else {
+                $collDocumentoss = ChildDocumentosQuery::create(null, $criteria)
+                    ->filterByCliente($this)
+                    ->find($con);
+
+                if (null !== $criteria) {
+                    if (false !== $this->collDocumentossPartial && count($collDocumentoss)) {
+                        $this->initDocumentoss(false);
+
+                        foreach ($collDocumentoss as $obj) {
+                            if (false == $this->collDocumentoss->contains($obj)) {
+                                $this->collDocumentoss->append($obj);
+                            }
+                        }
+
+                        $this->collDocumentossPartial = true;
+                    }
+
+                    return $collDocumentoss;
+                }
+
+                if ($partial && $this->collDocumentoss) {
+                    foreach ($this->collDocumentoss as $obj) {
+                        if ($obj->isNew()) {
+                            $collDocumentoss[] = $obj;
+                        }
+                    }
+                }
+
+                $this->collDocumentoss = $collDocumentoss;
+                $this->collDocumentossPartial = false;
+            }
+        }
+
+        return $this->collDocumentoss;
+    }
+
+    /**
+     * Sets a collection of ChildDocumentos objects related by a one-to-many relationship
+     * to the current object.
+     * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
+     * and new objects from the given Propel collection.
+     *
+     * @param      Collection $documentoss A Propel collection.
+     * @param      ConnectionInterface $con Optional connection object
+     * @return $this|ChildCliente The current object (for fluent API support)
+     */
+    public function setDocumentoss(Collection $documentoss, ConnectionInterface $con = null)
+    {
+        /** @var ChildDocumentos[] $documentossToDelete */
+        $documentossToDelete = $this->getDocumentoss(new Criteria(), $con)->diff($documentoss);
+
+
+        $this->documentossScheduledForDeletion = $documentossToDelete;
+
+        foreach ($documentossToDelete as $documentosRemoved) {
+            $documentosRemoved->setCliente(null);
+        }
+
+        $this->collDocumentoss = null;
+        foreach ($documentoss as $documentos) {
+            $this->addDocumentos($documentos);
+        }
+
+        $this->collDocumentoss = $documentoss;
+        $this->collDocumentossPartial = false;
+
+        return $this;
+    }
+
+    /**
+     * Returns the number of related Documentos objects.
+     *
+     * @param      Criteria $criteria
+     * @param      boolean $distinct
+     * @param      ConnectionInterface $con
+     * @return int             Count of related Documentos objects.
+     * @throws PropelException
+     */
+    public function countDocumentoss(Criteria $criteria = null, $distinct = false, ConnectionInterface $con = null)
+    {
+        $partial = $this->collDocumentossPartial && !$this->isNew();
+        if (null === $this->collDocumentoss || null !== $criteria || $partial) {
+            if ($this->isNew() && null === $this->collDocumentoss) {
+                return 0;
+            }
+
+            if ($partial && !$criteria) {
+                return count($this->getDocumentoss());
+            }
+
+            $query = ChildDocumentosQuery::create(null, $criteria);
+            if ($distinct) {
+                $query->distinct();
+            }
+
+            return $query
+                ->filterByCliente($this)
+                ->count($con);
+        }
+
+        return count($this->collDocumentoss);
+    }
+
+    /**
+     * Method called to associate a ChildDocumentos object to this object
+     * through the ChildDocumentos foreign key attribute.
+     *
+     * @param  ChildDocumentos $l ChildDocumentos
+     * @return $this|\Cliente The current object (for fluent API support)
+     */
+    public function addDocumentos(ChildDocumentos $l)
+    {
+        if ($this->collDocumentoss === null) {
+            $this->initDocumentoss();
+            $this->collDocumentossPartial = true;
+        }
+
+        if (!$this->collDocumentoss->contains($l)) {
+            $this->doAddDocumentos($l);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param ChildDocumentos $documentos The ChildDocumentos object to add.
+     */
+    protected function doAddDocumentos(ChildDocumentos $documentos)
+    {
+        $this->collDocumentoss[]= $documentos;
+        $documentos->setCliente($this);
+    }
+
+    /**
+     * @param  ChildDocumentos $documentos The ChildDocumentos object to remove.
+     * @return $this|ChildCliente The current object (for fluent API support)
+     */
+    public function removeDocumentos(ChildDocumentos $documentos)
+    {
+        if ($this->getDocumentoss()->contains($documentos)) {
+            $pos = $this->collDocumentoss->search($documentos);
+            $this->collDocumentoss->remove($pos);
+            if (null === $this->documentossScheduledForDeletion) {
+                $this->documentossScheduledForDeletion = clone $this->collDocumentoss;
+                $this->documentossScheduledForDeletion->clear();
+            }
+            $this->documentossScheduledForDeletion[]= $documentos;
+            $documentos->setCliente(null);
+        }
+
+        return $this;
+    }
+
+
+    /**
+     * If this collection has already been initialized with
+     * an identical criteria, it returns the collection.
+     * Otherwise if this Cliente is new, it will return
+     * an empty collection; or if this Cliente has previously
+     * been saved, it will retrieve related Documentoss from storage.
+     *
+     * This method is protected by default in order to keep the public
+     * api reasonable.  You can provide public methods for those you
+     * actually need in Cliente.
+     *
+     * @param      Criteria $criteria optional Criteria object to narrow the query
+     * @param      ConnectionInterface $con optional connection object
+     * @param      string $joinBehavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+     * @return ObjectCollection|ChildDocumentos[] List of ChildDocumentos objects
+     */
+    public function getDocumentossJoinCategorias(Criteria $criteria = null, ConnectionInterface $con = null, $joinBehavior = Criteria::LEFT_JOIN)
+    {
+        $query = ChildDocumentosQuery::create(null, $criteria);
+        $query->joinWith('Categorias', $joinBehavior);
+
+        return $this->getDocumentoss($query, $con);
     }
 
     /**
@@ -2698,6 +2999,11 @@ abstract class Cliente implements ActiveRecordInterface
                     $o->clearAllReferences($deep);
                 }
             }
+            if ($this->collDocumentoss) {
+                foreach ($this->collDocumentoss as $o) {
+                    $o->clearAllReferences($deep);
+                }
+            }
             if ($this->collIdocs) {
                 foreach ($this->collIdocs as $o) {
                     $o->clearAllReferences($deep);
@@ -2717,6 +3023,7 @@ abstract class Cliente implements ActiveRecordInterface
 
         $this->collCategoriass = null;
         $this->collClientePgtoss = null;
+        $this->collDocumentoss = null;
         $this->collIdocs = null;
         $this->collProdutoss = null;
         $this->collUsuarioss = null;

@@ -46,19 +46,15 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildDocumentosQuery rightJoinCategorias($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Categorias relation
  * @method     ChildDocumentosQuery innerJoinCategorias($relationAlias = null) Adds a INNER JOIN clause to the query using the Categorias relation
  *
- * @method     ChildDocumentosQuery leftJoinDocumentosRelatedByIdcliente($relationAlias = null) Adds a LEFT JOIN clause to the query using the DocumentosRelatedByIdcliente relation
- * @method     ChildDocumentosQuery rightJoinDocumentosRelatedByIdcliente($relationAlias = null) Adds a RIGHT JOIN clause to the query using the DocumentosRelatedByIdcliente relation
- * @method     ChildDocumentosQuery innerJoinDocumentosRelatedByIdcliente($relationAlias = null) Adds a INNER JOIN clause to the query using the DocumentosRelatedByIdcliente relation
- *
- * @method     ChildDocumentosQuery leftJoinDocumentosRelatedById($relationAlias = null) Adds a LEFT JOIN clause to the query using the DocumentosRelatedById relation
- * @method     ChildDocumentosQuery rightJoinDocumentosRelatedById($relationAlias = null) Adds a RIGHT JOIN clause to the query using the DocumentosRelatedById relation
- * @method     ChildDocumentosQuery innerJoinDocumentosRelatedById($relationAlias = null) Adds a INNER JOIN clause to the query using the DocumentosRelatedById relation
+ * @method     ChildDocumentosQuery leftJoinCliente($relationAlias = null) Adds a LEFT JOIN clause to the query using the Cliente relation
+ * @method     ChildDocumentosQuery rightJoinCliente($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Cliente relation
+ * @method     ChildDocumentosQuery innerJoinCliente($relationAlias = null) Adds a INNER JOIN clause to the query using the Cliente relation
  *
  * @method     ChildDocumentosQuery leftJoinDocumentosDownloads($relationAlias = null) Adds a LEFT JOIN clause to the query using the DocumentosDownloads relation
  * @method     ChildDocumentosQuery rightJoinDocumentosDownloads($relationAlias = null) Adds a RIGHT JOIN clause to the query using the DocumentosDownloads relation
  * @method     ChildDocumentosQuery innerJoinDocumentosDownloads($relationAlias = null) Adds a INNER JOIN clause to the query using the DocumentosDownloads relation
  *
- * @method     \CategoriasQuery|\DocumentosQuery|\DocumentosDownloadsQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
+ * @method     \CategoriasQuery|\ClienteQuery|\DocumentosDownloadsQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
  * @method     ChildDocumentos findOne(ConnectionInterface $con = null) Return the first ChildDocumentos matching the query
  * @method     ChildDocumentos findOneOrCreate(ConnectionInterface $con = null) Return the first ChildDocumentos matching the query, or a new ChildDocumentos object populated from the query conditions when no match is found
@@ -431,7 +427,7 @@ abstract class DocumentosQuery extends ModelCriteria
      * $query->filterByIdcliente(array('min' => 12)); // WHERE idcliente > 12
      * </code>
      *
-     * @see       filterByDocumentosRelatedByIdcliente()
+     * @see       filterByCliente()
      *
      * @param     mixed $idcliente The value to use as filter.
      *              Use scalar values for equality.
@@ -626,44 +622,44 @@ abstract class DocumentosQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query by a related \Documentos object
+     * Filter the query by a related \Cliente object
      *
-     * @param \Documentos|ObjectCollection $documentos The related object(s) to use as filter
+     * @param \Cliente|ObjectCollection $cliente The related object(s) to use as filter
      * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @throws \Propel\Runtime\Exception\PropelException
      *
      * @return ChildDocumentosQuery The current query, for fluid interface
      */
-    public function filterByDocumentosRelatedByIdcliente($documentos, $comparison = null)
+    public function filterByCliente($cliente, $comparison = null)
     {
-        if ($documentos instanceof \Documentos) {
+        if ($cliente instanceof \Cliente) {
             return $this
-                ->addUsingAlias(DocumentosTableMap::COL_IDCLIENTE, $documentos->getId(), $comparison);
-        } elseif ($documentos instanceof ObjectCollection) {
+                ->addUsingAlias(DocumentosTableMap::COL_IDCLIENTE, $cliente->getId(), $comparison);
+        } elseif ($cliente instanceof ObjectCollection) {
             if (null === $comparison) {
                 $comparison = Criteria::IN;
             }
 
             return $this
-                ->addUsingAlias(DocumentosTableMap::COL_IDCLIENTE, $documentos->toKeyValue('PrimaryKey', 'Id'), $comparison);
+                ->addUsingAlias(DocumentosTableMap::COL_IDCLIENTE, $cliente->toKeyValue('PrimaryKey', 'Id'), $comparison);
         } else {
-            throw new PropelException('filterByDocumentosRelatedByIdcliente() only accepts arguments of type \Documentos or Collection');
+            throw new PropelException('filterByCliente() only accepts arguments of type \Cliente or Collection');
         }
     }
 
     /**
-     * Adds a JOIN clause to the query using the DocumentosRelatedByIdcliente relation
+     * Adds a JOIN clause to the query using the Cliente relation
      *
      * @param     string $relationAlias optional alias for the relation
      * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
      *
      * @return $this|ChildDocumentosQuery The current query, for fluid interface
      */
-    public function joinDocumentosRelatedByIdcliente($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    public function joinCliente($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
     {
         $tableMap = $this->getTableMap();
-        $relationMap = $tableMap->getRelation('DocumentosRelatedByIdcliente');
+        $relationMap = $tableMap->getRelation('Cliente');
 
         // create a ModelJoin object for this join
         $join = new ModelJoin();
@@ -678,14 +674,14 @@ abstract class DocumentosQuery extends ModelCriteria
             $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
             $this->addJoinObject($join, $relationAlias);
         } else {
-            $this->addJoinObject($join, 'DocumentosRelatedByIdcliente');
+            $this->addJoinObject($join, 'Cliente');
         }
 
         return $this;
     }
 
     /**
-     * Use the DocumentosRelatedByIdcliente relation Documentos object
+     * Use the Cliente relation Cliente object
      *
      * @see useQuery()
      *
@@ -693,86 +689,13 @@ abstract class DocumentosQuery extends ModelCriteria
      *                                   to be used as main alias in the secondary query
      * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
      *
-     * @return \DocumentosQuery A secondary query class using the current class as primary query
+     * @return \ClienteQuery A secondary query class using the current class as primary query
      */
-    public function useDocumentosRelatedByIdclienteQuery($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    public function useClienteQuery($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
     {
         return $this
-            ->joinDocumentosRelatedByIdcliente($relationAlias, $joinType)
-            ->useQuery($relationAlias ? $relationAlias : 'DocumentosRelatedByIdcliente', '\DocumentosQuery');
-    }
-
-    /**
-     * Filter the query by a related \Documentos object
-     *
-     * @param \Documentos|ObjectCollection $documentos  the related object to use as filter
-     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return ChildDocumentosQuery The current query, for fluid interface
-     */
-    public function filterByDocumentosRelatedById($documentos, $comparison = null)
-    {
-        if ($documentos instanceof \Documentos) {
-            return $this
-                ->addUsingAlias(DocumentosTableMap::COL_ID, $documentos->getIdcliente(), $comparison);
-        } elseif ($documentos instanceof ObjectCollection) {
-            return $this
-                ->useDocumentosRelatedByIdQuery()
-                ->filterByPrimaryKeys($documentos->getPrimaryKeys())
-                ->endUse();
-        } else {
-            throw new PropelException('filterByDocumentosRelatedById() only accepts arguments of type \Documentos or Collection');
-        }
-    }
-
-    /**
-     * Adds a JOIN clause to the query using the DocumentosRelatedById relation
-     *
-     * @param     string $relationAlias optional alias for the relation
-     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
-     *
-     * @return $this|ChildDocumentosQuery The current query, for fluid interface
-     */
-    public function joinDocumentosRelatedById($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
-    {
-        $tableMap = $this->getTableMap();
-        $relationMap = $tableMap->getRelation('DocumentosRelatedById');
-
-        // create a ModelJoin object for this join
-        $join = new ModelJoin();
-        $join->setJoinType($joinType);
-        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
-        if ($previousJoin = $this->getPreviousJoin()) {
-            $join->setPreviousJoin($previousJoin);
-        }
-
-        // add the ModelJoin to the current object
-        if ($relationAlias) {
-            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
-            $this->addJoinObject($join, $relationAlias);
-        } else {
-            $this->addJoinObject($join, 'DocumentosRelatedById');
-        }
-
-        return $this;
-    }
-
-    /**
-     * Use the DocumentosRelatedById relation Documentos object
-     *
-     * @see useQuery()
-     *
-     * @param     string $relationAlias optional alias for the relation,
-     *                                   to be used as main alias in the secondary query
-     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
-     *
-     * @return \DocumentosQuery A secondary query class using the current class as primary query
-     */
-    public function useDocumentosRelatedByIdQuery($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
-    {
-        return $this
-            ->joinDocumentosRelatedById($relationAlias, $joinType)
-            ->useQuery($relationAlias ? $relationAlias : 'DocumentosRelatedById', '\DocumentosQuery');
+            ->joinCliente($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'Cliente', '\ClienteQuery');
     }
 
     /**

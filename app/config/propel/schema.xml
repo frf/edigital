@@ -67,7 +67,7 @@
     <foreign-key foreignTable="categorias" name="documentos_idcategoria_fkey">
       <reference local="idcategoria" foreign="id"/>
     </foreign-key>
-    <foreign-key foreignTable="documentos" name="documentos_idcliente_fkey">
+    <foreign-key foreignTable="cliente" name="documentos_idcliente_fkey">
       <reference local="idcliente" foreign="id"/>
     </foreign-key>
   </table>

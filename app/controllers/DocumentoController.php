@@ -59,7 +59,7 @@ class DocumentoController extends BaseController {
 	public function getListar($id)
 	{
             
-		$oCliente = ClientesQuery::create()->filterById($id)->findOne();
+		$oCliente = ClienteQuery::create()->filterById($id)->findOne();
 		$oDocumentos = $oCliente->getDocumentoss();
                 $caminhoDoc = __DIR__.'/../storage/documento/';
                 
@@ -87,7 +87,7 @@ class DocumentoController extends BaseController {
 			return Redirect::to('/documento/listar')->with('message-erro','Nenhum cliente encontrado!');
 		}
 
-		$oCliente = ClientesQuery::create()->filterById($idCliente)->findOne();
+		$oCliente = ClienteQuery::create()->filterById($idCliente)->findOne();
 
 		return View::make('documento.inserir', compact('oCliente'));
 	}

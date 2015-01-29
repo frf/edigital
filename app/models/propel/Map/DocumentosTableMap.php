@@ -167,7 +167,7 @@ class DocumentosTableMap extends TableMap
         $this->addColumn('nomedocumento', 'Nomedocumento', 'VARCHAR', false, 200, null);
         $this->addColumn('datainclusao', 'Datainclusao', 'TIMESTAMP', false, null, null);
         $this->addColumn('caminhodoc', 'Caminhodoc', 'VARCHAR', false, 200, null);
-        $this->addForeignKey('idcliente', 'Idcliente', 'INTEGER', 'documentos', 'id', false, null, null);
+        $this->addForeignKey('idcliente', 'Idcliente', 'INTEGER', 'cliente', 'id', false, null, null);
         $this->addForeignKey('idcategoria', 'Idcategoria', 'INTEGER', 'categorias', 'id', false, null, null);
         $this->addPrimaryKey('id', 'Id', 'INTEGER', true, null, null);
     } // initialize()
@@ -178,8 +178,7 @@ class DocumentosTableMap extends TableMap
     public function buildRelations()
     {
         $this->addRelation('Categorias', '\\Categorias', RelationMap::MANY_TO_ONE, array('idcategoria' => 'id', ), null, null);
-        $this->addRelation('DocumentosRelatedByIdcliente', '\\Documentos', RelationMap::MANY_TO_ONE, array('idcliente' => 'id', ), null, null);
-        $this->addRelation('DocumentosRelatedById', '\\Documentos', RelationMap::ONE_TO_MANY, array('id' => 'idcliente', ), null, null, 'DocumentossRelatedById');
+        $this->addRelation('Cliente', '\\Cliente', RelationMap::MANY_TO_ONE, array('idcliente' => 'id', ), null, null);
         $this->addRelation('DocumentosDownloads', '\\DocumentosDownloads', RelationMap::ONE_TO_MANY, array('id' => 'iddocumento', ), null, null, 'DocumentosDownloadss');
     } // buildRelations()
 

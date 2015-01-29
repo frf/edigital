@@ -161,6 +161,7 @@ class ClienteTableMap extends TableMap
     {
         $this->addRelation('Categorias', '\\Categorias', RelationMap::ONE_TO_MANY, array('id' => 'id_cliente', ), null, null, 'Categoriass');
         $this->addRelation('ClientePgtos', '\\ClientePgtos', RelationMap::ONE_TO_MANY, array('id' => 'idcliente', ), null, null, 'ClientePgtoss');
+        $this->addRelation('Documentos', '\\Documentos', RelationMap::ONE_TO_MANY, array('id' => 'idcliente', ), null, null, 'Documentoss');
         $this->addRelation('Idoc', '\\Idoc', RelationMap::ONE_TO_MANY, array('id' => 'idcliente', ), 'CASCADE', 'CASCADE', 'Idocs');
         $this->addRelation('Produtos', '\\Produtos', RelationMap::ONE_TO_MANY, array('id' => 'idcliente', ), null, null, 'Produtoss');
         $this->addRelation('Usuarios', '\\Usuarios', RelationMap::ONE_TO_MANY, array('id' => 'idcliente', ), null, null, 'Usuarioss');
