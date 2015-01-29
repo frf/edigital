@@ -147,7 +147,13 @@ class CategoriasTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('Documentos', '\\Documentos', RelationMap::ONE_TO_MANY, array('id' => 'id_categorias', ), null, null, 'Documentoss');
+        $this->addRelation('Documentos', '\\Documentos', RelationMap::ONE_TO_MANY, array (
+  0 =>
+  array (
+    0 => ':idcategoria',
+    1 => ':id',
+  ),
+), null, null, 'Documentoss', false);
     } // buildRelations()
 
     /**

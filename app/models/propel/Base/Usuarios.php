@@ -2,12 +2,17 @@
 
 namespace Base;
 
+<<<<<<< HEAD
+use \DocumentosDownloads as ChildDocumentosDownloads;
+use \DocumentosDownloadsQuery as ChildDocumentosDownloadsQuery;
+=======
 use \Chamados as ChildChamados;
 use \ChamadosQuery as ChildChamadosQuery;
 use \Cliente as ChildCliente;
 use \ClienteQuery as ChildClienteQuery;
 use \Mensagens as ChildMensagens;
 use \MensagensQuery as ChildMensagensQuery;
+>>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
 use \Usuarios as ChildUsuarios;
 use \UsuariosQuery as ChildUsuariosQuery;
 use \DateTime;
@@ -70,13 +75,30 @@ abstract class Usuarios implements ActiveRecordInterface
     protected $virtualColumns = array();
 
     /**
+<<<<<<< HEAD
+     * The value for the id field.
+     * @var        int
+     */
+    protected $id;
+
+    /**
+     * The value for the email field.
+     * @var        string
+=======
      * The value for the isdelete field.
      * Note: this column has a database default value of: false
      * @var        boolean
+>>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
      */
     protected $isdelete;
 
     /**
+<<<<<<< HEAD
+     * The value for the senha field.
+     * @var        string
+     */
+    protected $senha;
+=======
      * The value for the idcliente field.
      * @var        int
      */
@@ -105,6 +127,7 @@ abstract class Usuarios implements ActiveRecordInterface
      * @var        string
      */
     protected $tipo;
+>>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
 
     /**
      * The value for the nome field.
@@ -113,6 +136,30 @@ abstract class Usuarios implements ActiveRecordInterface
     protected $nome;
 
     /**
+<<<<<<< HEAD
+     * The value for the tipo field.
+     * @var        string
+     */
+    protected $tipo;
+
+    /**
+     * The value for the remember_token field.
+     * @var        string
+     */
+    protected $remember_token;
+
+    /**
+     * The value for the created_at field.
+     * @var        \DateTime
+     */
+    protected $created_at;
+
+    /**
+     * The value for the updated_at field.
+     * @var        \DateTime
+     */
+    protected $updated_at;
+=======
      * The value for the senha field.
      * @var        string
      */
@@ -129,10 +176,15 @@ abstract class Usuarios implements ActiveRecordInterface
      * @var        int
      */
     protected $id;
+>>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
 
     /**
-     * @var        ChildCliente
+     * @var        ObjectCollection|ChildDocumentosDownloads[] Collection to store aggregation of ChildDocumentosDownloads objects.
      */
+<<<<<<< HEAD
+    protected $collDocumentosDownloadss;
+    protected $collDocumentosDownloadssPartial;
+=======
     protected $aCliente;
 
     /**
@@ -146,6 +198,7 @@ abstract class Usuarios implements ActiveRecordInterface
      */
     protected $collMensagenss;
     protected $collMensagenssPartial;
+>>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
 
     /**
      * Flag to prevent endless save loop, if this object is referenced
@@ -157,6 +210,11 @@ abstract class Usuarios implements ActiveRecordInterface
 
     /**
      * An array of objects scheduled for deletion.
+<<<<<<< HEAD
+     * @var ObjectCollection|ChildDocumentosDownloads[]
+     */
+    protected $documentosDownloadssScheduledForDeletion = null;
+=======
      * @var ObjectCollection|ChildChamados[]
      */
     protected $chamadossScheduledForDeletion = null;
@@ -177,6 +235,7 @@ abstract class Usuarios implements ActiveRecordInterface
     {
         $this->isdelete = false;
     }
+>>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
 
     /**
      * Initializes internal state of Base\Usuarios object.
@@ -398,7 +457,21 @@ abstract class Usuarios implements ActiveRecordInterface
     }
 
     /**
+<<<<<<< HEAD
+     * Get the [id] column value.
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Get the [email] column value.
+=======
      * Get the [isdelete] column value.
+>>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
      *
      * @return boolean
      */
@@ -418,6 +491,15 @@ abstract class Usuarios implements ActiveRecordInterface
     }
 
     /**
+<<<<<<< HEAD
+     * Get the [nome] column value.
+     *
+     * @return string
+     */
+    public function getNome()
+    {
+        return $this->nome;
+=======
      * Get the [idcliente] column value.
      *
      * @return int
@@ -475,6 +557,7 @@ abstract class Usuarios implements ActiveRecordInterface
     public function getRememberToken()
     {
         return $this->remember_token;
+>>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
     }
 
     /**
@@ -488,6 +571,59 @@ abstract class Usuarios implements ActiveRecordInterface
     }
 
     /**
+<<<<<<< HEAD
+     * Get the [remember_token] column value.
+     *
+     * @return string
+     */
+    public function getRememberToken()
+    {
+        return $this->remember_token;
+    }
+
+    /**
+     * Get the [optionally formatted] temporal [created_at] column value.
+     *
+     *
+     * @param      string $format The date/time format string (either date()-style or strftime()-style).
+     *                            If format is NULL, then the raw DateTime object will be returned.
+     *
+     * @return string|DateTime Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL
+     *
+     * @throws PropelException - if unable to parse/validate the date/time value.
+     */
+    public function getCreatedAt($format = NULL)
+    {
+        if ($format === null) {
+            return $this->created_at;
+        } else {
+            return $this->created_at instanceof \DateTime ? $this->created_at->format($format) : null;
+        }
+    }
+
+    /**
+     * Get the [optionally formatted] temporal [updated_at] column value.
+     *
+     *
+     * @param      string $format The date/time format string (either date()-style or strftime()-style).
+     *                            If format is NULL, then the raw DateTime object will be returned.
+     *
+     * @return string|DateTime Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL
+     *
+     * @throws PropelException - if unable to parse/validate the date/time value.
+     */
+    public function getUpdatedAt($format = NULL)
+    {
+        if ($format === null) {
+            return $this->updated_at;
+        } else {
+            return $this->updated_at instanceof \DateTime ? $this->updated_at->format($format) : null;
+        }
+    }
+
+    /**
+     * Set the value of [id] column.
+=======
      * Get the [nome] column value.
      *
      * @return string
@@ -533,11 +669,16 @@ abstract class Usuarios implements ActiveRecordInterface
      *   * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
      *   * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
      * Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
+>>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
      *
      * @param  boolean|integer|string $v The new value
      * @return $this|\Usuarios The current object (for fluent API support)
      */
+<<<<<<< HEAD
+    public function setId($v)
+=======
     public function setIsdelete($v)
+>>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
     {
         if ($v !== null) {
             if (is_string($v)) {
@@ -547,15 +688,24 @@ abstract class Usuarios implements ActiveRecordInterface
             }
         }
 
+<<<<<<< HEAD
+        if ($this->id !== $v) {
+            $this->id = $v;
+            $this->modifiedColumns[UsuariosTableMap::COL_ID] = true;
+=======
         if ($this->isdelete !== $v) {
             $this->isdelete = $v;
             $this->modifiedColumns[UsuariosTableMap::COL_ISDELETE] = true;
+>>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
         }
 
         return $this;
     } // setIsdelete()
 
     /**
+<<<<<<< HEAD
+     * Set the value of [email] column.
+=======
      * Set the value of [idcliente] column.
      *
      * @param  int $v new value
@@ -621,16 +771,33 @@ abstract class Usuarios implements ActiveRecordInterface
 
     /**
      * Set the value of [remember_token] column.
+>>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
      *
      * @param  string $v new value
      * @return $this|\Usuarios The current object (for fluent API support)
      */
+<<<<<<< HEAD
+    public function setEmail($v)
+=======
     public function setRememberToken($v)
+>>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
     {
         if ($v !== null) {
             $v = (string) $v;
         }
 
+<<<<<<< HEAD
+        if ($this->email !== $v) {
+            $this->email = $v;
+            $this->modifiedColumns[UsuariosTableMap::COL_EMAIL] = true;
+        }
+
+        return $this;
+    } // setEmail()
+
+    /**
+     * Set the value of [senha] column.
+=======
         if ($this->remember_token !== $v) {
             $this->remember_token = $v;
             $this->modifiedColumns[UsuariosTableMap::COL_REMEMBER_TOKEN] = true;
@@ -641,16 +808,30 @@ abstract class Usuarios implements ActiveRecordInterface
 
     /**
      * Set the value of [tipo] column.
+>>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
      *
      * @param  string $v new value
      * @return $this|\Usuarios The current object (for fluent API support)
      */
+<<<<<<< HEAD
+    public function setSenha($v)
+=======
     public function setTipo($v)
+>>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
     {
         if ($v !== null) {
             $v = (string) $v;
         }
 
+<<<<<<< HEAD
+        if ($this->senha !== $v) {
+            $this->senha = $v;
+            $this->modifiedColumns[UsuariosTableMap::COL_SENHA] = true;
+        }
+
+        return $this;
+    } // setSenha()
+=======
         if ($this->tipo !== $v) {
             $this->tipo = $v;
             $this->modifiedColumns[UsuariosTableMap::COL_TIPO] = true;
@@ -658,6 +839,7 @@ abstract class Usuarios implements ActiveRecordInterface
 
         return $this;
     } // setTipo()
+>>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
 
     /**
      * Set the value of [nome] column.
@@ -680,17 +862,37 @@ abstract class Usuarios implements ActiveRecordInterface
     } // setNome()
 
     /**
+<<<<<<< HEAD
+     * Set the value of [tipo] column.
+=======
      * Set the value of [senha] column.
+>>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
      *
      * @param  string $v new value
      * @return $this|\Usuarios The current object (for fluent API support)
      */
+<<<<<<< HEAD
+    public function setTipo($v)
+=======
     public function setSenha($v)
+>>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
     {
         if ($v !== null) {
             $v = (string) $v;
         }
 
+<<<<<<< HEAD
+        if ($this->tipo !== $v) {
+            $this->tipo = $v;
+            $this->modifiedColumns[UsuariosTableMap::COL_TIPO] = true;
+        }
+
+        return $this;
+    } // setTipo()
+
+    /**
+     * Set the value of [remember_token] column.
+=======
         if ($this->senha !== $v) {
             $this->senha = $v;
             $this->modifiedColumns[UsuariosTableMap::COL_SENHA] = true;
@@ -701,16 +903,70 @@ abstract class Usuarios implements ActiveRecordInterface
 
     /**
      * Set the value of [email] column.
+>>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
      *
      * @param  string $v new value
      * @return $this|\Usuarios The current object (for fluent API support)
      */
+<<<<<<< HEAD
+    public function setRememberToken($v)
+=======
     public function setEmail($v)
+>>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
     {
         if ($v !== null) {
             $v = (string) $v;
         }
 
+<<<<<<< HEAD
+        if ($this->remember_token !== $v) {
+            $this->remember_token = $v;
+            $this->modifiedColumns[UsuariosTableMap::COL_REMEMBER_TOKEN] = true;
+        }
+
+        return $this;
+    } // setRememberToken()
+
+    /**
+     * Sets the value of [created_at] column to a normalized version of the date/time value specified.
+     *
+     * @param  mixed $v string, integer (timestamp), or \DateTime value.
+     *               Empty strings are treated as NULL.
+     * @return $this|\Usuarios The current object (for fluent API support)
+     */
+    public function setCreatedAt($v)
+    {
+        $dt = PropelDateTime::newInstance($v, null, 'DateTime');
+        if ($this->created_at !== null || $dt !== null) {
+            if ($dt !== $this->created_at) {
+                $this->created_at = $dt;
+                $this->modifiedColumns[UsuariosTableMap::COL_CREATED_AT] = true;
+            }
+        } // if either are not null
+
+        return $this;
+    } // setCreatedAt()
+
+    /**
+     * Sets the value of [updated_at] column to a normalized version of the date/time value specified.
+     *
+     * @param  mixed $v string, integer (timestamp), or \DateTime value.
+     *               Empty strings are treated as NULL.
+     * @return $this|\Usuarios The current object (for fluent API support)
+     */
+    public function setUpdatedAt($v)
+    {
+        $dt = PropelDateTime::newInstance($v, null, 'DateTime');
+        if ($this->updated_at !== null || $dt !== null) {
+            if ($dt !== $this->updated_at) {
+                $this->updated_at = $dt;
+                $this->modifiedColumns[UsuariosTableMap::COL_UPDATED_AT] = true;
+            }
+        } // if either are not null
+
+        return $this;
+    } // setUpdatedAt()
+=======
         if ($this->email !== $v) {
             $this->email = $v;
             $this->modifiedColumns[UsuariosTableMap::COL_EMAIL] = true;
@@ -738,6 +994,7 @@ abstract class Usuarios implements ActiveRecordInterface
 
         return $this;
     } // setId()
+>>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
 
     /**
      * Indicates whether the columns in this object are only set to default values.
@@ -779,6 +1036,19 @@ abstract class Usuarios implements ActiveRecordInterface
     {
         try {
 
+<<<<<<< HEAD
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : UsuariosTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->id = (null !== $col) ? (int) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : UsuariosTableMap::translateFieldName('Email', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->email = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : UsuariosTableMap::translateFieldName('Senha', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->senha = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : UsuariosTableMap::translateFieldName('Nome', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->nome = (null !== $col) ? (string) $col : null;
+=======
             $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : UsuariosTableMap::translateFieldName('Isdelete', TableMap::TYPE_PHPNAME, $indexType)];
             $this->isdelete = (null !== $col) ? (boolean) $col : null;
 
@@ -793,10 +1063,21 @@ abstract class Usuarios implements ActiveRecordInterface
 
             $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : UsuariosTableMap::translateFieldName('RememberToken', TableMap::TYPE_PHPNAME, $indexType)];
             $this->remember_token = (null !== $col) ? (string) $col : null;
+>>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
 
             $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : UsuariosTableMap::translateFieldName('Tipo', TableMap::TYPE_PHPNAME, $indexType)];
             $this->tipo = (null !== $col) ? (string) $col : null;
 
+<<<<<<< HEAD
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : UsuariosTableMap::translateFieldName('RememberToken', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->remember_token = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 6 + $startcol : UsuariosTableMap::translateFieldName('CreatedAt', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->created_at = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 7 + $startcol : UsuariosTableMap::translateFieldName('UpdatedAt', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->updated_at = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
+=======
             $col = $row[TableMap::TYPE_NUM == $indexType ? 6 + $startcol : UsuariosTableMap::translateFieldName('Nome', TableMap::TYPE_PHPNAME, $indexType)];
             $this->nome = (null !== $col) ? (string) $col : null;
 
@@ -808,6 +1089,7 @@ abstract class Usuarios implements ActiveRecordInterface
 
             $col = $row[TableMap::TYPE_NUM == $indexType ? 9 + $startcol : UsuariosTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
             $this->id = (null !== $col) ? (int) $col : null;
+>>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
             $this->resetModified();
 
             $this->setNew(false);
@@ -816,7 +1098,11 @@ abstract class Usuarios implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
+<<<<<<< HEAD
+            return $startcol + 8; // 8 = UsuariosTableMap::NUM_HYDRATE_COLUMNS.
+=======
             return $startcol + 10; // 10 = UsuariosTableMap::NUM_HYDRATE_COLUMNS.
+>>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
 
         } catch (Exception $e) {
             throw new PropelException(sprintf('Error populating %s object', '\\Usuarios'), 0, $e);
@@ -838,9 +1124,12 @@ abstract class Usuarios implements ActiveRecordInterface
      */
     public function ensureConsistency()
     {
+<<<<<<< HEAD
+=======
         if ($this->aCliente !== null && $this->idcliente !== $this->aCliente->getId()) {
             $this->aCliente = null;
         }
+>>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
     } // ensureConsistency
 
     /**
@@ -880,10 +1169,14 @@ abstract class Usuarios implements ActiveRecordInterface
 
         if ($deep) {  // also de-associate any related objects?
 
+<<<<<<< HEAD
+            $this->collDocumentosDownloadss = null;
+=======
             $this->aCliente = null;
             $this->collChamadoss = null;
 
             $this->collMensagenss = null;
+>>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
 
         } // if (deep)
     }
@@ -984,6 +1277,8 @@ abstract class Usuarios implements ActiveRecordInterface
         if (!$this->alreadyInSave) {
             $this->alreadyInSave = true;
 
+<<<<<<< HEAD
+=======
             // We call the save method on the following object(s) if they
             // were passed to this object by their corresponding set
             // method.  This object relates to these object(s) by a
@@ -996,6 +1291,7 @@ abstract class Usuarios implements ActiveRecordInterface
                 $this->setCliente($this->aCliente);
             }
 
+>>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
             if ($this->isNew() || $this->isModified()) {
                 // persist changes
                 if ($this->isNew()) {
@@ -1007,6 +1303,28 @@ abstract class Usuarios implements ActiveRecordInterface
                 $this->resetModified();
             }
 
+<<<<<<< HEAD
+            if ($this->documentosDownloadssScheduledForDeletion !== null) {
+                if (!$this->documentosDownloadssScheduledForDeletion->isEmpty()) {
+                    \DocumentosDownloadsQuery::create()
+                        ->filterByPrimaryKeys($this->documentosDownloadssScheduledForDeletion->getPrimaryKeys(false))
+                        ->delete($con);
+                    $this->documentosDownloadssScheduledForDeletion = null;
+                }
+            }
+
+            if ($this->collDocumentosDownloadss !== null) {
+                foreach ($this->collDocumentosDownloadss as $referrerFK) {
+                    if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
+                        $affectedRows += $referrerFK->save($con);
+                    }
+                }
+            }
+
+            $this->alreadyInSave = false;
+
+        }
+=======
             if ($this->chamadossScheduledForDeletion !== null) {
                 if (!$this->chamadossScheduledForDeletion->isEmpty()) {
                     foreach ($this->chamadossScheduledForDeletion as $chamados) {
@@ -1016,6 +1334,7 @@ abstract class Usuarios implements ActiveRecordInterface
                     $this->chamadossScheduledForDeletion = null;
                 }
             }
+>>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
 
             if ($this->collChamadoss !== null) {
                 foreach ($this->collChamadoss as $referrerFK) {
@@ -1078,6 +1397,19 @@ abstract class Usuarios implements ActiveRecordInterface
 
 
          // check the columns in natural order for more readable SQL queries
+<<<<<<< HEAD
+        if ($this->isColumnModified(UsuariosTableMap::COL_ID)) {
+            $modifiedColumns[':p' . $index++]  = 'id';
+        }
+        if ($this->isColumnModified(UsuariosTableMap::COL_EMAIL)) {
+            $modifiedColumns[':p' . $index++]  = 'email';
+        }
+        if ($this->isColumnModified(UsuariosTableMap::COL_SENHA)) {
+            $modifiedColumns[':p' . $index++]  = 'senha';
+        }
+        if ($this->isColumnModified(UsuariosTableMap::COL_NOME)) {
+            $modifiedColumns[':p' . $index++]  = 'nome';
+=======
         if ($this->isColumnModified(UsuariosTableMap::COL_ISDELETE)) {
             $modifiedColumns[':p' . $index++]  = 'isdelete';
         }
@@ -1092,10 +1424,21 @@ abstract class Usuarios implements ActiveRecordInterface
         }
         if ($this->isColumnModified(UsuariosTableMap::COL_REMEMBER_TOKEN)) {
             $modifiedColumns[':p' . $index++]  = 'remember_token';
+>>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
         }
         if ($this->isColumnModified(UsuariosTableMap::COL_TIPO)) {
             $modifiedColumns[':p' . $index++]  = 'tipo';
         }
+<<<<<<< HEAD
+        if ($this->isColumnModified(UsuariosTableMap::COL_REMEMBER_TOKEN)) {
+            $modifiedColumns[':p' . $index++]  = 'remember_token';
+        }
+        if ($this->isColumnModified(UsuariosTableMap::COL_CREATED_AT)) {
+            $modifiedColumns[':p' . $index++]  = 'created_at';
+        }
+        if ($this->isColumnModified(UsuariosTableMap::COL_UPDATED_AT)) {
+            $modifiedColumns[':p' . $index++]  = 'updated_at';
+=======
         if ($this->isColumnModified(UsuariosTableMap::COL_NOME)) {
             $modifiedColumns[':p' . $index++]  = 'nome';
         }
@@ -1107,6 +1450,7 @@ abstract class Usuarios implements ActiveRecordInterface
         }
         if ($this->isColumnModified(UsuariosTableMap::COL_ID)) {
             $modifiedColumns[':p' . $index++]  = 'id';
+>>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
         }
 
         $sql = sprintf(
@@ -1119,6 +1463,19 @@ abstract class Usuarios implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
+<<<<<<< HEAD
+                    case 'id':
+                        $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
+                        break;
+                    case 'email':
+                        $stmt->bindValue($identifier, $this->email, PDO::PARAM_STR);
+                        break;
+                    case 'senha':
+                        $stmt->bindValue($identifier, $this->senha, PDO::PARAM_STR);
+                        break;
+                    case 'nome':
+                        $stmt->bindValue($identifier, $this->nome, PDO::PARAM_STR);
+=======
                     case 'isdelete':
                         $stmt->bindValue($identifier, $this->isdelete, PDO::PARAM_BOOL);
                         break;
@@ -1133,10 +1490,21 @@ abstract class Usuarios implements ActiveRecordInterface
                         break;
                     case 'remember_token':
                         $stmt->bindValue($identifier, $this->remember_token, PDO::PARAM_STR);
+>>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
                         break;
                     case 'tipo':
                         $stmt->bindValue($identifier, $this->tipo, PDO::PARAM_STR);
                         break;
+<<<<<<< HEAD
+                    case 'remember_token':
+                        $stmt->bindValue($identifier, $this->remember_token, PDO::PARAM_STR);
+                        break;
+                    case 'created_at':
+                        $stmt->bindValue($identifier, $this->created_at ? $this->created_at->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
+                        break;
+                    case 'updated_at':
+                        $stmt->bindValue($identifier, $this->updated_at ? $this->updated_at->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
+=======
                     case 'nome':
                         $stmt->bindValue($identifier, $this->nome, PDO::PARAM_STR);
                         break;
@@ -1148,6 +1516,7 @@ abstract class Usuarios implements ActiveRecordInterface
                         break;
                     case 'id':
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
+>>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
                         break;
                 }
             }
@@ -1205,6 +1574,18 @@ abstract class Usuarios implements ActiveRecordInterface
     {
         switch ($pos) {
             case 0:
+<<<<<<< HEAD
+                return $this->getId();
+                break;
+            case 1:
+                return $this->getEmail();
+                break;
+            case 2:
+                return $this->getSenha();
+                break;
+            case 3:
+                return $this->getNome();
+=======
                 return $this->getIsdelete();
                 break;
             case 1:
@@ -1215,11 +1596,21 @@ abstract class Usuarios implements ActiveRecordInterface
                 break;
             case 3:
                 return $this->getCreatedAt();
+>>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
                 break;
             case 4:
                 return $this->getRememberToken();
                 break;
             case 5:
+<<<<<<< HEAD
+                return $this->getRememberToken();
+                break;
+            case 6:
+                return $this->getCreatedAt();
+                break;
+            case 7:
+                return $this->getUpdatedAt();
+=======
                 return $this->getTipo();
                 break;
             case 6:
@@ -1233,6 +1624,7 @@ abstract class Usuarios implements ActiveRecordInterface
                 break;
             case 9:
                 return $this->getId();
+>>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
                 break;
             default:
                 return null;
@@ -1264,6 +1656,16 @@ abstract class Usuarios implements ActiveRecordInterface
         $alreadyDumpedObjects['Usuarios'][$this->hashCode()] = true;
         $keys = UsuariosTableMap::getFieldNames($keyType);
         $result = array(
+<<<<<<< HEAD
+            $keys[0] => $this->getId(),
+            $keys[1] => $this->getEmail(),
+            $keys[2] => $this->getSenha(),
+            $keys[3] => $this->getNome(),
+            $keys[4] => $this->getTipo(),
+            $keys[5] => $this->getRememberToken(),
+            $keys[6] => $this->getCreatedAt(),
+            $keys[7] => $this->getUpdatedAt(),
+=======
             $keys[0] => $this->getIsdelete(),
             $keys[1] => $this->getIdcliente(),
             $keys[2] => $this->getUpdatedAt(),
@@ -1274,6 +1676,7 @@ abstract class Usuarios implements ActiveRecordInterface
             $keys[7] => $this->getSenha(),
             $keys[8] => $this->getEmail(),
             $keys[9] => $this->getId(),
+>>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -1281,20 +1684,20 @@ abstract class Usuarios implements ActiveRecordInterface
         }
 
         if ($includeForeignObjects) {
-            if (null !== $this->aCliente) {
+            if (null !== $this->collDocumentosDownloadss) {
 
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
-                        $key = 'cliente';
+                        $key = 'documentosDownloadss';
                         break;
                     case TableMap::TYPE_FIELDNAME:
-                        $key = 'cliente';
+                        $key = 'documentos_downloadss';
                         break;
                     default:
-                        $key = 'Cliente';
+                        $key = 'DocumentosDownloadss';
                 }
 
-                $result[$key] = $this->aCliente->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
+                $result[$key] = $this->collDocumentosDownloadss->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
             if (null !== $this->collChamadoss) {
 
@@ -1361,6 +1764,18 @@ abstract class Usuarios implements ActiveRecordInterface
     {
         switch ($pos) {
             case 0:
+<<<<<<< HEAD
+                $this->setId($value);
+                break;
+            case 1:
+                $this->setEmail($value);
+                break;
+            case 2:
+                $this->setSenha($value);
+                break;
+            case 3:
+                $this->setNome($value);
+=======
                 $this->setIsdelete($value);
                 break;
             case 1:
@@ -1371,11 +1786,21 @@ abstract class Usuarios implements ActiveRecordInterface
                 break;
             case 3:
                 $this->setCreatedAt($value);
+>>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
                 break;
             case 4:
                 $this->setRememberToken($value);
                 break;
             case 5:
+<<<<<<< HEAD
+                $this->setRememberToken($value);
+                break;
+            case 6:
+                $this->setCreatedAt($value);
+                break;
+            case 7:
+                $this->setUpdatedAt($value);
+=======
                 $this->setTipo($value);
                 break;
             case 6:
@@ -1389,6 +1814,7 @@ abstract class Usuarios implements ActiveRecordInterface
                 break;
             case 9:
                 $this->setId($value);
+>>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
                 break;
         } // switch()
 
@@ -1417,7 +1843,11 @@ abstract class Usuarios implements ActiveRecordInterface
         $keys = UsuariosTableMap::getFieldNames($keyType);
 
         if (array_key_exists($keys[0], $arr)) {
+<<<<<<< HEAD
+            $this->setId($arr[$keys[0]]);
+=======
             $this->setIsdelete($arr[$keys[0]]);
+>>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
         }
         if (array_key_exists($keys[1], $arr)) {
             $this->setIdcliente($arr[$keys[1]]);
@@ -1426,12 +1856,25 @@ abstract class Usuarios implements ActiveRecordInterface
             $this->setUpdatedAt($arr[$keys[2]]);
         }
         if (array_key_exists($keys[3], $arr)) {
+<<<<<<< HEAD
+            $this->setNome($arr[$keys[3]]);
+=======
             $this->setCreatedAt($arr[$keys[3]]);
+>>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
         }
         if (array_key_exists($keys[4], $arr)) {
             $this->setRememberToken($arr[$keys[4]]);
         }
         if (array_key_exists($keys[5], $arr)) {
+<<<<<<< HEAD
+            $this->setRememberToken($arr[$keys[5]]);
+        }
+        if (array_key_exists($keys[6], $arr)) {
+            $this->setCreatedAt($arr[$keys[6]]);
+        }
+        if (array_key_exists($keys[7], $arr)) {
+            $this->setUpdatedAt($arr[$keys[7]]);
+=======
             $this->setTipo($arr[$keys[5]]);
         }
         if (array_key_exists($keys[6], $arr)) {
@@ -1445,6 +1888,7 @@ abstract class Usuarios implements ActiveRecordInterface
         }
         if (array_key_exists($keys[9], $arr)) {
             $this->setId($arr[$keys[9]]);
+>>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
         }
     }
 
@@ -1487,6 +1931,19 @@ abstract class Usuarios implements ActiveRecordInterface
     {
         $criteria = new Criteria(UsuariosTableMap::DATABASE_NAME);
 
+<<<<<<< HEAD
+        if ($this->isColumnModified(UsuariosTableMap::COL_ID)) {
+            $criteria->add(UsuariosTableMap::COL_ID, $this->id);
+        }
+        if ($this->isColumnModified(UsuariosTableMap::COL_EMAIL)) {
+            $criteria->add(UsuariosTableMap::COL_EMAIL, $this->email);
+        }
+        if ($this->isColumnModified(UsuariosTableMap::COL_SENHA)) {
+            $criteria->add(UsuariosTableMap::COL_SENHA, $this->senha);
+        }
+        if ($this->isColumnModified(UsuariosTableMap::COL_NOME)) {
+            $criteria->add(UsuariosTableMap::COL_NOME, $this->nome);
+=======
         if ($this->isColumnModified(UsuariosTableMap::COL_ISDELETE)) {
             $criteria->add(UsuariosTableMap::COL_ISDELETE, $this->isdelete);
         }
@@ -1501,10 +1958,21 @@ abstract class Usuarios implements ActiveRecordInterface
         }
         if ($this->isColumnModified(UsuariosTableMap::COL_REMEMBER_TOKEN)) {
             $criteria->add(UsuariosTableMap::COL_REMEMBER_TOKEN, $this->remember_token);
+>>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
         }
         if ($this->isColumnModified(UsuariosTableMap::COL_TIPO)) {
             $criteria->add(UsuariosTableMap::COL_TIPO, $this->tipo);
         }
+<<<<<<< HEAD
+        if ($this->isColumnModified(UsuariosTableMap::COL_REMEMBER_TOKEN)) {
+            $criteria->add(UsuariosTableMap::COL_REMEMBER_TOKEN, $this->remember_token);
+        }
+        if ($this->isColumnModified(UsuariosTableMap::COL_CREATED_AT)) {
+            $criteria->add(UsuariosTableMap::COL_CREATED_AT, $this->created_at);
+        }
+        if ($this->isColumnModified(UsuariosTableMap::COL_UPDATED_AT)) {
+            $criteria->add(UsuariosTableMap::COL_UPDATED_AT, $this->updated_at);
+=======
         if ($this->isColumnModified(UsuariosTableMap::COL_NOME)) {
             $criteria->add(UsuariosTableMap::COL_NOME, $this->nome);
         }
@@ -1516,6 +1984,7 @@ abstract class Usuarios implements ActiveRecordInterface
         }
         if ($this->isColumnModified(UsuariosTableMap::COL_ID)) {
             $criteria->add(UsuariosTableMap::COL_ID, $this->id);
+>>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
         }
 
         return $criteria;
@@ -1603,6 +2072,15 @@ abstract class Usuarios implements ActiveRecordInterface
      */
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
+<<<<<<< HEAD
+        $copyObj->setEmail($this->getEmail());
+        $copyObj->setSenha($this->getSenha());
+        $copyObj->setNome($this->getNome());
+        $copyObj->setTipo($this->getTipo());
+        $copyObj->setRememberToken($this->getRememberToken());
+        $copyObj->setCreatedAt($this->getCreatedAt());
+        $copyObj->setUpdatedAt($this->getUpdatedAt());
+=======
         $copyObj->setIsdelete($this->getIsdelete());
         $copyObj->setIdcliente($this->getIdcliente());
         $copyObj->setUpdatedAt($this->getUpdatedAt());
@@ -1612,12 +2090,18 @@ abstract class Usuarios implements ActiveRecordInterface
         $copyObj->setNome($this->getNome());
         $copyObj->setSenha($this->getSenha());
         $copyObj->setEmail($this->getEmail());
+>>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
 
         if ($deepCopy) {
             // important: temporarily setNew(false) because this affects the behavior of
             // the getter/setter methods for fkey referrer objects.
             $copyObj->setNew(false);
 
+<<<<<<< HEAD
+            foreach ($this->getDocumentosDownloadss() as $relObj) {
+                if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
+                    $copyObj->addDocumentosDownloads($relObj->copy($deepCopy));
+=======
             foreach ($this->getChamadoss() as $relObj) {
                 if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
                     $copyObj->addChamados($relObj->copy($deepCopy));
@@ -1627,6 +2111,7 @@ abstract class Usuarios implements ActiveRecordInterface
             foreach ($this->getMensagenss() as $relObj) {
                 if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
                     $copyObj->addMensagens($relObj->copy($deepCopy));
+>>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
                 }
             }
 
@@ -1660,55 +2145,267 @@ abstract class Usuarios implements ActiveRecordInterface
         return $copyObj;
     }
 
+
     /**
+<<<<<<< HEAD
+     * Initializes a collection based on the name of a relation.
+     * Avoids crafting an 'init[$relationName]s' method name
+     * that wouldn't work when StandardEnglishPluralizer is used.
+=======
      * Declares an association between this object and a ChildCliente object.
+>>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
      *
-     * @param  ChildCliente $v
-     * @return $this|\Usuarios The current object (for fluent API support)
+     * @param      string $relationName The name of the relation to initialize
+     * @return void
+     */
+    public function initRelation($relationName)
+    {
+        if ('DocumentosDownloads' == $relationName) {
+            return $this->initDocumentosDownloadss();
+        }
+    }
+
+    /**
+     * Clears out the collDocumentosDownloadss collection
+     *
+     * This does not modify the database; however, it will remove any associated objects, causing
+     * them to be refetched by subsequent calls to accessor method.
+     *
+     * @return void
+     * @see        addDocumentosDownloadss()
+     */
+    public function clearDocumentosDownloadss()
+    {
+        $this->collDocumentosDownloadss = null; // important to set this to NULL since that means it is uninitialized
+    }
+
+    /**
+     * Reset is the collDocumentosDownloadss collection loaded partially.
+     */
+    public function resetPartialDocumentosDownloadss($v = true)
+    {
+        $this->collDocumentosDownloadssPartial = $v;
+    }
+
+    /**
+     * Initializes the collDocumentosDownloadss collection.
+     *
+     * By default this just sets the collDocumentosDownloadss collection to an empty array (like clearcollDocumentosDownloadss());
+     * however, you may wish to override this method in your stub class to provide setting appropriate
+     * to your application -- for example, setting the initial array to the values stored in database.
+     *
+     * @param      boolean $overrideExisting If set to true, the method call initializes
+     *                                        the collection even if it is not empty
+     *
+     * @return void
+     */
+    public function initDocumentosDownloadss($overrideExisting = true)
+    {
+        if (null !== $this->collDocumentosDownloadss && !$overrideExisting) {
+            return;
+        }
+        $this->collDocumentosDownloadss = new ObjectCollection();
+        $this->collDocumentosDownloadss->setModel('\DocumentosDownloads');
+    }
+
+    /**
+     * Gets an array of ChildDocumentosDownloads objects which contain a foreign key that references this object.
+     *
+     * If the $criteria is not null, it is used to always fetch the results from the database.
+     * Otherwise the results are fetched from the database the first time, then cached.
+     * Next time the same method is called without $criteria, the cached collection is returned.
+     * If this ChildUsuarios is new, it will return
+     * an empty collection or the current collection; the criteria is ignored on a new object.
+     *
+     * @param      Criteria $criteria optional Criteria object to narrow the query
+     * @param      ConnectionInterface $con optional connection object
+     * @return ObjectCollection|ChildDocumentosDownloads[] List of ChildDocumentosDownloads objects
      * @throws PropelException
      */
-    public function setCliente(ChildCliente $v = null)
+    public function getDocumentosDownloadss(Criteria $criteria = null, ConnectionInterface $con = null)
     {
-        if ($v === null) {
-            $this->setIdcliente(NULL);
-        } else {
-            $this->setIdcliente($v->getId());
+        $partial = $this->collDocumentosDownloadssPartial && !$this->isNew();
+        if (null === $this->collDocumentosDownloadss || null !== $criteria  || $partial) {
+            if ($this->isNew() && null === $this->collDocumentosDownloadss) {
+                // return empty collection
+                $this->initDocumentosDownloadss();
+            } else {
+                $collDocumentosDownloadss = ChildDocumentosDownloadsQuery::create(null, $criteria)
+                    ->filterByUsuarios($this)
+                    ->find($con);
+
+                if (null !== $criteria) {
+                    if (false !== $this->collDocumentosDownloadssPartial && count($collDocumentosDownloadss)) {
+                        $this->initDocumentosDownloadss(false);
+
+                        foreach ($collDocumentosDownloadss as $obj) {
+                            if (false == $this->collDocumentosDownloadss->contains($obj)) {
+                                $this->collDocumentosDownloadss->append($obj);
+                            }
+                        }
+
+                        $this->collDocumentosDownloadssPartial = true;
+                    }
+
+                    return $collDocumentosDownloadss;
+                }
+
+                if ($partial && $this->collDocumentosDownloadss) {
+                    foreach ($this->collDocumentosDownloadss as $obj) {
+                        if ($obj->isNew()) {
+                            $collDocumentosDownloadss[] = $obj;
+                        }
+                    }
+                }
+
+                $this->collDocumentosDownloadss = $collDocumentosDownloadss;
+                $this->collDocumentosDownloadssPartial = false;
+            }
         }
 
-        $this->aCliente = $v;
+        return $this->collDocumentosDownloadss;
+    }
 
-        // Add binding for other direction of this n:n relationship.
-        // If this object has already been added to the ChildCliente object, it will not be re-added.
-        if ($v !== null) {
-            $v->addUsuarios($this);
+    /**
+     * Sets a collection of ChildDocumentosDownloads objects related by a one-to-many relationship
+     * to the current object.
+     * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
+     * and new objects from the given Propel collection.
+     *
+     * @param      Collection $documentosDownloadss A Propel collection.
+     * @param      ConnectionInterface $con Optional connection object
+     * @return $this|ChildUsuarios The current object (for fluent API support)
+     */
+    public function setDocumentosDownloadss(Collection $documentosDownloadss, ConnectionInterface $con = null)
+    {
+        /** @var ChildDocumentosDownloads[] $documentosDownloadssToDelete */
+        $documentosDownloadssToDelete = $this->getDocumentosDownloadss(new Criteria(), $con)->diff($documentosDownloadss);
+
+
+        $this->documentosDownloadssScheduledForDeletion = $documentosDownloadssToDelete;
+
+        foreach ($documentosDownloadssToDelete as $documentosDownloadsRemoved) {
+            $documentosDownloadsRemoved->setUsuarios(null);
         }
 
+        $this->collDocumentosDownloadss = null;
+        foreach ($documentosDownloadss as $documentosDownloads) {
+            $this->addDocumentosDownloads($documentosDownloads);
+        }
+
+        $this->collDocumentosDownloadss = $documentosDownloadss;
+        $this->collDocumentosDownloadssPartial = false;
+
+        return $this;
+    }
+
+    /**
+     * Returns the number of related DocumentosDownloads objects.
+     *
+     * @param      Criteria $criteria
+     * @param      boolean $distinct
+     * @param      ConnectionInterface $con
+     * @return int             Count of related DocumentosDownloads objects.
+     * @throws PropelException
+     */
+    public function countDocumentosDownloadss(Criteria $criteria = null, $distinct = false, ConnectionInterface $con = null)
+    {
+        $partial = $this->collDocumentosDownloadssPartial && !$this->isNew();
+        if (null === $this->collDocumentosDownloadss || null !== $criteria || $partial) {
+            if ($this->isNew() && null === $this->collDocumentosDownloadss) {
+                return 0;
+            }
+
+            if ($partial && !$criteria) {
+                return count($this->getDocumentosDownloadss());
+            }
+
+            $query = ChildDocumentosDownloadsQuery::create(null, $criteria);
+            if ($distinct) {
+                $query->distinct();
+            }
+
+            return $query
+                ->filterByUsuarios($this)
+                ->count($con);
+        }
+
+        return count($this->collDocumentosDownloadss);
+    }
+
+    /**
+     * Method called to associate a ChildDocumentosDownloads object to this object
+     * through the ChildDocumentosDownloads foreign key attribute.
+     *
+     * @param  ChildDocumentosDownloads $l ChildDocumentosDownloads
+     * @return $this|\Usuarios The current object (for fluent API support)
+     */
+    public function addDocumentosDownloads(ChildDocumentosDownloads $l)
+    {
+        if ($this->collDocumentosDownloadss === null) {
+            $this->initDocumentosDownloadss();
+            $this->collDocumentosDownloadssPartial = true;
+        }
+
+        if (!$this->collDocumentosDownloadss->contains($l)) {
+            $this->doAddDocumentosDownloads($l);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param ChildDocumentosDownloads $documentosDownloads The ChildDocumentosDownloads object to add.
+     */
+    protected function doAddDocumentosDownloads(ChildDocumentosDownloads $documentosDownloads)
+    {
+        $this->collDocumentosDownloadss[]= $documentosDownloads;
+        $documentosDownloads->setUsuarios($this);
+    }
+
+    /**
+     * @param  ChildDocumentosDownloads $documentosDownloads The ChildDocumentosDownloads object to remove.
+     * @return $this|ChildUsuarios The current object (for fluent API support)
+     */
+    public function removeDocumentosDownloads(ChildDocumentosDownloads $documentosDownloads)
+    {
+        if ($this->getDocumentosDownloadss()->contains($documentosDownloads)) {
+            $pos = $this->collDocumentosDownloadss->search($documentosDownloads);
+            $this->collDocumentosDownloadss->remove($pos);
+            if (null === $this->documentosDownloadssScheduledForDeletion) {
+                $this->documentosDownloadssScheduledForDeletion = clone $this->collDocumentosDownloadss;
+                $this->documentosDownloadssScheduledForDeletion->clear();
+            }
+            $this->documentosDownloadssScheduledForDeletion[]= clone $documentosDownloads;
+            $documentosDownloads->setUsuarios(null);
+        }
 
         return $this;
     }
 
 
     /**
-     * Get the associated ChildCliente object
+     * If this collection has already been initialized with
+     * an identical criteria, it returns the collection.
+     * Otherwise if this Usuarios is new, it will return
+     * an empty collection; or if this Usuarios has previously
+     * been saved, it will retrieve related DocumentosDownloadss from storage.
      *
-     * @param  ConnectionInterface $con Optional Connection object.
-     * @return ChildCliente The associated ChildCliente object.
-     * @throws PropelException
+     * This method is protected by default in order to keep the public
+     * api reasonable.  You can provide public methods for those you
+     * actually need in Usuarios.
+     *
+     * @param      Criteria $criteria optional Criteria object to narrow the query
+     * @param      ConnectionInterface $con optional connection object
+     * @param      string $joinBehavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+     * @return ObjectCollection|ChildDocumentosDownloads[] List of ChildDocumentosDownloads objects
      */
-    public function getCliente(ConnectionInterface $con = null)
+    public function getDocumentosDownloadssJoinDocumentos(Criteria $criteria = null, ConnectionInterface $con = null, $joinBehavior = Criteria::LEFT_JOIN)
     {
-        if ($this->aCliente === null && ($this->idcliente !== null)) {
-            $this->aCliente = ChildClienteQuery::create()->findPk($this->idcliente, $con);
-            /* The following can be used additionally to
-                guarantee the related object contains a reference
-                to this object.  This level of coupling may, however, be
-                undesirable since it could result in an only partially populated collection
-                in the referenced object.
-                $this->aCliente->addUsuarioss($this);
-             */
-        }
+        $query = ChildDocumentosDownloadsQuery::create(null, $criteria);
+        $query->joinWith('Documentos', $joinBehavior);
 
-        return $this->aCliente;
+        return $this->getDocumentosDownloadss($query, $con);
     }
 
 
@@ -2173,6 +2870,16 @@ abstract class Usuarios implements ActiveRecordInterface
      */
     public function clear()
     {
+<<<<<<< HEAD
+        $this->id = null;
+        $this->email = null;
+        $this->senha = null;
+        $this->nome = null;
+        $this->tipo = null;
+        $this->remember_token = null;
+        $this->created_at = null;
+        $this->updated_at = null;
+=======
         if (null !== $this->aCliente) {
             $this->aCliente->removeUsuarios($this);
         }
@@ -2186,6 +2893,7 @@ abstract class Usuarios implements ActiveRecordInterface
         $this->senha = null;
         $this->email = null;
         $this->id = null;
+>>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
         $this->alreadyInSave = false;
         $this->clearAllReferences();
         $this->applyDefaultValues();
@@ -2205,6 +2913,10 @@ abstract class Usuarios implements ActiveRecordInterface
     public function clearAllReferences($deep = false)
     {
         if ($deep) {
+<<<<<<< HEAD
+            if ($this->collDocumentosDownloadss) {
+                foreach ($this->collDocumentosDownloadss as $o) {
+=======
             if ($this->collChamadoss) {
                 foreach ($this->collChamadoss as $o) {
                     $o->clearAllReferences($deep);
@@ -2212,14 +2924,19 @@ abstract class Usuarios implements ActiveRecordInterface
             }
             if ($this->collMensagenss) {
                 foreach ($this->collMensagenss as $o) {
+>>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
                     $o->clearAllReferences($deep);
                 }
             }
         } // if ($deep)
 
+<<<<<<< HEAD
+        $this->collDocumentosDownloadss = null;
+=======
         $this->collChamadoss = null;
         $this->collMensagenss = null;
         $this->aCliente = null;
+>>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
     }
 
     /**

@@ -635,9 +635,10 @@ abstract class Categorias implements ActiveRecordInterface
 
             if ($this->documentossScheduledForDeletion !== null) {
                 if (!$this->documentossScheduledForDeletion->isEmpty()) {
-                    \DocumentosQuery::create()
-                        ->filterByPrimaryKeys($this->documentossScheduledForDeletion->getPrimaryKeys(false))
-                        ->delete($con);
+                    foreach ($this->documentossScheduledForDeletion as $documentos) {
+                        // need to save related object because we set the relation to null
+                        $documentos->save($con);
+                    }
                     $this->documentossScheduledForDeletion = null;
                 }
             }
@@ -1318,7 +1319,7 @@ abstract class Categorias implements ActiveRecordInterface
                 $this->documentossScheduledForDeletion = clone $this->collDocumentoss;
                 $this->documentossScheduledForDeletion->clear();
             }
-            $this->documentossScheduledForDeletion[]= clone $documentos;
+            $this->documentossScheduledForDeletion[]= $documentos;
             $documentos->setCategorias(null);
         }
 

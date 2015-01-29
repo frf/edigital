@@ -72,14 +72,9 @@ class IdocTableMap extends TableMap
     const NUM_HYDRATE_COLUMNS = 4;
 
     /**
-     * the column name for the file field
+     * the column name for the id field
      */
-    const COL_FILE = 'idoc.file';
-
-    /**
-     * the column name for the idcliente field
-     */
-    const COL_IDCLIENTE = 'idoc.idcliente';
+    const COL_ID = 'idoc.id';
 
     /**
      * the column name for the nome field
@@ -87,9 +82,14 @@ class IdocTableMap extends TableMap
     const COL_NOME = 'idoc.nome';
 
     /**
-     * the column name for the id field
+     * the column name for the idcliente field
      */
-    const COL_ID = 'idoc.id';
+    const COL_IDCLIENTE = 'idoc.idcliente';
+
+    /**
+     * the column name for the file field
+     */
+    const COL_FILE = 'idoc.file';
 
     /**
      * The default string format for model objects of the related table
@@ -103,10 +103,10 @@ class IdocTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('File', 'Idcliente', 'Nome', 'Id', ),
-        self::TYPE_CAMELNAME     => array('file', 'idcliente', 'nome', 'id', ),
-        self::TYPE_COLNAME       => array(IdocTableMap::COL_FILE, IdocTableMap::COL_IDCLIENTE, IdocTableMap::COL_NOME, IdocTableMap::COL_ID, ),
-        self::TYPE_FIELDNAME     => array('file', 'idcliente', 'nome', 'id', ),
+        self::TYPE_PHPNAME       => array('Id', 'Nome', 'Idcliente', 'File', ),
+        self::TYPE_CAMELNAME     => array('id', 'nome', 'idcliente', 'file', ),
+        self::TYPE_COLNAME       => array(IdocTableMap::COL_ID, IdocTableMap::COL_NOME, IdocTableMap::COL_IDCLIENTE, IdocTableMap::COL_FILE, ),
+        self::TYPE_FIELDNAME     => array('id', 'nome', 'idcliente', 'file', ),
         self::TYPE_NUM           => array(0, 1, 2, 3, )
     );
 
@@ -117,10 +117,10 @@ class IdocTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('File' => 0, 'Idcliente' => 1, 'Nome' => 2, 'Id' => 3, ),
-        self::TYPE_CAMELNAME     => array('file' => 0, 'idcliente' => 1, 'nome' => 2, 'id' => 3, ),
-        self::TYPE_COLNAME       => array(IdocTableMap::COL_FILE => 0, IdocTableMap::COL_IDCLIENTE => 1, IdocTableMap::COL_NOME => 2, IdocTableMap::COL_ID => 3, ),
-        self::TYPE_FIELDNAME     => array('file' => 0, 'idcliente' => 1, 'nome' => 2, 'id' => 3, ),
+        self::TYPE_PHPNAME       => array('Id' => 0, 'Nome' => 1, 'Idcliente' => 2, 'File' => 3, ),
+        self::TYPE_CAMELNAME     => array('id' => 0, 'nome' => 1, 'idcliente' => 2, 'file' => 3, ),
+        self::TYPE_COLNAME       => array(IdocTableMap::COL_ID => 0, IdocTableMap::COL_NOME => 1, IdocTableMap::COL_IDCLIENTE => 2, IdocTableMap::COL_FILE => 3, ),
+        self::TYPE_FIELDNAME     => array('id' => 0, 'nome' => 1, 'idcliente' => 2, 'file' => 3, ),
         self::TYPE_NUM           => array(0, 1, 2, 3, )
     );
 
@@ -142,10 +142,10 @@ class IdocTableMap extends TableMap
         $this->setUseIdGenerator(true);
         $this->setPrimaryKeyMethodInfo('idoc_id_seq');
         // columns
-        $this->addColumn('file', 'File', 'VARCHAR', false, 255, null);
-        $this->addForeignKey('idcliente', 'Idcliente', 'BIGINT', 'cliente', 'id', false, null, null);
-        $this->addColumn('nome', 'Nome', 'VARCHAR', false, 255, null);
         $this->addPrimaryKey('id', 'Id', 'INTEGER', true, null, null);
+        $this->addColumn('nome', 'Nome', 'VARCHAR', false, 255, null);
+        $this->addColumn('idcliente', 'Idcliente', 'BIGINT', false, null, null);
+        $this->addColumn('file', 'File', 'VARCHAR', false, 255, null);
     } // initialize()
 
     /**
@@ -153,7 +153,6 @@ class IdocTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('Cliente', '\\Cliente', RelationMap::MANY_TO_ONE, array('idcliente' => 'id', ), 'CASCADE', 'CASCADE');
     } // buildRelations()
 
     /**
@@ -172,11 +171,11 @@ class IdocTableMap extends TableMap
     public static function getPrimaryKeyHashFromRow($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
     {
         // If the PK cannot be derived from the row, return NULL.
-        if ($row[TableMap::TYPE_NUM == $indexType ? 3 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)] === null) {
+        if ($row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)] === null) {
             return null;
         }
 
-        return (string) $row[TableMap::TYPE_NUM == $indexType ? 3 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
+        return (string) $row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
     }
 
     /**
@@ -195,7 +194,7 @@ class IdocTableMap extends TableMap
     {
         return (int) $row[
             $indexType == TableMap::TYPE_NUM
-                ? 3 + $offset
+                ? 0 + $offset
                 : self::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)
         ];
     }
@@ -297,15 +296,15 @@ class IdocTableMap extends TableMap
     public static function addSelectColumns(Criteria $criteria, $alias = null)
     {
         if (null === $alias) {
-            $criteria->addSelectColumn(IdocTableMap::COL_FILE);
-            $criteria->addSelectColumn(IdocTableMap::COL_IDCLIENTE);
-            $criteria->addSelectColumn(IdocTableMap::COL_NOME);
             $criteria->addSelectColumn(IdocTableMap::COL_ID);
+            $criteria->addSelectColumn(IdocTableMap::COL_NOME);
+            $criteria->addSelectColumn(IdocTableMap::COL_IDCLIENTE);
+            $criteria->addSelectColumn(IdocTableMap::COL_FILE);
         } else {
-            $criteria->addSelectColumn($alias . '.file');
-            $criteria->addSelectColumn($alias . '.idcliente');
-            $criteria->addSelectColumn($alias . '.nome');
             $criteria->addSelectColumn($alias . '.id');
+            $criteria->addSelectColumn($alias . '.nome');
+            $criteria->addSelectColumn($alias . '.idcliente');
+            $criteria->addSelectColumn($alias . '.file');
         }
     }
 

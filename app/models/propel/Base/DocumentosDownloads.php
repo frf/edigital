@@ -2,10 +2,15 @@
 
 namespace Base;
 
-use \MigrationsQuery as ChildMigrationsQuery;
+use \Documentos as ChildDocumentos;
+use \DocumentosDownloadsQuery as ChildDocumentosDownloadsQuery;
+use \DocumentosQuery as ChildDocumentosQuery;
+use \Usuarios as ChildUsuarios;
+use \UsuariosQuery as ChildUsuariosQuery;
+use \DateTime;
 use \Exception;
 use \PDO;
-use Map\MigrationsTableMap;
+use Map\DocumentosDownloadsTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
@@ -17,20 +22,21 @@ use Propel\Runtime\Exception\LogicException;
 use Propel\Runtime\Exception\PropelException;
 use Propel\Runtime\Map\TableMap;
 use Propel\Runtime\Parser\AbstractParser;
+use Propel\Runtime\Util\PropelDateTime;
 
 /**
- * Base class that represents a row from the 'migrations' table.
+ * Base class that represents a row from the 'documentos_downloads' table.
  *
  *
  *
 * @package    propel.generator..Base
 */
-abstract class Migrations implements ActiveRecordInterface
+abstract class DocumentosDownloads implements ActiveRecordInterface
 {
     /**
      * TableMap class name
      */
-    const TABLE_MAP = '\\Map\\MigrationsTableMap';
+    const TABLE_MAP = '\\Map\\DocumentosDownloadsTableMap';
 
 
     /**
@@ -60,30 +66,40 @@ abstract class Migrations implements ActiveRecordInterface
     protected $virtualColumns = array();
 
     /**
-<<<<<<< HEAD
-     * The value for the migration field.
-     * @var        string
-     */
-    protected $migration;
-
-    /**
-=======
->>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
-     * The value for the batch field.
+     * The value for the iddocumento field.
      * @var        int
      */
-    protected $batch;
+    protected $iddocumento;
 
     /**
-<<<<<<< HEAD
-=======
-     * The value for the migration field.
-     * @var        string
+     * The value for the idusuario field.
+     * @var        int
      */
-    protected $migration;
+    protected $idusuario;
 
     /**
->>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
+     * The value for the dtdownload field.
+     * @var        \DateTime
+     */
+    protected $dtdownload;
+
+    /**
+     * The value for the id field.
+     * @var        int
+     */
+    protected $id;
+
+    /**
+     * @var        ChildDocumentos
+     */
+    protected $aDocumentos;
+
+    /**
+     * @var        ChildUsuarios
+     */
+    protected $aUsuarios;
+
+    /**
      * Flag to prevent endless save loop, if this object is referenced
      * by another object which falls in this transaction.
      *
@@ -92,7 +108,7 @@ abstract class Migrations implements ActiveRecordInterface
     protected $alreadyInSave = false;
 
     /**
-     * Initializes internal state of Base\Migrations object.
+     * Initializes internal state of Base\DocumentosDownloads object.
      */
     public function __construct()
     {
@@ -187,9 +203,9 @@ abstract class Migrations implements ActiveRecordInterface
     }
 
     /**
-     * Compares this with another <code>Migrations</code> instance.  If
-     * <code>obj</code> is an instance of <code>Migrations</code>, delegates to
-     * <code>equals(Migrations)</code>.  Otherwise, returns <code>false</code>.
+     * Compares this with another <code>DocumentosDownloads</code> instance.  If
+     * <code>obj</code> is an instance of <code>DocumentosDownloads</code>, delegates to
+     * <code>equals(DocumentosDownloads)</code>.  Otherwise, returns <code>false</code>.
      *
      * @param  mixed   $obj The object to compare to.
      * @return boolean Whether equal to the object specified.
@@ -255,7 +271,7 @@ abstract class Migrations implements ActiveRecordInterface
      * @param string $name  The virtual column name
      * @param mixed  $value The value to give to the virtual column
      *
-     * @return $this|Migrations The current object, for fluid interface
+     * @return $this|DocumentosDownloads The current object, for fluid interface
      */
     public function setVirtualColumn($name, $value)
     {
@@ -309,125 +325,142 @@ abstract class Migrations implements ActiveRecordInterface
     }
 
     /**
-<<<<<<< HEAD
-     * Get the [migration] column value.
-     *
-     * @return string
-     */
-    public function getMigration()
-    {
-        return $this->migration;
-    }
-
-    /**
-     * Get the [batch] column value.
+     * Get the [iddocumento] column value.
      *
      * @return int
      */
-    public function getBatch()
+    public function getIddocumento()
     {
-        return $this->batch;
+        return $this->iddocumento;
     }
 
     /**
-     * Set the value of [migration] column.
+     * Get the [idusuario] column value.
      *
-     * @param  string $v new value
-     * @return $this|\Migrations The current object (for fluent API support)
+     * @return int
      */
-    public function setMigration($v)
+    public function getIdusuario()
     {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->migration !== $v) {
-            $this->migration = $v;
-            $this->modifiedColumns[MigrationsTableMap::COL_MIGRATION] = true;
-        }
-
-        return $this;
-    } // setMigration()
+        return $this->idusuario;
+    }
 
     /**
-     * Set the value of [batch] column.
+     * Get the [optionally formatted] temporal [dtdownload] column value.
+     *
+     *
+     * @param      string $format The date/time format string (either date()-style or strftime()-style).
+     *                            If format is NULL, then the raw DateTime object will be returned.
+     *
+     * @return string|DateTime Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL
+     *
+     * @throws PropelException - if unable to parse/validate the date/time value.
+     */
+    public function getDtdownload($format = NULL)
+    {
+        if ($format === null) {
+            return $this->dtdownload;
+        } else {
+            return $this->dtdownload instanceof \DateTime ? $this->dtdownload->format($format) : null;
+        }
+    }
+
+    /**
+     * Get the [id] column value.
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set the value of [iddocumento] column.
      *
      * @param  int $v new value
-     * @return $this|\Migrations The current object (for fluent API support)
+     * @return $this|\DocumentosDownloads The current object (for fluent API support)
      */
-    public function setBatch($v)
+    public function setIddocumento($v)
     {
         if ($v !== null) {
             $v = (int) $v;
         }
 
-        if ($this->batch !== $v) {
-            $this->batch = $v;
-            $this->modifiedColumns[MigrationsTableMap::COL_BATCH] = true;
+        if ($this->iddocumento !== $v) {
+            $this->iddocumento = $v;
+            $this->modifiedColumns[DocumentosDownloadsTableMap::COL_IDDOCUMENTO] = true;
+        }
+
+        if ($this->aDocumentos !== null && $this->aDocumentos->getId() !== $v) {
+            $this->aDocumentos = null;
         }
 
         return $this;
-    } // setBatch()
-=======
-     * Get the [batch] column value.
-     *
-     * @return int
-     */
-    public function getBatch()
-    {
-        return $this->batch;
-    }
+    } // setIddocumento()
 
     /**
-     * Get the [migration] column value.
-     *
-     * @return string
-     */
-    public function getMigration()
-    {
-        return $this->migration;
-    }
-
-    /**
-     * Set the value of [batch] column.
+     * Set the value of [idusuario] column.
      *
      * @param  int $v new value
-     * @return $this|\Migrations The current object (for fluent API support)
+     * @return $this|\DocumentosDownloads The current object (for fluent API support)
      */
-    public function setBatch($v)
+    public function setIdusuario($v)
     {
         if ($v !== null) {
             $v = (int) $v;
         }
 
-        if ($this->batch !== $v) {
-            $this->batch = $v;
-            $this->modifiedColumns[MigrationsTableMap::COL_BATCH] = true;
+        if ($this->idusuario !== $v) {
+            $this->idusuario = $v;
+            $this->modifiedColumns[DocumentosDownloadsTableMap::COL_IDUSUARIO] = true;
+        }
+
+        if ($this->aUsuarios !== null && $this->aUsuarios->getId() !== $v) {
+            $this->aUsuarios = null;
         }
 
         return $this;
-    } // setBatch()
+    } // setIdusuario()
 
     /**
-     * Set the value of [migration] column.
+     * Sets the value of [dtdownload] column to a normalized version of the date/time value specified.
      *
-     * @param  string $v new value
-     * @return $this|\Migrations The current object (for fluent API support)
+     * @param  mixed $v string, integer (timestamp), or \DateTime value.
+     *               Empty strings are treated as NULL.
+     * @return $this|\DocumentosDownloads The current object (for fluent API support)
      */
-    public function setMigration($v)
+    public function setDtdownload($v)
+    {
+        $dt = PropelDateTime::newInstance($v, null, 'DateTime');
+        if ($this->dtdownload !== null || $dt !== null) {
+            if ($dt !== $this->dtdownload) {
+                $this->dtdownload = $dt;
+                $this->modifiedColumns[DocumentosDownloadsTableMap::COL_DTDOWNLOAD] = true;
+            }
+        } // if either are not null
+
+        return $this;
+    } // setDtdownload()
+
+    /**
+     * Set the value of [id] column.
+     *
+     * @param  int $v new value
+     * @return $this|\DocumentosDownloads The current object (for fluent API support)
+     */
+    public function setId($v)
     {
         if ($v !== null) {
-            $v = (string) $v;
+            $v = (int) $v;
         }
 
-        if ($this->migration !== $v) {
-            $this->migration = $v;
-            $this->modifiedColumns[MigrationsTableMap::COL_MIGRATION] = true;
+        if ($this->id !== $v) {
+            $this->id = $v;
+            $this->modifiedColumns[DocumentosDownloadsTableMap::COL_ID] = true;
         }
 
         return $this;
-    } // setMigration()
->>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
+    } // setId()
 
     /**
      * Indicates whether the columns in this object are only set to default values.
@@ -465,19 +498,17 @@ abstract class Migrations implements ActiveRecordInterface
     {
         try {
 
-<<<<<<< HEAD
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : MigrationsTableMap::translateFieldName('Migration', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->migration = (null !== $col) ? (string) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : DocumentosDownloadsTableMap::translateFieldName('Iddocumento', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->iddocumento = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : MigrationsTableMap::translateFieldName('Batch', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->batch = (null !== $col) ? (int) $col : null;
-=======
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : MigrationsTableMap::translateFieldName('Batch', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->batch = (null !== $col) ? (int) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : DocumentosDownloadsTableMap::translateFieldName('Idusuario', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->idusuario = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : MigrationsTableMap::translateFieldName('Migration', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->migration = (null !== $col) ? (string) $col : null;
->>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : DocumentosDownloadsTableMap::translateFieldName('Dtdownload', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->dtdownload = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : DocumentosDownloadsTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->id = (null !== $col) ? (int) $col : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -486,10 +517,10 @@ abstract class Migrations implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 2; // 2 = MigrationsTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 4; // 4 = DocumentosDownloadsTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
-            throw new PropelException(sprintf('Error populating %s object', '\\Migrations'), 0, $e);
+            throw new PropelException(sprintf('Error populating %s object', '\\DocumentosDownloads'), 0, $e);
         }
     }
 
@@ -508,6 +539,12 @@ abstract class Migrations implements ActiveRecordInterface
      */
     public function ensureConsistency()
     {
+        if ($this->aDocumentos !== null && $this->iddocumento !== $this->aDocumentos->getId()) {
+            $this->aDocumentos = null;
+        }
+        if ($this->aUsuarios !== null && $this->idusuario !== $this->aUsuarios->getId()) {
+            $this->aUsuarios = null;
+        }
     } // ensureConsistency
 
     /**
@@ -531,13 +568,13 @@ abstract class Migrations implements ActiveRecordInterface
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getReadConnection(MigrationsTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getReadConnection(DocumentosDownloadsTableMap::DATABASE_NAME);
         }
 
         // We don't need to alter the object instance pool; we're just modifying this instance
         // already in the pool.
 
-        $dataFetcher = ChildMigrationsQuery::create(null, $this->buildPkeyCriteria())->setFormatter(ModelCriteria::FORMAT_STATEMENT)->find($con);
+        $dataFetcher = ChildDocumentosDownloadsQuery::create(null, $this->buildPkeyCriteria())->setFormatter(ModelCriteria::FORMAT_STATEMENT)->find($con);
         $row = $dataFetcher->fetch();
         $dataFetcher->close();
         if (!$row) {
@@ -547,6 +584,8 @@ abstract class Migrations implements ActiveRecordInterface
 
         if ($deep) {  // also de-associate any related objects?
 
+            $this->aDocumentos = null;
+            $this->aUsuarios = null;
         } // if (deep)
     }
 
@@ -556,8 +595,8 @@ abstract class Migrations implements ActiveRecordInterface
      * @param      ConnectionInterface $con
      * @return void
      * @throws PropelException
-     * @see Migrations::setDeleted()
-     * @see Migrations::isDeleted()
+     * @see DocumentosDownloads::setDeleted()
+     * @see DocumentosDownloads::isDeleted()
      */
     public function delete(ConnectionInterface $con = null)
     {
@@ -566,11 +605,11 @@ abstract class Migrations implements ActiveRecordInterface
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getWriteConnection(MigrationsTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(DocumentosDownloadsTableMap::DATABASE_NAME);
         }
 
         $con->transaction(function () use ($con) {
-            $deleteQuery = ChildMigrationsQuery::create()
+            $deleteQuery = ChildDocumentosDownloadsQuery::create()
                 ->filterByPrimaryKey($this->getPrimaryKey());
             $ret = $this->preDelete($con);
             if ($ret) {
@@ -601,7 +640,7 @@ abstract class Migrations implements ActiveRecordInterface
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getWriteConnection(MigrationsTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(DocumentosDownloadsTableMap::DATABASE_NAME);
         }
 
         return $con->transaction(function () use ($con) {
@@ -620,7 +659,7 @@ abstract class Migrations implements ActiveRecordInterface
                     $this->postUpdate($con);
                 }
                 $this->postSave($con);
-                MigrationsTableMap::addInstanceToPool($this);
+                DocumentosDownloadsTableMap::addInstanceToPool($this);
             } else {
                 $affectedRows = 0;
             }
@@ -645,6 +684,25 @@ abstract class Migrations implements ActiveRecordInterface
         $affectedRows = 0; // initialize var to track total num of affected rows
         if (!$this->alreadyInSave) {
             $this->alreadyInSave = true;
+
+            // We call the save method on the following object(s) if they
+            // were passed to this object by their corresponding set
+            // method.  This object relates to these object(s) by a
+            // foreign key reference.
+
+            if ($this->aDocumentos !== null) {
+                if ($this->aDocumentos->isModified() || $this->aDocumentos->isNew()) {
+                    $affectedRows += $this->aDocumentos->save($con);
+                }
+                $this->setDocumentos($this->aDocumentos);
+            }
+
+            if ($this->aUsuarios !== null) {
+                if ($this->aUsuarios->isModified() || $this->aUsuarios->isNew()) {
+                    $affectedRows += $this->aUsuarios->save($con);
+                }
+                $this->setUsuarios($this->aUsuarios);
+            }
 
             if ($this->isNew() || $this->isModified()) {
                 // persist changes
@@ -677,26 +735,36 @@ abstract class Migrations implements ActiveRecordInterface
         $modifiedColumns = array();
         $index = 0;
 
+        $this->modifiedColumns[DocumentosDownloadsTableMap::COL_ID] = true;
+        if (null !== $this->id) {
+            throw new PropelException('Cannot insert a value for auto-increment primary key (' . DocumentosDownloadsTableMap::COL_ID . ')');
+        }
+        if (null === $this->id) {
+            try {
+                $dataFetcher = $con->query("SELECT nextval('documentos_downloads_id_seq')");
+                $this->id = $dataFetcher->fetchColumn();
+            } catch (Exception $e) {
+                throw new PropelException('Unable to get sequence id.', 0, $e);
+            }
+        }
+
 
          // check the columns in natural order for more readable SQL queries
-<<<<<<< HEAD
-        if ($this->isColumnModified(MigrationsTableMap::COL_MIGRATION)) {
-            $modifiedColumns[':p' . $index++]  = 'migration';
+        if ($this->isColumnModified(DocumentosDownloadsTableMap::COL_IDDOCUMENTO)) {
+            $modifiedColumns[':p' . $index++]  = 'iddocumento';
         }
-        if ($this->isColumnModified(MigrationsTableMap::COL_BATCH)) {
-            $modifiedColumns[':p' . $index++]  = 'batch';
+        if ($this->isColumnModified(DocumentosDownloadsTableMap::COL_IDUSUARIO)) {
+            $modifiedColumns[':p' . $index++]  = 'idusuario';
         }
-=======
-        if ($this->isColumnModified(MigrationsTableMap::COL_BATCH)) {
-            $modifiedColumns[':p' . $index++]  = 'batch';
+        if ($this->isColumnModified(DocumentosDownloadsTableMap::COL_DTDOWNLOAD)) {
+            $modifiedColumns[':p' . $index++]  = 'dtdownload';
         }
-        if ($this->isColumnModified(MigrationsTableMap::COL_MIGRATION)) {
-            $modifiedColumns[':p' . $index++]  = 'migration';
+        if ($this->isColumnModified(DocumentosDownloadsTableMap::COL_ID)) {
+            $modifiedColumns[':p' . $index++]  = 'id';
         }
->>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
 
         $sql = sprintf(
-            'INSERT INTO migrations (%s) VALUES (%s)',
+            'INSERT INTO documentos_downloads (%s) VALUES (%s)',
             implode(', ', $modifiedColumns),
             implode(', ', array_keys($modifiedColumns))
         );
@@ -705,21 +773,18 @@ abstract class Migrations implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-<<<<<<< HEAD
-                    case 'migration':
-                        $stmt->bindValue($identifier, $this->migration, PDO::PARAM_STR);
+                    case 'iddocumento':
+                        $stmt->bindValue($identifier, $this->iddocumento, PDO::PARAM_INT);
                         break;
-                    case 'batch':
-                        $stmt->bindValue($identifier, $this->batch, PDO::PARAM_INT);
+                    case 'idusuario':
+                        $stmt->bindValue($identifier, $this->idusuario, PDO::PARAM_INT);
                         break;
-=======
-                    case 'batch':
-                        $stmt->bindValue($identifier, $this->batch, PDO::PARAM_INT);
+                    case 'dtdownload':
+                        $stmt->bindValue($identifier, $this->dtdownload ? $this->dtdownload->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
                         break;
-                    case 'migration':
-                        $stmt->bindValue($identifier, $this->migration, PDO::PARAM_STR);
+                    case 'id':
+                        $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
->>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
                 }
             }
             $stmt->execute();
@@ -759,7 +824,7 @@ abstract class Migrations implements ActiveRecordInterface
      */
     public function getByName($name, $type = TableMap::TYPE_PHPNAME)
     {
-        $pos = MigrationsTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
+        $pos = DocumentosDownloadsTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
         $field = $this->getByPosition($pos);
 
         return $field;
@@ -776,17 +841,16 @@ abstract class Migrations implements ActiveRecordInterface
     {
         switch ($pos) {
             case 0:
-<<<<<<< HEAD
-                return $this->getMigration();
+                return $this->getIddocumento();
                 break;
             case 1:
-                return $this->getBatch();
-=======
-                return $this->getBatch();
+                return $this->getIdusuario();
                 break;
-            case 1:
-                return $this->getMigration();
->>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
+            case 2:
+                return $this->getDtdownload();
+                break;
+            case 3:
+                return $this->getId();
                 break;
             default:
                 return null;
@@ -805,31 +869,69 @@ abstract class Migrations implements ActiveRecordInterface
      *                    Defaults to TableMap::TYPE_PHPNAME.
      * @param     boolean $includeLazyLoadColumns (optional) Whether to include lazy loaded columns. Defaults to TRUE.
      * @param     array $alreadyDumpedObjects List of objects to skip to avoid recursion
+     * @param     boolean $includeForeignObjects (optional) Whether to include hydrated related objects. Default to FALSE.
      *
      * @return array an associative array containing the field names (as keys) and field values
      */
-    public function toArray($keyType = TableMap::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array())
+    public function toArray($keyType = TableMap::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array(), $includeForeignObjects = false)
     {
 
-        if (isset($alreadyDumpedObjects['Migrations'][$this->hashCode()])) {
+        if (isset($alreadyDumpedObjects['DocumentosDownloads'][$this->hashCode()])) {
             return '*RECURSION*';
         }
-        $alreadyDumpedObjects['Migrations'][$this->hashCode()] = true;
-        $keys = MigrationsTableMap::getFieldNames($keyType);
+        $alreadyDumpedObjects['DocumentosDownloads'][$this->hashCode()] = true;
+        $keys = DocumentosDownloadsTableMap::getFieldNames($keyType);
         $result = array(
-<<<<<<< HEAD
-            $keys[0] => $this->getMigration(),
-            $keys[1] => $this->getBatch(),
-=======
-            $keys[0] => $this->getBatch(),
-            $keys[1] => $this->getMigration(),
->>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
+            $keys[0] => $this->getIddocumento(),
+            $keys[1] => $this->getIdusuario(),
+            $keys[2] => $this->getDtdownload(),
+            $keys[3] => $this->getId(),
         );
+
+        $utc = new \DateTimeZone('utc');
+        if ($result[$keys[2]] instanceof \DateTime) {
+            // When changing timezone we don't want to change existing instances
+            $dateTime = clone $result[$keys[2]];
+            $result[$keys[2]] = $dateTime->setTimezone($utc)->format('Y-m-d\TH:i:s\Z');
+        }
+
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
             $result[$key] = $virtualColumn;
         }
 
+        if ($includeForeignObjects) {
+            if (null !== $this->aDocumentos) {
+
+                switch ($keyType) {
+                    case TableMap::TYPE_CAMELNAME:
+                        $key = 'documentos';
+                        break;
+                    case TableMap::TYPE_FIELDNAME:
+                        $key = 'documentos';
+                        break;
+                    default:
+                        $key = 'Documentos';
+                }
+
+                $result[$key] = $this->aDocumentos->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
+            }
+            if (null !== $this->aUsuarios) {
+
+                switch ($keyType) {
+                    case TableMap::TYPE_CAMELNAME:
+                        $key = 'usuarios';
+                        break;
+                    case TableMap::TYPE_FIELDNAME:
+                        $key = 'usuarios';
+                        break;
+                    default:
+                        $key = 'Usuarios';
+                }
+
+                $result[$key] = $this->aUsuarios->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
+            }
+        }
 
         return $result;
     }
@@ -843,11 +945,11 @@ abstract class Migrations implements ActiveRecordInterface
      *                one of the class type constants TableMap::TYPE_PHPNAME, TableMap::TYPE_CAMELNAME
      *                TableMap::TYPE_COLNAME, TableMap::TYPE_FIELDNAME, TableMap::TYPE_NUM.
      *                Defaults to TableMap::TYPE_PHPNAME.
-     * @return $this|\Migrations
+     * @return $this|\DocumentosDownloads
      */
     public function setByName($name, $value, $type = TableMap::TYPE_PHPNAME)
     {
-        $pos = MigrationsTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
+        $pos = DocumentosDownloadsTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
 
         return $this->setByPosition($pos, $value);
     }
@@ -858,23 +960,22 @@ abstract class Migrations implements ActiveRecordInterface
      *
      * @param  int $pos position in xml schema
      * @param  mixed $value field value
-     * @return $this|\Migrations
+     * @return $this|\DocumentosDownloads
      */
     public function setByPosition($pos, $value)
     {
         switch ($pos) {
             case 0:
-<<<<<<< HEAD
-                $this->setMigration($value);
+                $this->setIddocumento($value);
                 break;
             case 1:
-                $this->setBatch($value);
-=======
-                $this->setBatch($value);
+                $this->setIdusuario($value);
                 break;
-            case 1:
-                $this->setMigration($value);
->>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
+            case 2:
+                $this->setDtdownload($value);
+                break;
+            case 3:
+                $this->setId($value);
                 break;
         } // switch()
 
@@ -900,20 +1001,19 @@ abstract class Migrations implements ActiveRecordInterface
      */
     public function fromArray($arr, $keyType = TableMap::TYPE_PHPNAME)
     {
-        $keys = MigrationsTableMap::getFieldNames($keyType);
+        $keys = DocumentosDownloadsTableMap::getFieldNames($keyType);
 
         if (array_key_exists($keys[0], $arr)) {
-<<<<<<< HEAD
-            $this->setMigration($arr[$keys[0]]);
+            $this->setIddocumento($arr[$keys[0]]);
         }
         if (array_key_exists($keys[1], $arr)) {
-            $this->setBatch($arr[$keys[1]]);
-=======
-            $this->setBatch($arr[$keys[0]]);
+            $this->setIdusuario($arr[$keys[1]]);
         }
-        if (array_key_exists($keys[1], $arr)) {
-            $this->setMigration($arr[$keys[1]]);
->>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
+        if (array_key_exists($keys[2], $arr)) {
+            $this->setDtdownload($arr[$keys[2]]);
+        }
+        if (array_key_exists($keys[3], $arr)) {
+            $this->setId($arr[$keys[3]]);
         }
     }
 
@@ -934,7 +1034,7 @@ abstract class Migrations implements ActiveRecordInterface
      * @param string $data The source data to import from
      * @param string $keyType The type of keys the array uses.
      *
-     * @return $this|\Migrations The current object, for fluid interface
+     * @return $this|\DocumentosDownloads The current object, for fluid interface
      */
     public function importFrom($parser, $data, $keyType = TableMap::TYPE_PHPNAME)
     {
@@ -954,23 +1054,20 @@ abstract class Migrations implements ActiveRecordInterface
      */
     public function buildCriteria()
     {
-        $criteria = new Criteria(MigrationsTableMap::DATABASE_NAME);
+        $criteria = new Criteria(DocumentosDownloadsTableMap::DATABASE_NAME);
 
-<<<<<<< HEAD
-        if ($this->isColumnModified(MigrationsTableMap::COL_MIGRATION)) {
-            $criteria->add(MigrationsTableMap::COL_MIGRATION, $this->migration);
+        if ($this->isColumnModified(DocumentosDownloadsTableMap::COL_IDDOCUMENTO)) {
+            $criteria->add(DocumentosDownloadsTableMap::COL_IDDOCUMENTO, $this->iddocumento);
         }
-        if ($this->isColumnModified(MigrationsTableMap::COL_BATCH)) {
-            $criteria->add(MigrationsTableMap::COL_BATCH, $this->batch);
+        if ($this->isColumnModified(DocumentosDownloadsTableMap::COL_IDUSUARIO)) {
+            $criteria->add(DocumentosDownloadsTableMap::COL_IDUSUARIO, $this->idusuario);
         }
-=======
-        if ($this->isColumnModified(MigrationsTableMap::COL_BATCH)) {
-            $criteria->add(MigrationsTableMap::COL_BATCH, $this->batch);
+        if ($this->isColumnModified(DocumentosDownloadsTableMap::COL_DTDOWNLOAD)) {
+            $criteria->add(DocumentosDownloadsTableMap::COL_DTDOWNLOAD, $this->dtdownload);
         }
-        if ($this->isColumnModified(MigrationsTableMap::COL_MIGRATION)) {
-            $criteria->add(MigrationsTableMap::COL_MIGRATION, $this->migration);
+        if ($this->isColumnModified(DocumentosDownloadsTableMap::COL_ID)) {
+            $criteria->add(DocumentosDownloadsTableMap::COL_ID, $this->id);
         }
->>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
 
         return $criteria;
     }
@@ -987,7 +1084,8 @@ abstract class Migrations implements ActiveRecordInterface
      */
     public function buildPkeyCriteria()
     {
-        throw new LogicException('The Migrations object has no primary key');
+        $criteria = ChildDocumentosDownloadsQuery::create();
+        $criteria->add(DocumentosDownloadsTableMap::COL_ID, $this->id);
 
         return $criteria;
     }
@@ -1000,7 +1098,7 @@ abstract class Migrations implements ActiveRecordInterface
      */
     public function hashCode()
     {
-        $validPk = false;
+        $validPk = null !== $this->getId();
 
         $validPrimaryKeyFKs = 0;
         $primaryKeyFKs = [];
@@ -1015,27 +1113,23 @@ abstract class Migrations implements ActiveRecordInterface
     }
 
     /**
-     * Returns NULL since this table doesn't have a primary key.
-     * This method exists only for BC and is deprecated!
-     * @return null
+     * Returns the primary key for this object (row).
+     * @return int
      */
     public function getPrimaryKey()
     {
-        return null;
+        return $this->getId();
     }
 
     /**
-     * Dummy primary key setter.
+     * Generic method to set the primary key (id column).
      *
-     * This function only exists to preserve backwards compatibility.  It is no longer
-     * needed or required by the Persistent interface.  It will be removed in next BC-breaking
-     * release of Propel.
-     *
-     * @deprecated
+     * @param       int $key Primary key.
+     * @return void
      */
-    public function setPrimaryKey($pk)
+    public function setPrimaryKey($key)
     {
-        // do nothing, because this object doesn't have any primary keys
+        $this->setId($key);
     }
 
     /**
@@ -1044,7 +1138,7 @@ abstract class Migrations implements ActiveRecordInterface
      */
     public function isPrimaryKeyNull()
     {
-        return ;
+        return null === $this->getId();
     }
 
     /**
@@ -1053,22 +1147,19 @@ abstract class Migrations implements ActiveRecordInterface
      * If desired, this method can also make copies of all associated (fkey referrers)
      * objects.
      *
-     * @param      object $copyObj An object of \Migrations (or compatible) type.
+     * @param      object $copyObj An object of \DocumentosDownloads (or compatible) type.
      * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
      * @param      boolean $makeNew Whether to reset autoincrement PKs and make the object new.
      * @throws PropelException
      */
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
-<<<<<<< HEAD
-        $copyObj->setMigration($this->getMigration());
-        $copyObj->setBatch($this->getBatch());
-=======
-        $copyObj->setBatch($this->getBatch());
-        $copyObj->setMigration($this->getMigration());
->>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
+        $copyObj->setIddocumento($this->getIddocumento());
+        $copyObj->setIdusuario($this->getIdusuario());
+        $copyObj->setDtdownload($this->getDtdownload());
         if ($makeNew) {
             $copyObj->setNew(true);
+            $copyObj->setId(NULL); // this is a auto-increment column, so set to default value
         }
     }
 
@@ -1081,7 +1172,7 @@ abstract class Migrations implements ActiveRecordInterface
      * objects.
      *
      * @param  boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
-     * @return \Migrations Clone of current object.
+     * @return \DocumentosDownloads Clone of current object.
      * @throws PropelException
      */
     public function copy($deepCopy = false)
@@ -1095,19 +1186,124 @@ abstract class Migrations implements ActiveRecordInterface
     }
 
     /**
+     * Declares an association between this object and a ChildDocumentos object.
+     *
+     * @param  ChildDocumentos $v
+     * @return $this|\DocumentosDownloads The current object (for fluent API support)
+     * @throws PropelException
+     */
+    public function setDocumentos(ChildDocumentos $v = null)
+    {
+        if ($v === null) {
+            $this->setIddocumento(NULL);
+        } else {
+            $this->setIddocumento($v->getId());
+        }
+
+        $this->aDocumentos = $v;
+
+        // Add binding for other direction of this n:n relationship.
+        // If this object has already been added to the ChildDocumentos object, it will not be re-added.
+        if ($v !== null) {
+            $v->addDocumentosDownloads($this);
+        }
+
+
+        return $this;
+    }
+
+
+    /**
+     * Get the associated ChildDocumentos object
+     *
+     * @param  ConnectionInterface $con Optional Connection object.
+     * @return ChildDocumentos The associated ChildDocumentos object.
+     * @throws PropelException
+     */
+    public function getDocumentos(ConnectionInterface $con = null)
+    {
+        if ($this->aDocumentos === null && ($this->iddocumento !== null)) {
+            $this->aDocumentos = ChildDocumentosQuery::create()->findPk($this->iddocumento, $con);
+            /* The following can be used additionally to
+                guarantee the related object contains a reference
+                to this object.  This level of coupling may, however, be
+                undesirable since it could result in an only partially populated collection
+                in the referenced object.
+                $this->aDocumentos->addDocumentosDownloadss($this);
+             */
+        }
+
+        return $this->aDocumentos;
+    }
+
+    /**
+     * Declares an association between this object and a ChildUsuarios object.
+     *
+     * @param  ChildUsuarios $v
+     * @return $this|\DocumentosDownloads The current object (for fluent API support)
+     * @throws PropelException
+     */
+    public function setUsuarios(ChildUsuarios $v = null)
+    {
+        if ($v === null) {
+            $this->setIdusuario(NULL);
+        } else {
+            $this->setIdusuario($v->getId());
+        }
+
+        $this->aUsuarios = $v;
+
+        // Add binding for other direction of this n:n relationship.
+        // If this object has already been added to the ChildUsuarios object, it will not be re-added.
+        if ($v !== null) {
+            $v->addDocumentosDownloads($this);
+        }
+
+
+        return $this;
+    }
+
+
+    /**
+     * Get the associated ChildUsuarios object
+     *
+     * @param  ConnectionInterface $con Optional Connection object.
+     * @return ChildUsuarios The associated ChildUsuarios object.
+     * @throws PropelException
+     */
+    public function getUsuarios(ConnectionInterface $con = null)
+    {
+        if ($this->aUsuarios === null && ($this->idusuario !== null)) {
+            $this->aUsuarios = ChildUsuariosQuery::create()->findPk($this->idusuario, $con);
+            /* The following can be used additionally to
+                guarantee the related object contains a reference
+                to this object.  This level of coupling may, however, be
+                undesirable since it could result in an only partially populated collection
+                in the referenced object.
+                $this->aUsuarios->addDocumentosDownloadss($this);
+             */
+        }
+
+        return $this->aUsuarios;
+    }
+
+    /**
      * Clears the current object, sets all attributes to their default values and removes
      * outgoing references as well as back-references (from other objects to this one. Results probably in a database
      * change of those foreign objects when you call `save` there).
      */
     public function clear()
     {
-<<<<<<< HEAD
-        $this->migration = null;
-        $this->batch = null;
-=======
-        $this->batch = null;
-        $this->migration = null;
->>>>>>> 44d18eb797c4867f5fc652ddef49f3d0a6d41296
+        if (null !== $this->aDocumentos) {
+            $this->aDocumentos->removeDocumentosDownloads($this);
+        }
+        if (null !== $this->aUsuarios) {
+            $this->aUsuarios->removeDocumentosDownloads($this);
+        }
+        $this->iddocumento = null;
+        $this->idusuario = null;
+        $this->dtdownload = null;
+        $this->id = null;
         $this->alreadyInSave = false;
         $this->clearAllReferences();
         $this->resetModified();
@@ -1128,6 +1324,8 @@ abstract class Migrations implements ActiveRecordInterface
         if ($deep) {
         } // if ($deep)
 
+        $this->aDocumentos = null;
+        $this->aUsuarios = null;
     }
 
     /**
@@ -1137,7 +1335,7 @@ abstract class Migrations implements ActiveRecordInterface
      */
     public function __toString()
     {
-        return (string) $this->exportTo(MigrationsTableMap::DEFAULT_STRING_FORMAT);
+        return (string) $this->exportTo(DocumentosDownloadsTableMap::DEFAULT_STRING_FORMAT);
     }
 
     /**

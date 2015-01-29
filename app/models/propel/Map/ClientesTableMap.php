@@ -159,8 +159,20 @@ class ClientesTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('Documentos', '\\Documentos', RelationMap::ONE_TO_MANY, array('id' => 'id_cliente', ), null, null, 'Documentoss');
-        $this->addRelation('Endereco', '\\Endereco', RelationMap::ONE_TO_MANY, array('id' => 'idcliente', ), null, null, 'Enderecos');
+        $this->addRelation('Documentos', '\\Documentos', RelationMap::ONE_TO_MANY, array (
+  0 =>
+  array (
+    0 => ':idcliente',
+    1 => ':id',
+  ),
+), null, null, 'Documentoss', false);
+        $this->addRelation('Endereco', '\\Endereco', RelationMap::ONE_TO_MANY, array (
+  0 =>
+  array (
+    0 => ':idcliente',
+    1 => ':id',
+  ),
+), null, null, 'Enderecos', false);
     } // buildRelations()
 
     /**

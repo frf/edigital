@@ -352,7 +352,7 @@ abstract class CategoriasQuery extends ModelCriteria
     /**
      * Filter the query by a related \Documentos object
      *
-     * @param \Documentos|ObjectCollection $documentos  the related object to use as filter
+     * @param \Documentos|ObjectCollection $documentos the related object to use as filter
      * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return ChildCategoriasQuery The current query, for fluid interface
@@ -361,7 +361,7 @@ abstract class CategoriasQuery extends ModelCriteria
     {
         if ($documentos instanceof \Documentos) {
             return $this
-                ->addUsingAlias(CategoriasTableMap::COL_ID, $documentos->getIdCategorias(), $comparison);
+                ->addUsingAlias(CategoriasTableMap::COL_ID, $documentos->getIdcategoria(), $comparison);
         } elseif ($documentos instanceof ObjectCollection) {
             return $this
                 ->useDocumentosQuery()
@@ -380,7 +380,7 @@ abstract class CategoriasQuery extends ModelCriteria
      *
      * @return $this|ChildCategoriasQuery The current query, for fluid interface
      */
-    public function joinDocumentos($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    public function joinDocumentos($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
     {
         $tableMap = $this->getTableMap();
         $relationMap = $tableMap->getRelation('Documentos');
@@ -415,7 +415,7 @@ abstract class CategoriasQuery extends ModelCriteria
      *
      * @return \DocumentosQuery A secondary query class using the current class as primary query
      */
-    public function useDocumentosQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    public function useDocumentosQuery($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
     {
         return $this
             ->joinDocumentos($relationAlias, $joinType)
