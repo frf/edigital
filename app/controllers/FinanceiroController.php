@@ -81,7 +81,7 @@ class FinanceiroController extends BaseController {
            if($dados['valor'] != "" && $dados['idcliente'] != ""){
            
                if(Input::hasFile('nota')){
-                    $fileName = $dados['idcliente']. "_" .md5($file->getClientOriginalName() . date('Ymd'));
+                    $fileName = $dados['idcliente']. "_" .md5($file->getClientOriginalName() . date('Ymd')).".".$file->getClientOriginalExtension();
                }
                
                $pgto = new ClientePgtos();
