@@ -290,7 +290,8 @@ class ClienteController extends BaseController {
                 return Redirect::to('/cliente')->with('message-erro','Usuário não encontrado!');
             }          
           
-            $oCliente->delete();
+            $oCliente->setIsdelete(true);
+            $oCliente->save();
             
             return Redirect::to('/cliente/listar-login/'.$idCli)->with('message-sucess','Usuário excluído com sucesso!');
           

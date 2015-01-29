@@ -59,7 +59,7 @@ class UsuariosTableMap extends TableMap
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 9;
+    const NUM_COLUMNS = 10;
 
     /**
      * The number of lazy-loaded columns
@@ -69,42 +69,17 @@ class UsuariosTableMap extends TableMap
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
      */
-    const NUM_HYDRATE_COLUMNS = 9;
+    const NUM_HYDRATE_COLUMNS = 10;
 
     /**
-     * the column name for the id field
+     * the column name for the isdelete field
      */
-    const COL_ID = 'usuarios.id';
+    const COL_ISDELETE = 'usuarios.isdelete';
 
     /**
-     * the column name for the email field
+     * the column name for the idcliente field
      */
-    const COL_EMAIL = 'usuarios.email';
-
-    /**
-     * the column name for the senha field
-     */
-    const COL_SENHA = 'usuarios.senha';
-
-    /**
-     * the column name for the nome field
-     */
-    const COL_NOME = 'usuarios.nome';
-
-    /**
-     * the column name for the tipo field
-     */
-    const COL_TIPO = 'usuarios.tipo';
-
-    /**
-     * the column name for the remember_token field
-     */
-    const COL_REMEMBER_TOKEN = 'usuarios.remember_token';
-
-    /**
-     * the column name for the created_at field
-     */
-    const COL_CREATED_AT = 'usuarios.created_at';
+    const COL_IDCLIENTE = 'usuarios.idcliente';
 
     /**
      * the column name for the updated_at field
@@ -112,9 +87,39 @@ class UsuariosTableMap extends TableMap
     const COL_UPDATED_AT = 'usuarios.updated_at';
 
     /**
-     * the column name for the idcliente field
+     * the column name for the created_at field
      */
-    const COL_IDCLIENTE = 'usuarios.idcliente';
+    const COL_CREATED_AT = 'usuarios.created_at';
+
+    /**
+     * the column name for the remember_token field
+     */
+    const COL_REMEMBER_TOKEN = 'usuarios.remember_token';
+
+    /**
+     * the column name for the tipo field
+     */
+    const COL_TIPO = 'usuarios.tipo';
+
+    /**
+     * the column name for the nome field
+     */
+    const COL_NOME = 'usuarios.nome';
+
+    /**
+     * the column name for the senha field
+     */
+    const COL_SENHA = 'usuarios.senha';
+
+    /**
+     * the column name for the email field
+     */
+    const COL_EMAIL = 'usuarios.email';
+
+    /**
+     * the column name for the id field
+     */
+    const COL_ID = 'usuarios.id';
 
     /**
      * The default string format for model objects of the related table
@@ -128,11 +133,11 @@ class UsuariosTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'Email', 'Senha', 'Nome', 'Tipo', 'RememberToken', 'CreatedAt', 'UpdatedAt', 'Idcliente', ),
-        self::TYPE_CAMELNAME     => array('id', 'email', 'senha', 'nome', 'tipo', 'rememberToken', 'createdAt', 'updatedAt', 'idcliente', ),
-        self::TYPE_COLNAME       => array(UsuariosTableMap::COL_ID, UsuariosTableMap::COL_EMAIL, UsuariosTableMap::COL_SENHA, UsuariosTableMap::COL_NOME, UsuariosTableMap::COL_TIPO, UsuariosTableMap::COL_REMEMBER_TOKEN, UsuariosTableMap::COL_CREATED_AT, UsuariosTableMap::COL_UPDATED_AT, UsuariosTableMap::COL_IDCLIENTE, ),
-        self::TYPE_FIELDNAME     => array('id', 'email', 'senha', 'nome', 'tipo', 'remember_token', 'created_at', 'updated_at', 'idcliente', ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, )
+        self::TYPE_PHPNAME       => array('Isdelete', 'Idcliente', 'UpdatedAt', 'CreatedAt', 'RememberToken', 'Tipo', 'Nome', 'Senha', 'Email', 'Id', ),
+        self::TYPE_CAMELNAME     => array('isdelete', 'idcliente', 'updatedAt', 'createdAt', 'rememberToken', 'tipo', 'nome', 'senha', 'email', 'id', ),
+        self::TYPE_COLNAME       => array(UsuariosTableMap::COL_ISDELETE, UsuariosTableMap::COL_IDCLIENTE, UsuariosTableMap::COL_UPDATED_AT, UsuariosTableMap::COL_CREATED_AT, UsuariosTableMap::COL_REMEMBER_TOKEN, UsuariosTableMap::COL_TIPO, UsuariosTableMap::COL_NOME, UsuariosTableMap::COL_SENHA, UsuariosTableMap::COL_EMAIL, UsuariosTableMap::COL_ID, ),
+        self::TYPE_FIELDNAME     => array('isdelete', 'idcliente', 'updated_at', 'created_at', 'remember_token', 'tipo', 'nome', 'senha', 'email', 'id', ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, )
     );
 
     /**
@@ -142,11 +147,11 @@ class UsuariosTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'Email' => 1, 'Senha' => 2, 'Nome' => 3, 'Tipo' => 4, 'RememberToken' => 5, 'CreatedAt' => 6, 'UpdatedAt' => 7, 'Idcliente' => 8, ),
-        self::TYPE_CAMELNAME     => array('id' => 0, 'email' => 1, 'senha' => 2, 'nome' => 3, 'tipo' => 4, 'rememberToken' => 5, 'createdAt' => 6, 'updatedAt' => 7, 'idcliente' => 8, ),
-        self::TYPE_COLNAME       => array(UsuariosTableMap::COL_ID => 0, UsuariosTableMap::COL_EMAIL => 1, UsuariosTableMap::COL_SENHA => 2, UsuariosTableMap::COL_NOME => 3, UsuariosTableMap::COL_TIPO => 4, UsuariosTableMap::COL_REMEMBER_TOKEN => 5, UsuariosTableMap::COL_CREATED_AT => 6, UsuariosTableMap::COL_UPDATED_AT => 7, UsuariosTableMap::COL_IDCLIENTE => 8, ),
-        self::TYPE_FIELDNAME     => array('id' => 0, 'email' => 1, 'senha' => 2, 'nome' => 3, 'tipo' => 4, 'remember_token' => 5, 'created_at' => 6, 'updated_at' => 7, 'idcliente' => 8, ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, )
+        self::TYPE_PHPNAME       => array('Isdelete' => 0, 'Idcliente' => 1, 'UpdatedAt' => 2, 'CreatedAt' => 3, 'RememberToken' => 4, 'Tipo' => 5, 'Nome' => 6, 'Senha' => 7, 'Email' => 8, 'Id' => 9, ),
+        self::TYPE_CAMELNAME     => array('isdelete' => 0, 'idcliente' => 1, 'updatedAt' => 2, 'createdAt' => 3, 'rememberToken' => 4, 'tipo' => 5, 'nome' => 6, 'senha' => 7, 'email' => 8, 'id' => 9, ),
+        self::TYPE_COLNAME       => array(UsuariosTableMap::COL_ISDELETE => 0, UsuariosTableMap::COL_IDCLIENTE => 1, UsuariosTableMap::COL_UPDATED_AT => 2, UsuariosTableMap::COL_CREATED_AT => 3, UsuariosTableMap::COL_REMEMBER_TOKEN => 4, UsuariosTableMap::COL_TIPO => 5, UsuariosTableMap::COL_NOME => 6, UsuariosTableMap::COL_SENHA => 7, UsuariosTableMap::COL_EMAIL => 8, UsuariosTableMap::COL_ID => 9, ),
+        self::TYPE_FIELDNAME     => array('isdelete' => 0, 'idcliente' => 1, 'updated_at' => 2, 'created_at' => 3, 'remember_token' => 4, 'tipo' => 5, 'nome' => 6, 'senha' => 7, 'email' => 8, 'id' => 9, ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, )
     );
 
     /**
@@ -167,15 +172,16 @@ class UsuariosTableMap extends TableMap
         $this->setUseIdGenerator(true);
         $this->setPrimaryKeyMethodInfo('usuarios_id_seq');
         // columns
-        $this->addPrimaryKey('id', 'Id', 'INTEGER', true, null, null);
-        $this->addColumn('email', 'Email', 'VARCHAR', true, 255, null);
-        $this->addColumn('senha', 'Senha', 'VARCHAR', true, 60, null);
-        $this->addColumn('nome', 'Nome', 'VARCHAR', true, 255, null);
-        $this->addColumn('tipo', 'Tipo', 'VARCHAR', true, 255, null);
-        $this->addColumn('remember_token', 'RememberToken', 'VARCHAR', false, 100, null);
-        $this->addColumn('created_at', 'CreatedAt', 'TIMESTAMP', true, null, null);
-        $this->addColumn('updated_at', 'UpdatedAt', 'TIMESTAMP', true, null, null);
+        $this->addColumn('isdelete', 'Isdelete', 'BOOLEAN', false, 1, false);
         $this->addForeignKey('idcliente', 'Idcliente', 'INTEGER', 'cliente', 'id', false, null, null);
+        $this->addColumn('updated_at', 'UpdatedAt', 'TIMESTAMP', true, null, null);
+        $this->addColumn('created_at', 'CreatedAt', 'TIMESTAMP', true, null, null);
+        $this->addColumn('remember_token', 'RememberToken', 'VARCHAR', false, 100, null);
+        $this->addColumn('tipo', 'Tipo', 'VARCHAR', true, 255, null);
+        $this->addColumn('nome', 'Nome', 'VARCHAR', true, 255, null);
+        $this->addColumn('senha', 'Senha', 'VARCHAR', true, 60, null);
+        $this->addColumn('email', 'Email', 'VARCHAR', true, 255, null);
+        $this->addPrimaryKey('id', 'Id', 'INTEGER', true, null, null);
     } // initialize()
 
     /**
@@ -204,11 +210,11 @@ class UsuariosTableMap extends TableMap
     public static function getPrimaryKeyHashFromRow($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
     {
         // If the PK cannot be derived from the row, return NULL.
-        if ($row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)] === null) {
+        if ($row[TableMap::TYPE_NUM == $indexType ? 9 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)] === null) {
             return null;
         }
 
-        return (string) $row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
+        return (string) $row[TableMap::TYPE_NUM == $indexType ? 9 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
     }
 
     /**
@@ -227,7 +233,7 @@ class UsuariosTableMap extends TableMap
     {
         return (int) $row[
             $indexType == TableMap::TYPE_NUM
-                ? 0 + $offset
+                ? 9 + $offset
                 : self::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)
         ];
     }
@@ -329,25 +335,27 @@ class UsuariosTableMap extends TableMap
     public static function addSelectColumns(Criteria $criteria, $alias = null)
     {
         if (null === $alias) {
-            $criteria->addSelectColumn(UsuariosTableMap::COL_ID);
-            $criteria->addSelectColumn(UsuariosTableMap::COL_EMAIL);
-            $criteria->addSelectColumn(UsuariosTableMap::COL_SENHA);
-            $criteria->addSelectColumn(UsuariosTableMap::COL_NOME);
-            $criteria->addSelectColumn(UsuariosTableMap::COL_TIPO);
-            $criteria->addSelectColumn(UsuariosTableMap::COL_REMEMBER_TOKEN);
-            $criteria->addSelectColumn(UsuariosTableMap::COL_CREATED_AT);
-            $criteria->addSelectColumn(UsuariosTableMap::COL_UPDATED_AT);
+            $criteria->addSelectColumn(UsuariosTableMap::COL_ISDELETE);
             $criteria->addSelectColumn(UsuariosTableMap::COL_IDCLIENTE);
+            $criteria->addSelectColumn(UsuariosTableMap::COL_UPDATED_AT);
+            $criteria->addSelectColumn(UsuariosTableMap::COL_CREATED_AT);
+            $criteria->addSelectColumn(UsuariosTableMap::COL_REMEMBER_TOKEN);
+            $criteria->addSelectColumn(UsuariosTableMap::COL_TIPO);
+            $criteria->addSelectColumn(UsuariosTableMap::COL_NOME);
+            $criteria->addSelectColumn(UsuariosTableMap::COL_SENHA);
+            $criteria->addSelectColumn(UsuariosTableMap::COL_EMAIL);
+            $criteria->addSelectColumn(UsuariosTableMap::COL_ID);
         } else {
-            $criteria->addSelectColumn($alias . '.id');
-            $criteria->addSelectColumn($alias . '.email');
-            $criteria->addSelectColumn($alias . '.senha');
-            $criteria->addSelectColumn($alias . '.nome');
-            $criteria->addSelectColumn($alias . '.tipo');
-            $criteria->addSelectColumn($alias . '.remember_token');
-            $criteria->addSelectColumn($alias . '.created_at');
-            $criteria->addSelectColumn($alias . '.updated_at');
+            $criteria->addSelectColumn($alias . '.isdelete');
             $criteria->addSelectColumn($alias . '.idcliente');
+            $criteria->addSelectColumn($alias . '.updated_at');
+            $criteria->addSelectColumn($alias . '.created_at');
+            $criteria->addSelectColumn($alias . '.remember_token');
+            $criteria->addSelectColumn($alias . '.tipo');
+            $criteria->addSelectColumn($alias . '.nome');
+            $criteria->addSelectColumn($alias . '.senha');
+            $criteria->addSelectColumn($alias . '.email');
+            $criteria->addSelectColumn($alias . '.id');
         }
     }
 

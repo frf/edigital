@@ -72,14 +72,9 @@ class StatusChamadosTableMap extends TableMap
     const NUM_HYDRATE_COLUMNS = 4;
 
     /**
-     * the column name for the id field
+     * the column name for the updated_at field
      */
-    const COL_ID = 'status_chamados.id';
-
-    /**
-     * the column name for the status_chamado field
-     */
-    const COL_STATUS_CHAMADO = 'status_chamados.status_chamado';
+    const COL_UPDATED_AT = 'status_chamados.updated_at';
 
     /**
      * the column name for the created_at field
@@ -87,9 +82,14 @@ class StatusChamadosTableMap extends TableMap
     const COL_CREATED_AT = 'status_chamados.created_at';
 
     /**
-     * the column name for the updated_at field
+     * the column name for the status_chamado field
      */
-    const COL_UPDATED_AT = 'status_chamados.updated_at';
+    const COL_STATUS_CHAMADO = 'status_chamados.status_chamado';
+
+    /**
+     * the column name for the id field
+     */
+    const COL_ID = 'status_chamados.id';
 
     /**
      * The default string format for model objects of the related table
@@ -103,10 +103,10 @@ class StatusChamadosTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'StatusChamado', 'CreatedAt', 'UpdatedAt', ),
-        self::TYPE_CAMELNAME     => array('id', 'statusChamado', 'createdAt', 'updatedAt', ),
-        self::TYPE_COLNAME       => array(StatusChamadosTableMap::COL_ID, StatusChamadosTableMap::COL_STATUS_CHAMADO, StatusChamadosTableMap::COL_CREATED_AT, StatusChamadosTableMap::COL_UPDATED_AT, ),
-        self::TYPE_FIELDNAME     => array('id', 'status_chamado', 'created_at', 'updated_at', ),
+        self::TYPE_PHPNAME       => array('UpdatedAt', 'CreatedAt', 'StatusChamado', 'Id', ),
+        self::TYPE_CAMELNAME     => array('updatedAt', 'createdAt', 'statusChamado', 'id', ),
+        self::TYPE_COLNAME       => array(StatusChamadosTableMap::COL_UPDATED_AT, StatusChamadosTableMap::COL_CREATED_AT, StatusChamadosTableMap::COL_STATUS_CHAMADO, StatusChamadosTableMap::COL_ID, ),
+        self::TYPE_FIELDNAME     => array('updated_at', 'created_at', 'status_chamado', 'id', ),
         self::TYPE_NUM           => array(0, 1, 2, 3, )
     );
 
@@ -117,10 +117,10 @@ class StatusChamadosTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'StatusChamado' => 1, 'CreatedAt' => 2, 'UpdatedAt' => 3, ),
-        self::TYPE_CAMELNAME     => array('id' => 0, 'statusChamado' => 1, 'createdAt' => 2, 'updatedAt' => 3, ),
-        self::TYPE_COLNAME       => array(StatusChamadosTableMap::COL_ID => 0, StatusChamadosTableMap::COL_STATUS_CHAMADO => 1, StatusChamadosTableMap::COL_CREATED_AT => 2, StatusChamadosTableMap::COL_UPDATED_AT => 3, ),
-        self::TYPE_FIELDNAME     => array('id' => 0, 'status_chamado' => 1, 'created_at' => 2, 'updated_at' => 3, ),
+        self::TYPE_PHPNAME       => array('UpdatedAt' => 0, 'CreatedAt' => 1, 'StatusChamado' => 2, 'Id' => 3, ),
+        self::TYPE_CAMELNAME     => array('updatedAt' => 0, 'createdAt' => 1, 'statusChamado' => 2, 'id' => 3, ),
+        self::TYPE_COLNAME       => array(StatusChamadosTableMap::COL_UPDATED_AT => 0, StatusChamadosTableMap::COL_CREATED_AT => 1, StatusChamadosTableMap::COL_STATUS_CHAMADO => 2, StatusChamadosTableMap::COL_ID => 3, ),
+        self::TYPE_FIELDNAME     => array('updated_at' => 0, 'created_at' => 1, 'status_chamado' => 2, 'id' => 3, ),
         self::TYPE_NUM           => array(0, 1, 2, 3, )
     );
 
@@ -142,10 +142,10 @@ class StatusChamadosTableMap extends TableMap
         $this->setUseIdGenerator(true);
         $this->setPrimaryKeyMethodInfo('status_chamados_id_seq');
         // columns
-        $this->addPrimaryKey('id', 'Id', 'INTEGER', true, null, null);
-        $this->addColumn('status_chamado', 'StatusChamado', 'VARCHAR', true, 255, null);
-        $this->addColumn('created_at', 'CreatedAt', 'TIMESTAMP', true, null, null);
         $this->addColumn('updated_at', 'UpdatedAt', 'TIMESTAMP', true, null, null);
+        $this->addColumn('created_at', 'CreatedAt', 'TIMESTAMP', true, null, null);
+        $this->addColumn('status_chamado', 'StatusChamado', 'VARCHAR', true, 255, null);
+        $this->addPrimaryKey('id', 'Id', 'INTEGER', true, null, null);
     } // initialize()
 
     /**
@@ -171,11 +171,11 @@ class StatusChamadosTableMap extends TableMap
     public static function getPrimaryKeyHashFromRow($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
     {
         // If the PK cannot be derived from the row, return NULL.
-        if ($row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)] === null) {
+        if ($row[TableMap::TYPE_NUM == $indexType ? 3 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)] === null) {
             return null;
         }
 
-        return (string) $row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
+        return (string) $row[TableMap::TYPE_NUM == $indexType ? 3 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
     }
 
     /**
@@ -194,7 +194,7 @@ class StatusChamadosTableMap extends TableMap
     {
         return (int) $row[
             $indexType == TableMap::TYPE_NUM
-                ? 0 + $offset
+                ? 3 + $offset
                 : self::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)
         ];
     }
@@ -296,15 +296,15 @@ class StatusChamadosTableMap extends TableMap
     public static function addSelectColumns(Criteria $criteria, $alias = null)
     {
         if (null === $alias) {
-            $criteria->addSelectColumn(StatusChamadosTableMap::COL_ID);
-            $criteria->addSelectColumn(StatusChamadosTableMap::COL_STATUS_CHAMADO);
-            $criteria->addSelectColumn(StatusChamadosTableMap::COL_CREATED_AT);
             $criteria->addSelectColumn(StatusChamadosTableMap::COL_UPDATED_AT);
+            $criteria->addSelectColumn(StatusChamadosTableMap::COL_CREATED_AT);
+            $criteria->addSelectColumn(StatusChamadosTableMap::COL_STATUS_CHAMADO);
+            $criteria->addSelectColumn(StatusChamadosTableMap::COL_ID);
         } else {
-            $criteria->addSelectColumn($alias . '.id');
-            $criteria->addSelectColumn($alias . '.status_chamado');
-            $criteria->addSelectColumn($alias . '.created_at');
             $criteria->addSelectColumn($alias . '.updated_at');
+            $criteria->addSelectColumn($alias . '.created_at');
+            $criteria->addSelectColumn($alias . '.status_chamado');
+            $criteria->addSelectColumn($alias . '.id');
         }
     }
 

@@ -3,21 +3,20 @@
 --
 
 SET statement_timeout = 0;
-SET lock_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
 SET client_min_messages = warning;
 
 --
--- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: -
 --
 
 CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 
 
 --
--- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: -
 --
 
 COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
@@ -30,7 +29,7 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
--- Name: cat_chamados; Type: TABLE; Schema: public; Owner: edigital; Tablespace: 
+-- Name: cat_chamados; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE cat_chamados (
@@ -41,10 +40,8 @@ CREATE TABLE cat_chamados (
 );
 
 
-ALTER TABLE public.cat_chamados OWNER TO edigital;
-
 --
--- Name: cat_chamados_id_seq; Type: SEQUENCE; Schema: public; Owner: edigital
+-- Name: cat_chamados_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE cat_chamados_id_seq
@@ -55,36 +52,32 @@ CREATE SEQUENCE cat_chamados_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.cat_chamados_id_seq OWNER TO edigital;
-
 --
--- Name: cat_chamados_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: edigital
+-- Name: cat_chamados_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE cat_chamados_id_seq OWNED BY cat_chamados.id;
 
 
 --
--- Name: chamados; Type: TABLE; Schema: public; Owner: edigital; Tablespace: 
+-- Name: chamados; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE chamados (
     id integer NOT NULL,
-    usuario character varying(255) NOT NULL,
     categoria integer NOT NULL,
     titulo character varying(255) NOT NULL,
     status integer NOT NULL,
     mensagem character varying(255) NOT NULL,
     data character varying(255) NOT NULL,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    idusuario integer
 );
 
 
-ALTER TABLE public.chamados OWNER TO edigital;
-
 --
--- Name: chamados_id_seq; Type: SEQUENCE; Schema: public; Owner: edigital
+-- Name: chamados_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE chamados_id_seq
@@ -95,17 +88,15 @@ CREATE SEQUENCE chamados_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.chamados_id_seq OWNER TO edigital;
-
 --
--- Name: chamados_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: edigital
+-- Name: chamados_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE chamados_id_seq OWNED BY chamados.id;
 
 
 --
--- Name: cliente; Type: TABLE; Schema: public; Owner: edigital; Tablespace: 
+-- Name: cliente; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE cliente (
@@ -117,10 +108,8 @@ CREATE TABLE cliente (
 );
 
 
-ALTER TABLE public.cliente OWNER TO edigital;
-
 --
--- Name: cliente_id_seq; Type: SEQUENCE; Schema: public; Owner: edigital
+-- Name: cliente_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE cliente_id_seq
@@ -131,17 +120,15 @@ CREATE SEQUENCE cliente_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.cliente_id_seq OWNER TO edigital;
-
 --
--- Name: cliente_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: edigital
+-- Name: cliente_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE cliente_id_seq OWNED BY cliente.id;
 
 
 --
--- Name: cliente_pgtos; Type: TABLE; Schema: public; Owner: edigital; Tablespace: 
+-- Name: cliente_pgtos; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE cliente_pgtos (
@@ -152,14 +139,13 @@ CREATE TABLE cliente_pgtos (
     idmoeda integer,
     descricao character varying(200),
     ispaid boolean DEFAULT false,
-    nota character varying(200)
+    nota character varying(200),
+    dtpagamento timestamp without time zone
 );
 
 
-ALTER TABLE public.cliente_pgtos OWNER TO edigital;
-
 --
--- Name: cliente_pgtos_id_seq; Type: SEQUENCE; Schema: public; Owner: edigital
+-- Name: cliente_pgtos_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE cliente_pgtos_id_seq
@@ -170,17 +156,15 @@ CREATE SEQUENCE cliente_pgtos_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.cliente_pgtos_id_seq OWNER TO edigital;
-
 --
--- Name: cliente_pgtos_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: edigital
+-- Name: cliente_pgtos_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE cliente_pgtos_id_seq OWNED BY cliente_pgtos.id;
 
 
 --
--- Name: idoc; Type: TABLE; Schema: public; Owner: edigital; Tablespace: 
+-- Name: idoc; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE idoc (
@@ -191,10 +175,8 @@ CREATE TABLE idoc (
 );
 
 
-ALTER TABLE public.idoc OWNER TO edigital;
-
 --
--- Name: idoc_id_seq; Type: SEQUENCE; Schema: public; Owner: edigital
+-- Name: idoc_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE idoc_id_seq
@@ -205,34 +187,30 @@ CREATE SEQUENCE idoc_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.idoc_id_seq OWNER TO edigital;
-
 --
--- Name: idoc_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: edigital
+-- Name: idoc_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE idoc_id_seq OWNED BY idoc.id;
 
 
 --
--- Name: mensagens; Type: TABLE; Schema: public; Owner: edigital; Tablespace: 
+-- Name: mensagens; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE mensagens (
     id integer NOT NULL,
     mensagem text NOT NULL,
     id_chamado integer NOT NULL,
-    no_usuario character varying(255) NOT NULL,
     data character varying(255) NOT NULL,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    idusuario integer
 );
 
 
-ALTER TABLE public.mensagens OWNER TO edigital;
-
 --
--- Name: mensagens_id_seq; Type: SEQUENCE; Schema: public; Owner: edigital
+-- Name: mensagens_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE mensagens_id_seq
@@ -243,17 +221,15 @@ CREATE SEQUENCE mensagens_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.mensagens_id_seq OWNER TO edigital;
-
 --
--- Name: mensagens_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: edigital
+-- Name: mensagens_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE mensagens_id_seq OWNED BY mensagens.id;
 
 
 --
--- Name: migrations; Type: TABLE; Schema: public; Owner: edigital; Tablespace: 
+-- Name: migrations; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE migrations (
@@ -262,10 +238,8 @@ CREATE TABLE migrations (
 );
 
 
-ALTER TABLE public.migrations OWNER TO edigital;
-
 --
--- Name: moeda; Type: TABLE; Schema: public; Owner: edigital; Tablespace: 
+-- Name: moeda; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE moeda (
@@ -277,10 +251,8 @@ CREATE TABLE moeda (
 );
 
 
-ALTER TABLE public.moeda OWNER TO edigital;
-
 --
--- Name: moeda_id_seq; Type: SEQUENCE; Schema: public; Owner: edigital
+-- Name: moeda_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE moeda_id_seq
@@ -291,17 +263,15 @@ CREATE SEQUENCE moeda_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.moeda_id_seq OWNER TO edigital;
-
 --
--- Name: moeda_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: edigital
+-- Name: moeda_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE moeda_id_seq OWNED BY moeda.id;
 
 
 --
--- Name: password_reminders; Type: TABLE; Schema: public; Owner: edigital; Tablespace: 
+-- Name: password_reminders; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE password_reminders (
@@ -311,10 +281,8 @@ CREATE TABLE password_reminders (
 );
 
 
-ALTER TABLE public.password_reminders OWNER TO edigital;
-
 --
--- Name: produtos; Type: TABLE; Schema: public; Owner: edigital; Tablespace: 
+-- Name: produtos; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE produtos (
@@ -322,15 +290,13 @@ CREATE TABLE produtos (
     nome character varying(200),
     valor numeric(10,2),
     idmoeda integer,
-    tipo character(1),
-    idcliente integer
+    idcliente integer,
+    tipo character(1)
 );
 
 
-ALTER TABLE public.produtos OWNER TO edigital;
-
 --
--- Name: produtos_id_seq; Type: SEQUENCE; Schema: public; Owner: edigital
+-- Name: produtos_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE produtos_id_seq
@@ -341,17 +307,15 @@ CREATE SEQUENCE produtos_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.produtos_id_seq OWNER TO edigital;
-
 --
--- Name: produtos_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: edigital
+-- Name: produtos_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE produtos_id_seq OWNED BY produtos.id;
 
 
 --
--- Name: status_chamados; Type: TABLE; Schema: public; Owner: edigital; Tablespace: 
+-- Name: status_chamados; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE status_chamados (
@@ -362,10 +326,8 @@ CREATE TABLE status_chamados (
 );
 
 
-ALTER TABLE public.status_chamados OWNER TO edigital;
-
 --
--- Name: status_chamados_id_seq; Type: SEQUENCE; Schema: public; Owner: edigital
+-- Name: status_chamados_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE status_chamados_id_seq
@@ -376,17 +338,15 @@ CREATE SEQUENCE status_chamados_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.status_chamados_id_seq OWNER TO edigital;
-
 --
--- Name: status_chamados_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: edigital
+-- Name: status_chamados_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE status_chamados_id_seq OWNED BY status_chamados.id;
 
 
 --
--- Name: usuarios; Type: TABLE; Schema: public; Owner: edigital; Tablespace: 
+-- Name: usuarios; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE usuarios (
@@ -399,14 +359,13 @@ CREATE TABLE usuarios (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     idcliente integer,
+    isdelete boolean DEFAULT false,
     CONSTRAINT usuarios_tipo_check CHECK (((tipo)::text = ANY (ARRAY[('admin'::character varying)::text, ('cliente'::character varying)::text])))
 );
 
 
-ALTER TABLE public.usuarios OWNER TO edigital;
-
 --
--- Name: usuarios_id_seq; Type: SEQUENCE; Schema: public; Owner: edigital
+-- Name: usuarios_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE usuarios_id_seq
@@ -417,269 +376,249 @@ CREATE SEQUENCE usuarios_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.usuarios_id_seq OWNER TO edigital;
-
 --
--- Name: usuarios_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: edigital
+-- Name: usuarios_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE usuarios_id_seq OWNED BY usuarios.id;
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: edigital
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY cat_chamados ALTER COLUMN id SET DEFAULT nextval('cat_chamados_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: edigital
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY chamados ALTER COLUMN id SET DEFAULT nextval('chamados_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: edigital
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY cliente ALTER COLUMN id SET DEFAULT nextval('cliente_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: edigital
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY cliente_pgtos ALTER COLUMN id SET DEFAULT nextval('cliente_pgtos_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: edigital
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY idoc ALTER COLUMN id SET DEFAULT nextval('idoc_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: edigital
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY mensagens ALTER COLUMN id SET DEFAULT nextval('mensagens_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: edigital
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY moeda ALTER COLUMN id SET DEFAULT nextval('moeda_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: edigital
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY produtos ALTER COLUMN id SET DEFAULT nextval('produtos_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: edigital
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY status_chamados ALTER COLUMN id SET DEFAULT nextval('status_chamados_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: edigital
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY usuarios ALTER COLUMN id SET DEFAULT nextval('usuarios_id_seq'::regclass);
 
 
 --
--- Data for Name: cat_chamados; Type: TABLE DATA; Schema: public; Owner: edigital
+-- Data for Name: cat_chamados; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-COPY cat_chamados (id, cat_chamado, created_at, updated_at) FROM stdin;
-1	Suporte	2015-01-23 11:19:11	2015-01-23 11:19:11
-2	Dúvida	2015-01-23 11:19:11	2015-01-23 11:19:11
-3	Solicitação	2015-01-23 11:19:11	2015-01-23 11:19:11
-\.
+INSERT INTO cat_chamados VALUES (1, 'Suporte', '2015-01-23 11:19:11', '2015-01-23 11:19:11');
+INSERT INTO cat_chamados VALUES (2, 'Dúvida', '2015-01-23 11:19:11', '2015-01-23 11:19:11');
+INSERT INTO cat_chamados VALUES (3, 'Solicitação', '2015-01-23 11:19:11', '2015-01-23 11:19:11');
 
 
 --
--- Name: cat_chamados_id_seq; Type: SEQUENCE SET; Schema: public; Owner: edigital
+-- Name: cat_chamados_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('cat_chamados_id_seq', 1, false);
 
 
 --
--- Data for Name: chamados; Type: TABLE DATA; Schema: public; Owner: edigital
+-- Data for Name: chamados; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-COPY chamados (id, usuario, categoria, titulo, status, mensagem, data, created_at, updated_at) FROM stdin;
-\.
-
-
---
--- Name: chamados_id_seq; Type: SEQUENCE SET; Schema: public; Owner: edigital
---
-
-SELECT pg_catalog.setval('chamados_id_seq', 1, false);
+INSERT INTO chamados VALUES (1, 3, 'ddddddd', 2, 'ddddddddddd', '28/01/2015 16:17:24', '2015-01-28 16:17:24', '2015-01-28 16:50:36', 6);
 
 
 --
--- Data for Name: cliente; Type: TABLE DATA; Schema: public; Owner: edigital
+-- Name: chamados_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-COPY cliente (id, nome, ativo, email, obscontrato) FROM stdin;
-1	FSI Tecnologia	t	contato@fsitecnologia.com.br	\N
-\.
+SELECT pg_catalog.setval('chamados_id_seq', 1, true);
 
 
 --
--- Name: cliente_id_seq; Type: SEQUENCE SET; Schema: public; Owner: edigital
+-- Data for Name: cliente; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('cliente_id_seq', 1, true);
-
-
---
--- Data for Name: cliente_pgtos; Type: TABLE DATA; Schema: public; Owner: edigital
---
-
-COPY cliente_pgtos (id, valor, idproduto, idcliente, idmoeda, descricao, ispaid, nota) FROM stdin;
-19	180.00	1	1	1	\N	f	\N
-20	111.00	\N	1	1	Remocao de mouse	f	\N
-\.
+INSERT INTO cliente VALUES (1, 'FSI Tecnologia', true, 'contato@fsitecnologia.com.br', 'Atendimento no horário comercial 7:30 h às 17:30 h, fora dele a CONTRATADA acrescerá 25% sobre o valor cobrado por hora presencial ou à distância, 50% aos sábado, bem como 100% aos domingos.');
+INSERT INTO cliente VALUES (7, 'Kranunion', true, 'flavia.farias@kranunion.de', '');
 
 
 --
--- Name: cliente_pgtos_id_seq; Type: SEQUENCE SET; Schema: public; Owner: edigital
+-- Name: cliente_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('cliente_pgtos_id_seq', 20, true);
-
-
---
--- Data for Name: idoc; Type: TABLE DATA; Schema: public; Owner: edigital
---
-
-COPY idoc (id, nome, idcliente, file) FROM stdin;
-\.
+SELECT pg_catalog.setval('cliente_id_seq', 7, true);
 
 
 --
--- Name: idoc_id_seq; Type: SEQUENCE SET; Schema: public; Owner: edigital
+-- Data for Name: cliente_pgtos; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+INSERT INTO cliente_pgtos VALUES (25, 300.00, NULL, 7, 1, 'Atendimento', true, NULL, '2015-01-28 18:00:00');
+INSERT INTO cliente_pgtos VALUES (26, 111.00, NULL, 1, 1, 'dddd', false, '1_bfd5422fb2a112bdeb6456428188a111.pdf', NULL);
+
+
+--
+-- Name: cliente_pgtos_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('cliente_pgtos_id_seq', 26, true);
+
+
+--
+-- Data for Name: idoc; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+
+
+--
+-- Name: idoc_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('idoc_id_seq', 1, false);
 
 
 --
--- Data for Name: mensagens; Type: TABLE DATA; Schema: public; Owner: edigital
+-- Data for Name: mensagens; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-COPY mensagens (id, mensagem, id_chamado, no_usuario, data, created_at, updated_at) FROM stdin;
-\.
+INSERT INTO mensagens VALUES (1, 'vvvvvvvvvvvvvvvvv', 1, '28/01/2015 16:21:10', '2015-01-28 16:21:10', '2015-01-28 16:21:10', 6);
+INSERT INTO mensagens VALUES (2, 'Sra Flavia,
 
-
---
--- Name: mensagens_id_seq; Type: SEQUENCE SET; Schema: public; Owner: edigital
---
-
-SELECT pg_catalog.setval('mensagens_id_seq', 1, false);
+Estamos providenciando a analise e retornamos o mais breve possivel.', 1, '28/01/2015 16:50:36', '2015-01-28 16:50:36', '2015-01-28 16:50:36', 2);
 
 
 --
--- Data for Name: migrations; Type: TABLE DATA; Schema: public; Owner: edigital
+-- Name: mensagens_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-COPY migrations (migration, batch) FROM stdin;
-2014_12_30_184246_criar_usuario	1
-2014_12_30_184338_create_password_reminders_table	1
-\.
+SELECT pg_catalog.setval('mensagens_id_seq', 2, true);
 
 
 --
--- Data for Name: moeda; Type: TABLE DATA; Schema: public; Owner: edigital
+-- Data for Name: migrations; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-COPY moeda (id, nome, simbolo, codigo, sigla) FROM stdin;
-1	\N	R$	\N	BRL
-2	\N	$	\N	USD
-\.
+INSERT INTO migrations VALUES ('2014_12_30_184246_criar_usuario', 1);
+INSERT INTO migrations VALUES ('2014_12_30_184338_create_password_reminders_table', 1);
 
 
 --
--- Name: moeda_id_seq; Type: SEQUENCE SET; Schema: public; Owner: edigital
+-- Data for Name: moeda; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+INSERT INTO moeda VALUES (1, NULL, 'R$', NULL, 'BRL');
+INSERT INTO moeda VALUES (2, NULL, '$', NULL, 'USD');
+
+
+--
+-- Name: moeda_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('moeda_id_seq', 2, true);
 
 
 --
--- Data for Name: password_reminders; Type: TABLE DATA; Schema: public; Owner: edigital
+-- Data for Name: password_reminders; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-COPY password_reminders (email, token, created_at) FROM stdin;
-\.
 
 
 --
--- Data for Name: produtos; Type: TABLE DATA; Schema: public; Owner: edigital
+-- Data for Name: produtos; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-COPY produtos (id, nome, valor, idmoeda, tipo, idcliente) FROM stdin;
-1	Visita técnica sem contrato	180.00	1	\N	\N
-\.
 
 
 --
--- Name: produtos_id_seq; Type: SEQUENCE SET; Schema: public; Owner: edigital
+-- Name: produtos_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('produtos_id_seq', 1, true);
-
-
---
--- Data for Name: status_chamados; Type: TABLE DATA; Schema: public; Owner: edigital
---
-
-COPY status_chamados (id, status_chamado, created_at, updated_at) FROM stdin;
-1	Aberto	2015-01-23 11:19:11	2015-01-23 11:19:11
-2	Em Andamento	2015-01-23 11:19:11	2015-01-23 11:19:11
-3	Fechado	2015-01-23 11:19:11	2015-01-23 11:19:11
-\.
+SELECT pg_catalog.setval('produtos_id_seq', 2, true);
 
 
 --
--- Name: status_chamados_id_seq; Type: SEQUENCE SET; Schema: public; Owner: edigital
+-- Data for Name: status_chamados; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+INSERT INTO status_chamados VALUES (1, 'Aberto', '2015-01-23 11:19:11', '2015-01-23 11:19:11');
+INSERT INTO status_chamados VALUES (2, 'Em Andamento', '2015-01-23 11:19:11', '2015-01-23 11:19:11');
+INSERT INTO status_chamados VALUES (3, 'Fechado', '2015-01-23 11:19:11', '2015-01-23 11:19:11');
+
+
+--
+-- Name: status_chamados_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('status_chamados_id_seq', 1, false);
 
 
 --
--- Data for Name: usuarios; Type: TABLE DATA; Schema: public; Owner: edigital
+-- Data for Name: usuarios; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-COPY usuarios (id, email, senha, nome, tipo, remember_token, created_at, updated_at, idcliente) FROM stdin;
-1	cliente@cliente.com.br	$2y$10$NKCWZf2YOixbhJXuicsoEOUt20mxaKBAC878FxlRb.scUwD0IeReS	Cliente	cliente	\N	2015-01-28 00:16:26	2015-01-28 00:16:26	1
-2	admin@edigital.com.br	$2y$10$Mb..CGIaWwTgPZkk11cfru5MFwdCn.huJmygXa.GhfEcB7i9Ec8tW	Administrador	admin	\N	2015-01-28 00:16:26	2015-01-28 00:16:26	\N
-\.
-
-
---
--- Name: usuarios_id_seq; Type: SEQUENCE SET; Schema: public; Owner: edigital
---
-
-SELECT pg_catalog.setval('usuarios_id_seq', 2, true);
+INSERT INTO usuarios VALUES (2, 'admin@edigital.com.br', '$2y$10$uK9dUoKcELBRQRbGkWYv5ucmbuDL.XfG43fvBfA6DJXbnmAi9/1a2', 'Administrador', 'admin', '2YZ3ZJKm3hQRoN7lVbPeimVmr6O83cvBR2OsfmsMPCTG5w6PaMjKFtHPeWzl', '2015-01-23 15:47:46', '2015-01-28 16:51:09', NULL, false);
+INSERT INTO usuarios VALUES (6, 'flavia.farias@kranunion.de', '$2y$10$NHmsV6BSdoPdd9yD.Da0..IMHQ5O1e7TeJf.jaxAJh7zAnA7IP/aW', 'Flavia Farias', 'cliente', 'e9LZWoqbdvBTjl4DY0HEQwytnLdotzXx7oeKCvtW7tmyuPUVzJqRxT0LEmtD', '2015-01-28 16:12:26', '2015-01-28 18:24:46', 7, false);
+INSERT INTO usuarios VALUES (1, 'cliente@cliente.com.br', '$2y$10$AthyydEb/ar2cnkppjQ8t..yBaZL/yhQfwJrH0qKEo0zDV4IpC2/6', 'Cliente', 'cliente', NULL, '2015-01-23 15:47:46', '2015-01-23 15:47:46', 1, false);
 
 
 --
--- Name: cat_chamados_pkey; Type: CONSTRAINT; Schema: public; Owner: edigital; Tablespace: 
+-- Name: usuarios_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('usuarios_id_seq', 6, true);
+
+
+--
+-- Name: cat_chamados_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY cat_chamados
@@ -687,7 +626,7 @@ ALTER TABLE ONLY cat_chamados
 
 
 --
--- Name: chamados_pkey; Type: CONSTRAINT; Schema: public; Owner: edigital; Tablespace: 
+-- Name: chamados_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY chamados
@@ -695,7 +634,7 @@ ALTER TABLE ONLY chamados
 
 
 --
--- Name: cliente_pgtos_pkey; Type: CONSTRAINT; Schema: public; Owner: edigital; Tablespace: 
+-- Name: cliente_pgtos_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY cliente_pgtos
@@ -703,7 +642,7 @@ ALTER TABLE ONLY cliente_pgtos
 
 
 --
--- Name: cliente_pkey; Type: CONSTRAINT; Schema: public; Owner: edigital; Tablespace: 
+-- Name: cliente_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY cliente
@@ -711,7 +650,7 @@ ALTER TABLE ONLY cliente
 
 
 --
--- Name: idoc_pkey; Type: CONSTRAINT; Schema: public; Owner: edigital; Tablespace: 
+-- Name: idoc_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY idoc
@@ -719,7 +658,7 @@ ALTER TABLE ONLY idoc
 
 
 --
--- Name: mensagens_pkey; Type: CONSTRAINT; Schema: public; Owner: edigital; Tablespace: 
+-- Name: mensagens_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY mensagens
@@ -727,7 +666,7 @@ ALTER TABLE ONLY mensagens
 
 
 --
--- Name: moeda_pkey; Type: CONSTRAINT; Schema: public; Owner: edigital; Tablespace: 
+-- Name: moeda_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY moeda
@@ -735,7 +674,7 @@ ALTER TABLE ONLY moeda
 
 
 --
--- Name: produtos_pkey; Type: CONSTRAINT; Schema: public; Owner: edigital; Tablespace: 
+-- Name: produtos_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY produtos
@@ -743,7 +682,7 @@ ALTER TABLE ONLY produtos
 
 
 --
--- Name: status_chamado_pkey; Type: CONSTRAINT; Schema: public; Owner: edigital; Tablespace: 
+-- Name: status_chamado_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY status_chamados
@@ -751,7 +690,7 @@ ALTER TABLE ONLY status_chamados
 
 
 --
--- Name: usuarios_email_unique; Type: CONSTRAINT; Schema: public; Owner: edigital; Tablespace: 
+-- Name: usuarios_email_unique; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY usuarios
@@ -759,7 +698,7 @@ ALTER TABLE ONLY usuarios
 
 
 --
--- Name: usuarios_pkey; Type: CONSTRAINT; Schema: public; Owner: edigital; Tablespace: 
+-- Name: usuarios_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY usuarios
@@ -767,21 +706,29 @@ ALTER TABLE ONLY usuarios
 
 
 --
--- Name: password_reminders_email_index; Type: INDEX; Schema: public; Owner: edigital; Tablespace: 
+-- Name: password_reminders_email_index; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX password_reminders_email_index ON password_reminders USING btree (email);
 
 
 --
--- Name: password_reminders_token_index; Type: INDEX; Schema: public; Owner: edigital; Tablespace: 
+-- Name: password_reminders_token_index; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX password_reminders_token_index ON password_reminders USING btree (token);
 
 
 --
--- Name: cliente_pgtos_idcliente_fkey; Type: FK CONSTRAINT; Schema: public; Owner: edigital
+-- Name: chamados_idusuario_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY chamados
+    ADD CONSTRAINT chamados_idusuario_fkey FOREIGN KEY (idusuario) REFERENCES usuarios(id);
+
+
+--
+-- Name: cliente_pgtos_idcliente_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY cliente_pgtos
@@ -789,7 +736,7 @@ ALTER TABLE ONLY cliente_pgtos
 
 
 --
--- Name: cliente_pgtos_idmoeda_fkey; Type: FK CONSTRAINT; Schema: public; Owner: edigital
+-- Name: cliente_pgtos_idmoeda_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY cliente_pgtos
@@ -797,7 +744,7 @@ ALTER TABLE ONLY cliente_pgtos
 
 
 --
--- Name: cliente_pgtos_idproduto_fkey; Type: FK CONSTRAINT; Schema: public; Owner: edigital
+-- Name: cliente_pgtos_idproduto_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY cliente_pgtos
@@ -805,7 +752,7 @@ ALTER TABLE ONLY cliente_pgtos
 
 
 --
--- Name: idoc_idcliente_fkey; Type: FK CONSTRAINT; Schema: public; Owner: edigital
+-- Name: idoc_idcliente_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY idoc
@@ -813,7 +760,15 @@ ALTER TABLE ONLY idoc
 
 
 --
--- Name: produtos_idcliente_fkey; Type: FK CONSTRAINT; Schema: public; Owner: edigital
+-- Name: mensagens_idusuario_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY mensagens
+    ADD CONSTRAINT mensagens_idusuario_fkey FOREIGN KEY (idusuario) REFERENCES usuarios(id);
+
+
+--
+-- Name: produtos_idcliente_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY produtos
@@ -821,7 +776,7 @@ ALTER TABLE ONLY produtos
 
 
 --
--- Name: produtos_idmoeda_fkey; Type: FK CONSTRAINT; Schema: public; Owner: edigital
+-- Name: produtos_idmoeda_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY produtos
@@ -829,7 +784,7 @@ ALTER TABLE ONLY produtos
 
 
 --
--- Name: usuarios_idcliente_fkey; Type: FK CONSTRAINT; Schema: public; Owner: edigital
+-- Name: usuarios_idcliente_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY usuarios
@@ -837,7 +792,7 @@ ALTER TABLE ONLY usuarios
 
 
 --
--- Name: public; Type: ACL; Schema: -; Owner: postgres
+-- Name: public; Type: ACL; Schema: -; Owner: -
 --
 
 REVOKE ALL ON SCHEMA public FROM PUBLIC;

@@ -64,46 +64,10 @@ abstract class Chamados implements ActiveRecordInterface
     protected $virtualColumns = array();
 
     /**
-     * The value for the id field.
+     * The value for the idusuario field.
      * @var        int
      */
-    protected $id;
-
-    /**
-     * The value for the categoria field.
-     * @var        int
-     */
-    protected $categoria;
-
-    /**
-     * The value for the titulo field.
-     * @var        string
-     */
-    protected $titulo;
-
-    /**
-     * The value for the status field.
-     * @var        int
-     */
-    protected $status;
-
-    /**
-     * The value for the mensagem field.
-     * @var        string
-     */
-    protected $mensagem;
-
-    /**
-     * The value for the data field.
-     * @var        string
-     */
-    protected $data;
-
-    /**
-     * The value for the created_at field.
-     * @var        \DateTime
-     */
-    protected $created_at;
+    protected $idusuario;
 
     /**
      * The value for the updated_at field.
@@ -112,10 +76,46 @@ abstract class Chamados implements ActiveRecordInterface
     protected $updated_at;
 
     /**
-     * The value for the idusuario field.
+     * The value for the created_at field.
+     * @var        \DateTime
+     */
+    protected $created_at;
+
+    /**
+     * The value for the data field.
+     * @var        string
+     */
+    protected $data;
+
+    /**
+     * The value for the mensagem field.
+     * @var        string
+     */
+    protected $mensagem;
+
+    /**
+     * The value for the status field.
      * @var        int
      */
-    protected $idusuario;
+    protected $status;
+
+    /**
+     * The value for the titulo field.
+     * @var        string
+     */
+    protected $titulo;
+
+    /**
+     * The value for the categoria field.
+     * @var        int
+     */
+    protected $categoria;
+
+    /**
+     * The value for the id field.
+     * @var        int
+     */
+    protected $id;
 
     /**
      * @var        ChildUsuarios
@@ -348,83 +348,13 @@ abstract class Chamados implements ActiveRecordInterface
     }
 
     /**
-     * Get the [id] column value.
+     * Get the [idusuario] column value.
      *
      * @return int
      */
-    public function getId()
+    public function getIdusuario()
     {
-        return $this->id;
-    }
-
-    /**
-     * Get the [categoria] column value.
-     *
-     * @return int
-     */
-    public function getCategoria()
-    {
-        return $this->categoria;
-    }
-
-    /**
-     * Get the [titulo] column value.
-     *
-     * @return string
-     */
-    public function getTitulo()
-    {
-        return $this->titulo;
-    }
-
-    /**
-     * Get the [status] column value.
-     *
-     * @return int
-     */
-    public function getStatus()
-    {
-        return $this->status;
-    }
-
-    /**
-     * Get the [mensagem] column value.
-     *
-     * @return string
-     */
-    public function getMensagem()
-    {
-        return $this->mensagem;
-    }
-
-    /**
-     * Get the [data] column value.
-     *
-     * @return string
-     */
-    public function getData()
-    {
-        return $this->data;
-    }
-
-    /**
-     * Get the [optionally formatted] temporal [created_at] column value.
-     *
-     *
-     * @param      string $format The date/time format string (either date()-style or strftime()-style).
-     *                            If format is NULL, then the raw DateTime object will be returned.
-     *
-     * @return string|DateTime Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL
-     *
-     * @throws PropelException - if unable to parse/validate the date/time value.
-     */
-    public function getCreatedAt($format = NULL)
-    {
-        if ($format === null) {
-            return $this->created_at;
-        } else {
-            return $this->created_at instanceof \DateTime ? $this->created_at->format($format) : null;
-        }
+        return $this->idusuario;
     }
 
     /**
@@ -448,174 +378,84 @@ abstract class Chamados implements ActiveRecordInterface
     }
 
     /**
-     * Get the [idusuario] column value.
+     * Get the [optionally formatted] temporal [created_at] column value.
      *
-     * @return int
+     *
+     * @param      string $format The date/time format string (either date()-style or strftime()-style).
+     *                            If format is NULL, then the raw DateTime object will be returned.
+     *
+     * @return string|DateTime Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL
+     *
+     * @throws PropelException - if unable to parse/validate the date/time value.
      */
-    public function getIdusuario()
+    public function getCreatedAt($format = NULL)
     {
-        return $this->idusuario;
+        if ($format === null) {
+            return $this->created_at;
+        } else {
+            return $this->created_at instanceof \DateTime ? $this->created_at->format($format) : null;
+        }
     }
 
     /**
-     * Set the value of [id] column.
+     * Get the [data] column value.
      *
-     * @param  int $v new value
-     * @return $this|\Chamados The current object (for fluent API support)
+     * @return string
      */
-    public function setId($v)
+    public function getData()
     {
-        if ($v !== null) {
-            $v = (int) $v;
-        }
-
-        if ($this->id !== $v) {
-            $this->id = $v;
-            $this->modifiedColumns[ChamadosTableMap::COL_ID] = true;
-        }
-
-        return $this;
-    } // setId()
+        return $this->data;
+    }
 
     /**
-     * Set the value of [categoria] column.
+     * Get the [mensagem] column value.
      *
-     * @param  int $v new value
-     * @return $this|\Chamados The current object (for fluent API support)
+     * @return string
      */
-    public function setCategoria($v)
+    public function getMensagem()
     {
-        if ($v !== null) {
-            $v = (int) $v;
-        }
-
-        if ($this->categoria !== $v) {
-            $this->categoria = $v;
-            $this->modifiedColumns[ChamadosTableMap::COL_CATEGORIA] = true;
-        }
-
-        return $this;
-    } // setCategoria()
+        return $this->mensagem;
+    }
 
     /**
-     * Set the value of [titulo] column.
+     * Get the [status] column value.
      *
-     * @param  string $v new value
-     * @return $this|\Chamados The current object (for fluent API support)
+     * @return int
      */
-    public function setTitulo($v)
+    public function getStatus()
     {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->titulo !== $v) {
-            $this->titulo = $v;
-            $this->modifiedColumns[ChamadosTableMap::COL_TITULO] = true;
-        }
-
-        return $this;
-    } // setTitulo()
+        return $this->status;
+    }
 
     /**
-     * Set the value of [status] column.
+     * Get the [titulo] column value.
      *
-     * @param  int $v new value
-     * @return $this|\Chamados The current object (for fluent API support)
+     * @return string
      */
-    public function setStatus($v)
+    public function getTitulo()
     {
-        if ($v !== null) {
-            $v = (int) $v;
-        }
-
-        if ($this->status !== $v) {
-            $this->status = $v;
-            $this->modifiedColumns[ChamadosTableMap::COL_STATUS] = true;
-        }
-
-        return $this;
-    } // setStatus()
+        return $this->titulo;
+    }
 
     /**
-     * Set the value of [mensagem] column.
+     * Get the [categoria] column value.
      *
-     * @param  string $v new value
-     * @return $this|\Chamados The current object (for fluent API support)
+     * @return int
      */
-    public function setMensagem($v)
+    public function getCategoria()
     {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->mensagem !== $v) {
-            $this->mensagem = $v;
-            $this->modifiedColumns[ChamadosTableMap::COL_MENSAGEM] = true;
-        }
-
-        return $this;
-    } // setMensagem()
+        return $this->categoria;
+    }
 
     /**
-     * Set the value of [data] column.
+     * Get the [id] column value.
      *
-     * @param  string $v new value
-     * @return $this|\Chamados The current object (for fluent API support)
+     * @return int
      */
-    public function setData($v)
+    public function getId()
     {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->data !== $v) {
-            $this->data = $v;
-            $this->modifiedColumns[ChamadosTableMap::COL_DATA] = true;
-        }
-
-        return $this;
-    } // setData()
-
-    /**
-     * Sets the value of [created_at] column to a normalized version of the date/time value specified.
-     *
-     * @param  mixed $v string, integer (timestamp), or \DateTime value.
-     *               Empty strings are treated as NULL.
-     * @return $this|\Chamados The current object (for fluent API support)
-     */
-    public function setCreatedAt($v)
-    {
-        $dt = PropelDateTime::newInstance($v, null, 'DateTime');
-        if ($this->created_at !== null || $dt !== null) {
-            if ($dt !== $this->created_at) {
-                $this->created_at = $dt;
-                $this->modifiedColumns[ChamadosTableMap::COL_CREATED_AT] = true;
-            }
-        } // if either are not null
-
-        return $this;
-    } // setCreatedAt()
-
-    /**
-     * Sets the value of [updated_at] column to a normalized version of the date/time value specified.
-     *
-     * @param  mixed $v string, integer (timestamp), or \DateTime value.
-     *               Empty strings are treated as NULL.
-     * @return $this|\Chamados The current object (for fluent API support)
-     */
-    public function setUpdatedAt($v)
-    {
-        $dt = PropelDateTime::newInstance($v, null, 'DateTime');
-        if ($this->updated_at !== null || $dt !== null) {
-            if ($dt !== $this->updated_at) {
-                $this->updated_at = $dt;
-                $this->modifiedColumns[ChamadosTableMap::COL_UPDATED_AT] = true;
-            }
-        } // if either are not null
-
-        return $this;
-    } // setUpdatedAt()
+        return $this->id;
+    }
 
     /**
      * Set the value of [idusuario] column.
@@ -640,6 +480,166 @@ abstract class Chamados implements ActiveRecordInterface
 
         return $this;
     } // setIdusuario()
+
+    /**
+     * Sets the value of [updated_at] column to a normalized version of the date/time value specified.
+     *
+     * @param  mixed $v string, integer (timestamp), or \DateTime value.
+     *               Empty strings are treated as NULL.
+     * @return $this|\Chamados The current object (for fluent API support)
+     */
+    public function setUpdatedAt($v)
+    {
+        $dt = PropelDateTime::newInstance($v, null, 'DateTime');
+        if ($this->updated_at !== null || $dt !== null) {
+            if ($dt !== $this->updated_at) {
+                $this->updated_at = $dt;
+                $this->modifiedColumns[ChamadosTableMap::COL_UPDATED_AT] = true;
+            }
+        } // if either are not null
+
+        return $this;
+    } // setUpdatedAt()
+
+    /**
+     * Sets the value of [created_at] column to a normalized version of the date/time value specified.
+     *
+     * @param  mixed $v string, integer (timestamp), or \DateTime value.
+     *               Empty strings are treated as NULL.
+     * @return $this|\Chamados The current object (for fluent API support)
+     */
+    public function setCreatedAt($v)
+    {
+        $dt = PropelDateTime::newInstance($v, null, 'DateTime');
+        if ($this->created_at !== null || $dt !== null) {
+            if ($dt !== $this->created_at) {
+                $this->created_at = $dt;
+                $this->modifiedColumns[ChamadosTableMap::COL_CREATED_AT] = true;
+            }
+        } // if either are not null
+
+        return $this;
+    } // setCreatedAt()
+
+    /**
+     * Set the value of [data] column.
+     *
+     * @param  string $v new value
+     * @return $this|\Chamados The current object (for fluent API support)
+     */
+    public function setData($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->data !== $v) {
+            $this->data = $v;
+            $this->modifiedColumns[ChamadosTableMap::COL_DATA] = true;
+        }
+
+        return $this;
+    } // setData()
+
+    /**
+     * Set the value of [mensagem] column.
+     *
+     * @param  string $v new value
+     * @return $this|\Chamados The current object (for fluent API support)
+     */
+    public function setMensagem($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->mensagem !== $v) {
+            $this->mensagem = $v;
+            $this->modifiedColumns[ChamadosTableMap::COL_MENSAGEM] = true;
+        }
+
+        return $this;
+    } // setMensagem()
+
+    /**
+     * Set the value of [status] column.
+     *
+     * @param  int $v new value
+     * @return $this|\Chamados The current object (for fluent API support)
+     */
+    public function setStatus($v)
+    {
+        if ($v !== null) {
+            $v = (int) $v;
+        }
+
+        if ($this->status !== $v) {
+            $this->status = $v;
+            $this->modifiedColumns[ChamadosTableMap::COL_STATUS] = true;
+        }
+
+        return $this;
+    } // setStatus()
+
+    /**
+     * Set the value of [titulo] column.
+     *
+     * @param  string $v new value
+     * @return $this|\Chamados The current object (for fluent API support)
+     */
+    public function setTitulo($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->titulo !== $v) {
+            $this->titulo = $v;
+            $this->modifiedColumns[ChamadosTableMap::COL_TITULO] = true;
+        }
+
+        return $this;
+    } // setTitulo()
+
+    /**
+     * Set the value of [categoria] column.
+     *
+     * @param  int $v new value
+     * @return $this|\Chamados The current object (for fluent API support)
+     */
+    public function setCategoria($v)
+    {
+        if ($v !== null) {
+            $v = (int) $v;
+        }
+
+        if ($this->categoria !== $v) {
+            $this->categoria = $v;
+            $this->modifiedColumns[ChamadosTableMap::COL_CATEGORIA] = true;
+        }
+
+        return $this;
+    } // setCategoria()
+
+    /**
+     * Set the value of [id] column.
+     *
+     * @param  int $v new value
+     * @return $this|\Chamados The current object (for fluent API support)
+     */
+    public function setId($v)
+    {
+        if ($v !== null) {
+            $v = (int) $v;
+        }
+
+        if ($this->id !== $v) {
+            $this->id = $v;
+            $this->modifiedColumns[ChamadosTableMap::COL_ID] = true;
+        }
+
+        return $this;
+    } // setId()
 
     /**
      * Indicates whether the columns in this object are only set to default values.
@@ -677,32 +677,32 @@ abstract class Chamados implements ActiveRecordInterface
     {
         try {
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : ChamadosTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->id = (null !== $col) ? (int) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : ChamadosTableMap::translateFieldName('Idusuario', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->idusuario = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : ChamadosTableMap::translateFieldName('Categoria', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->categoria = (null !== $col) ? (int) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : ChamadosTableMap::translateFieldName('UpdatedAt', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->updated_at = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : ChamadosTableMap::translateFieldName('Titulo', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->titulo = (null !== $col) ? (string) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : ChamadosTableMap::translateFieldName('CreatedAt', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->created_at = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : ChamadosTableMap::translateFieldName('Status', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->status = (null !== $col) ? (int) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : ChamadosTableMap::translateFieldName('Data', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->data = (null !== $col) ? (string) $col : null;
 
             $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : ChamadosTableMap::translateFieldName('Mensagem', TableMap::TYPE_PHPNAME, $indexType)];
             $this->mensagem = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : ChamadosTableMap::translateFieldName('Data', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->data = (null !== $col) ? (string) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : ChamadosTableMap::translateFieldName('Status', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->status = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 6 + $startcol : ChamadosTableMap::translateFieldName('CreatedAt', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->created_at = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 6 + $startcol : ChamadosTableMap::translateFieldName('Titulo', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->titulo = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 7 + $startcol : ChamadosTableMap::translateFieldName('UpdatedAt', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->updated_at = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 7 + $startcol : ChamadosTableMap::translateFieldName('Categoria', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->categoria = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 8 + $startcol : ChamadosTableMap::translateFieldName('Idusuario', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->idusuario = (null !== $col) ? (int) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 8 + $startcol : ChamadosTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->id = (null !== $col) ? (int) $col : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -933,32 +933,32 @@ abstract class Chamados implements ActiveRecordInterface
 
 
          // check the columns in natural order for more readable SQL queries
-        if ($this->isColumnModified(ChamadosTableMap::COL_ID)) {
-            $modifiedColumns[':p' . $index++]  = 'id';
-        }
-        if ($this->isColumnModified(ChamadosTableMap::COL_CATEGORIA)) {
-            $modifiedColumns[':p' . $index++]  = 'categoria';
-        }
-        if ($this->isColumnModified(ChamadosTableMap::COL_TITULO)) {
-            $modifiedColumns[':p' . $index++]  = 'titulo';
-        }
-        if ($this->isColumnModified(ChamadosTableMap::COL_STATUS)) {
-            $modifiedColumns[':p' . $index++]  = 'status';
-        }
-        if ($this->isColumnModified(ChamadosTableMap::COL_MENSAGEM)) {
-            $modifiedColumns[':p' . $index++]  = 'mensagem';
-        }
-        if ($this->isColumnModified(ChamadosTableMap::COL_DATA)) {
-            $modifiedColumns[':p' . $index++]  = 'data';
-        }
-        if ($this->isColumnModified(ChamadosTableMap::COL_CREATED_AT)) {
-            $modifiedColumns[':p' . $index++]  = 'created_at';
+        if ($this->isColumnModified(ChamadosTableMap::COL_IDUSUARIO)) {
+            $modifiedColumns[':p' . $index++]  = 'idusuario';
         }
         if ($this->isColumnModified(ChamadosTableMap::COL_UPDATED_AT)) {
             $modifiedColumns[':p' . $index++]  = 'updated_at';
         }
-        if ($this->isColumnModified(ChamadosTableMap::COL_IDUSUARIO)) {
-            $modifiedColumns[':p' . $index++]  = 'idusuario';
+        if ($this->isColumnModified(ChamadosTableMap::COL_CREATED_AT)) {
+            $modifiedColumns[':p' . $index++]  = 'created_at';
+        }
+        if ($this->isColumnModified(ChamadosTableMap::COL_DATA)) {
+            $modifiedColumns[':p' . $index++]  = 'data';
+        }
+        if ($this->isColumnModified(ChamadosTableMap::COL_MENSAGEM)) {
+            $modifiedColumns[':p' . $index++]  = 'mensagem';
+        }
+        if ($this->isColumnModified(ChamadosTableMap::COL_STATUS)) {
+            $modifiedColumns[':p' . $index++]  = 'status';
+        }
+        if ($this->isColumnModified(ChamadosTableMap::COL_TITULO)) {
+            $modifiedColumns[':p' . $index++]  = 'titulo';
+        }
+        if ($this->isColumnModified(ChamadosTableMap::COL_CATEGORIA)) {
+            $modifiedColumns[':p' . $index++]  = 'categoria';
+        }
+        if ($this->isColumnModified(ChamadosTableMap::COL_ID)) {
+            $modifiedColumns[':p' . $index++]  = 'id';
         }
 
         $sql = sprintf(
@@ -971,32 +971,32 @@ abstract class Chamados implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-                    case 'id':
-                        $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
-                        break;
-                    case 'categoria':
-                        $stmt->bindValue($identifier, $this->categoria, PDO::PARAM_INT);
-                        break;
-                    case 'titulo':
-                        $stmt->bindValue($identifier, $this->titulo, PDO::PARAM_STR);
-                        break;
-                    case 'status':
-                        $stmt->bindValue($identifier, $this->status, PDO::PARAM_INT);
-                        break;
-                    case 'mensagem':
-                        $stmt->bindValue($identifier, $this->mensagem, PDO::PARAM_STR);
-                        break;
-                    case 'data':
-                        $stmt->bindValue($identifier, $this->data, PDO::PARAM_STR);
-                        break;
-                    case 'created_at':
-                        $stmt->bindValue($identifier, $this->created_at ? $this->created_at->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
+                    case 'idusuario':
+                        $stmt->bindValue($identifier, $this->idusuario, PDO::PARAM_INT);
                         break;
                     case 'updated_at':
                         $stmt->bindValue($identifier, $this->updated_at ? $this->updated_at->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
                         break;
-                    case 'idusuario':
-                        $stmt->bindValue($identifier, $this->idusuario, PDO::PARAM_INT);
+                    case 'created_at':
+                        $stmt->bindValue($identifier, $this->created_at ? $this->created_at->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
+                        break;
+                    case 'data':
+                        $stmt->bindValue($identifier, $this->data, PDO::PARAM_STR);
+                        break;
+                    case 'mensagem':
+                        $stmt->bindValue($identifier, $this->mensagem, PDO::PARAM_STR);
+                        break;
+                    case 'status':
+                        $stmt->bindValue($identifier, $this->status, PDO::PARAM_INT);
+                        break;
+                    case 'titulo':
+                        $stmt->bindValue($identifier, $this->titulo, PDO::PARAM_STR);
+                        break;
+                    case 'categoria':
+                        $stmt->bindValue($identifier, $this->categoria, PDO::PARAM_INT);
+                        break;
+                    case 'id':
+                        $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
                 }
             }
@@ -1054,31 +1054,31 @@ abstract class Chamados implements ActiveRecordInterface
     {
         switch ($pos) {
             case 0:
-                return $this->getId();
+                return $this->getIdusuario();
                 break;
             case 1:
-                return $this->getCategoria();
+                return $this->getUpdatedAt();
                 break;
             case 2:
-                return $this->getTitulo();
+                return $this->getCreatedAt();
                 break;
             case 3:
-                return $this->getStatus();
+                return $this->getData();
                 break;
             case 4:
                 return $this->getMensagem();
                 break;
             case 5:
-                return $this->getData();
+                return $this->getStatus();
                 break;
             case 6:
-                return $this->getCreatedAt();
+                return $this->getTitulo();
                 break;
             case 7:
-                return $this->getUpdatedAt();
+                return $this->getCategoria();
                 break;
             case 8:
-                return $this->getIdusuario();
+                return $this->getId();
                 break;
             default:
                 return null;
@@ -1110,30 +1110,16 @@ abstract class Chamados implements ActiveRecordInterface
         $alreadyDumpedObjects['Chamados'][$this->hashCode()] = true;
         $keys = ChamadosTableMap::getFieldNames($keyType);
         $result = array(
-            $keys[0] => $this->getId(),
-            $keys[1] => $this->getCategoria(),
-            $keys[2] => $this->getTitulo(),
-            $keys[3] => $this->getStatus(),
+            $keys[0] => $this->getIdusuario(),
+            $keys[1] => $this->getUpdatedAt(),
+            $keys[2] => $this->getCreatedAt(),
+            $keys[3] => $this->getData(),
             $keys[4] => $this->getMensagem(),
-            $keys[5] => $this->getData(),
-            $keys[6] => $this->getCreatedAt(),
-            $keys[7] => $this->getUpdatedAt(),
-            $keys[8] => $this->getIdusuario(),
+            $keys[5] => $this->getStatus(),
+            $keys[6] => $this->getTitulo(),
+            $keys[7] => $this->getCategoria(),
+            $keys[8] => $this->getId(),
         );
-
-        $utc = new \DateTimeZone('utc');
-        if ($result[$keys[6]] instanceof \DateTime) {
-            // When changing timezone we don't want to change existing instances
-            $dateTime = clone $result[$keys[6]];
-            $result[$keys[6]] = $dateTime->setTimezone($utc)->format('Y-m-d\TH:i:s\Z');
-        }
-
-        if ($result[$keys[7]] instanceof \DateTime) {
-            // When changing timezone we don't want to change existing instances
-            $dateTime = clone $result[$keys[7]];
-            $result[$keys[7]] = $dateTime->setTimezone($utc)->format('Y-m-d\TH:i:s\Z');
-        }
-
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
             $result[$key] = $virtualColumn;
@@ -1190,31 +1176,31 @@ abstract class Chamados implements ActiveRecordInterface
     {
         switch ($pos) {
             case 0:
-                $this->setId($value);
+                $this->setIdusuario($value);
                 break;
             case 1:
-                $this->setCategoria($value);
+                $this->setUpdatedAt($value);
                 break;
             case 2:
-                $this->setTitulo($value);
+                $this->setCreatedAt($value);
                 break;
             case 3:
-                $this->setStatus($value);
+                $this->setData($value);
                 break;
             case 4:
                 $this->setMensagem($value);
                 break;
             case 5:
-                $this->setData($value);
+                $this->setStatus($value);
                 break;
             case 6:
-                $this->setCreatedAt($value);
+                $this->setTitulo($value);
                 break;
             case 7:
-                $this->setUpdatedAt($value);
+                $this->setCategoria($value);
                 break;
             case 8:
-                $this->setIdusuario($value);
+                $this->setId($value);
                 break;
         } // switch()
 
@@ -1243,31 +1229,31 @@ abstract class Chamados implements ActiveRecordInterface
         $keys = ChamadosTableMap::getFieldNames($keyType);
 
         if (array_key_exists($keys[0], $arr)) {
-            $this->setId($arr[$keys[0]]);
+            $this->setIdusuario($arr[$keys[0]]);
         }
         if (array_key_exists($keys[1], $arr)) {
-            $this->setCategoria($arr[$keys[1]]);
+            $this->setUpdatedAt($arr[$keys[1]]);
         }
         if (array_key_exists($keys[2], $arr)) {
-            $this->setTitulo($arr[$keys[2]]);
+            $this->setCreatedAt($arr[$keys[2]]);
         }
         if (array_key_exists($keys[3], $arr)) {
-            $this->setStatus($arr[$keys[3]]);
+            $this->setData($arr[$keys[3]]);
         }
         if (array_key_exists($keys[4], $arr)) {
             $this->setMensagem($arr[$keys[4]]);
         }
         if (array_key_exists($keys[5], $arr)) {
-            $this->setData($arr[$keys[5]]);
+            $this->setStatus($arr[$keys[5]]);
         }
         if (array_key_exists($keys[6], $arr)) {
-            $this->setCreatedAt($arr[$keys[6]]);
+            $this->setTitulo($arr[$keys[6]]);
         }
         if (array_key_exists($keys[7], $arr)) {
-            $this->setUpdatedAt($arr[$keys[7]]);
+            $this->setCategoria($arr[$keys[7]]);
         }
         if (array_key_exists($keys[8], $arr)) {
-            $this->setIdusuario($arr[$keys[8]]);
+            $this->setId($arr[$keys[8]]);
         }
     }
 
@@ -1310,32 +1296,32 @@ abstract class Chamados implements ActiveRecordInterface
     {
         $criteria = new Criteria(ChamadosTableMap::DATABASE_NAME);
 
-        if ($this->isColumnModified(ChamadosTableMap::COL_ID)) {
-            $criteria->add(ChamadosTableMap::COL_ID, $this->id);
-        }
-        if ($this->isColumnModified(ChamadosTableMap::COL_CATEGORIA)) {
-            $criteria->add(ChamadosTableMap::COL_CATEGORIA, $this->categoria);
-        }
-        if ($this->isColumnModified(ChamadosTableMap::COL_TITULO)) {
-            $criteria->add(ChamadosTableMap::COL_TITULO, $this->titulo);
-        }
-        if ($this->isColumnModified(ChamadosTableMap::COL_STATUS)) {
-            $criteria->add(ChamadosTableMap::COL_STATUS, $this->status);
-        }
-        if ($this->isColumnModified(ChamadosTableMap::COL_MENSAGEM)) {
-            $criteria->add(ChamadosTableMap::COL_MENSAGEM, $this->mensagem);
-        }
-        if ($this->isColumnModified(ChamadosTableMap::COL_DATA)) {
-            $criteria->add(ChamadosTableMap::COL_DATA, $this->data);
-        }
-        if ($this->isColumnModified(ChamadosTableMap::COL_CREATED_AT)) {
-            $criteria->add(ChamadosTableMap::COL_CREATED_AT, $this->created_at);
+        if ($this->isColumnModified(ChamadosTableMap::COL_IDUSUARIO)) {
+            $criteria->add(ChamadosTableMap::COL_IDUSUARIO, $this->idusuario);
         }
         if ($this->isColumnModified(ChamadosTableMap::COL_UPDATED_AT)) {
             $criteria->add(ChamadosTableMap::COL_UPDATED_AT, $this->updated_at);
         }
-        if ($this->isColumnModified(ChamadosTableMap::COL_IDUSUARIO)) {
-            $criteria->add(ChamadosTableMap::COL_IDUSUARIO, $this->idusuario);
+        if ($this->isColumnModified(ChamadosTableMap::COL_CREATED_AT)) {
+            $criteria->add(ChamadosTableMap::COL_CREATED_AT, $this->created_at);
+        }
+        if ($this->isColumnModified(ChamadosTableMap::COL_DATA)) {
+            $criteria->add(ChamadosTableMap::COL_DATA, $this->data);
+        }
+        if ($this->isColumnModified(ChamadosTableMap::COL_MENSAGEM)) {
+            $criteria->add(ChamadosTableMap::COL_MENSAGEM, $this->mensagem);
+        }
+        if ($this->isColumnModified(ChamadosTableMap::COL_STATUS)) {
+            $criteria->add(ChamadosTableMap::COL_STATUS, $this->status);
+        }
+        if ($this->isColumnModified(ChamadosTableMap::COL_TITULO)) {
+            $criteria->add(ChamadosTableMap::COL_TITULO, $this->titulo);
+        }
+        if ($this->isColumnModified(ChamadosTableMap::COL_CATEGORIA)) {
+            $criteria->add(ChamadosTableMap::COL_CATEGORIA, $this->categoria);
+        }
+        if ($this->isColumnModified(ChamadosTableMap::COL_ID)) {
+            $criteria->add(ChamadosTableMap::COL_ID, $this->id);
         }
 
         return $criteria;
@@ -1423,14 +1409,14 @@ abstract class Chamados implements ActiveRecordInterface
      */
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
-        $copyObj->setCategoria($this->getCategoria());
-        $copyObj->setTitulo($this->getTitulo());
-        $copyObj->setStatus($this->getStatus());
-        $copyObj->setMensagem($this->getMensagem());
-        $copyObj->setData($this->getData());
-        $copyObj->setCreatedAt($this->getCreatedAt());
-        $copyObj->setUpdatedAt($this->getUpdatedAt());
         $copyObj->setIdusuario($this->getIdusuario());
+        $copyObj->setUpdatedAt($this->getUpdatedAt());
+        $copyObj->setCreatedAt($this->getCreatedAt());
+        $copyObj->setData($this->getData());
+        $copyObj->setMensagem($this->getMensagem());
+        $copyObj->setStatus($this->getStatus());
+        $copyObj->setTitulo($this->getTitulo());
+        $copyObj->setCategoria($this->getCategoria());
         if ($makeNew) {
             $copyObj->setNew(true);
             $copyObj->setId(NULL); // this is a auto-increment column, so set to default value
@@ -1520,15 +1506,15 @@ abstract class Chamados implements ActiveRecordInterface
         if (null !== $this->aUsuarios) {
             $this->aUsuarios->removeChamados($this);
         }
-        $this->id = null;
-        $this->categoria = null;
-        $this->titulo = null;
-        $this->status = null;
-        $this->mensagem = null;
-        $this->data = null;
-        $this->created_at = null;
-        $this->updated_at = null;
         $this->idusuario = null;
+        $this->updated_at = null;
+        $this->created_at = null;
+        $this->data = null;
+        $this->mensagem = null;
+        $this->status = null;
+        $this->titulo = null;
+        $this->categoria = null;
+        $this->id = null;
         $this->alreadyInSave = false;
         $this->clearAllReferences();
         $this->resetModified();

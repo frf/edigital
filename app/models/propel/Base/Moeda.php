@@ -66,22 +66,10 @@ abstract class Moeda implements ActiveRecordInterface
     protected $virtualColumns = array();
 
     /**
-     * The value for the id field.
-     * @var        int
-     */
-    protected $id;
-
-    /**
-     * The value for the nome field.
+     * The value for the sigla field.
      * @var        string
      */
-    protected $nome;
-
-    /**
-     * The value for the simbolo field.
-     * @var        string
-     */
-    protected $simbolo;
+    protected $sigla;
 
     /**
      * The value for the codigo field.
@@ -90,10 +78,22 @@ abstract class Moeda implements ActiveRecordInterface
     protected $codigo;
 
     /**
-     * The value for the sigla field.
+     * The value for the simbolo field.
      * @var        string
      */
-    protected $sigla;
+    protected $simbolo;
+
+    /**
+     * The value for the nome field.
+     * @var        string
+     */
+    protected $nome;
+
+    /**
+     * The value for the id field.
+     * @var        int
+     */
+    protected $id;
 
     /**
      * @var        ObjectCollection|ChildClientePgtos[] Collection to store aggregation of ChildClientePgtos objects.
@@ -345,33 +345,13 @@ abstract class Moeda implements ActiveRecordInterface
     }
 
     /**
-     * Get the [id] column value.
-     *
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Get the [nome] column value.
+     * Get the [sigla] column value.
      *
      * @return string
      */
-    public function getNome()
+    public function getSigla()
     {
-        return $this->nome;
-    }
-
-    /**
-     * Get the [simbolo] column value.
-     *
-     * @return string
-     */
-    public function getSimbolo()
-    {
-        return $this->simbolo;
+        return $this->sigla;
     }
 
     /**
@@ -385,74 +365,54 @@ abstract class Moeda implements ActiveRecordInterface
     }
 
     /**
-     * Get the [sigla] column value.
+     * Get the [simbolo] column value.
      *
      * @return string
      */
-    public function getSigla()
+    public function getSimbolo()
     {
-        return $this->sigla;
+        return $this->simbolo;
     }
 
     /**
-     * Set the value of [id] column.
+     * Get the [nome] column value.
      *
-     * @param  int $v new value
-     * @return $this|\Moeda The current object (for fluent API support)
+     * @return string
      */
-    public function setId($v)
+    public function getNome()
     {
-        if ($v !== null) {
-            $v = (int) $v;
-        }
-
-        if ($this->id !== $v) {
-            $this->id = $v;
-            $this->modifiedColumns[MoedaTableMap::COL_ID] = true;
-        }
-
-        return $this;
-    } // setId()
+        return $this->nome;
+    }
 
     /**
-     * Set the value of [nome] column.
+     * Get the [id] column value.
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set the value of [sigla] column.
      *
      * @param  string $v new value
      * @return $this|\Moeda The current object (for fluent API support)
      */
-    public function setNome($v)
+    public function setSigla($v)
     {
         if ($v !== null) {
             $v = (string) $v;
         }
 
-        if ($this->nome !== $v) {
-            $this->nome = $v;
-            $this->modifiedColumns[MoedaTableMap::COL_NOME] = true;
+        if ($this->sigla !== $v) {
+            $this->sigla = $v;
+            $this->modifiedColumns[MoedaTableMap::COL_SIGLA] = true;
         }
 
         return $this;
-    } // setNome()
-
-    /**
-     * Set the value of [simbolo] column.
-     *
-     * @param  string $v new value
-     * @return $this|\Moeda The current object (for fluent API support)
-     */
-    public function setSimbolo($v)
-    {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->simbolo !== $v) {
-            $this->simbolo = $v;
-            $this->modifiedColumns[MoedaTableMap::COL_SIMBOLO] = true;
-        }
-
-        return $this;
-    } // setSimbolo()
+    } // setSigla()
 
     /**
      * Set the value of [codigo] column.
@@ -475,24 +435,64 @@ abstract class Moeda implements ActiveRecordInterface
     } // setCodigo()
 
     /**
-     * Set the value of [sigla] column.
+     * Set the value of [simbolo] column.
      *
      * @param  string $v new value
      * @return $this|\Moeda The current object (for fluent API support)
      */
-    public function setSigla($v)
+    public function setSimbolo($v)
     {
         if ($v !== null) {
             $v = (string) $v;
         }
 
-        if ($this->sigla !== $v) {
-            $this->sigla = $v;
-            $this->modifiedColumns[MoedaTableMap::COL_SIGLA] = true;
+        if ($this->simbolo !== $v) {
+            $this->simbolo = $v;
+            $this->modifiedColumns[MoedaTableMap::COL_SIMBOLO] = true;
         }
 
         return $this;
-    } // setSigla()
+    } // setSimbolo()
+
+    /**
+     * Set the value of [nome] column.
+     *
+     * @param  string $v new value
+     * @return $this|\Moeda The current object (for fluent API support)
+     */
+    public function setNome($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->nome !== $v) {
+            $this->nome = $v;
+            $this->modifiedColumns[MoedaTableMap::COL_NOME] = true;
+        }
+
+        return $this;
+    } // setNome()
+
+    /**
+     * Set the value of [id] column.
+     *
+     * @param  int $v new value
+     * @return $this|\Moeda The current object (for fluent API support)
+     */
+    public function setId($v)
+    {
+        if ($v !== null) {
+            $v = (int) $v;
+        }
+
+        if ($this->id !== $v) {
+            $this->id = $v;
+            $this->modifiedColumns[MoedaTableMap::COL_ID] = true;
+        }
+
+        return $this;
+    } // setId()
 
     /**
      * Indicates whether the columns in this object are only set to default values.
@@ -530,20 +530,20 @@ abstract class Moeda implements ActiveRecordInterface
     {
         try {
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : MoedaTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->id = (null !== $col) ? (int) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : MoedaTableMap::translateFieldName('Sigla', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->sigla = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : MoedaTableMap::translateFieldName('Nome', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->nome = (null !== $col) ? (string) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : MoedaTableMap::translateFieldName('Codigo', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->codigo = (null !== $col) ? (string) $col : null;
 
             $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : MoedaTableMap::translateFieldName('Simbolo', TableMap::TYPE_PHPNAME, $indexType)];
             $this->simbolo = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : MoedaTableMap::translateFieldName('Codigo', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->codigo = (null !== $col) ? (string) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : MoedaTableMap::translateFieldName('Nome', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->nome = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : MoedaTableMap::translateFieldName('Sigla', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->sigla = (null !== $col) ? (string) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : MoedaTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->id = (null !== $col) ? (int) $col : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -798,20 +798,20 @@ abstract class Moeda implements ActiveRecordInterface
 
 
          // check the columns in natural order for more readable SQL queries
-        if ($this->isColumnModified(MoedaTableMap::COL_ID)) {
-            $modifiedColumns[':p' . $index++]  = 'id';
-        }
-        if ($this->isColumnModified(MoedaTableMap::COL_NOME)) {
-            $modifiedColumns[':p' . $index++]  = 'nome';
-        }
-        if ($this->isColumnModified(MoedaTableMap::COL_SIMBOLO)) {
-            $modifiedColumns[':p' . $index++]  = 'simbolo';
+        if ($this->isColumnModified(MoedaTableMap::COL_SIGLA)) {
+            $modifiedColumns[':p' . $index++]  = 'sigla';
         }
         if ($this->isColumnModified(MoedaTableMap::COL_CODIGO)) {
             $modifiedColumns[':p' . $index++]  = 'codigo';
         }
-        if ($this->isColumnModified(MoedaTableMap::COL_SIGLA)) {
-            $modifiedColumns[':p' . $index++]  = 'sigla';
+        if ($this->isColumnModified(MoedaTableMap::COL_SIMBOLO)) {
+            $modifiedColumns[':p' . $index++]  = 'simbolo';
+        }
+        if ($this->isColumnModified(MoedaTableMap::COL_NOME)) {
+            $modifiedColumns[':p' . $index++]  = 'nome';
+        }
+        if ($this->isColumnModified(MoedaTableMap::COL_ID)) {
+            $modifiedColumns[':p' . $index++]  = 'id';
         }
 
         $sql = sprintf(
@@ -824,20 +824,20 @@ abstract class Moeda implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-                    case 'id':
-                        $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
-                        break;
-                    case 'nome':
-                        $stmt->bindValue($identifier, $this->nome, PDO::PARAM_STR);
-                        break;
-                    case 'simbolo':
-                        $stmt->bindValue($identifier, $this->simbolo, PDO::PARAM_STR);
+                    case 'sigla':
+                        $stmt->bindValue($identifier, $this->sigla, PDO::PARAM_STR);
                         break;
                     case 'codigo':
                         $stmt->bindValue($identifier, $this->codigo, PDO::PARAM_STR);
                         break;
-                    case 'sigla':
-                        $stmt->bindValue($identifier, $this->sigla, PDO::PARAM_STR);
+                    case 'simbolo':
+                        $stmt->bindValue($identifier, $this->simbolo, PDO::PARAM_STR);
+                        break;
+                    case 'nome':
+                        $stmt->bindValue($identifier, $this->nome, PDO::PARAM_STR);
+                        break;
+                    case 'id':
+                        $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
                 }
             }
@@ -895,19 +895,19 @@ abstract class Moeda implements ActiveRecordInterface
     {
         switch ($pos) {
             case 0:
-                return $this->getId();
+                return $this->getSigla();
                 break;
             case 1:
-                return $this->getNome();
+                return $this->getCodigo();
                 break;
             case 2:
                 return $this->getSimbolo();
                 break;
             case 3:
-                return $this->getCodigo();
+                return $this->getNome();
                 break;
             case 4:
-                return $this->getSigla();
+                return $this->getId();
                 break;
             default:
                 return null;
@@ -939,11 +939,11 @@ abstract class Moeda implements ActiveRecordInterface
         $alreadyDumpedObjects['Moeda'][$this->hashCode()] = true;
         $keys = MoedaTableMap::getFieldNames($keyType);
         $result = array(
-            $keys[0] => $this->getId(),
-            $keys[1] => $this->getNome(),
+            $keys[0] => $this->getSigla(),
+            $keys[1] => $this->getCodigo(),
             $keys[2] => $this->getSimbolo(),
-            $keys[3] => $this->getCodigo(),
-            $keys[4] => $this->getSigla(),
+            $keys[3] => $this->getNome(),
+            $keys[4] => $this->getId(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -1016,19 +1016,19 @@ abstract class Moeda implements ActiveRecordInterface
     {
         switch ($pos) {
             case 0:
-                $this->setId($value);
+                $this->setSigla($value);
                 break;
             case 1:
-                $this->setNome($value);
+                $this->setCodigo($value);
                 break;
             case 2:
                 $this->setSimbolo($value);
                 break;
             case 3:
-                $this->setCodigo($value);
+                $this->setNome($value);
                 break;
             case 4:
-                $this->setSigla($value);
+                $this->setId($value);
                 break;
         } // switch()
 
@@ -1057,19 +1057,19 @@ abstract class Moeda implements ActiveRecordInterface
         $keys = MoedaTableMap::getFieldNames($keyType);
 
         if (array_key_exists($keys[0], $arr)) {
-            $this->setId($arr[$keys[0]]);
+            $this->setSigla($arr[$keys[0]]);
         }
         if (array_key_exists($keys[1], $arr)) {
-            $this->setNome($arr[$keys[1]]);
+            $this->setCodigo($arr[$keys[1]]);
         }
         if (array_key_exists($keys[2], $arr)) {
             $this->setSimbolo($arr[$keys[2]]);
         }
         if (array_key_exists($keys[3], $arr)) {
-            $this->setCodigo($arr[$keys[3]]);
+            $this->setNome($arr[$keys[3]]);
         }
         if (array_key_exists($keys[4], $arr)) {
-            $this->setSigla($arr[$keys[4]]);
+            $this->setId($arr[$keys[4]]);
         }
     }
 
@@ -1112,20 +1112,20 @@ abstract class Moeda implements ActiveRecordInterface
     {
         $criteria = new Criteria(MoedaTableMap::DATABASE_NAME);
 
-        if ($this->isColumnModified(MoedaTableMap::COL_ID)) {
-            $criteria->add(MoedaTableMap::COL_ID, $this->id);
-        }
-        if ($this->isColumnModified(MoedaTableMap::COL_NOME)) {
-            $criteria->add(MoedaTableMap::COL_NOME, $this->nome);
-        }
-        if ($this->isColumnModified(MoedaTableMap::COL_SIMBOLO)) {
-            $criteria->add(MoedaTableMap::COL_SIMBOLO, $this->simbolo);
+        if ($this->isColumnModified(MoedaTableMap::COL_SIGLA)) {
+            $criteria->add(MoedaTableMap::COL_SIGLA, $this->sigla);
         }
         if ($this->isColumnModified(MoedaTableMap::COL_CODIGO)) {
             $criteria->add(MoedaTableMap::COL_CODIGO, $this->codigo);
         }
-        if ($this->isColumnModified(MoedaTableMap::COL_SIGLA)) {
-            $criteria->add(MoedaTableMap::COL_SIGLA, $this->sigla);
+        if ($this->isColumnModified(MoedaTableMap::COL_SIMBOLO)) {
+            $criteria->add(MoedaTableMap::COL_SIMBOLO, $this->simbolo);
+        }
+        if ($this->isColumnModified(MoedaTableMap::COL_NOME)) {
+            $criteria->add(MoedaTableMap::COL_NOME, $this->nome);
+        }
+        if ($this->isColumnModified(MoedaTableMap::COL_ID)) {
+            $criteria->add(MoedaTableMap::COL_ID, $this->id);
         }
 
         return $criteria;
@@ -1213,10 +1213,10 @@ abstract class Moeda implements ActiveRecordInterface
      */
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
-        $copyObj->setNome($this->getNome());
-        $copyObj->setSimbolo($this->getSimbolo());
-        $copyObj->setCodigo($this->getCodigo());
         $copyObj->setSigla($this->getSigla());
+        $copyObj->setCodigo($this->getCodigo());
+        $copyObj->setSimbolo($this->getSimbolo());
+        $copyObj->setNome($this->getNome());
 
         if ($deepCopy) {
             // important: temporarily setNew(false) because this affects the behavior of
@@ -1802,11 +1802,11 @@ abstract class Moeda implements ActiveRecordInterface
      */
     public function clear()
     {
-        $this->id = null;
-        $this->nome = null;
-        $this->simbolo = null;
-        $this->codigo = null;
         $this->sigla = null;
+        $this->codigo = null;
+        $this->simbolo = null;
+        $this->nome = null;
+        $this->id = null;
         $this->alreadyInSave = false;
         $this->clearAllReferences();
         $this->resetModified();
