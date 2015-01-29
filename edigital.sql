@@ -360,6 +360,7 @@ CREATE TABLE usuarios (
     updated_at timestamp without time zone NOT NULL,
     idcliente integer,
     isdelete boolean DEFAULT false,
+    lang character(2),
     CONSTRAINT usuarios_tipo_check CHECK (((tipo)::text = ANY (ARRAY[('admin'::character varying)::text, ('cliente'::character varying)::text])))
 );
 
@@ -605,16 +606,18 @@ SELECT pg_catalog.setval('status_chamados_id_seq', 1, false);
 -- Data for Name: usuarios; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-INSERT INTO usuarios VALUES (2, 'admin@edigital.com.br', '$2y$10$uK9dUoKcELBRQRbGkWYv5ucmbuDL.XfG43fvBfA6DJXbnmAi9/1a2', 'Administrador', 'admin', '2YZ3ZJKm3hQRoN7lVbPeimVmr6O83cvBR2OsfmsMPCTG5w6PaMjKFtHPeWzl', '2015-01-23 15:47:46', '2015-01-28 16:51:09', NULL, false);
-INSERT INTO usuarios VALUES (6, 'flavia.farias@kranunion.de', '$2y$10$NHmsV6BSdoPdd9yD.Da0..IMHQ5O1e7TeJf.jaxAJh7zAnA7IP/aW', 'Flavia Farias', 'cliente', 'e9LZWoqbdvBTjl4DY0HEQwytnLdotzXx7oeKCvtW7tmyuPUVzJqRxT0LEmtD', '2015-01-28 16:12:26', '2015-01-28 18:24:46', 7, false);
-INSERT INTO usuarios VALUES (1, 'cliente@cliente.com.br', '$2y$10$AthyydEb/ar2cnkppjQ8t..yBaZL/yhQfwJrH0qKEo0zDV4IpC2/6', 'Cliente', 'cliente', NULL, '2015-01-23 15:47:46', '2015-01-23 15:47:46', 1, false);
+INSERT INTO usuarios VALUES (1, 'cliente@cliente.com.br', '$2y$10$AthyydEb/ar2cnkppjQ8t..yBaZL/yhQfwJrH0qKEo0zDV4IpC2/6', 'Cliente', 'cliente', NULL, '2015-01-23 15:47:46', '2015-01-23 15:47:46', 1, false, NULL);
+INSERT INTO usuarios VALUES (2, 'admin@edigital.com.br', '$2y$10$uK9dUoKcELBRQRbGkWYv5ucmbuDL.XfG43fvBfA6DJXbnmAi9/1a2', 'Administrador', 'admin', 'VMbjBbvY9hvlxJXjNBddAWsuqCQw4rn78MSGrzY65YxiMv5dQjlCetX7EQpw', '2015-01-23 15:47:46', '2015-01-29 17:29:52', NULL, false, NULL);
+INSERT INTO usuarios VALUES (6, 'flavia.farias@kranunion.de', '$2y$10$NHmsV6BSdoPdd9yD.Da0..IMHQ5O1e7TeJf.jaxAJh7zAnA7IP/aW', 'Flavia Farias', 'cliente', 'e9LZWoqbdvBTjl4DY0HEQwytnLdotzXx7oeKCvtW7tmyuPUVzJqRxT0LEmtD', '2015-01-28 16:12:26', '2015-01-28 18:24:46', 7, false, 'en');
+INSERT INTO usuarios VALUES (7, 'fff', '$2y$10$BnK305DDxNCN.WTyN7QD8.lXj71Dspg2fMZU8SKJQc3dVlc/.taEm', 'XXXXX', 'cliente', NULL, '2015-01-29 17:52:58', '2015-01-29 17:52:58', 7, false, 'en');
+INSERT INTO usuarios VALUES (8, 'dasdas', '$2y$10$NkYSa9AlKmBMQqRGlhZqjOJsZpncsvxOxapMqYnUtxCDuOybRQwRy', 'sadsad', 'cliente', NULL, '2015-01-29 17:53:51', '2015-01-29 17:53:51', 7, false, 'pt');
 
 
 --
 -- Name: usuarios_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('usuarios_id_seq', 6, true);
+SELECT pg_catalog.setval('usuarios_id_seq', 8, true);
 
 
 --
