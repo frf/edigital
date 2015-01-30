@@ -48,10 +48,6 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildClienteQuery rightJoinDocumentos($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Documentos relation
  * @method     ChildClienteQuery innerJoinDocumentos($relationAlias = null) Adds a INNER JOIN clause to the query using the Documentos relation
  *
- * @method     ChildClienteQuery leftJoinIdoc($relationAlias = null) Adds a LEFT JOIN clause to the query using the Idoc relation
- * @method     ChildClienteQuery rightJoinIdoc($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Idoc relation
- * @method     ChildClienteQuery innerJoinIdoc($relationAlias = null) Adds a INNER JOIN clause to the query using the Idoc relation
- *
  * @method     ChildClienteQuery leftJoinProdutos($relationAlias = null) Adds a LEFT JOIN clause to the query using the Produtos relation
  * @method     ChildClienteQuery rightJoinProdutos($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Produtos relation
  * @method     ChildClienteQuery innerJoinProdutos($relationAlias = null) Adds a INNER JOIN clause to the query using the Produtos relation
@@ -60,7 +56,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildClienteQuery rightJoinUsuarios($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Usuarios relation
  * @method     ChildClienteQuery innerJoinUsuarios($relationAlias = null) Adds a INNER JOIN clause to the query using the Usuarios relation
  *
- * @method     \CategoriasQuery|\ClientePgtosQuery|\DocumentosQuery|\IdocQuery|\ProdutosQuery|\UsuariosQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
+ * @method     \CategoriasQuery|\ClientePgtosQuery|\DocumentosQuery|\ProdutosQuery|\UsuariosQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
  * @method     ChildCliente findOne(ConnectionInterface $con = null) Return the first ChildCliente matching the query
  * @method     ChildCliente findOneOrCreate(ConnectionInterface $con = null) Return the first ChildCliente matching the query, or a new ChildCliente object populated from the query conditions when no match is found
@@ -630,79 +626,6 @@ abstract class ClienteQuery extends ModelCriteria
         return $this
             ->joinDocumentos($relationAlias, $joinType)
             ->useQuery($relationAlias ? $relationAlias : 'Documentos', '\DocumentosQuery');
-    }
-
-    /**
-     * Filter the query by a related \Idoc object
-     *
-     * @param \Idoc|ObjectCollection $idoc  the related object to use as filter
-     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return ChildClienteQuery The current query, for fluid interface
-     */
-    public function filterByIdoc($idoc, $comparison = null)
-    {
-        if ($idoc instanceof \Idoc) {
-            return $this
-                ->addUsingAlias(ClienteTableMap::COL_ID, $idoc->getIdcliente(), $comparison);
-        } elseif ($idoc instanceof ObjectCollection) {
-            return $this
-                ->useIdocQuery()
-                ->filterByPrimaryKeys($idoc->getPrimaryKeys())
-                ->endUse();
-        } else {
-            throw new PropelException('filterByIdoc() only accepts arguments of type \Idoc or Collection');
-        }
-    }
-
-    /**
-     * Adds a JOIN clause to the query using the Idoc relation
-     *
-     * @param     string $relationAlias optional alias for the relation
-     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
-     *
-     * @return $this|ChildClienteQuery The current query, for fluid interface
-     */
-    public function joinIdoc($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
-    {
-        $tableMap = $this->getTableMap();
-        $relationMap = $tableMap->getRelation('Idoc');
-
-        // create a ModelJoin object for this join
-        $join = new ModelJoin();
-        $join->setJoinType($joinType);
-        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
-        if ($previousJoin = $this->getPreviousJoin()) {
-            $join->setPreviousJoin($previousJoin);
-        }
-
-        // add the ModelJoin to the current object
-        if ($relationAlias) {
-            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
-            $this->addJoinObject($join, $relationAlias);
-        } else {
-            $this->addJoinObject($join, 'Idoc');
-        }
-
-        return $this;
-    }
-
-    /**
-     * Use the Idoc relation Idoc object
-     *
-     * @see useQuery()
-     *
-     * @param     string $relationAlias optional alias for the relation,
-     *                                   to be used as main alias in the secondary query
-     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
-     *
-     * @return \IdocQuery A secondary query class using the current class as primary query
-     */
-    public function useIdocQuery($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
-    {
-        return $this
-            ->joinIdoc($relationAlias, $joinType)
-            ->useQuery($relationAlias ? $relationAlias : 'Idoc', '\IdocQuery');
     }
 
     /**

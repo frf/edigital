@@ -83,15 +83,6 @@
       <reference local="idusuario" foreign="id"/>
     </foreign-key>
   </table>
-  <table name="idoc" idMethod="native" phpName="Idoc">
-    <column name="file" phpName="File" type="VARCHAR" size="255"/>
-    <column name="idcliente" phpName="Idcliente" type="BIGINT"/>
-    <column name="nome" phpName="Nome" type="VARCHAR" size="255"/>
-    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
-    <foreign-key foreignTable="cliente" name="idoc_idcliente_fkey" onDelete="CASCADE" onUpdate="CASCADE">
-      <reference local="idcliente" foreign="id"/>
-    </foreign-key>
-  </table>
   <table name="mensagens" idMethod="native" phpName="Mensagens">
     <column name="idusuario" phpName="Idusuario" type="INTEGER"/>
     <column name="updated_at" phpName="UpdatedAt" type="TIMESTAMP" required="true"/>

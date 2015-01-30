@@ -15,6 +15,9 @@ class DatabaseSeeder extends Seeder {
         DB::table('cliente_pgtos')->delete();
         DB::table('produtos')->delete();
         DB::table('moeda')->delete();
+        DB::table('mensagens')->delete();
+        DB::table('categorias')->delete();
+        DB::table('chamados')->delete();
         DB::table('usuarios')->delete();
         DB::table('cliente')->delete();
        

@@ -162,19 +162,9 @@ class ClienteTableMap extends TableMap
         $this->addRelation('Categorias', '\\Categorias', RelationMap::ONE_TO_MANY, array('id' => 'id_cliente', ), null, null, 'Categoriass');
         $this->addRelation('ClientePgtos', '\\ClientePgtos', RelationMap::ONE_TO_MANY, array('id' => 'idcliente', ), null, null, 'ClientePgtoss');
         $this->addRelation('Documentos', '\\Documentos', RelationMap::ONE_TO_MANY, array('id' => 'idcliente', ), null, null, 'Documentoss');
-        $this->addRelation('Idoc', '\\Idoc', RelationMap::ONE_TO_MANY, array('id' => 'idcliente', ), 'CASCADE', 'CASCADE', 'Idocs');
         $this->addRelation('Produtos', '\\Produtos', RelationMap::ONE_TO_MANY, array('id' => 'idcliente', ), null, null, 'Produtoss');
         $this->addRelation('Usuarios', '\\Usuarios', RelationMap::ONE_TO_MANY, array('id' => 'idcliente', ), null, null, 'Usuarioss');
     } // buildRelations()
-    /**
-     * Method to invalidate the instance pool of all tables related to cliente     * by a foreign key with ON DELETE CASCADE
-     */
-    public static function clearRelatedInstancePool()
-    {
-        // Invalidate objects in related instance pools,
-        // since one or more of them may be deleted by ON DELETE CASCADE/SETNULL rule.
-        IdocTableMap::clearInstancePool();
-    }
 
     /**
      * Retrieves a string version of the primary key from the DB resultset row that can be used to uniquely identify a row in this table.

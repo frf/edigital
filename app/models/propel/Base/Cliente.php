@@ -10,8 +10,6 @@ use \ClientePgtosQuery as ChildClientePgtosQuery;
 use \ClienteQuery as ChildClienteQuery;
 use \Documentos as ChildDocumentos;
 use \DocumentosQuery as ChildDocumentosQuery;
-use \Idoc as ChildIdoc;
-use \IdocQuery as ChildIdocQuery;
 use \Produtos as ChildProdutos;
 use \ProdutosQuery as ChildProdutosQuery;
 use \Usuarios as ChildUsuarios;
@@ -123,12 +121,6 @@ abstract class Cliente implements ActiveRecordInterface
     protected $collDocumentossPartial;
 
     /**
-     * @var        ObjectCollection|ChildIdoc[] Collection to store aggregation of ChildIdoc objects.
-     */
-    protected $collIdocs;
-    protected $collIdocsPartial;
-
-    /**
      * @var        ObjectCollection|ChildProdutos[] Collection to store aggregation of ChildProdutos objects.
      */
     protected $collProdutoss;
@@ -165,12 +157,6 @@ abstract class Cliente implements ActiveRecordInterface
      * @var ObjectCollection|ChildDocumentos[]
      */
     protected $documentossScheduledForDeletion = null;
-
-    /**
-     * An array of objects scheduled for deletion.
-     * @var ObjectCollection|ChildIdoc[]
-     */
-    protected $idocsScheduledForDeletion = null;
 
     /**
      * An array of objects scheduled for deletion.
@@ -711,8 +697,6 @@ abstract class Cliente implements ActiveRecordInterface
 
             $this->collDocumentoss = null;
 
-            $this->collIdocs = null;
-
             $this->collProdutoss = null;
 
             $this->collUsuarioss = null;
@@ -874,23 +858,6 @@ abstract class Cliente implements ActiveRecordInterface
 
             if ($this->collDocumentoss !== null) {
                 foreach ($this->collDocumentoss as $referrerFK) {
-                    if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
-                        $affectedRows += $referrerFK->save($con);
-                    }
-                }
-            }
-
-            if ($this->idocsScheduledForDeletion !== null) {
-                if (!$this->idocsScheduledForDeletion->isEmpty()) {
-                    \IdocQuery::create()
-                        ->filterByPrimaryKeys($this->idocsScheduledForDeletion->getPrimaryKeys(false))
-                        ->delete($con);
-                    $this->idocsScheduledForDeletion = null;
-                }
-            }
-
-            if ($this->collIdocs !== null) {
-                foreach ($this->collIdocs as $referrerFK) {
                     if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
                         $affectedRows += $referrerFK->save($con);
                     }
@@ -1165,21 +1132,6 @@ abstract class Cliente implements ActiveRecordInterface
                 }
 
                 $result[$key] = $this->collDocumentoss->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
-            }
-            if (null !== $this->collIdocs) {
-
-                switch ($keyType) {
-                    case TableMap::TYPE_CAMELNAME:
-                        $key = 'idocs';
-                        break;
-                    case TableMap::TYPE_FIELDNAME:
-                        $key = 'idocs';
-                        break;
-                    default:
-                        $key = 'Idocs';
-                }
-
-                $result[$key] = $this->collIdocs->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
             if (null !== $this->collProdutoss) {
 
@@ -1471,12 +1423,6 @@ abstract class Cliente implements ActiveRecordInterface
                 }
             }
 
-            foreach ($this->getIdocs() as $relObj) {
-                if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
-                    $copyObj->addIdoc($relObj->copy($deepCopy));
-                }
-            }
-
             foreach ($this->getProdutoss() as $relObj) {
                 if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
                     $copyObj->addProdutos($relObj->copy($deepCopy));
@@ -1538,9 +1484,6 @@ abstract class Cliente implements ActiveRecordInterface
         }
         if ('Documentos' == $relationName) {
             return $this->initDocumentoss();
-        }
-        if ('Idoc' == $relationName) {
-            return $this->initIdocs();
         }
         if ('Produtos' == $relationName) {
             return $this->initProdutoss();
@@ -2280,224 +2223,6 @@ abstract class Cliente implements ActiveRecordInterface
     }
 
     /**
-     * Clears out the collIdocs collection
-     *
-     * This does not modify the database; however, it will remove any associated objects, causing
-     * them to be refetched by subsequent calls to accessor method.
-     *
-     * @return void
-     * @see        addIdocs()
-     */
-    public function clearIdocs()
-    {
-        $this->collIdocs = null; // important to set this to NULL since that means it is uninitialized
-    }
-
-    /**
-     * Reset is the collIdocs collection loaded partially.
-     */
-    public function resetPartialIdocs($v = true)
-    {
-        $this->collIdocsPartial = $v;
-    }
-
-    /**
-     * Initializes the collIdocs collection.
-     *
-     * By default this just sets the collIdocs collection to an empty array (like clearcollIdocs());
-     * however, you may wish to override this method in your stub class to provide setting appropriate
-     * to your application -- for example, setting the initial array to the values stored in database.
-     *
-     * @param      boolean $overrideExisting If set to true, the method call initializes
-     *                                        the collection even if it is not empty
-     *
-     * @return void
-     */
-    public function initIdocs($overrideExisting = true)
-    {
-        if (null !== $this->collIdocs && !$overrideExisting) {
-            return;
-        }
-        $this->collIdocs = new ObjectCollection();
-        $this->collIdocs->setModel('\Idoc');
-    }
-
-    /**
-     * Gets an array of ChildIdoc objects which contain a foreign key that references this object.
-     *
-     * If the $criteria is not null, it is used to always fetch the results from the database.
-     * Otherwise the results are fetched from the database the first time, then cached.
-     * Next time the same method is called without $criteria, the cached collection is returned.
-     * If this ChildCliente is new, it will return
-     * an empty collection or the current collection; the criteria is ignored on a new object.
-     *
-     * @param      Criteria $criteria optional Criteria object to narrow the query
-     * @param      ConnectionInterface $con optional connection object
-     * @return ObjectCollection|ChildIdoc[] List of ChildIdoc objects
-     * @throws PropelException
-     */
-    public function getIdocs(Criteria $criteria = null, ConnectionInterface $con = null)
-    {
-        $partial = $this->collIdocsPartial && !$this->isNew();
-        if (null === $this->collIdocs || null !== $criteria  || $partial) {
-            if ($this->isNew() && null === $this->collIdocs) {
-                // return empty collection
-                $this->initIdocs();
-            } else {
-                $collIdocs = ChildIdocQuery::create(null, $criteria)
-                    ->filterByCliente($this)
-                    ->find($con);
-
-                if (null !== $criteria) {
-                    if (false !== $this->collIdocsPartial && count($collIdocs)) {
-                        $this->initIdocs(false);
-
-                        foreach ($collIdocs as $obj) {
-                            if (false == $this->collIdocs->contains($obj)) {
-                                $this->collIdocs->append($obj);
-                            }
-                        }
-
-                        $this->collIdocsPartial = true;
-                    }
-
-                    return $collIdocs;
-                }
-
-                if ($partial && $this->collIdocs) {
-                    foreach ($this->collIdocs as $obj) {
-                        if ($obj->isNew()) {
-                            $collIdocs[] = $obj;
-                        }
-                    }
-                }
-
-                $this->collIdocs = $collIdocs;
-                $this->collIdocsPartial = false;
-            }
-        }
-
-        return $this->collIdocs;
-    }
-
-    /**
-     * Sets a collection of ChildIdoc objects related by a one-to-many relationship
-     * to the current object.
-     * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
-     * and new objects from the given Propel collection.
-     *
-     * @param      Collection $idocs A Propel collection.
-     * @param      ConnectionInterface $con Optional connection object
-     * @return $this|ChildCliente The current object (for fluent API support)
-     */
-    public function setIdocs(Collection $idocs, ConnectionInterface $con = null)
-    {
-        /** @var ChildIdoc[] $idocsToDelete */
-        $idocsToDelete = $this->getIdocs(new Criteria(), $con)->diff($idocs);
-
-
-        $this->idocsScheduledForDeletion = $idocsToDelete;
-
-        foreach ($idocsToDelete as $idocRemoved) {
-            $idocRemoved->setCliente(null);
-        }
-
-        $this->collIdocs = null;
-        foreach ($idocs as $idoc) {
-            $this->addIdoc($idoc);
-        }
-
-        $this->collIdocs = $idocs;
-        $this->collIdocsPartial = false;
-
-        return $this;
-    }
-
-    /**
-     * Returns the number of related Idoc objects.
-     *
-     * @param      Criteria $criteria
-     * @param      boolean $distinct
-     * @param      ConnectionInterface $con
-     * @return int             Count of related Idoc objects.
-     * @throws PropelException
-     */
-    public function countIdocs(Criteria $criteria = null, $distinct = false, ConnectionInterface $con = null)
-    {
-        $partial = $this->collIdocsPartial && !$this->isNew();
-        if (null === $this->collIdocs || null !== $criteria || $partial) {
-            if ($this->isNew() && null === $this->collIdocs) {
-                return 0;
-            }
-
-            if ($partial && !$criteria) {
-                return count($this->getIdocs());
-            }
-
-            $query = ChildIdocQuery::create(null, $criteria);
-            if ($distinct) {
-                $query->distinct();
-            }
-
-            return $query
-                ->filterByCliente($this)
-                ->count($con);
-        }
-
-        return count($this->collIdocs);
-    }
-
-    /**
-     * Method called to associate a ChildIdoc object to this object
-     * through the ChildIdoc foreign key attribute.
-     *
-     * @param  ChildIdoc $l ChildIdoc
-     * @return $this|\Cliente The current object (for fluent API support)
-     */
-    public function addIdoc(ChildIdoc $l)
-    {
-        if ($this->collIdocs === null) {
-            $this->initIdocs();
-            $this->collIdocsPartial = true;
-        }
-
-        if (!$this->collIdocs->contains($l)) {
-            $this->doAddIdoc($l);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param ChildIdoc $idoc The ChildIdoc object to add.
-     */
-    protected function doAddIdoc(ChildIdoc $idoc)
-    {
-        $this->collIdocs[]= $idoc;
-        $idoc->setCliente($this);
-    }
-
-    /**
-     * @param  ChildIdoc $idoc The ChildIdoc object to remove.
-     * @return $this|ChildCliente The current object (for fluent API support)
-     */
-    public function removeIdoc(ChildIdoc $idoc)
-    {
-        if ($this->getIdocs()->contains($idoc)) {
-            $pos = $this->collIdocs->search($idoc);
-            $this->collIdocs->remove($pos);
-            if (null === $this->idocsScheduledForDeletion) {
-                $this->idocsScheduledForDeletion = clone $this->collIdocs;
-                $this->idocsScheduledForDeletion->clear();
-            }
-            $this->idocsScheduledForDeletion[]= $idoc;
-            $idoc->setCliente(null);
-        }
-
-        return $this;
-    }
-
-    /**
      * Clears out the collProdutoss collection
      *
      * This does not modify the database; however, it will remove any associated objects, causing
@@ -3004,11 +2729,6 @@ abstract class Cliente implements ActiveRecordInterface
                     $o->clearAllReferences($deep);
                 }
             }
-            if ($this->collIdocs) {
-                foreach ($this->collIdocs as $o) {
-                    $o->clearAllReferences($deep);
-                }
-            }
             if ($this->collProdutoss) {
                 foreach ($this->collProdutoss as $o) {
                     $o->clearAllReferences($deep);
@@ -3024,7 +2744,6 @@ abstract class Cliente implements ActiveRecordInterface
         $this->collCategoriass = null;
         $this->collClientePgtoss = null;
         $this->collDocumentoss = null;
-        $this->collIdocs = null;
         $this->collProdutoss = null;
         $this->collUsuarioss = null;
     }
