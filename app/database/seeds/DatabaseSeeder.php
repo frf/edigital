@@ -220,20 +220,7 @@ class TabelaPgtoSeeder extends Seeder {
         $clientes = ClientePgtosQuery::create()->find();
  
         if($clientes->count() == 0) {
-            $oCliente =  new ClientePgtos();
-            $oCliente->setValor(180);
-            $oCliente->setIdcliente(1);
-            $oCliente->setIdproduto(1);
-            $oCliente->setIdMoeda(1);
-            $oCliente->save();            
-            
-            $oCliente =  new ClientePgtos();
-            $oCliente->setDescricao("Remocao de mouse");
-            $oCliente->setValor(111);
-            $oCliente->setIdcliente(1);
-            $oCliente->setIdproduto(null);
-            $oCliente->setIdMoeda(1);
-            $oCliente->save();            
+                  
         }
     } 
 }
