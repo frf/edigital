@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder {
         DB::table('produtos')->delete();
         DB::table('moeda')->delete();
         DB::table('mensagens')->delete();
+        DB::table('documentos_downloads')->delete();
         DB::table('documentos')->delete();
         DB::table('categorias')->delete();
         DB::table('chamados')->delete();
