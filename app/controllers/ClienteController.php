@@ -199,6 +199,29 @@ class ClienteController extends BaseController {
               $oCliente->setObscontrato($obscontrato);
               $oCliente->setAtivo(true);
               $oCliente->save();
+              
+              
+              
+                $oCat =  new Categorias();
+                $oCat->setIdCliente($oCliente->getId());
+                $oCat->setNomecategoria("Suporte");
+                $oCat->save();
+                $oCat =  new Categorias();
+                $oCat->setIdCliente($oCliente->getId());
+                $oCat->setNomecategoria("Boleto");
+                $oCat->save();
+                $oCat =  new Categorias();
+                $oCat->setIdCliente($oCliente->getId());
+                $oCat->setNomecategoria("INSS");
+                $oCat->save();
+                $oCat =  new Categorias();
+                $oCat->setIdCliente($oCliente->getId());
+                $oCat->setNomecategoria("IRPF");
+                $oCat->save();
+                $oCat =  new Categorias();
+                $oCat->setIdCliente($oCliente->getId());
+                $oCat->setNomecategoria("Tabelas");
+                $oCat->save();
         
               return Redirect::to('/cliente')->with('message-sucess','Cadastrado com sucesso!');
           }
