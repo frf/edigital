@@ -32,7 +32,9 @@
             <th>Valor</th>
             <th>Cliente</th>
             <th>Dt Pgto</th>
+            @if(Auth::user()->tipo == 'admin')
             <th>Ferramentas</th>
+            @endif
           </tr>
         </thead>
         <tbody>
@@ -46,15 +48,19 @@
               <td data-title="Valor"  class="numeric" scope="row">{{ $pgto->getMoeda()->getSimbolo() }} {{ $pgto->getValor() }}</td>
               <td data-title="Nome Cliente" scope="row">{{ $pgto->getCliente()->getNome() }}</td>
               <td data-title="Dt Pgto" scope="row">{{ $pgto->getDtpagamento('d/m/Y H:i') }}</td>
+              @if(Auth::user()->tipo == 'admin')
               <td data-title="Ferramenta" scope="row">
+                  
                     @if($pgto->getIsPaid())
                         <a href="/financeiro/pendente/{{ $pgto->getId() }}" class="btn btn-xs btn-success">Pago</a>
                     @else 
                         <a href="/financeiro/pago/{{ $pgto->getId() }}" class="btn btn-xs btn-warning">Pendente</a>
                     @endif
                     
-                    <a href="/financeiro/excluir-lancamento/{{ $pgto->getId() }}" class="btn btn-xs btn-danger">Excluir</a>
-              </td>              
+                        <a href="/financeiro/excluir-lancamento/{{ $pgto->getId() }}" class="btn btn-xs btn-danger">Excluir</a>
+                    
+              </td> 
+              @endif
             </tr>
         @endforeach
         </tbody>
