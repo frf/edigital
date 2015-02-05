@@ -77,7 +77,7 @@ class TabelaUsuarioClienteSeeder extends Seeder {
         Usuario::create(array(            
             'email' => 'cliente@cliente.com.br',
             'senha' => Hash::make('cliente'),
-            'nome'  => 'Cliente',
+            'nome'  => 'Nome do Cliente',
             'tipo'  => 'cliente',
             'idcliente' => 1
         ));
