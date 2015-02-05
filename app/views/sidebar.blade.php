@@ -19,27 +19,26 @@
             <ul class="nav navbar-nav">
             <li @if(Request::segment(1) == "") class="active" @endif><a href="/">Principal</a></li>
                  @if(Auth::user()->tipo == 'admin')
-                        @foreach(Config::get('edigital.menuAdmin') as $key => $menu
-                        @if(in_array($key,Config::get('edigital.moduloAtivo')))
-                            @if($key == 'atendimento')
-                                <li @if(Request::segment(1) == $key) class="active" @endif>
-                                     <a @if($key == 'atendimento') 
-                                            class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" href="#" 
-                                        @endif>{{ $menu }}</a>
+                        @foreach(Config::get('edigital.menuAdmin') as $key => $menu)
+                            @if(in_array($key,Config::get('edigital.moduloAtivo')))
                                 @if($key == 'atendimento')
-                                    <ul class="dropdown-menu" role="menu">
-                                        <li><a href="/atendimento">Chamado</a> </li>
-                                        <li><a href="/atendimento/cat_chamado">Categoria</a> </li>
-                                    </ul>
+                                    <li @if(Request::segment(1) == $key) class="active" @endif>
+                                         <a @if($key == 'atendimento') 
+                                                class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" href="#" 
+                                            @endif>{{ $menu }}</a>
+                                    @if($key == 'atendimento')
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li><a href="/atendimento">Chamado</a> </li>
+                                            <li><a href="/atendimento/cat_chamado">Categoria</a> </li>
+                                        </ul>
+                                    @endif
+                                    </li>
+                                @else
+                                <li @if(Request::segment(1) == $key) class="active" @endif>
+                                         <a href="/{{$key}}">{{ $menu }}</a></li>
                                 @endif
-                                </li>
-                            @else
-                            <li @if(Request::segment(1) == $key) class="active" @endif>
-                                     <a href="/{{$key}}">{{ $menu }}</a></li>
-                            @endif
                             @endif
                         @endforeach
-                        
                  @endif
                  @if(Auth::user()->tipo == 'cliente')
                         @foreach(Config::get('edigital.menuCliente') as $key => $menu)
