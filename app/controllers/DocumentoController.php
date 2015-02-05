@@ -77,7 +77,7 @@ class DocumentoController extends BaseController {
                 $oCatategoria = CategoriasQuery::create()->filterByIdCliente($id)->orderByNomecategoria()->find();
                 foreach($oCatategoria as $cat){
                     $aCat[$cat->getId()] = $cat->getNomecategoria();
-                }
+                }//CATEGORIA
 
 		return View::make('documento.inserir', compact('id','oCliente','aCat'));
 	}
