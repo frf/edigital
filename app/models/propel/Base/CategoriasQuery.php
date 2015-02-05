@@ -20,13 +20,13 @@ use Propel\Runtime\Exception\PropelException;
  *
  *
  *
- * @method     ChildCategoriasQuery orderByNomecategoria($order = Criteria::ASC) Order by the nomecategoria column
- * @method     ChildCategoriasQuery orderByIdCliente($order = Criteria::ASC) Order by the id_cliente column
  * @method     ChildCategoriasQuery orderById($order = Criteria::ASC) Order by the id column
+ * @method     ChildCategoriasQuery orderByIdCliente($order = Criteria::ASC) Order by the id_cliente column
+ * @method     ChildCategoriasQuery orderByNomecategoria($order = Criteria::ASC) Order by the nomecategoria column
  *
- * @method     ChildCategoriasQuery groupByNomecategoria() Group by the nomecategoria column
- * @method     ChildCategoriasQuery groupByIdCliente() Group by the id_cliente column
  * @method     ChildCategoriasQuery groupById() Group by the id column
+ * @method     ChildCategoriasQuery groupByIdCliente() Group by the id_cliente column
+ * @method     ChildCategoriasQuery groupByNomecategoria() Group by the nomecategoria column
  *
  * @method     ChildCategoriasQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method     ChildCategoriasQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
@@ -45,19 +45,27 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildCategorias findOne(ConnectionInterface $con = null) Return the first ChildCategorias matching the query
  * @method     ChildCategorias findOneOrCreate(ConnectionInterface $con = null) Return the first ChildCategorias matching the query, or a new ChildCategorias object populated from the query conditions when no match is found
  *
- * @method     ChildCategorias findOneByNomecategoria(string $nomecategoria) Return the first ChildCategorias filtered by the nomecategoria column
- * @method     ChildCategorias findOneByIdCliente(int $id_cliente) Return the first ChildCategorias filtered by the id_cliente column
  * @method     ChildCategorias findOneById(int $id) Return the first ChildCategorias filtered by the id column
+ * @method     ChildCategorias findOneByIdCliente(int $id_cliente) Return the first ChildCategorias filtered by the id_cliente column
+ * @method     ChildCategorias findOneByNomecategoria(string $nomecategoria) Return the first ChildCategorias filtered by the nomecategoria column *
+
+ * @method     ChildCategorias requirePk($key, ConnectionInterface $con = null) Return the ChildCategorias by primary key and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildCategorias requireOne(ConnectionInterface $con = null) Return the first ChildCategorias matching the query and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ *
+ * @method     ChildCategorias requireOneById(int $id) Return the first ChildCategorias filtered by the id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildCategorias requireOneByIdCliente(int $id_cliente) Return the first ChildCategorias filtered by the id_cliente column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildCategorias requireOneByNomecategoria(string $nomecategoria) Return the first ChildCategorias filtered by the nomecategoria column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
  * @method     ChildCategorias[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildCategorias objects based on current ModelCriteria
- * @method     ChildCategorias[]|ObjectCollection findByNomecategoria(string $nomecategoria) Return ChildCategorias objects filtered by the nomecategoria column
- * @method     ChildCategorias[]|ObjectCollection findByIdCliente(int $id_cliente) Return ChildCategorias objects filtered by the id_cliente column
  * @method     ChildCategorias[]|ObjectCollection findById(int $id) Return ChildCategorias objects filtered by the id column
+ * @method     ChildCategorias[]|ObjectCollection findByIdCliente(int $id_cliente) Return ChildCategorias objects filtered by the id_cliente column
+ * @method     ChildCategorias[]|ObjectCollection findByNomecategoria(string $nomecategoria) Return ChildCategorias objects filtered by the nomecategoria column
  * @method     ChildCategorias[]|\Propel\Runtime\Util\PropelModelPager paginate($page = 1, $maxPerPage = 10, ConnectionInterface $con = null) Issue a SELECT query based on the current ModelCriteria and uses a page and a maximum number of results per page to compute an offset and a limit
  *
  */
 abstract class CategoriasQuery extends ModelCriteria
 {
+    protected $entityNotFoundExceptionClass = '\\Propel\\Runtime\\Exception\\EntityNotFoundException';
 
     /**
      * Initializes internal state of \Base\CategoriasQuery object.
@@ -144,7 +152,7 @@ abstract class CategoriasQuery extends ModelCriteria
      */
     protected function findPkSimple($key, ConnectionInterface $con)
     {
-        $sql = 'SELECT nomecategoria, id_cliente, id FROM categorias WHERE id = :p0';
+        $sql = 'SELECT id, id_cliente, nomecategoria FROM categorias WHERE id = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -235,32 +243,44 @@ abstract class CategoriasQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query on the nomecategoria column
+     * Filter the query on the id column
      *
      * Example usage:
      * <code>
-     * $query->filterByNomecategoria('fooValue');   // WHERE nomecategoria = 'fooValue'
-     * $query->filterByNomecategoria('%fooValue%'); // WHERE nomecategoria LIKE '%fooValue%'
+     * $query->filterById(1234); // WHERE id = 1234
+     * $query->filterById(array(12, 34)); // WHERE id IN (12, 34)
+     * $query->filterById(array('min' => 12)); // WHERE id > 12
      * </code>
      *
-     * @param     string $nomecategoria The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     mixed $id The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildCategoriasQuery The current query, for fluid interface
      */
-    public function filterByNomecategoria($nomecategoria = null, $comparison = null)
+    public function filterById($id = null, $comparison = null)
     {
-        if (null === $comparison) {
-            if (is_array($nomecategoria)) {
+        if (is_array($id)) {
+            $useMinMax = false;
+            if (isset($id['min'])) {
+                $this->addUsingAlias(CategoriasTableMap::COL_ID, $id['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($id['max'])) {
+                $this->addUsingAlias(CategoriasTableMap::COL_ID, $id['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $nomecategoria)) {
-                $nomecategoria = str_replace('*', '%', $nomecategoria);
-                $comparison = Criteria::LIKE;
             }
         }
 
-        return $this->addUsingAlias(CategoriasTableMap::COL_NOMECATEGORIA, $nomecategoria, $comparison);
+        return $this->addUsingAlias(CategoriasTableMap::COL_ID, $id, $comparison);
     }
 
     /**
@@ -307,44 +327,32 @@ abstract class CategoriasQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query on the id column
+     * Filter the query on the nomecategoria column
      *
      * Example usage:
      * <code>
-     * $query->filterById(1234); // WHERE id = 1234
-     * $query->filterById(array(12, 34)); // WHERE id IN (12, 34)
-     * $query->filterById(array('min' => 12)); // WHERE id > 12
+     * $query->filterByNomecategoria('fooValue');   // WHERE nomecategoria = 'fooValue'
+     * $query->filterByNomecategoria('%fooValue%'); // WHERE nomecategoria LIKE '%fooValue%'
      * </code>
      *
-     * @param     mixed $id The value to use as filter.
-     *              Use scalar values for equality.
-     *              Use array values for in_array() equivalent.
-     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $nomecategoria The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildCategoriasQuery The current query, for fluid interface
      */
-    public function filterById($id = null, $comparison = null)
+    public function filterByNomecategoria($nomecategoria = null, $comparison = null)
     {
-        if (is_array($id)) {
-            $useMinMax = false;
-            if (isset($id['min'])) {
-                $this->addUsingAlias(CategoriasTableMap::COL_ID, $id['min'], Criteria::GREATER_EQUAL);
-                $useMinMax = true;
-            }
-            if (isset($id['max'])) {
-                $this->addUsingAlias(CategoriasTableMap::COL_ID, $id['max'], Criteria::LESS_EQUAL);
-                $useMinMax = true;
-            }
-            if ($useMinMax) {
-                return $this;
-            }
-            if (null === $comparison) {
+        if (null === $comparison) {
+            if (is_array($nomecategoria)) {
                 $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $nomecategoria)) {
+                $nomecategoria = str_replace('*', '%', $nomecategoria);
+                $comparison = Criteria::LIKE;
             }
         }
 
-        return $this->addUsingAlias(CategoriasTableMap::COL_ID, $id, $comparison);
+        return $this->addUsingAlias(CategoriasTableMap::COL_NOMECATEGORIA, $nomecategoria, $comparison);
     }
 
     /**

@@ -13,10 +13,10 @@
   <table class="table">
       
     <tr>
-      <th>Nome</th><td scope="row">{{ $cliente->getNome() }}</td>             
+      <th>Nome</th><td scope="row">{{ $oCliente->getNome() }}</td>             
     </tr>
     <tr>
-      <th>Email</th><td scope="row">{{ $cliente->getEmail() }}</td>             
+      <th>Email</th><td scope="row">{{ $oCliente->getEmail() }}</td>             
     </tr>
  
     
@@ -24,7 +24,7 @@
   </table>
     
    
-    <a href='/cliente/editar/{{ $cliente->getId() }}' class="btn btn-sm btn-success">Editar</a>
+    <a href='/cliente/editar/{{ $oCliente->getId() }}' class="btn btn-sm btn-success">Editar</a>
    
 </div>
 

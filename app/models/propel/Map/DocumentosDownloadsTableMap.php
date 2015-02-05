@@ -72,14 +72,9 @@ class DocumentosDownloadsTableMap extends TableMap
     const NUM_HYDRATE_COLUMNS = 4;
 
     /**
-     * the column name for the id field
+     * the column name for the iddocumento field
      */
-    const COL_ID = 'documentos_downloads.id';
-
-    /**
-     * the column name for the dtdownload field
-     */
-    const COL_DTDOWNLOAD = 'documentos_downloads.dtdownload';
+    const COL_IDDOCUMENTO = 'documentos_downloads.iddocumento';
 
     /**
      * the column name for the idusuario field
@@ -87,9 +82,14 @@ class DocumentosDownloadsTableMap extends TableMap
     const COL_IDUSUARIO = 'documentos_downloads.idusuario';
 
     /**
-     * the column name for the iddocumento field
+     * the column name for the dtdownload field
      */
-    const COL_IDDOCUMENTO = 'documentos_downloads.iddocumento';
+    const COL_DTDOWNLOAD = 'documentos_downloads.dtdownload';
+
+    /**
+     * the column name for the id field
+     */
+    const COL_ID = 'documentos_downloads.id';
 
     /**
      * The default string format for model objects of the related table
@@ -103,10 +103,10 @@ class DocumentosDownloadsTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'Dtdownload', 'Idusuario', 'Iddocumento', ),
-        self::TYPE_CAMELNAME     => array('id', 'dtdownload', 'idusuario', 'iddocumento', ),
-        self::TYPE_COLNAME       => array(DocumentosDownloadsTableMap::COL_ID, DocumentosDownloadsTableMap::COL_DTDOWNLOAD, DocumentosDownloadsTableMap::COL_IDUSUARIO, DocumentosDownloadsTableMap::COL_IDDOCUMENTO, ),
-        self::TYPE_FIELDNAME     => array('id', 'dtdownload', 'idusuario', 'iddocumento', ),
+        self::TYPE_PHPNAME       => array('Iddocumento', 'Idusuario', 'Dtdownload', 'Id', ),
+        self::TYPE_CAMELNAME     => array('iddocumento', 'idusuario', 'dtdownload', 'id', ),
+        self::TYPE_COLNAME       => array(DocumentosDownloadsTableMap::COL_IDDOCUMENTO, DocumentosDownloadsTableMap::COL_IDUSUARIO, DocumentosDownloadsTableMap::COL_DTDOWNLOAD, DocumentosDownloadsTableMap::COL_ID, ),
+        self::TYPE_FIELDNAME     => array('iddocumento', 'idusuario', 'dtdownload', 'id', ),
         self::TYPE_NUM           => array(0, 1, 2, 3, )
     );
 
@@ -117,10 +117,10 @@ class DocumentosDownloadsTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'Dtdownload' => 1, 'Idusuario' => 2, 'Iddocumento' => 3, ),
-        self::TYPE_CAMELNAME     => array('id' => 0, 'dtdownload' => 1, 'idusuario' => 2, 'iddocumento' => 3, ),
-        self::TYPE_COLNAME       => array(DocumentosDownloadsTableMap::COL_ID => 0, DocumentosDownloadsTableMap::COL_DTDOWNLOAD => 1, DocumentosDownloadsTableMap::COL_IDUSUARIO => 2, DocumentosDownloadsTableMap::COL_IDDOCUMENTO => 3, ),
-        self::TYPE_FIELDNAME     => array('id' => 0, 'dtdownload' => 1, 'idusuario' => 2, 'iddocumento' => 3, ),
+        self::TYPE_PHPNAME       => array('Iddocumento' => 0, 'Idusuario' => 1, 'Dtdownload' => 2, 'Id' => 3, ),
+        self::TYPE_CAMELNAME     => array('iddocumento' => 0, 'idusuario' => 1, 'dtdownload' => 2, 'id' => 3, ),
+        self::TYPE_COLNAME       => array(DocumentosDownloadsTableMap::COL_IDDOCUMENTO => 0, DocumentosDownloadsTableMap::COL_IDUSUARIO => 1, DocumentosDownloadsTableMap::COL_DTDOWNLOAD => 2, DocumentosDownloadsTableMap::COL_ID => 3, ),
+        self::TYPE_FIELDNAME     => array('iddocumento' => 0, 'idusuario' => 1, 'dtdownload' => 2, 'id' => 3, ),
         self::TYPE_NUM           => array(0, 1, 2, 3, )
     );
 
@@ -142,10 +142,10 @@ class DocumentosDownloadsTableMap extends TableMap
         $this->setUseIdGenerator(true);
         $this->setPrimaryKeyMethodInfo('documentos_downloads_id_seq');
         // columns
-        $this->addPrimaryKey('id', 'Id', 'INTEGER', true, null, null);
-        $this->addColumn('dtdownload', 'Dtdownload', 'TIMESTAMP', false, null, null);
-        $this->addForeignKey('idusuario', 'Idusuario', 'INTEGER', 'usuarios', 'id', true, null, null);
         $this->addForeignKey('iddocumento', 'Iddocumento', 'INTEGER', 'documentos', 'id', true, null, null);
+        $this->addForeignKey('idusuario', 'Idusuario', 'INTEGER', 'usuarios', 'id', true, null, null);
+        $this->addColumn('dtdownload', 'Dtdownload', 'TIMESTAMP', false, null, null);
+        $this->addPrimaryKey('id', 'Id', 'INTEGER', true, null, null);
     } // initialize()
 
     /**
@@ -173,11 +173,11 @@ class DocumentosDownloadsTableMap extends TableMap
     public static function getPrimaryKeyHashFromRow($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
     {
         // If the PK cannot be derived from the row, return NULL.
-        if ($row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)] === null) {
+        if ($row[TableMap::TYPE_NUM == $indexType ? 3 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)] === null) {
             return null;
         }
 
-        return (string) $row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
+        return (string) $row[TableMap::TYPE_NUM == $indexType ? 3 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
     }
 
     /**
@@ -196,7 +196,7 @@ class DocumentosDownloadsTableMap extends TableMap
     {
         return (int) $row[
             $indexType == TableMap::TYPE_NUM
-                ? 0 + $offset
+                ? 3 + $offset
                 : self::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)
         ];
     }
@@ -298,15 +298,15 @@ class DocumentosDownloadsTableMap extends TableMap
     public static function addSelectColumns(Criteria $criteria, $alias = null)
     {
         if (null === $alias) {
-            $criteria->addSelectColumn(DocumentosDownloadsTableMap::COL_ID);
-            $criteria->addSelectColumn(DocumentosDownloadsTableMap::COL_DTDOWNLOAD);
-            $criteria->addSelectColumn(DocumentosDownloadsTableMap::COL_IDUSUARIO);
             $criteria->addSelectColumn(DocumentosDownloadsTableMap::COL_IDDOCUMENTO);
+            $criteria->addSelectColumn(DocumentosDownloadsTableMap::COL_IDUSUARIO);
+            $criteria->addSelectColumn(DocumentosDownloadsTableMap::COL_DTDOWNLOAD);
+            $criteria->addSelectColumn(DocumentosDownloadsTableMap::COL_ID);
         } else {
-            $criteria->addSelectColumn($alias . '.id');
-            $criteria->addSelectColumn($alias . '.dtdownload');
-            $criteria->addSelectColumn($alias . '.idusuario');
             $criteria->addSelectColumn($alias . '.iddocumento');
+            $criteria->addSelectColumn($alias . '.idusuario');
+            $criteria->addSelectColumn($alias . '.dtdownload');
+            $criteria->addSelectColumn($alias . '.id');
         }
     }
 

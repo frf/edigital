@@ -72,29 +72,9 @@ class MensagensTableMap extends TableMap
     const NUM_HYDRATE_COLUMNS = 7;
 
     /**
-     * the column name for the idusuario field
+     * the column name for the id field
      */
-    const COL_IDUSUARIO = 'mensagens.idusuario';
-
-    /**
-     * the column name for the updated_at field
-     */
-    const COL_UPDATED_AT = 'mensagens.updated_at';
-
-    /**
-     * the column name for the created_at field
-     */
-    const COL_CREATED_AT = 'mensagens.created_at';
-
-    /**
-     * the column name for the data field
-     */
-    const COL_DATA = 'mensagens.data';
-
-    /**
-     * the column name for the id_chamado field
-     */
-    const COL_ID_CHAMADO = 'mensagens.id_chamado';
+    const COL_ID = 'mensagens.id';
 
     /**
      * the column name for the mensagem field
@@ -102,9 +82,29 @@ class MensagensTableMap extends TableMap
     const COL_MENSAGEM = 'mensagens.mensagem';
 
     /**
-     * the column name for the id field
+     * the column name for the id_chamado field
      */
-    const COL_ID = 'mensagens.id';
+    const COL_ID_CHAMADO = 'mensagens.id_chamado';
+
+    /**
+     * the column name for the data field
+     */
+    const COL_DATA = 'mensagens.data';
+
+    /**
+     * the column name for the created_at field
+     */
+    const COL_CREATED_AT = 'mensagens.created_at';
+
+    /**
+     * the column name for the updated_at field
+     */
+    const COL_UPDATED_AT = 'mensagens.updated_at';
+
+    /**
+     * the column name for the idusuario field
+     */
+    const COL_IDUSUARIO = 'mensagens.idusuario';
 
     /**
      * The default string format for model objects of the related table
@@ -118,10 +118,10 @@ class MensagensTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Idusuario', 'UpdatedAt', 'CreatedAt', 'Data', 'IdChamado', 'Mensagem', 'Id', ),
-        self::TYPE_CAMELNAME     => array('idusuario', 'updatedAt', 'createdAt', 'data', 'idChamado', 'mensagem', 'id', ),
-        self::TYPE_COLNAME       => array(MensagensTableMap::COL_IDUSUARIO, MensagensTableMap::COL_UPDATED_AT, MensagensTableMap::COL_CREATED_AT, MensagensTableMap::COL_DATA, MensagensTableMap::COL_ID_CHAMADO, MensagensTableMap::COL_MENSAGEM, MensagensTableMap::COL_ID, ),
-        self::TYPE_FIELDNAME     => array('idusuario', 'updated_at', 'created_at', 'data', 'id_chamado', 'mensagem', 'id', ),
+        self::TYPE_PHPNAME       => array('Id', 'Mensagem', 'IdChamado', 'Data', 'CreatedAt', 'UpdatedAt', 'Idusuario', ),
+        self::TYPE_CAMELNAME     => array('id', 'mensagem', 'idChamado', 'data', 'createdAt', 'updatedAt', 'idusuario', ),
+        self::TYPE_COLNAME       => array(MensagensTableMap::COL_ID, MensagensTableMap::COL_MENSAGEM, MensagensTableMap::COL_ID_CHAMADO, MensagensTableMap::COL_DATA, MensagensTableMap::COL_CREATED_AT, MensagensTableMap::COL_UPDATED_AT, MensagensTableMap::COL_IDUSUARIO, ),
+        self::TYPE_FIELDNAME     => array('id', 'mensagem', 'id_chamado', 'data', 'created_at', 'updated_at', 'idusuario', ),
         self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, )
     );
 
@@ -132,10 +132,10 @@ class MensagensTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Idusuario' => 0, 'UpdatedAt' => 1, 'CreatedAt' => 2, 'Data' => 3, 'IdChamado' => 4, 'Mensagem' => 5, 'Id' => 6, ),
-        self::TYPE_CAMELNAME     => array('idusuario' => 0, 'updatedAt' => 1, 'createdAt' => 2, 'data' => 3, 'idChamado' => 4, 'mensagem' => 5, 'id' => 6, ),
-        self::TYPE_COLNAME       => array(MensagensTableMap::COL_IDUSUARIO => 0, MensagensTableMap::COL_UPDATED_AT => 1, MensagensTableMap::COL_CREATED_AT => 2, MensagensTableMap::COL_DATA => 3, MensagensTableMap::COL_ID_CHAMADO => 4, MensagensTableMap::COL_MENSAGEM => 5, MensagensTableMap::COL_ID => 6, ),
-        self::TYPE_FIELDNAME     => array('idusuario' => 0, 'updated_at' => 1, 'created_at' => 2, 'data' => 3, 'id_chamado' => 4, 'mensagem' => 5, 'id' => 6, ),
+        self::TYPE_PHPNAME       => array('Id' => 0, 'Mensagem' => 1, 'IdChamado' => 2, 'Data' => 3, 'CreatedAt' => 4, 'UpdatedAt' => 5, 'Idusuario' => 6, ),
+        self::TYPE_CAMELNAME     => array('id' => 0, 'mensagem' => 1, 'idChamado' => 2, 'data' => 3, 'createdAt' => 4, 'updatedAt' => 5, 'idusuario' => 6, ),
+        self::TYPE_COLNAME       => array(MensagensTableMap::COL_ID => 0, MensagensTableMap::COL_MENSAGEM => 1, MensagensTableMap::COL_ID_CHAMADO => 2, MensagensTableMap::COL_DATA => 3, MensagensTableMap::COL_CREATED_AT => 4, MensagensTableMap::COL_UPDATED_AT => 5, MensagensTableMap::COL_IDUSUARIO => 6, ),
+        self::TYPE_FIELDNAME     => array('id' => 0, 'mensagem' => 1, 'id_chamado' => 2, 'data' => 3, 'created_at' => 4, 'updated_at' => 5, 'idusuario' => 6, ),
         self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, )
     );
 
@@ -157,13 +157,13 @@ class MensagensTableMap extends TableMap
         $this->setUseIdGenerator(true);
         $this->setPrimaryKeyMethodInfo('mensagens_id_seq');
         // columns
-        $this->addForeignKey('idusuario', 'Idusuario', 'INTEGER', 'usuarios', 'id', false, null, null);
-        $this->addColumn('updated_at', 'UpdatedAt', 'TIMESTAMP', true, null, null);
-        $this->addColumn('created_at', 'CreatedAt', 'TIMESTAMP', true, null, null);
-        $this->addColumn('data', 'Data', 'VARCHAR', true, 255, null);
-        $this->addColumn('id_chamado', 'IdChamado', 'INTEGER', true, null, null);
-        $this->addColumn('mensagem', 'Mensagem', 'LONGVARCHAR', true, null, null);
         $this->addPrimaryKey('id', 'Id', 'INTEGER', true, null, null);
+        $this->addColumn('mensagem', 'Mensagem', 'LONGVARCHAR', true, null, null);
+        $this->addColumn('id_chamado', 'IdChamado', 'INTEGER', true, null, null);
+        $this->addColumn('data', 'Data', 'VARCHAR', true, 255, null);
+        $this->addColumn('created_at', 'CreatedAt', 'TIMESTAMP', true, null, null);
+        $this->addColumn('updated_at', 'UpdatedAt', 'TIMESTAMP', true, null, null);
+        $this->addForeignKey('idusuario', 'Idusuario', 'INTEGER', 'usuarios', 'id', false, null, null);
     } // initialize()
 
     /**
@@ -190,11 +190,11 @@ class MensagensTableMap extends TableMap
     public static function getPrimaryKeyHashFromRow($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
     {
         // If the PK cannot be derived from the row, return NULL.
-        if ($row[TableMap::TYPE_NUM == $indexType ? 6 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)] === null) {
+        if ($row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)] === null) {
             return null;
         }
 
-        return (string) $row[TableMap::TYPE_NUM == $indexType ? 6 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
+        return (string) $row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
     }
 
     /**
@@ -213,7 +213,7 @@ class MensagensTableMap extends TableMap
     {
         return (int) $row[
             $indexType == TableMap::TYPE_NUM
-                ? 6 + $offset
+                ? 0 + $offset
                 : self::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)
         ];
     }
@@ -315,21 +315,21 @@ class MensagensTableMap extends TableMap
     public static function addSelectColumns(Criteria $criteria, $alias = null)
     {
         if (null === $alias) {
-            $criteria->addSelectColumn(MensagensTableMap::COL_IDUSUARIO);
-            $criteria->addSelectColumn(MensagensTableMap::COL_UPDATED_AT);
-            $criteria->addSelectColumn(MensagensTableMap::COL_CREATED_AT);
-            $criteria->addSelectColumn(MensagensTableMap::COL_DATA);
-            $criteria->addSelectColumn(MensagensTableMap::COL_ID_CHAMADO);
-            $criteria->addSelectColumn(MensagensTableMap::COL_MENSAGEM);
             $criteria->addSelectColumn(MensagensTableMap::COL_ID);
+            $criteria->addSelectColumn(MensagensTableMap::COL_MENSAGEM);
+            $criteria->addSelectColumn(MensagensTableMap::COL_ID_CHAMADO);
+            $criteria->addSelectColumn(MensagensTableMap::COL_DATA);
+            $criteria->addSelectColumn(MensagensTableMap::COL_CREATED_AT);
+            $criteria->addSelectColumn(MensagensTableMap::COL_UPDATED_AT);
+            $criteria->addSelectColumn(MensagensTableMap::COL_IDUSUARIO);
         } else {
-            $criteria->addSelectColumn($alias . '.idusuario');
-            $criteria->addSelectColumn($alias . '.updated_at');
-            $criteria->addSelectColumn($alias . '.created_at');
-            $criteria->addSelectColumn($alias . '.data');
-            $criteria->addSelectColumn($alias . '.id_chamado');
-            $criteria->addSelectColumn($alias . '.mensagem');
             $criteria->addSelectColumn($alias . '.id');
+            $criteria->addSelectColumn($alias . '.mensagem');
+            $criteria->addSelectColumn($alias . '.id_chamado');
+            $criteria->addSelectColumn($alias . '.data');
+            $criteria->addSelectColumn($alias . '.created_at');
+            $criteria->addSelectColumn($alias . '.updated_at');
+            $criteria->addSelectColumn($alias . '.idusuario');
         }
     }
 

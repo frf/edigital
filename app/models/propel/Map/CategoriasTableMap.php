@@ -72,9 +72,9 @@ class CategoriasTableMap extends TableMap
     const NUM_HYDRATE_COLUMNS = 3;
 
     /**
-     * the column name for the nomecategoria field
+     * the column name for the id field
      */
-    const COL_NOMECATEGORIA = 'categorias.nomecategoria';
+    const COL_ID = 'categorias.id';
 
     /**
      * the column name for the id_cliente field
@@ -82,9 +82,9 @@ class CategoriasTableMap extends TableMap
     const COL_ID_CLIENTE = 'categorias.id_cliente';
 
     /**
-     * the column name for the id field
+     * the column name for the nomecategoria field
      */
-    const COL_ID = 'categorias.id';
+    const COL_NOMECATEGORIA = 'categorias.nomecategoria';
 
     /**
      * The default string format for model objects of the related table
@@ -98,10 +98,10 @@ class CategoriasTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Nomecategoria', 'IdCliente', 'Id', ),
-        self::TYPE_CAMELNAME     => array('nomecategoria', 'idCliente', 'id', ),
-        self::TYPE_COLNAME       => array(CategoriasTableMap::COL_NOMECATEGORIA, CategoriasTableMap::COL_ID_CLIENTE, CategoriasTableMap::COL_ID, ),
-        self::TYPE_FIELDNAME     => array('nomecategoria', 'id_cliente', 'id', ),
+        self::TYPE_PHPNAME       => array('Id', 'IdCliente', 'Nomecategoria', ),
+        self::TYPE_CAMELNAME     => array('id', 'idCliente', 'nomecategoria', ),
+        self::TYPE_COLNAME       => array(CategoriasTableMap::COL_ID, CategoriasTableMap::COL_ID_CLIENTE, CategoriasTableMap::COL_NOMECATEGORIA, ),
+        self::TYPE_FIELDNAME     => array('id', 'id_cliente', 'nomecategoria', ),
         self::TYPE_NUM           => array(0, 1, 2, )
     );
 
@@ -112,10 +112,10 @@ class CategoriasTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Nomecategoria' => 0, 'IdCliente' => 1, 'Id' => 2, ),
-        self::TYPE_CAMELNAME     => array('nomecategoria' => 0, 'idCliente' => 1, 'id' => 2, ),
-        self::TYPE_COLNAME       => array(CategoriasTableMap::COL_NOMECATEGORIA => 0, CategoriasTableMap::COL_ID_CLIENTE => 1, CategoriasTableMap::COL_ID => 2, ),
-        self::TYPE_FIELDNAME     => array('nomecategoria' => 0, 'id_cliente' => 1, 'id' => 2, ),
+        self::TYPE_PHPNAME       => array('Id' => 0, 'IdCliente' => 1, 'Nomecategoria' => 2, ),
+        self::TYPE_CAMELNAME     => array('id' => 0, 'idCliente' => 1, 'nomecategoria' => 2, ),
+        self::TYPE_COLNAME       => array(CategoriasTableMap::COL_ID => 0, CategoriasTableMap::COL_ID_CLIENTE => 1, CategoriasTableMap::COL_NOMECATEGORIA => 2, ),
+        self::TYPE_FIELDNAME     => array('id' => 0, 'id_cliente' => 1, 'nomecategoria' => 2, ),
         self::TYPE_NUM           => array(0, 1, 2, )
     );
 
@@ -137,9 +137,9 @@ class CategoriasTableMap extends TableMap
         $this->setUseIdGenerator(true);
         $this->setPrimaryKeyMethodInfo('categorias_id_seq');
         // columns
-        $this->addColumn('nomecategoria', 'Nomecategoria', 'VARCHAR', true, null, null);
-        $this->addForeignKey('id_cliente', 'IdCliente', 'INTEGER', 'cliente', 'id', true, null, null);
         $this->addPrimaryKey('id', 'Id', 'INTEGER', true, null, null);
+        $this->addForeignKey('id_cliente', 'IdCliente', 'INTEGER', 'cliente', 'id', true, null, null);
+        $this->addColumn('nomecategoria', 'Nomecategoria', 'VARCHAR', true, null, null);
     } // initialize()
 
     /**
@@ -167,11 +167,11 @@ class CategoriasTableMap extends TableMap
     public static function getPrimaryKeyHashFromRow($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
     {
         // If the PK cannot be derived from the row, return NULL.
-        if ($row[TableMap::TYPE_NUM == $indexType ? 2 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)] === null) {
+        if ($row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)] === null) {
             return null;
         }
 
-        return (string) $row[TableMap::TYPE_NUM == $indexType ? 2 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
+        return (string) $row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
     }
 
     /**
@@ -190,7 +190,7 @@ class CategoriasTableMap extends TableMap
     {
         return (int) $row[
             $indexType == TableMap::TYPE_NUM
-                ? 2 + $offset
+                ? 0 + $offset
                 : self::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)
         ];
     }
@@ -292,13 +292,13 @@ class CategoriasTableMap extends TableMap
     public static function addSelectColumns(Criteria $criteria, $alias = null)
     {
         if (null === $alias) {
-            $criteria->addSelectColumn(CategoriasTableMap::COL_NOMECATEGORIA);
-            $criteria->addSelectColumn(CategoriasTableMap::COL_ID_CLIENTE);
             $criteria->addSelectColumn(CategoriasTableMap::COL_ID);
+            $criteria->addSelectColumn(CategoriasTableMap::COL_ID_CLIENTE);
+            $criteria->addSelectColumn(CategoriasTableMap::COL_NOMECATEGORIA);
         } else {
-            $criteria->addSelectColumn($alias . '.nomecategoria');
-            $criteria->addSelectColumn($alias . '.id_cliente');
             $criteria->addSelectColumn($alias . '.id');
+            $criteria->addSelectColumn($alias . '.id_cliente');
+            $criteria->addSelectColumn($alias . '.nomecategoria');
         }
     }
 

@@ -3,16 +3,13 @@
 
 @section('content')
 
-
-
+@extends('cliente.menu')
 
 {{ Form::open(array('url' => '/documento/save', 'class' => 'form-horizontal', 
     'enctype'=>'multipart/form-data',
 'role' => 'form')) }}
 
-<input type="hidden" name="idCliente" value="{{ $oCliente->getId() }}">
-
-<h1>Cliente: {{ $oCliente->getNome() }}</h1>
+<input type="hidden" name="idCliente" value="{{ $id }}">
 
 <hr>
 
@@ -34,7 +31,7 @@
 <div class="form-group">
     <label for="categoria" class="col-lg-2 control-label">Categoria</label>
     <div class="col-lg-6">
-        {{ Form::select('idcategoria', array('1' => 'INSS', '2' => 'BOLETOS'), "idcategoria", array('class' => 'form-control')) }}
+        {{ Form::select('idcategoria', $aCat, "idcategoria", array('class' => 'form-control')) }}
     </div>
 </div>
 
@@ -48,7 +45,7 @@
 <div class="form-group">
     <div class="col-lg-offset-2 col-lg-10">
         {{ Form::submit('Salvar', array('class' => 'btn btn-primary')) }}
-        <a href="{{ url('/documento/listar/')."/".$oCliente->getId() }}" title="Cancelar" class="btn btn-default">Cancelar</a>
+        <a href="{{ url('/documento/listar/')."/".$id }}" title="Cancelar" class="btn btn-default">Cancelar</a>
     </div>
 </div>
 

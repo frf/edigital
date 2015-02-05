@@ -8,7 +8,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a  class="navbar-brand">Painel do Usuário</a>
+      <a  class="navbar-brand">Painel: {{  $oCliente->getNome() }}</a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
@@ -16,6 +16,7 @@
       <ul class="nav navbar-nav">
         <li @if(Request::segment(2) == 'view') class="active" @endif ><a href="/cliente/view/{{ $id }}">Info</a></li>
         <li @if(Request::segment(2) == 'editar') class="active" @endif ><a href="/cliente/editar/{{ $id }}">Editar</a></li>
+        <li @if(Request::segment(2) == 'listar') class="active" @endif ><a href="/documento/listar/{{ $id }}">Documentos</a></li>
         <li @if(Request::segment(2) == 'listar-login') class="active" @endif ><a href="/cliente/listar-login/{{ $id }}">Listar Usuário</a></li>
         <li @if(Request::segment(2) == 'cadastrar-login') class="active" @endif ><a href="/cliente/cadastrar-login/{{ $id }}">Cadastrar Usuário</a></li>
         

@@ -66,10 +66,10 @@ abstract class Categorias implements ActiveRecordInterface
     protected $virtualColumns = array();
 
     /**
-     * The value for the nomecategoria field.
-     * @var        string
+     * The value for the id field.
+     * @var        int
      */
-    protected $nomecategoria;
+    protected $id;
 
     /**
      * The value for the id_cliente field.
@@ -78,10 +78,10 @@ abstract class Categorias implements ActiveRecordInterface
     protected $id_cliente;
 
     /**
-     * The value for the id field.
-     * @var        int
+     * The value for the nomecategoria field.
+     * @var        string
      */
-    protected $id;
+    protected $nomecategoria;
 
     /**
      * @var        ChildCliente
@@ -326,13 +326,13 @@ abstract class Categorias implements ActiveRecordInterface
     }
 
     /**
-     * Get the [nomecategoria] column value.
+     * Get the [id] column value.
      *
-     * @return string
+     * @return int
      */
-    public function getNomecategoria()
+    public function getId()
     {
-        return $this->nomecategoria;
+        return $this->id;
     }
 
     /**
@@ -346,34 +346,34 @@ abstract class Categorias implements ActiveRecordInterface
     }
 
     /**
-     * Get the [id] column value.
+     * Get the [nomecategoria] column value.
      *
-     * @return int
+     * @return string
      */
-    public function getId()
+    public function getNomecategoria()
     {
-        return $this->id;
+        return $this->nomecategoria;
     }
 
     /**
-     * Set the value of [nomecategoria] column.
+     * Set the value of [id] column.
      *
-     * @param  string $v new value
+     * @param  int $v new value
      * @return $this|\Categorias The current object (for fluent API support)
      */
-    public function setNomecategoria($v)
+    public function setId($v)
     {
         if ($v !== null) {
-            $v = (string) $v;
+            $v = (int) $v;
         }
 
-        if ($this->nomecategoria !== $v) {
-            $this->nomecategoria = $v;
-            $this->modifiedColumns[CategoriasTableMap::COL_NOMECATEGORIA] = true;
+        if ($this->id !== $v) {
+            $this->id = $v;
+            $this->modifiedColumns[CategoriasTableMap::COL_ID] = true;
         }
 
         return $this;
-    } // setNomecategoria()
+    } // setId()
 
     /**
      * Set the value of [id_cliente] column.
@@ -400,24 +400,24 @@ abstract class Categorias implements ActiveRecordInterface
     } // setIdCliente()
 
     /**
-     * Set the value of [id] column.
+     * Set the value of [nomecategoria] column.
      *
-     * @param  int $v new value
+     * @param  string $v new value
      * @return $this|\Categorias The current object (for fluent API support)
      */
-    public function setId($v)
+    public function setNomecategoria($v)
     {
         if ($v !== null) {
-            $v = (int) $v;
+            $v = (string) $v;
         }
 
-        if ($this->id !== $v) {
-            $this->id = $v;
-            $this->modifiedColumns[CategoriasTableMap::COL_ID] = true;
+        if ($this->nomecategoria !== $v) {
+            $this->nomecategoria = $v;
+            $this->modifiedColumns[CategoriasTableMap::COL_NOMECATEGORIA] = true;
         }
 
         return $this;
-    } // setId()
+    } // setNomecategoria()
 
     /**
      * Indicates whether the columns in this object are only set to default values.
@@ -455,14 +455,14 @@ abstract class Categorias implements ActiveRecordInterface
     {
         try {
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : CategoriasTableMap::translateFieldName('Nomecategoria', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->nomecategoria = (null !== $col) ? (string) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : CategoriasTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->id = (null !== $col) ? (int) $col : null;
 
             $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : CategoriasTableMap::translateFieldName('IdCliente', TableMap::TYPE_PHPNAME, $indexType)];
             $this->id_cliente = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : CategoriasTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->id = (null !== $col) ? (int) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : CategoriasTableMap::translateFieldName('Nomecategoria', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->nomecategoria = (null !== $col) ? (string) $col : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -713,14 +713,14 @@ abstract class Categorias implements ActiveRecordInterface
 
 
          // check the columns in natural order for more readable SQL queries
-        if ($this->isColumnModified(CategoriasTableMap::COL_NOMECATEGORIA)) {
-            $modifiedColumns[':p' . $index++]  = 'nomecategoria';
+        if ($this->isColumnModified(CategoriasTableMap::COL_ID)) {
+            $modifiedColumns[':p' . $index++]  = 'id';
         }
         if ($this->isColumnModified(CategoriasTableMap::COL_ID_CLIENTE)) {
             $modifiedColumns[':p' . $index++]  = 'id_cliente';
         }
-        if ($this->isColumnModified(CategoriasTableMap::COL_ID)) {
-            $modifiedColumns[':p' . $index++]  = 'id';
+        if ($this->isColumnModified(CategoriasTableMap::COL_NOMECATEGORIA)) {
+            $modifiedColumns[':p' . $index++]  = 'nomecategoria';
         }
 
         $sql = sprintf(
@@ -733,14 +733,14 @@ abstract class Categorias implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-                    case 'nomecategoria':
-                        $stmt->bindValue($identifier, $this->nomecategoria, PDO::PARAM_STR);
+                    case 'id':
+                        $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
                     case 'id_cliente':
                         $stmt->bindValue($identifier, $this->id_cliente, PDO::PARAM_INT);
                         break;
-                    case 'id':
-                        $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
+                    case 'nomecategoria':
+                        $stmt->bindValue($identifier, $this->nomecategoria, PDO::PARAM_STR);
                         break;
                 }
             }
@@ -798,13 +798,13 @@ abstract class Categorias implements ActiveRecordInterface
     {
         switch ($pos) {
             case 0:
-                return $this->getNomecategoria();
+                return $this->getId();
                 break;
             case 1:
                 return $this->getIdCliente();
                 break;
             case 2:
-                return $this->getId();
+                return $this->getNomecategoria();
                 break;
             default:
                 return null;
@@ -836,9 +836,9 @@ abstract class Categorias implements ActiveRecordInterface
         $alreadyDumpedObjects['Categorias'][$this->hashCode()] = true;
         $keys = CategoriasTableMap::getFieldNames($keyType);
         $result = array(
-            $keys[0] => $this->getNomecategoria(),
+            $keys[0] => $this->getId(),
             $keys[1] => $this->getIdCliente(),
-            $keys[2] => $this->getId(),
+            $keys[2] => $this->getNomecategoria(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -911,13 +911,13 @@ abstract class Categorias implements ActiveRecordInterface
     {
         switch ($pos) {
             case 0:
-                $this->setNomecategoria($value);
+                $this->setId($value);
                 break;
             case 1:
                 $this->setIdCliente($value);
                 break;
             case 2:
-                $this->setId($value);
+                $this->setNomecategoria($value);
                 break;
         } // switch()
 
@@ -946,13 +946,13 @@ abstract class Categorias implements ActiveRecordInterface
         $keys = CategoriasTableMap::getFieldNames($keyType);
 
         if (array_key_exists($keys[0], $arr)) {
-            $this->setNomecategoria($arr[$keys[0]]);
+            $this->setId($arr[$keys[0]]);
         }
         if (array_key_exists($keys[1], $arr)) {
             $this->setIdCliente($arr[$keys[1]]);
         }
         if (array_key_exists($keys[2], $arr)) {
-            $this->setId($arr[$keys[2]]);
+            $this->setNomecategoria($arr[$keys[2]]);
         }
     }
 
@@ -995,14 +995,14 @@ abstract class Categorias implements ActiveRecordInterface
     {
         $criteria = new Criteria(CategoriasTableMap::DATABASE_NAME);
 
-        if ($this->isColumnModified(CategoriasTableMap::COL_NOMECATEGORIA)) {
-            $criteria->add(CategoriasTableMap::COL_NOMECATEGORIA, $this->nomecategoria);
+        if ($this->isColumnModified(CategoriasTableMap::COL_ID)) {
+            $criteria->add(CategoriasTableMap::COL_ID, $this->id);
         }
         if ($this->isColumnModified(CategoriasTableMap::COL_ID_CLIENTE)) {
             $criteria->add(CategoriasTableMap::COL_ID_CLIENTE, $this->id_cliente);
         }
-        if ($this->isColumnModified(CategoriasTableMap::COL_ID)) {
-            $criteria->add(CategoriasTableMap::COL_ID, $this->id);
+        if ($this->isColumnModified(CategoriasTableMap::COL_NOMECATEGORIA)) {
+            $criteria->add(CategoriasTableMap::COL_NOMECATEGORIA, $this->nomecategoria);
         }
 
         return $criteria;
@@ -1090,8 +1090,8 @@ abstract class Categorias implements ActiveRecordInterface
      */
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
-        $copyObj->setNomecategoria($this->getNomecategoria());
         $copyObj->setIdCliente($this->getIdCliente());
+        $copyObj->setNomecategoria($this->getNomecategoria());
 
         if ($deepCopy) {
             // important: temporarily setNew(false) because this affects the behavior of
@@ -1454,9 +1454,9 @@ abstract class Categorias implements ActiveRecordInterface
         if (null !== $this->aCliente) {
             $this->aCliente->removeCategorias($this);
         }
-        $this->nomecategoria = null;
-        $this->id_cliente = null;
         $this->id = null;
+        $this->id_cliente = null;
+        $this->nomecategoria = null;
         $this->alreadyInSave = false;
         $this->clearAllReferences();
         $this->resetModified();

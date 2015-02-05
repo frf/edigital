@@ -72,34 +72,9 @@ class DocumentosTableMap extends TableMap
     const NUM_HYDRATE_COLUMNS = 8;
 
     /**
-     * the column name for the nomefisicodocumento field
+     * the column name for the id field
      */
-    const COL_NOMEFISICODOCUMENTO = 'documentos.nomefisicodocumento';
-
-    /**
-     * the column name for the descricao field
-     */
-    const COL_DESCRICAO = 'documentos.descricao';
-
-    /**
-     * the column name for the nomedocumento field
-     */
-    const COL_NOMEDOCUMENTO = 'documentos.nomedocumento';
-
-    /**
-     * the column name for the datainclusao field
-     */
-    const COL_DATAINCLUSAO = 'documentos.datainclusao';
-
-    /**
-     * the column name for the caminhodoc field
-     */
-    const COL_CAMINHODOC = 'documentos.caminhodoc';
-
-    /**
-     * the column name for the idcliente field
-     */
-    const COL_IDCLIENTE = 'documentos.idcliente';
+    const COL_ID = 'documentos.id';
 
     /**
      * the column name for the idcategoria field
@@ -107,9 +82,34 @@ class DocumentosTableMap extends TableMap
     const COL_IDCATEGORIA = 'documentos.idcategoria';
 
     /**
-     * the column name for the id field
+     * the column name for the idcliente field
      */
-    const COL_ID = 'documentos.id';
+    const COL_IDCLIENTE = 'documentos.idcliente';
+
+    /**
+     * the column name for the caminhodoc field
+     */
+    const COL_CAMINHODOC = 'documentos.caminhodoc';
+
+    /**
+     * the column name for the datainclusao field
+     */
+    const COL_DATAINCLUSAO = 'documentos.datainclusao';
+
+    /**
+     * the column name for the nomedocumento field
+     */
+    const COL_NOMEDOCUMENTO = 'documentos.nomedocumento';
+
+    /**
+     * the column name for the descricao field
+     */
+    const COL_DESCRICAO = 'documentos.descricao';
+
+    /**
+     * the column name for the nomefisicodocumento field
+     */
+    const COL_NOMEFISICODOCUMENTO = 'documentos.nomefisicodocumento';
 
     /**
      * The default string format for model objects of the related table
@@ -123,10 +123,10 @@ class DocumentosTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Nomefisicodocumento', 'Descricao', 'Nomedocumento', 'Datainclusao', 'Caminhodoc', 'Idcliente', 'Idcategoria', 'Id', ),
-        self::TYPE_CAMELNAME     => array('nomefisicodocumento', 'descricao', 'nomedocumento', 'datainclusao', 'caminhodoc', 'idcliente', 'idcategoria', 'id', ),
-        self::TYPE_COLNAME       => array(DocumentosTableMap::COL_NOMEFISICODOCUMENTO, DocumentosTableMap::COL_DESCRICAO, DocumentosTableMap::COL_NOMEDOCUMENTO, DocumentosTableMap::COL_DATAINCLUSAO, DocumentosTableMap::COL_CAMINHODOC, DocumentosTableMap::COL_IDCLIENTE, DocumentosTableMap::COL_IDCATEGORIA, DocumentosTableMap::COL_ID, ),
-        self::TYPE_FIELDNAME     => array('nomefisicodocumento', 'descricao', 'nomedocumento', 'datainclusao', 'caminhodoc', 'idcliente', 'idcategoria', 'id', ),
+        self::TYPE_PHPNAME       => array('Id', 'Idcategoria', 'Idcliente', 'Caminhodoc', 'Datainclusao', 'Nomedocumento', 'Descricao', 'Nomefisicodocumento', ),
+        self::TYPE_CAMELNAME     => array('id', 'idcategoria', 'idcliente', 'caminhodoc', 'datainclusao', 'nomedocumento', 'descricao', 'nomefisicodocumento', ),
+        self::TYPE_COLNAME       => array(DocumentosTableMap::COL_ID, DocumentosTableMap::COL_IDCATEGORIA, DocumentosTableMap::COL_IDCLIENTE, DocumentosTableMap::COL_CAMINHODOC, DocumentosTableMap::COL_DATAINCLUSAO, DocumentosTableMap::COL_NOMEDOCUMENTO, DocumentosTableMap::COL_DESCRICAO, DocumentosTableMap::COL_NOMEFISICODOCUMENTO, ),
+        self::TYPE_FIELDNAME     => array('id', 'idcategoria', 'idcliente', 'caminhodoc', 'datainclusao', 'nomedocumento', 'descricao', 'nomefisicodocumento', ),
         self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, )
     );
 
@@ -137,10 +137,10 @@ class DocumentosTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Nomefisicodocumento' => 0, 'Descricao' => 1, 'Nomedocumento' => 2, 'Datainclusao' => 3, 'Caminhodoc' => 4, 'Idcliente' => 5, 'Idcategoria' => 6, 'Id' => 7, ),
-        self::TYPE_CAMELNAME     => array('nomefisicodocumento' => 0, 'descricao' => 1, 'nomedocumento' => 2, 'datainclusao' => 3, 'caminhodoc' => 4, 'idcliente' => 5, 'idcategoria' => 6, 'id' => 7, ),
-        self::TYPE_COLNAME       => array(DocumentosTableMap::COL_NOMEFISICODOCUMENTO => 0, DocumentosTableMap::COL_DESCRICAO => 1, DocumentosTableMap::COL_NOMEDOCUMENTO => 2, DocumentosTableMap::COL_DATAINCLUSAO => 3, DocumentosTableMap::COL_CAMINHODOC => 4, DocumentosTableMap::COL_IDCLIENTE => 5, DocumentosTableMap::COL_IDCATEGORIA => 6, DocumentosTableMap::COL_ID => 7, ),
-        self::TYPE_FIELDNAME     => array('nomefisicodocumento' => 0, 'descricao' => 1, 'nomedocumento' => 2, 'datainclusao' => 3, 'caminhodoc' => 4, 'idcliente' => 5, 'idcategoria' => 6, 'id' => 7, ),
+        self::TYPE_PHPNAME       => array('Id' => 0, 'Idcategoria' => 1, 'Idcliente' => 2, 'Caminhodoc' => 3, 'Datainclusao' => 4, 'Nomedocumento' => 5, 'Descricao' => 6, 'Nomefisicodocumento' => 7, ),
+        self::TYPE_CAMELNAME     => array('id' => 0, 'idcategoria' => 1, 'idcliente' => 2, 'caminhodoc' => 3, 'datainclusao' => 4, 'nomedocumento' => 5, 'descricao' => 6, 'nomefisicodocumento' => 7, ),
+        self::TYPE_COLNAME       => array(DocumentosTableMap::COL_ID => 0, DocumentosTableMap::COL_IDCATEGORIA => 1, DocumentosTableMap::COL_IDCLIENTE => 2, DocumentosTableMap::COL_CAMINHODOC => 3, DocumentosTableMap::COL_DATAINCLUSAO => 4, DocumentosTableMap::COL_NOMEDOCUMENTO => 5, DocumentosTableMap::COL_DESCRICAO => 6, DocumentosTableMap::COL_NOMEFISICODOCUMENTO => 7, ),
+        self::TYPE_FIELDNAME     => array('id' => 0, 'idcategoria' => 1, 'idcliente' => 2, 'caminhodoc' => 3, 'datainclusao' => 4, 'nomedocumento' => 5, 'descricao' => 6, 'nomefisicodocumento' => 7, ),
         self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, )
     );
 
@@ -162,14 +162,14 @@ class DocumentosTableMap extends TableMap
         $this->setUseIdGenerator(true);
         $this->setPrimaryKeyMethodInfo('documentos_id_seq');
         // columns
-        $this->addColumn('nomefisicodocumento', 'Nomefisicodocumento', 'VARCHAR', false, 255, null);
-        $this->addColumn('descricao', 'Descricao', 'VARCHAR', false, 200, null);
-        $this->addColumn('nomedocumento', 'Nomedocumento', 'VARCHAR', false, 200, null);
-        $this->addColumn('datainclusao', 'Datainclusao', 'TIMESTAMP', false, null, null);
-        $this->addColumn('caminhodoc', 'Caminhodoc', 'VARCHAR', false, 200, null);
-        $this->addForeignKey('idcliente', 'Idcliente', 'INTEGER', 'cliente', 'id', false, null, null);
-        $this->addForeignKey('idcategoria', 'Idcategoria', 'INTEGER', 'categorias', 'id', false, null, null);
         $this->addPrimaryKey('id', 'Id', 'INTEGER', true, null, null);
+        $this->addForeignKey('idcategoria', 'Idcategoria', 'INTEGER', 'categorias', 'id', false, null, null);
+        $this->addForeignKey('idcliente', 'Idcliente', 'INTEGER', 'cliente', 'id', false, null, null);
+        $this->addColumn('caminhodoc', 'Caminhodoc', 'VARCHAR', false, 200, null);
+        $this->addColumn('datainclusao', 'Datainclusao', 'TIMESTAMP', false, null, null);
+        $this->addColumn('nomedocumento', 'Nomedocumento', 'VARCHAR', false, 200, null);
+        $this->addColumn('descricao', 'Descricao', 'VARCHAR', false, 200, null);
+        $this->addColumn('nomefisicodocumento', 'Nomefisicodocumento', 'VARCHAR', false, 255, null);
     } // initialize()
 
     /**
@@ -198,11 +198,11 @@ class DocumentosTableMap extends TableMap
     public static function getPrimaryKeyHashFromRow($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
     {
         // If the PK cannot be derived from the row, return NULL.
-        if ($row[TableMap::TYPE_NUM == $indexType ? 7 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)] === null) {
+        if ($row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)] === null) {
             return null;
         }
 
-        return (string) $row[TableMap::TYPE_NUM == $indexType ? 7 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
+        return (string) $row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
     }
 
     /**
@@ -221,7 +221,7 @@ class DocumentosTableMap extends TableMap
     {
         return (int) $row[
             $indexType == TableMap::TYPE_NUM
-                ? 7 + $offset
+                ? 0 + $offset
                 : self::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)
         ];
     }
@@ -323,23 +323,23 @@ class DocumentosTableMap extends TableMap
     public static function addSelectColumns(Criteria $criteria, $alias = null)
     {
         if (null === $alias) {
-            $criteria->addSelectColumn(DocumentosTableMap::COL_NOMEFISICODOCUMENTO);
-            $criteria->addSelectColumn(DocumentosTableMap::COL_DESCRICAO);
-            $criteria->addSelectColumn(DocumentosTableMap::COL_NOMEDOCUMENTO);
-            $criteria->addSelectColumn(DocumentosTableMap::COL_DATAINCLUSAO);
-            $criteria->addSelectColumn(DocumentosTableMap::COL_CAMINHODOC);
-            $criteria->addSelectColumn(DocumentosTableMap::COL_IDCLIENTE);
-            $criteria->addSelectColumn(DocumentosTableMap::COL_IDCATEGORIA);
             $criteria->addSelectColumn(DocumentosTableMap::COL_ID);
+            $criteria->addSelectColumn(DocumentosTableMap::COL_IDCATEGORIA);
+            $criteria->addSelectColumn(DocumentosTableMap::COL_IDCLIENTE);
+            $criteria->addSelectColumn(DocumentosTableMap::COL_CAMINHODOC);
+            $criteria->addSelectColumn(DocumentosTableMap::COL_DATAINCLUSAO);
+            $criteria->addSelectColumn(DocumentosTableMap::COL_NOMEDOCUMENTO);
+            $criteria->addSelectColumn(DocumentosTableMap::COL_DESCRICAO);
+            $criteria->addSelectColumn(DocumentosTableMap::COL_NOMEFISICODOCUMENTO);
         } else {
-            $criteria->addSelectColumn($alias . '.nomefisicodocumento');
-            $criteria->addSelectColumn($alias . '.descricao');
-            $criteria->addSelectColumn($alias . '.nomedocumento');
-            $criteria->addSelectColumn($alias . '.datainclusao');
-            $criteria->addSelectColumn($alias . '.caminhodoc');
-            $criteria->addSelectColumn($alias . '.idcliente');
-            $criteria->addSelectColumn($alias . '.idcategoria');
             $criteria->addSelectColumn($alias . '.id');
+            $criteria->addSelectColumn($alias . '.idcategoria');
+            $criteria->addSelectColumn($alias . '.idcliente');
+            $criteria->addSelectColumn($alias . '.caminhodoc');
+            $criteria->addSelectColumn($alias . '.datainclusao');
+            $criteria->addSelectColumn($alias . '.nomedocumento');
+            $criteria->addSelectColumn($alias . '.descricao');
+            $criteria->addSelectColumn($alias . '.nomefisicodocumento');
         }
     }
 

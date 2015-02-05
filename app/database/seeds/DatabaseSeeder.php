@@ -24,6 +24,9 @@ class DatabaseSeeder extends Seeder {
         DB::statement("ALTER SEQUENCE cliente_id_seq MINVALUE 0;");
         DB::statement("select setval('public.cliente_id_seq', 0, true);");
         
+        DB::statement("ALTER SEQUENCE categorias_id_seq MINVALUE 0;");
+        DB::statement("select setval('public.categorias_id_seq', 0, true);");
+        
         DB::statement("ALTER SEQUENCE moeda_id_seq MINVALUE 0;");
         DB::statement("select setval('public.moeda_id_seq', 0, true);");
         
@@ -34,6 +37,7 @@ class DatabaseSeeder extends Seeder {
         DB::statement("select setval('public.usuarios_id_seq', 0, true);");
         
         $this->call('TabelaClienteSeeder');
+        $this->call('TabelaCategoriaSeeder');
         $this->call('TabelaUsuarioClienteSeeder');
         $this->call('TabelaUsuarioSeeder');
         $this->call('TabelaMoedaSeeder');
@@ -114,6 +118,37 @@ class TabelaCatChamadoSeeder extends Seeder {
                         'id' => 3,
                         'cat_chamado' => 'Solicitação',
             ));        
+        }
+    }
+ 
+}
+class TabelaCategoriaSeeder extends Seeder {
+ 
+    public function run()
+    {
+         $categoria = CategoriasQuery::create()->find();
+ 
+        if($categoria->count() == 0) {
+            $oCat =  new Categorias();
+            $oCat->setIdCliente(1);
+            $oCat->setNomecategoria("Suporte");
+            $oCat->save();
+            $oCat =  new Categorias();
+            $oCat->setIdCliente(1);
+            $oCat->setNomecategoria("Boleto");
+            $oCat->save();
+            $oCat =  new Categorias();
+            $oCat->setIdCliente(1);
+            $oCat->setNomecategoria("INSS");
+            $oCat->save();
+            $oCat =  new Categorias();
+            $oCat->setIdCliente(1);
+            $oCat->setNomecategoria("IRPF");
+            $oCat->save();
+            $oCat =  new Categorias();
+            $oCat->setIdCliente(1);
+            $oCat->setNomecategoria("Tabelas");
+            $oCat->save();
         }
     }
  

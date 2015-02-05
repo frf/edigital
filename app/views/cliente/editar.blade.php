@@ -11,10 +11,10 @@
   <table class="table">
       
     <tr>
-      <th>Nome</th><td scope="row">{{ Form::text('nome',$cliente->getNome(),array('class' => 'form-control')) }}</td>             
+      <th>Nome</th><td scope="row">{{ Form::text('nome',$oCliente->getNome(),array('class' => 'form-control')) }}</td>             
     </tr>
     <tr>
-      <th>Email</th><td scope="row">{{ Form::text('email',$cliente->getEmail(),array('class' => 'form-control')) }}</td>             
+      <th>Email</th><td scope="row">{{ Form::text('email',$oCliente->getEmail(),array('class' => 'form-control')) }}</td>             
     </tr>
  
     

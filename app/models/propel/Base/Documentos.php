@@ -70,40 +70,10 @@ abstract class Documentos implements ActiveRecordInterface
     protected $virtualColumns = array();
 
     /**
-     * The value for the nomefisicodocumento field.
-     * @var        string
-     */
-    protected $nomefisicodocumento;
-
-    /**
-     * The value for the descricao field.
-     * @var        string
-     */
-    protected $descricao;
-
-    /**
-     * The value for the nomedocumento field.
-     * @var        string
-     */
-    protected $nomedocumento;
-
-    /**
-     * The value for the datainclusao field.
-     * @var        \DateTime
-     */
-    protected $datainclusao;
-
-    /**
-     * The value for the caminhodoc field.
-     * @var        string
-     */
-    protected $caminhodoc;
-
-    /**
-     * The value for the idcliente field.
+     * The value for the id field.
      * @var        int
      */
-    protected $idcliente;
+    protected $id;
 
     /**
      * The value for the idcategoria field.
@@ -112,10 +82,40 @@ abstract class Documentos implements ActiveRecordInterface
     protected $idcategoria;
 
     /**
-     * The value for the id field.
+     * The value for the idcliente field.
      * @var        int
      */
-    protected $id;
+    protected $idcliente;
+
+    /**
+     * The value for the caminhodoc field.
+     * @var        string
+     */
+    protected $caminhodoc;
+
+    /**
+     * The value for the datainclusao field.
+     * @var        \DateTime
+     */
+    protected $datainclusao;
+
+    /**
+     * The value for the nomedocumento field.
+     * @var        string
+     */
+    protected $nomedocumento;
+
+    /**
+     * The value for the descricao field.
+     * @var        string
+     */
+    protected $descricao;
+
+    /**
+     * The value for the nomefisicodocumento field.
+     * @var        string
+     */
+    protected $nomefisicodocumento;
 
     /**
      * @var        ChildCategorias
@@ -365,33 +365,43 @@ abstract class Documentos implements ActiveRecordInterface
     }
 
     /**
-     * Get the [nomefisicodocumento] column value.
+     * Get the [id] column value.
      *
-     * @return string
+     * @return int
      */
-    public function getNomefisicodocumento()
+    public function getId()
     {
-        return $this->nomefisicodocumento;
+        return $this->id;
     }
 
     /**
-     * Get the [descricao] column value.
+     * Get the [idcategoria] column value.
      *
-     * @return string
+     * @return int
      */
-    public function getDescricao()
+    public function getIdcategoria()
     {
-        return $this->descricao;
+        return $this->idcategoria;
     }
 
     /**
-     * Get the [nomedocumento] column value.
+     * Get the [idcliente] column value.
+     *
+     * @return int
+     */
+    public function getIdcliente()
+    {
+        return $this->idcliente;
+    }
+
+    /**
+     * Get the [caminhodoc] column value.
      *
      * @return string
      */
-    public function getNomedocumento()
+    public function getCaminhodoc()
     {
-        return $this->nomedocumento;
+        return $this->caminhodoc;
     }
 
     /**
@@ -415,168 +425,54 @@ abstract class Documentos implements ActiveRecordInterface
     }
 
     /**
-     * Get the [caminhodoc] column value.
+     * Get the [nomedocumento] column value.
      *
      * @return string
      */
-    public function getCaminhodoc()
+    public function getNomedocumento()
     {
-        return $this->caminhodoc;
+        return $this->nomedocumento;
     }
 
     /**
-     * Get the [idcliente] column value.
+     * Get the [descricao] column value.
      *
-     * @return int
+     * @return string
      */
-    public function getIdcliente()
+    public function getDescricao()
     {
-        return $this->idcliente;
+        return $this->descricao;
     }
 
     /**
-     * Get the [idcategoria] column value.
+     * Get the [nomefisicodocumento] column value.
      *
-     * @return int
+     * @return string
      */
-    public function getIdcategoria()
+    public function getNomefisicodocumento()
     {
-        return $this->idcategoria;
+        return $this->nomefisicodocumento;
     }
 
     /**
-     * Get the [id] column value.
-     *
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Set the value of [nomefisicodocumento] column.
-     *
-     * @param  string $v new value
-     * @return $this|\Documentos The current object (for fluent API support)
-     */
-    public function setNomefisicodocumento($v)
-    {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->nomefisicodocumento !== $v) {
-            $this->nomefisicodocumento = $v;
-            $this->modifiedColumns[DocumentosTableMap::COL_NOMEFISICODOCUMENTO] = true;
-        }
-
-        return $this;
-    } // setNomefisicodocumento()
-
-    /**
-     * Set the value of [descricao] column.
-     *
-     * @param  string $v new value
-     * @return $this|\Documentos The current object (for fluent API support)
-     */
-    public function setDescricao($v)
-    {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->descricao !== $v) {
-            $this->descricao = $v;
-            $this->modifiedColumns[DocumentosTableMap::COL_DESCRICAO] = true;
-        }
-
-        return $this;
-    } // setDescricao()
-
-    /**
-     * Set the value of [nomedocumento] column.
-     *
-     * @param  string $v new value
-     * @return $this|\Documentos The current object (for fluent API support)
-     */
-    public function setNomedocumento($v)
-    {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->nomedocumento !== $v) {
-            $this->nomedocumento = $v;
-            $this->modifiedColumns[DocumentosTableMap::COL_NOMEDOCUMENTO] = true;
-        }
-
-        return $this;
-    } // setNomedocumento()
-
-    /**
-     * Sets the value of [datainclusao] column to a normalized version of the date/time value specified.
-     *
-     * @param  mixed $v string, integer (timestamp), or \DateTime value.
-     *               Empty strings are treated as NULL.
-     * @return $this|\Documentos The current object (for fluent API support)
-     */
-    public function setDatainclusao($v)
-    {
-        $dt = PropelDateTime::newInstance($v, null, 'DateTime');
-        if ($this->datainclusao !== null || $dt !== null) {
-            if ($dt !== $this->datainclusao) {
-                $this->datainclusao = $dt;
-                $this->modifiedColumns[DocumentosTableMap::COL_DATAINCLUSAO] = true;
-            }
-        } // if either are not null
-
-        return $this;
-    } // setDatainclusao()
-
-    /**
-     * Set the value of [caminhodoc] column.
-     *
-     * @param  string $v new value
-     * @return $this|\Documentos The current object (for fluent API support)
-     */
-    public function setCaminhodoc($v)
-    {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->caminhodoc !== $v) {
-            $this->caminhodoc = $v;
-            $this->modifiedColumns[DocumentosTableMap::COL_CAMINHODOC] = true;
-        }
-
-        return $this;
-    } // setCaminhodoc()
-
-    /**
-     * Set the value of [idcliente] column.
+     * Set the value of [id] column.
      *
      * @param  int $v new value
      * @return $this|\Documentos The current object (for fluent API support)
      */
-    public function setIdcliente($v)
+    public function setId($v)
     {
         if ($v !== null) {
             $v = (int) $v;
         }
 
-        if ($this->idcliente !== $v) {
-            $this->idcliente = $v;
-            $this->modifiedColumns[DocumentosTableMap::COL_IDCLIENTE] = true;
-        }
-
-        if ($this->aCliente !== null && $this->aCliente->getId() !== $v) {
-            $this->aCliente = null;
+        if ($this->id !== $v) {
+            $this->id = $v;
+            $this->modifiedColumns[DocumentosTableMap::COL_ID] = true;
         }
 
         return $this;
-    } // setIdcliente()
+    } // setId()
 
     /**
      * Set the value of [idcategoria] column.
@@ -603,24 +499,128 @@ abstract class Documentos implements ActiveRecordInterface
     } // setIdcategoria()
 
     /**
-     * Set the value of [id] column.
+     * Set the value of [idcliente] column.
      *
      * @param  int $v new value
      * @return $this|\Documentos The current object (for fluent API support)
      */
-    public function setId($v)
+    public function setIdcliente($v)
     {
         if ($v !== null) {
             $v = (int) $v;
         }
 
-        if ($this->id !== $v) {
-            $this->id = $v;
-            $this->modifiedColumns[DocumentosTableMap::COL_ID] = true;
+        if ($this->idcliente !== $v) {
+            $this->idcliente = $v;
+            $this->modifiedColumns[DocumentosTableMap::COL_IDCLIENTE] = true;
+        }
+
+        if ($this->aCliente !== null && $this->aCliente->getId() !== $v) {
+            $this->aCliente = null;
         }
 
         return $this;
-    } // setId()
+    } // setIdcliente()
+
+    /**
+     * Set the value of [caminhodoc] column.
+     *
+     * @param  string $v new value
+     * @return $this|\Documentos The current object (for fluent API support)
+     */
+    public function setCaminhodoc($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->caminhodoc !== $v) {
+            $this->caminhodoc = $v;
+            $this->modifiedColumns[DocumentosTableMap::COL_CAMINHODOC] = true;
+        }
+
+        return $this;
+    } // setCaminhodoc()
+
+    /**
+     * Sets the value of [datainclusao] column to a normalized version of the date/time value specified.
+     *
+     * @param  mixed $v string, integer (timestamp), or \DateTime value.
+     *               Empty strings are treated as NULL.
+     * @return $this|\Documentos The current object (for fluent API support)
+     */
+    public function setDatainclusao($v)
+    {
+        $dt = PropelDateTime::newInstance($v, null, 'DateTime');
+        if ($this->datainclusao !== null || $dt !== null) {
+            if ($dt !== $this->datainclusao) {
+                $this->datainclusao = $dt;
+                $this->modifiedColumns[DocumentosTableMap::COL_DATAINCLUSAO] = true;
+            }
+        } // if either are not null
+
+        return $this;
+    } // setDatainclusao()
+
+    /**
+     * Set the value of [nomedocumento] column.
+     *
+     * @param  string $v new value
+     * @return $this|\Documentos The current object (for fluent API support)
+     */
+    public function setNomedocumento($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->nomedocumento !== $v) {
+            $this->nomedocumento = $v;
+            $this->modifiedColumns[DocumentosTableMap::COL_NOMEDOCUMENTO] = true;
+        }
+
+        return $this;
+    } // setNomedocumento()
+
+    /**
+     * Set the value of [descricao] column.
+     *
+     * @param  string $v new value
+     * @return $this|\Documentos The current object (for fluent API support)
+     */
+    public function setDescricao($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->descricao !== $v) {
+            $this->descricao = $v;
+            $this->modifiedColumns[DocumentosTableMap::COL_DESCRICAO] = true;
+        }
+
+        return $this;
+    } // setDescricao()
+
+    /**
+     * Set the value of [nomefisicodocumento] column.
+     *
+     * @param  string $v new value
+     * @return $this|\Documentos The current object (for fluent API support)
+     */
+    public function setNomefisicodocumento($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->nomefisicodocumento !== $v) {
+            $this->nomefisicodocumento = $v;
+            $this->modifiedColumns[DocumentosTableMap::COL_NOMEFISICODOCUMENTO] = true;
+        }
+
+        return $this;
+    } // setNomefisicodocumento()
 
     /**
      * Indicates whether the columns in this object are only set to default values.
@@ -658,29 +658,29 @@ abstract class Documentos implements ActiveRecordInterface
     {
         try {
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : DocumentosTableMap::translateFieldName('Nomefisicodocumento', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->nomefisicodocumento = (null !== $col) ? (string) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : DocumentosTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : DocumentosTableMap::translateFieldName('Descricao', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->descricao = (null !== $col) ? (string) $col : null;
-
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : DocumentosTableMap::translateFieldName('Nomedocumento', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->nomedocumento = (null !== $col) ? (string) $col : null;
-
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : DocumentosTableMap::translateFieldName('Datainclusao', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->datainclusao = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
-
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : DocumentosTableMap::translateFieldName('Caminhodoc', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->caminhodoc = (null !== $col) ? (string) $col : null;
-
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : DocumentosTableMap::translateFieldName('Idcliente', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->idcliente = (null !== $col) ? (int) $col : null;
-
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 6 + $startcol : DocumentosTableMap::translateFieldName('Idcategoria', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : DocumentosTableMap::translateFieldName('Idcategoria', TableMap::TYPE_PHPNAME, $indexType)];
             $this->idcategoria = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 7 + $startcol : DocumentosTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->id = (null !== $col) ? (int) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : DocumentosTableMap::translateFieldName('Idcliente', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->idcliente = (null !== $col) ? (int) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : DocumentosTableMap::translateFieldName('Caminhodoc', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->caminhodoc = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : DocumentosTableMap::translateFieldName('Datainclusao', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->datainclusao = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : DocumentosTableMap::translateFieldName('Nomedocumento', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->nomedocumento = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 6 + $startcol : DocumentosTableMap::translateFieldName('Descricao', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->descricao = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 7 + $startcol : DocumentosTableMap::translateFieldName('Nomefisicodocumento', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->nomefisicodocumento = (null !== $col) ? (string) $col : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -711,11 +711,11 @@ abstract class Documentos implements ActiveRecordInterface
      */
     public function ensureConsistency()
     {
-        if ($this->aCliente !== null && $this->idcliente !== $this->aCliente->getId()) {
-            $this->aCliente = null;
-        }
         if ($this->aCategorias !== null && $this->idcategoria !== $this->aCategorias->getId()) {
             $this->aCategorias = null;
+        }
+        if ($this->aCliente !== null && $this->idcliente !== $this->aCliente->getId()) {
+            $this->aCliente = null;
         }
     } // ensureConsistency
 
@@ -941,29 +941,29 @@ abstract class Documentos implements ActiveRecordInterface
 
 
          // check the columns in natural order for more readable SQL queries
-        if ($this->isColumnModified(DocumentosTableMap::COL_NOMEFISICODOCUMENTO)) {
-            $modifiedColumns[':p' . $index++]  = 'nomefisicodocumento';
-        }
-        if ($this->isColumnModified(DocumentosTableMap::COL_DESCRICAO)) {
-            $modifiedColumns[':p' . $index++]  = 'descricao';
-        }
-        if ($this->isColumnModified(DocumentosTableMap::COL_NOMEDOCUMENTO)) {
-            $modifiedColumns[':p' . $index++]  = 'nomedocumento';
-        }
-        if ($this->isColumnModified(DocumentosTableMap::COL_DATAINCLUSAO)) {
-            $modifiedColumns[':p' . $index++]  = 'datainclusao';
-        }
-        if ($this->isColumnModified(DocumentosTableMap::COL_CAMINHODOC)) {
-            $modifiedColumns[':p' . $index++]  = 'caminhodoc';
-        }
-        if ($this->isColumnModified(DocumentosTableMap::COL_IDCLIENTE)) {
-            $modifiedColumns[':p' . $index++]  = 'idcliente';
+        if ($this->isColumnModified(DocumentosTableMap::COL_ID)) {
+            $modifiedColumns[':p' . $index++]  = 'id';
         }
         if ($this->isColumnModified(DocumentosTableMap::COL_IDCATEGORIA)) {
             $modifiedColumns[':p' . $index++]  = 'idcategoria';
         }
-        if ($this->isColumnModified(DocumentosTableMap::COL_ID)) {
-            $modifiedColumns[':p' . $index++]  = 'id';
+        if ($this->isColumnModified(DocumentosTableMap::COL_IDCLIENTE)) {
+            $modifiedColumns[':p' . $index++]  = 'idcliente';
+        }
+        if ($this->isColumnModified(DocumentosTableMap::COL_CAMINHODOC)) {
+            $modifiedColumns[':p' . $index++]  = 'caminhodoc';
+        }
+        if ($this->isColumnModified(DocumentosTableMap::COL_DATAINCLUSAO)) {
+            $modifiedColumns[':p' . $index++]  = 'datainclusao';
+        }
+        if ($this->isColumnModified(DocumentosTableMap::COL_NOMEDOCUMENTO)) {
+            $modifiedColumns[':p' . $index++]  = 'nomedocumento';
+        }
+        if ($this->isColumnModified(DocumentosTableMap::COL_DESCRICAO)) {
+            $modifiedColumns[':p' . $index++]  = 'descricao';
+        }
+        if ($this->isColumnModified(DocumentosTableMap::COL_NOMEFISICODOCUMENTO)) {
+            $modifiedColumns[':p' . $index++]  = 'nomefisicodocumento';
         }
 
         $sql = sprintf(
@@ -976,29 +976,29 @@ abstract class Documentos implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-                    case 'nomefisicodocumento':
-                        $stmt->bindValue($identifier, $this->nomefisicodocumento, PDO::PARAM_STR);
-                        break;
-                    case 'descricao':
-                        $stmt->bindValue($identifier, $this->descricao, PDO::PARAM_STR);
-                        break;
-                    case 'nomedocumento':
-                        $stmt->bindValue($identifier, $this->nomedocumento, PDO::PARAM_STR);
-                        break;
-                    case 'datainclusao':
-                        $stmt->bindValue($identifier, $this->datainclusao ? $this->datainclusao->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
-                        break;
-                    case 'caminhodoc':
-                        $stmt->bindValue($identifier, $this->caminhodoc, PDO::PARAM_STR);
-                        break;
-                    case 'idcliente':
-                        $stmt->bindValue($identifier, $this->idcliente, PDO::PARAM_INT);
+                    case 'id':
+                        $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
                     case 'idcategoria':
                         $stmt->bindValue($identifier, $this->idcategoria, PDO::PARAM_INT);
                         break;
-                    case 'id':
-                        $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
+                    case 'idcliente':
+                        $stmt->bindValue($identifier, $this->idcliente, PDO::PARAM_INT);
+                        break;
+                    case 'caminhodoc':
+                        $stmt->bindValue($identifier, $this->caminhodoc, PDO::PARAM_STR);
+                        break;
+                    case 'datainclusao':
+                        $stmt->bindValue($identifier, $this->datainclusao ? $this->datainclusao->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
+                        break;
+                    case 'nomedocumento':
+                        $stmt->bindValue($identifier, $this->nomedocumento, PDO::PARAM_STR);
+                        break;
+                    case 'descricao':
+                        $stmt->bindValue($identifier, $this->descricao, PDO::PARAM_STR);
+                        break;
+                    case 'nomefisicodocumento':
+                        $stmt->bindValue($identifier, $this->nomefisicodocumento, PDO::PARAM_STR);
                         break;
                 }
             }
@@ -1056,28 +1056,28 @@ abstract class Documentos implements ActiveRecordInterface
     {
         switch ($pos) {
             case 0:
-                return $this->getNomefisicodocumento();
+                return $this->getId();
                 break;
             case 1:
-                return $this->getDescricao();
-                break;
-            case 2:
-                return $this->getNomedocumento();
-                break;
-            case 3:
-                return $this->getDatainclusao();
-                break;
-            case 4:
-                return $this->getCaminhodoc();
-                break;
-            case 5:
-                return $this->getIdcliente();
-                break;
-            case 6:
                 return $this->getIdcategoria();
                 break;
+            case 2:
+                return $this->getIdcliente();
+                break;
+            case 3:
+                return $this->getCaminhodoc();
+                break;
+            case 4:
+                return $this->getDatainclusao();
+                break;
+            case 5:
+                return $this->getNomedocumento();
+                break;
+            case 6:
+                return $this->getDescricao();
+                break;
             case 7:
-                return $this->getId();
+                return $this->getNomefisicodocumento();
                 break;
             default:
                 return null;
@@ -1109,15 +1109,23 @@ abstract class Documentos implements ActiveRecordInterface
         $alreadyDumpedObjects['Documentos'][$this->hashCode()] = true;
         $keys = DocumentosTableMap::getFieldNames($keyType);
         $result = array(
-            $keys[0] => $this->getNomefisicodocumento(),
-            $keys[1] => $this->getDescricao(),
-            $keys[2] => $this->getNomedocumento(),
-            $keys[3] => $this->getDatainclusao(),
-            $keys[4] => $this->getCaminhodoc(),
-            $keys[5] => $this->getIdcliente(),
-            $keys[6] => $this->getIdcategoria(),
-            $keys[7] => $this->getId(),
+            $keys[0] => $this->getId(),
+            $keys[1] => $this->getIdcategoria(),
+            $keys[2] => $this->getIdcliente(),
+            $keys[3] => $this->getCaminhodoc(),
+            $keys[4] => $this->getDatainclusao(),
+            $keys[5] => $this->getNomedocumento(),
+            $keys[6] => $this->getDescricao(),
+            $keys[7] => $this->getNomefisicodocumento(),
         );
+
+        $utc = new \DateTimeZone('utc');
+        if ($result[$keys[4]] instanceof \DateTime) {
+            // When changing timezone we don't want to change existing instances
+            $dateTime = clone $result[$keys[4]];
+            $result[$keys[4]] = $dateTime->setTimezone($utc)->format('Y-m-d\TH:i:s\Z');
+        }
+
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
             $result[$key] = $virtualColumn;
@@ -1204,28 +1212,28 @@ abstract class Documentos implements ActiveRecordInterface
     {
         switch ($pos) {
             case 0:
-                $this->setNomefisicodocumento($value);
+                $this->setId($value);
                 break;
             case 1:
-                $this->setDescricao($value);
-                break;
-            case 2:
-                $this->setNomedocumento($value);
-                break;
-            case 3:
-                $this->setDatainclusao($value);
-                break;
-            case 4:
-                $this->setCaminhodoc($value);
-                break;
-            case 5:
-                $this->setIdcliente($value);
-                break;
-            case 6:
                 $this->setIdcategoria($value);
                 break;
+            case 2:
+                $this->setIdcliente($value);
+                break;
+            case 3:
+                $this->setCaminhodoc($value);
+                break;
+            case 4:
+                $this->setDatainclusao($value);
+                break;
+            case 5:
+                $this->setNomedocumento($value);
+                break;
+            case 6:
+                $this->setDescricao($value);
+                break;
             case 7:
-                $this->setId($value);
+                $this->setNomefisicodocumento($value);
                 break;
         } // switch()
 
@@ -1254,28 +1262,28 @@ abstract class Documentos implements ActiveRecordInterface
         $keys = DocumentosTableMap::getFieldNames($keyType);
 
         if (array_key_exists($keys[0], $arr)) {
-            $this->setNomefisicodocumento($arr[$keys[0]]);
+            $this->setId($arr[$keys[0]]);
         }
         if (array_key_exists($keys[1], $arr)) {
-            $this->setDescricao($arr[$keys[1]]);
+            $this->setIdcategoria($arr[$keys[1]]);
         }
         if (array_key_exists($keys[2], $arr)) {
-            $this->setNomedocumento($arr[$keys[2]]);
+            $this->setIdcliente($arr[$keys[2]]);
         }
         if (array_key_exists($keys[3], $arr)) {
-            $this->setDatainclusao($arr[$keys[3]]);
+            $this->setCaminhodoc($arr[$keys[3]]);
         }
         if (array_key_exists($keys[4], $arr)) {
-            $this->setCaminhodoc($arr[$keys[4]]);
+            $this->setDatainclusao($arr[$keys[4]]);
         }
         if (array_key_exists($keys[5], $arr)) {
-            $this->setIdcliente($arr[$keys[5]]);
+            $this->setNomedocumento($arr[$keys[5]]);
         }
         if (array_key_exists($keys[6], $arr)) {
-            $this->setIdcategoria($arr[$keys[6]]);
+            $this->setDescricao($arr[$keys[6]]);
         }
         if (array_key_exists($keys[7], $arr)) {
-            $this->setId($arr[$keys[7]]);
+            $this->setNomefisicodocumento($arr[$keys[7]]);
         }
     }
 
@@ -1318,29 +1326,29 @@ abstract class Documentos implements ActiveRecordInterface
     {
         $criteria = new Criteria(DocumentosTableMap::DATABASE_NAME);
 
-        if ($this->isColumnModified(DocumentosTableMap::COL_NOMEFISICODOCUMENTO)) {
-            $criteria->add(DocumentosTableMap::COL_NOMEFISICODOCUMENTO, $this->nomefisicodocumento);
-        }
-        if ($this->isColumnModified(DocumentosTableMap::COL_DESCRICAO)) {
-            $criteria->add(DocumentosTableMap::COL_DESCRICAO, $this->descricao);
-        }
-        if ($this->isColumnModified(DocumentosTableMap::COL_NOMEDOCUMENTO)) {
-            $criteria->add(DocumentosTableMap::COL_NOMEDOCUMENTO, $this->nomedocumento);
-        }
-        if ($this->isColumnModified(DocumentosTableMap::COL_DATAINCLUSAO)) {
-            $criteria->add(DocumentosTableMap::COL_DATAINCLUSAO, $this->datainclusao);
-        }
-        if ($this->isColumnModified(DocumentosTableMap::COL_CAMINHODOC)) {
-            $criteria->add(DocumentosTableMap::COL_CAMINHODOC, $this->caminhodoc);
-        }
-        if ($this->isColumnModified(DocumentosTableMap::COL_IDCLIENTE)) {
-            $criteria->add(DocumentosTableMap::COL_IDCLIENTE, $this->idcliente);
+        if ($this->isColumnModified(DocumentosTableMap::COL_ID)) {
+            $criteria->add(DocumentosTableMap::COL_ID, $this->id);
         }
         if ($this->isColumnModified(DocumentosTableMap::COL_IDCATEGORIA)) {
             $criteria->add(DocumentosTableMap::COL_IDCATEGORIA, $this->idcategoria);
         }
-        if ($this->isColumnModified(DocumentosTableMap::COL_ID)) {
-            $criteria->add(DocumentosTableMap::COL_ID, $this->id);
+        if ($this->isColumnModified(DocumentosTableMap::COL_IDCLIENTE)) {
+            $criteria->add(DocumentosTableMap::COL_IDCLIENTE, $this->idcliente);
+        }
+        if ($this->isColumnModified(DocumentosTableMap::COL_CAMINHODOC)) {
+            $criteria->add(DocumentosTableMap::COL_CAMINHODOC, $this->caminhodoc);
+        }
+        if ($this->isColumnModified(DocumentosTableMap::COL_DATAINCLUSAO)) {
+            $criteria->add(DocumentosTableMap::COL_DATAINCLUSAO, $this->datainclusao);
+        }
+        if ($this->isColumnModified(DocumentosTableMap::COL_NOMEDOCUMENTO)) {
+            $criteria->add(DocumentosTableMap::COL_NOMEDOCUMENTO, $this->nomedocumento);
+        }
+        if ($this->isColumnModified(DocumentosTableMap::COL_DESCRICAO)) {
+            $criteria->add(DocumentosTableMap::COL_DESCRICAO, $this->descricao);
+        }
+        if ($this->isColumnModified(DocumentosTableMap::COL_NOMEFISICODOCUMENTO)) {
+            $criteria->add(DocumentosTableMap::COL_NOMEFISICODOCUMENTO, $this->nomefisicodocumento);
         }
 
         return $criteria;
@@ -1428,13 +1436,13 @@ abstract class Documentos implements ActiveRecordInterface
      */
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
-        $copyObj->setNomefisicodocumento($this->getNomefisicodocumento());
-        $copyObj->setDescricao($this->getDescricao());
-        $copyObj->setNomedocumento($this->getNomedocumento());
-        $copyObj->setDatainclusao($this->getDatainclusao());
-        $copyObj->setCaminhodoc($this->getCaminhodoc());
-        $copyObj->setIdcliente($this->getIdcliente());
         $copyObj->setIdcategoria($this->getIdcategoria());
+        $copyObj->setIdcliente($this->getIdcliente());
+        $copyObj->setCaminhodoc($this->getCaminhodoc());
+        $copyObj->setDatainclusao($this->getDatainclusao());
+        $copyObj->setNomedocumento($this->getNomedocumento());
+        $copyObj->setDescricao($this->getDescricao());
+        $copyObj->setNomefisicodocumento($this->getNomefisicodocumento());
 
         if ($deepCopy) {
             // important: temporarily setNew(false) because this affects the behavior of
@@ -1851,14 +1859,14 @@ abstract class Documentos implements ActiveRecordInterface
         if (null !== $this->aCliente) {
             $this->aCliente->removeDocumentos($this);
         }
-        $this->nomefisicodocumento = null;
-        $this->descricao = null;
-        $this->nomedocumento = null;
-        $this->datainclusao = null;
-        $this->caminhodoc = null;
-        $this->idcliente = null;
-        $this->idcategoria = null;
         $this->id = null;
+        $this->idcategoria = null;
+        $this->idcliente = null;
+        $this->caminhodoc = null;
+        $this->datainclusao = null;
+        $this->nomedocumento = null;
+        $this->descricao = null;
+        $this->nomefisicodocumento = null;
         $this->alreadyInSave = false;
         $this->clearAllReferences();
         $this->resetModified();

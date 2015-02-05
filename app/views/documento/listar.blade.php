@@ -3,12 +3,12 @@
 
 @section('content')
 
-<h3>Cliente: {{  $oCliente->getNome() }}</h3>
+@extends('cliente.menu')
 
-{{ Form::open(array('url' => '/documento/inserir', 'class' => 'form-horizontal', 'role' => 'form', 'method' => 'post' )) }}
-<input type="hidden" name="id" value="{{ $oCliente->getId() }}">
-<input type="hidden" name="nome" value="{{ $oCliente->getNome() }}">
-{{ Form::submit('Novo Documento',  array('class' => 'btn margem btn-primary ','style'=>'margin-bottom:30px')) }}
+@if(Auth::user()->tipo == 'admin')
+    <a href="/documento/inserir/{{ $id }}" class="btn btn-primary btn-large margem"><i class="icon-white icon-plus"></i> Novo Documento</a>
+@endif
+
 @if(Session::has('message-sucess'))
     <div role="alert" class="alert alert-success">
        {{ Session::get('message-sucess') }}
@@ -20,7 +20,7 @@
     </div>
     @endif
     <div class="table-responsive" >	
-	<table class="table table-bordered" id="no-more-tables">
+	<table class="table" id="no-more-tables">
 		<thead>
 			<tr>
 				<th>Categoria</th>
@@ -34,11 +34,15 @@
 			@foreach($oDocumentos as $aDocumento)
 			
 			<tr>
-			    <td>{{ $aDocumento->getCategorias()->getNomecategoria() }}</td>
-			    <td>{{ $aDocumento->getNomeDocumento() }}</td>
-			    <td>{{ $aDocumento->getDescricao() }}</td>
-			    <td>{{ $aDocumento->getDatainclusao('d/m/Y H:i') }}</td>
-                            <td>
+			    <td data-title="Categoria">{{ $aDocumento->getCategorias()->getNomecategoria() }}</td>
+			    <td data-title="Documento">{{ $aDocumento->getNomeDocumento() }}</td>
+			    <td data-title="Descriçao">@if($aDocumento->getDescricao()) 
+                                                            {{ $aDocumento->getDescricao() }} 
+                                                       @else
+                                                            {{"-"}} 
+                                                       @endif</td>
+			    <td data-title="Data">{{ $aDocumento->getDatainclusao('d/m/Y H:i') }}</td>
+                            <td data-title="Ferramentas">
                                 <a href="/documento/download-documento/{{$aDocumento->getId()}}" class="btn btn-success btn-xs">Download</a>
                                 @if(Auth::check())
                                  @if(Auth::user()->tipo == 'admin')

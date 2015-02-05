@@ -66,16 +66,10 @@ abstract class DocumentosDownloads implements ActiveRecordInterface
     protected $virtualColumns = array();
 
     /**
-     * The value for the id field.
+     * The value for the iddocumento field.
      * @var        int
      */
-    protected $id;
-
-    /**
-     * The value for the dtdownload field.
-     * @var        \DateTime
-     */
-    protected $dtdownload;
+    protected $iddocumento;
 
     /**
      * The value for the idusuario field.
@@ -84,10 +78,16 @@ abstract class DocumentosDownloads implements ActiveRecordInterface
     protected $idusuario;
 
     /**
-     * The value for the iddocumento field.
+     * The value for the dtdownload field.
+     * @var        \DateTime
+     */
+    protected $dtdownload;
+
+    /**
+     * The value for the id field.
      * @var        int
      */
-    protected $iddocumento;
+    protected $id;
 
     /**
      * @var        ChildDocumentos
@@ -325,13 +325,23 @@ abstract class DocumentosDownloads implements ActiveRecordInterface
     }
 
     /**
-     * Get the [id] column value.
+     * Get the [iddocumento] column value.
      *
      * @return int
      */
-    public function getId()
+    public function getIddocumento()
     {
-        return $this->id;
+        return $this->iddocumento;
+    }
+
+    /**
+     * Get the [idusuario] column value.
+     *
+     * @return int
+     */
+    public function getIdusuario()
+    {
+        return $this->idusuario;
     }
 
     /**
@@ -355,64 +365,38 @@ abstract class DocumentosDownloads implements ActiveRecordInterface
     }
 
     /**
-     * Get the [idusuario] column value.
+     * Get the [id] column value.
      *
      * @return int
      */
-    public function getIdusuario()
+    public function getId()
     {
-        return $this->idusuario;
+        return $this->id;
     }
 
     /**
-     * Get the [iddocumento] column value.
-     *
-     * @return int
-     */
-    public function getIddocumento()
-    {
-        return $this->iddocumento;
-    }
-
-    /**
-     * Set the value of [id] column.
+     * Set the value of [iddocumento] column.
      *
      * @param  int $v new value
      * @return $this|\DocumentosDownloads The current object (for fluent API support)
      */
-    public function setId($v)
+    public function setIddocumento($v)
     {
         if ($v !== null) {
             $v = (int) $v;
         }
 
-        if ($this->id !== $v) {
-            $this->id = $v;
-            $this->modifiedColumns[DocumentosDownloadsTableMap::COL_ID] = true;
+        if ($this->iddocumento !== $v) {
+            $this->iddocumento = $v;
+            $this->modifiedColumns[DocumentosDownloadsTableMap::COL_IDDOCUMENTO] = true;
+        }
+
+        if ($this->aDocumentos !== null && $this->aDocumentos->getId() !== $v) {
+            $this->aDocumentos = null;
         }
 
         return $this;
-    } // setId()
-
-    /**
-     * Sets the value of [dtdownload] column to a normalized version of the date/time value specified.
-     *
-     * @param  mixed $v string, integer (timestamp), or \DateTime value.
-     *               Empty strings are treated as NULL.
-     * @return $this|\DocumentosDownloads The current object (for fluent API support)
-     */
-    public function setDtdownload($v)
-    {
-        $dt = PropelDateTime::newInstance($v, null, 'DateTime');
-        if ($this->dtdownload !== null || $dt !== null) {
-            if ($dt !== $this->dtdownload) {
-                $this->dtdownload = $dt;
-                $this->modifiedColumns[DocumentosDownloadsTableMap::COL_DTDOWNLOAD] = true;
-            }
-        } // if either are not null
-
-        return $this;
-    } // setDtdownload()
+    } // setIddocumento()
 
     /**
      * Set the value of [idusuario] column.
@@ -439,28 +423,44 @@ abstract class DocumentosDownloads implements ActiveRecordInterface
     } // setIdusuario()
 
     /**
-     * Set the value of [iddocumento] column.
+     * Sets the value of [dtdownload] column to a normalized version of the date/time value specified.
+     *
+     * @param  mixed $v string, integer (timestamp), or \DateTime value.
+     *               Empty strings are treated as NULL.
+     * @return $this|\DocumentosDownloads The current object (for fluent API support)
+     */
+    public function setDtdownload($v)
+    {
+        $dt = PropelDateTime::newInstance($v, null, 'DateTime');
+        if ($this->dtdownload !== null || $dt !== null) {
+            if ($dt !== $this->dtdownload) {
+                $this->dtdownload = $dt;
+                $this->modifiedColumns[DocumentosDownloadsTableMap::COL_DTDOWNLOAD] = true;
+            }
+        } // if either are not null
+
+        return $this;
+    } // setDtdownload()
+
+    /**
+     * Set the value of [id] column.
      *
      * @param  int $v new value
      * @return $this|\DocumentosDownloads The current object (for fluent API support)
      */
-    public function setIddocumento($v)
+    public function setId($v)
     {
         if ($v !== null) {
             $v = (int) $v;
         }
 
-        if ($this->iddocumento !== $v) {
-            $this->iddocumento = $v;
-            $this->modifiedColumns[DocumentosDownloadsTableMap::COL_IDDOCUMENTO] = true;
-        }
-
-        if ($this->aDocumentos !== null && $this->aDocumentos->getId() !== $v) {
-            $this->aDocumentos = null;
+        if ($this->id !== $v) {
+            $this->id = $v;
+            $this->modifiedColumns[DocumentosDownloadsTableMap::COL_ID] = true;
         }
 
         return $this;
-    } // setIddocumento()
+    } // setId()
 
     /**
      * Indicates whether the columns in this object are only set to default values.
@@ -498,17 +498,17 @@ abstract class DocumentosDownloads implements ActiveRecordInterface
     {
         try {
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : DocumentosDownloadsTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->id = (null !== $col) ? (int) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : DocumentosDownloadsTableMap::translateFieldName('Iddocumento', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->iddocumento = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : DocumentosDownloadsTableMap::translateFieldName('Dtdownload', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->dtdownload = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
-
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : DocumentosDownloadsTableMap::translateFieldName('Idusuario', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : DocumentosDownloadsTableMap::translateFieldName('Idusuario', TableMap::TYPE_PHPNAME, $indexType)];
             $this->idusuario = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : DocumentosDownloadsTableMap::translateFieldName('Iddocumento', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->iddocumento = (null !== $col) ? (int) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : DocumentosDownloadsTableMap::translateFieldName('Dtdownload', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->dtdownload = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : DocumentosDownloadsTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->id = (null !== $col) ? (int) $col : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -539,11 +539,11 @@ abstract class DocumentosDownloads implements ActiveRecordInterface
      */
     public function ensureConsistency()
     {
-        if ($this->aUsuarios !== null && $this->idusuario !== $this->aUsuarios->getId()) {
-            $this->aUsuarios = null;
-        }
         if ($this->aDocumentos !== null && $this->iddocumento !== $this->aDocumentos->getId()) {
             $this->aDocumentos = null;
+        }
+        if ($this->aUsuarios !== null && $this->idusuario !== $this->aUsuarios->getId()) {
+            $this->aUsuarios = null;
         }
     } // ensureConsistency
 
@@ -750,17 +750,17 @@ abstract class DocumentosDownloads implements ActiveRecordInterface
 
 
          // check the columns in natural order for more readable SQL queries
-        if ($this->isColumnModified(DocumentosDownloadsTableMap::COL_ID)) {
-            $modifiedColumns[':p' . $index++]  = 'id';
-        }
-        if ($this->isColumnModified(DocumentosDownloadsTableMap::COL_DTDOWNLOAD)) {
-            $modifiedColumns[':p' . $index++]  = 'dtdownload';
+        if ($this->isColumnModified(DocumentosDownloadsTableMap::COL_IDDOCUMENTO)) {
+            $modifiedColumns[':p' . $index++]  = 'iddocumento';
         }
         if ($this->isColumnModified(DocumentosDownloadsTableMap::COL_IDUSUARIO)) {
             $modifiedColumns[':p' . $index++]  = 'idusuario';
         }
-        if ($this->isColumnModified(DocumentosDownloadsTableMap::COL_IDDOCUMENTO)) {
-            $modifiedColumns[':p' . $index++]  = 'iddocumento';
+        if ($this->isColumnModified(DocumentosDownloadsTableMap::COL_DTDOWNLOAD)) {
+            $modifiedColumns[':p' . $index++]  = 'dtdownload';
+        }
+        if ($this->isColumnModified(DocumentosDownloadsTableMap::COL_ID)) {
+            $modifiedColumns[':p' . $index++]  = 'id';
         }
 
         $sql = sprintf(
@@ -773,17 +773,17 @@ abstract class DocumentosDownloads implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-                    case 'id':
-                        $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
-                        break;
-                    case 'dtdownload':
-                        $stmt->bindValue($identifier, $this->dtdownload ? $this->dtdownload->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
+                    case 'iddocumento':
+                        $stmt->bindValue($identifier, $this->iddocumento, PDO::PARAM_INT);
                         break;
                     case 'idusuario':
                         $stmt->bindValue($identifier, $this->idusuario, PDO::PARAM_INT);
                         break;
-                    case 'iddocumento':
-                        $stmt->bindValue($identifier, $this->iddocumento, PDO::PARAM_INT);
+                    case 'dtdownload':
+                        $stmt->bindValue($identifier, $this->dtdownload ? $this->dtdownload->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
+                        break;
+                    case 'id':
+                        $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
                 }
             }
@@ -841,16 +841,16 @@ abstract class DocumentosDownloads implements ActiveRecordInterface
     {
         switch ($pos) {
             case 0:
-                return $this->getId();
+                return $this->getIddocumento();
                 break;
             case 1:
-                return $this->getDtdownload();
-                break;
-            case 2:
                 return $this->getIdusuario();
                 break;
+            case 2:
+                return $this->getDtdownload();
+                break;
             case 3:
-                return $this->getIddocumento();
+                return $this->getId();
                 break;
             default:
                 return null;
@@ -882,11 +882,19 @@ abstract class DocumentosDownloads implements ActiveRecordInterface
         $alreadyDumpedObjects['DocumentosDownloads'][$this->hashCode()] = true;
         $keys = DocumentosDownloadsTableMap::getFieldNames($keyType);
         $result = array(
-            $keys[0] => $this->getId(),
-            $keys[1] => $this->getDtdownload(),
-            $keys[2] => $this->getIdusuario(),
-            $keys[3] => $this->getIddocumento(),
+            $keys[0] => $this->getIddocumento(),
+            $keys[1] => $this->getIdusuario(),
+            $keys[2] => $this->getDtdownload(),
+            $keys[3] => $this->getId(),
         );
+
+        $utc = new \DateTimeZone('utc');
+        if ($result[$keys[2]] instanceof \DateTime) {
+            // When changing timezone we don't want to change existing instances
+            $dateTime = clone $result[$keys[2]];
+            $result[$keys[2]] = $dateTime->setTimezone($utc)->format('Y-m-d\TH:i:s\Z');
+        }
+
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
             $result[$key] = $virtualColumn;
@@ -958,16 +966,16 @@ abstract class DocumentosDownloads implements ActiveRecordInterface
     {
         switch ($pos) {
             case 0:
-                $this->setId($value);
+                $this->setIddocumento($value);
                 break;
             case 1:
-                $this->setDtdownload($value);
-                break;
-            case 2:
                 $this->setIdusuario($value);
                 break;
+            case 2:
+                $this->setDtdownload($value);
+                break;
             case 3:
-                $this->setIddocumento($value);
+                $this->setId($value);
                 break;
         } // switch()
 
@@ -996,16 +1004,16 @@ abstract class DocumentosDownloads implements ActiveRecordInterface
         $keys = DocumentosDownloadsTableMap::getFieldNames($keyType);
 
         if (array_key_exists($keys[0], $arr)) {
-            $this->setId($arr[$keys[0]]);
+            $this->setIddocumento($arr[$keys[0]]);
         }
         if (array_key_exists($keys[1], $arr)) {
-            $this->setDtdownload($arr[$keys[1]]);
+            $this->setIdusuario($arr[$keys[1]]);
         }
         if (array_key_exists($keys[2], $arr)) {
-            $this->setIdusuario($arr[$keys[2]]);
+            $this->setDtdownload($arr[$keys[2]]);
         }
         if (array_key_exists($keys[3], $arr)) {
-            $this->setIddocumento($arr[$keys[3]]);
+            $this->setId($arr[$keys[3]]);
         }
     }
 
@@ -1048,17 +1056,17 @@ abstract class DocumentosDownloads implements ActiveRecordInterface
     {
         $criteria = new Criteria(DocumentosDownloadsTableMap::DATABASE_NAME);
 
-        if ($this->isColumnModified(DocumentosDownloadsTableMap::COL_ID)) {
-            $criteria->add(DocumentosDownloadsTableMap::COL_ID, $this->id);
-        }
-        if ($this->isColumnModified(DocumentosDownloadsTableMap::COL_DTDOWNLOAD)) {
-            $criteria->add(DocumentosDownloadsTableMap::COL_DTDOWNLOAD, $this->dtdownload);
+        if ($this->isColumnModified(DocumentosDownloadsTableMap::COL_IDDOCUMENTO)) {
+            $criteria->add(DocumentosDownloadsTableMap::COL_IDDOCUMENTO, $this->iddocumento);
         }
         if ($this->isColumnModified(DocumentosDownloadsTableMap::COL_IDUSUARIO)) {
             $criteria->add(DocumentosDownloadsTableMap::COL_IDUSUARIO, $this->idusuario);
         }
-        if ($this->isColumnModified(DocumentosDownloadsTableMap::COL_IDDOCUMENTO)) {
-            $criteria->add(DocumentosDownloadsTableMap::COL_IDDOCUMENTO, $this->iddocumento);
+        if ($this->isColumnModified(DocumentosDownloadsTableMap::COL_DTDOWNLOAD)) {
+            $criteria->add(DocumentosDownloadsTableMap::COL_DTDOWNLOAD, $this->dtdownload);
+        }
+        if ($this->isColumnModified(DocumentosDownloadsTableMap::COL_ID)) {
+            $criteria->add(DocumentosDownloadsTableMap::COL_ID, $this->id);
         }
 
         return $criteria;
@@ -1146,9 +1154,9 @@ abstract class DocumentosDownloads implements ActiveRecordInterface
      */
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
-        $copyObj->setDtdownload($this->getDtdownload());
-        $copyObj->setIdusuario($this->getIdusuario());
         $copyObj->setIddocumento($this->getIddocumento());
+        $copyObj->setIdusuario($this->getIdusuario());
+        $copyObj->setDtdownload($this->getDtdownload());
         if ($makeNew) {
             $copyObj->setNew(true);
             $copyObj->setId(NULL); // this is a auto-increment column, so set to default value
@@ -1292,10 +1300,10 @@ abstract class DocumentosDownloads implements ActiveRecordInterface
         if (null !== $this->aUsuarios) {
             $this->aUsuarios->removeDocumentosDownloads($this);
         }
-        $this->id = null;
-        $this->dtdownload = null;
-        $this->idusuario = null;
         $this->iddocumento = null;
+        $this->idusuario = null;
+        $this->dtdownload = null;
+        $this->id = null;
         $this->alreadyInSave = false;
         $this->clearAllReferences();
         $this->resetModified();

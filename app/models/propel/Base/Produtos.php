@@ -68,28 +68,10 @@ abstract class Produtos implements ActiveRecordInterface
     protected $virtualColumns = array();
 
     /**
-     * The value for the tipo field.
-     * @var        string
-     */
-    protected $tipo;
-
-    /**
-     * The value for the idcliente field.
+     * The value for the id field.
      * @var        int
      */
-    protected $idcliente;
-
-    /**
-     * The value for the idmoeda field.
-     * @var        int
-     */
-    protected $idmoeda;
-
-    /**
-     * The value for the valor field.
-     * @var        string
-     */
-    protected $valor;
+    protected $id;
 
     /**
      * The value for the nome field.
@@ -98,10 +80,28 @@ abstract class Produtos implements ActiveRecordInterface
     protected $nome;
 
     /**
-     * The value for the id field.
+     * The value for the valor field.
+     * @var        string
+     */
+    protected $valor;
+
+    /**
+     * The value for the idmoeda field.
      * @var        int
      */
-    protected $id;
+    protected $idmoeda;
+
+    /**
+     * The value for the idcliente field.
+     * @var        int
+     */
+    protected $idcliente;
+
+    /**
+     * The value for the tipo field.
+     * @var        string
+     */
+    protected $tipo;
 
     /**
      * @var        ChildCliente
@@ -351,43 +351,13 @@ abstract class Produtos implements ActiveRecordInterface
     }
 
     /**
-     * Get the [tipo] column value.
-     *
-     * @return string
-     */
-    public function getTipo()
-    {
-        return $this->tipo;
-    }
-
-    /**
-     * Get the [idcliente] column value.
+     * Get the [id] column value.
      *
      * @return int
      */
-    public function getIdcliente()
+    public function getId()
     {
-        return $this->idcliente;
-    }
-
-    /**
-     * Get the [idmoeda] column value.
-     *
-     * @return int
-     */
-    public function getIdmoeda()
-    {
-        return $this->idmoeda;
-    }
-
-    /**
-     * Get the [valor] column value.
-     *
-     * @return string
-     */
-    public function getValor()
-    {
-        return $this->valor;
+        return $this->id;
     }
 
     /**
@@ -401,58 +371,104 @@ abstract class Produtos implements ActiveRecordInterface
     }
 
     /**
-     * Get the [id] column value.
+     * Get the [valor] column value.
      *
-     * @return int
+     * @return string
      */
-    public function getId()
+    public function getValor()
     {
-        return $this->id;
+        return $this->valor;
     }
 
     /**
-     * Set the value of [tipo] column.
+     * Get the [idmoeda] column value.
      *
-     * @param  string $v new value
-     * @return $this|\Produtos The current object (for fluent API support)
+     * @return int
      */
-    public function setTipo($v)
+    public function getIdmoeda()
     {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->tipo !== $v) {
-            $this->tipo = $v;
-            $this->modifiedColumns[ProdutosTableMap::COL_TIPO] = true;
-        }
-
-        return $this;
-    } // setTipo()
+        return $this->idmoeda;
+    }
 
     /**
-     * Set the value of [idcliente] column.
+     * Get the [idcliente] column value.
+     *
+     * @return int
+     */
+    public function getIdcliente()
+    {
+        return $this->idcliente;
+    }
+
+    /**
+     * Get the [tipo] column value.
+     *
+     * @return string
+     */
+    public function getTipo()
+    {
+        return $this->tipo;
+    }
+
+    /**
+     * Set the value of [id] column.
      *
      * @param  int $v new value
      * @return $this|\Produtos The current object (for fluent API support)
      */
-    public function setIdcliente($v)
+    public function setId($v)
     {
         if ($v !== null) {
             $v = (int) $v;
         }
 
-        if ($this->idcliente !== $v) {
-            $this->idcliente = $v;
-            $this->modifiedColumns[ProdutosTableMap::COL_IDCLIENTE] = true;
-        }
-
-        if ($this->aCliente !== null && $this->aCliente->getId() !== $v) {
-            $this->aCliente = null;
+        if ($this->id !== $v) {
+            $this->id = $v;
+            $this->modifiedColumns[ProdutosTableMap::COL_ID] = true;
         }
 
         return $this;
-    } // setIdcliente()
+    } // setId()
+
+    /**
+     * Set the value of [nome] column.
+     *
+     * @param  string $v new value
+     * @return $this|\Produtos The current object (for fluent API support)
+     */
+    public function setNome($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->nome !== $v) {
+            $this->nome = $v;
+            $this->modifiedColumns[ProdutosTableMap::COL_NOME] = true;
+        }
+
+        return $this;
+    } // setNome()
+
+    /**
+     * Set the value of [valor] column.
+     *
+     * @param  string $v new value
+     * @return $this|\Produtos The current object (for fluent API support)
+     */
+    public function setValor($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->valor !== $v) {
+            $this->valor = $v;
+            $this->modifiedColumns[ProdutosTableMap::COL_VALOR] = true;
+        }
+
+        return $this;
+    } // setValor()
 
     /**
      * Set the value of [idmoeda] column.
@@ -479,64 +495,48 @@ abstract class Produtos implements ActiveRecordInterface
     } // setIdmoeda()
 
     /**
-     * Set the value of [valor] column.
-     *
-     * @param  string $v new value
-     * @return $this|\Produtos The current object (for fluent API support)
-     */
-    public function setValor($v)
-    {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->valor !== $v) {
-            $this->valor = $v;
-            $this->modifiedColumns[ProdutosTableMap::COL_VALOR] = true;
-        }
-
-        return $this;
-    } // setValor()
-
-    /**
-     * Set the value of [nome] column.
-     *
-     * @param  string $v new value
-     * @return $this|\Produtos The current object (for fluent API support)
-     */
-    public function setNome($v)
-    {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->nome !== $v) {
-            $this->nome = $v;
-            $this->modifiedColumns[ProdutosTableMap::COL_NOME] = true;
-        }
-
-        return $this;
-    } // setNome()
-
-    /**
-     * Set the value of [id] column.
+     * Set the value of [idcliente] column.
      *
      * @param  int $v new value
      * @return $this|\Produtos The current object (for fluent API support)
      */
-    public function setId($v)
+    public function setIdcliente($v)
     {
         if ($v !== null) {
             $v = (int) $v;
         }
 
-        if ($this->id !== $v) {
-            $this->id = $v;
-            $this->modifiedColumns[ProdutosTableMap::COL_ID] = true;
+        if ($this->idcliente !== $v) {
+            $this->idcliente = $v;
+            $this->modifiedColumns[ProdutosTableMap::COL_IDCLIENTE] = true;
+        }
+
+        if ($this->aCliente !== null && $this->aCliente->getId() !== $v) {
+            $this->aCliente = null;
         }
 
         return $this;
-    } // setId()
+    } // setIdcliente()
+
+    /**
+     * Set the value of [tipo] column.
+     *
+     * @param  string $v new value
+     * @return $this|\Produtos The current object (for fluent API support)
+     */
+    public function setTipo($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->tipo !== $v) {
+            $this->tipo = $v;
+            $this->modifiedColumns[ProdutosTableMap::COL_TIPO] = true;
+        }
+
+        return $this;
+    } // setTipo()
 
     /**
      * Indicates whether the columns in this object are only set to default values.
@@ -574,23 +574,23 @@ abstract class Produtos implements ActiveRecordInterface
     {
         try {
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : ProdutosTableMap::translateFieldName('Tipo', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->tipo = (null !== $col) ? (string) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : ProdutosTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : ProdutosTableMap::translateFieldName('Idcliente', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->idcliente = (null !== $col) ? (int) $col : null;
-
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : ProdutosTableMap::translateFieldName('Idmoeda', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->idmoeda = (null !== $col) ? (int) $col : null;
-
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : ProdutosTableMap::translateFieldName('Valor', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->valor = (null !== $col) ? (string) $col : null;
-
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : ProdutosTableMap::translateFieldName('Nome', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : ProdutosTableMap::translateFieldName('Nome', TableMap::TYPE_PHPNAME, $indexType)];
             $this->nome = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : ProdutosTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->id = (null !== $col) ? (int) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : ProdutosTableMap::translateFieldName('Valor', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->valor = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : ProdutosTableMap::translateFieldName('Idmoeda', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->idmoeda = (null !== $col) ? (int) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : ProdutosTableMap::translateFieldName('Idcliente', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->idcliente = (null !== $col) ? (int) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : ProdutosTableMap::translateFieldName('Tipo', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->tipo = (null !== $col) ? (string) $col : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -621,11 +621,11 @@ abstract class Produtos implements ActiveRecordInterface
      */
     public function ensureConsistency()
     {
-        if ($this->aCliente !== null && $this->idcliente !== $this->aCliente->getId()) {
-            $this->aCliente = null;
-        }
         if ($this->aMoeda !== null && $this->idmoeda !== $this->aMoeda->getId()) {
             $this->aMoeda = null;
+        }
+        if ($this->aCliente !== null && $this->idcliente !== $this->aCliente->getId()) {
+            $this->aCliente = null;
         }
     } // ensureConsistency
 
@@ -852,23 +852,23 @@ abstract class Produtos implements ActiveRecordInterface
 
 
          // check the columns in natural order for more readable SQL queries
-        if ($this->isColumnModified(ProdutosTableMap::COL_TIPO)) {
-            $modifiedColumns[':p' . $index++]  = 'tipo';
-        }
-        if ($this->isColumnModified(ProdutosTableMap::COL_IDCLIENTE)) {
-            $modifiedColumns[':p' . $index++]  = 'idcliente';
-        }
-        if ($this->isColumnModified(ProdutosTableMap::COL_IDMOEDA)) {
-            $modifiedColumns[':p' . $index++]  = 'idmoeda';
-        }
-        if ($this->isColumnModified(ProdutosTableMap::COL_VALOR)) {
-            $modifiedColumns[':p' . $index++]  = 'valor';
+        if ($this->isColumnModified(ProdutosTableMap::COL_ID)) {
+            $modifiedColumns[':p' . $index++]  = 'id';
         }
         if ($this->isColumnModified(ProdutosTableMap::COL_NOME)) {
             $modifiedColumns[':p' . $index++]  = 'nome';
         }
-        if ($this->isColumnModified(ProdutosTableMap::COL_ID)) {
-            $modifiedColumns[':p' . $index++]  = 'id';
+        if ($this->isColumnModified(ProdutosTableMap::COL_VALOR)) {
+            $modifiedColumns[':p' . $index++]  = 'valor';
+        }
+        if ($this->isColumnModified(ProdutosTableMap::COL_IDMOEDA)) {
+            $modifiedColumns[':p' . $index++]  = 'idmoeda';
+        }
+        if ($this->isColumnModified(ProdutosTableMap::COL_IDCLIENTE)) {
+            $modifiedColumns[':p' . $index++]  = 'idcliente';
+        }
+        if ($this->isColumnModified(ProdutosTableMap::COL_TIPO)) {
+            $modifiedColumns[':p' . $index++]  = 'tipo';
         }
 
         $sql = sprintf(
@@ -881,23 +881,23 @@ abstract class Produtos implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-                    case 'tipo':
-                        $stmt->bindValue($identifier, $this->tipo, PDO::PARAM_STR);
-                        break;
-                    case 'idcliente':
-                        $stmt->bindValue($identifier, $this->idcliente, PDO::PARAM_INT);
-                        break;
-                    case 'idmoeda':
-                        $stmt->bindValue($identifier, $this->idmoeda, PDO::PARAM_INT);
-                        break;
-                    case 'valor':
-                        $stmt->bindValue($identifier, $this->valor, PDO::PARAM_STR);
+                    case 'id':
+                        $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
                     case 'nome':
                         $stmt->bindValue($identifier, $this->nome, PDO::PARAM_STR);
                         break;
-                    case 'id':
-                        $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
+                    case 'valor':
+                        $stmt->bindValue($identifier, $this->valor, PDO::PARAM_STR);
+                        break;
+                    case 'idmoeda':
+                        $stmt->bindValue($identifier, $this->idmoeda, PDO::PARAM_INT);
+                        break;
+                    case 'idcliente':
+                        $stmt->bindValue($identifier, $this->idcliente, PDO::PARAM_INT);
+                        break;
+                    case 'tipo':
+                        $stmt->bindValue($identifier, $this->tipo, PDO::PARAM_STR);
                         break;
                 }
             }
@@ -955,22 +955,22 @@ abstract class Produtos implements ActiveRecordInterface
     {
         switch ($pos) {
             case 0:
-                return $this->getTipo();
+                return $this->getId();
                 break;
             case 1:
-                return $this->getIdcliente();
-                break;
-            case 2:
-                return $this->getIdmoeda();
-                break;
-            case 3:
-                return $this->getValor();
-                break;
-            case 4:
                 return $this->getNome();
                 break;
+            case 2:
+                return $this->getValor();
+                break;
+            case 3:
+                return $this->getIdmoeda();
+                break;
+            case 4:
+                return $this->getIdcliente();
+                break;
             case 5:
-                return $this->getId();
+                return $this->getTipo();
                 break;
             default:
                 return null;
@@ -1002,12 +1002,12 @@ abstract class Produtos implements ActiveRecordInterface
         $alreadyDumpedObjects['Produtos'][$this->hashCode()] = true;
         $keys = ProdutosTableMap::getFieldNames($keyType);
         $result = array(
-            $keys[0] => $this->getTipo(),
-            $keys[1] => $this->getIdcliente(),
-            $keys[2] => $this->getIdmoeda(),
-            $keys[3] => $this->getValor(),
-            $keys[4] => $this->getNome(),
-            $keys[5] => $this->getId(),
+            $keys[0] => $this->getId(),
+            $keys[1] => $this->getNome(),
+            $keys[2] => $this->getValor(),
+            $keys[3] => $this->getIdmoeda(),
+            $keys[4] => $this->getIdcliente(),
+            $keys[5] => $this->getTipo(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -1095,22 +1095,22 @@ abstract class Produtos implements ActiveRecordInterface
     {
         switch ($pos) {
             case 0:
-                $this->setTipo($value);
+                $this->setId($value);
                 break;
             case 1:
-                $this->setIdcliente($value);
-                break;
-            case 2:
-                $this->setIdmoeda($value);
-                break;
-            case 3:
-                $this->setValor($value);
-                break;
-            case 4:
                 $this->setNome($value);
                 break;
+            case 2:
+                $this->setValor($value);
+                break;
+            case 3:
+                $this->setIdmoeda($value);
+                break;
+            case 4:
+                $this->setIdcliente($value);
+                break;
             case 5:
-                $this->setId($value);
+                $this->setTipo($value);
                 break;
         } // switch()
 
@@ -1139,22 +1139,22 @@ abstract class Produtos implements ActiveRecordInterface
         $keys = ProdutosTableMap::getFieldNames($keyType);
 
         if (array_key_exists($keys[0], $arr)) {
-            $this->setTipo($arr[$keys[0]]);
+            $this->setId($arr[$keys[0]]);
         }
         if (array_key_exists($keys[1], $arr)) {
-            $this->setIdcliente($arr[$keys[1]]);
+            $this->setNome($arr[$keys[1]]);
         }
         if (array_key_exists($keys[2], $arr)) {
-            $this->setIdmoeda($arr[$keys[2]]);
+            $this->setValor($arr[$keys[2]]);
         }
         if (array_key_exists($keys[3], $arr)) {
-            $this->setValor($arr[$keys[3]]);
+            $this->setIdmoeda($arr[$keys[3]]);
         }
         if (array_key_exists($keys[4], $arr)) {
-            $this->setNome($arr[$keys[4]]);
+            $this->setIdcliente($arr[$keys[4]]);
         }
         if (array_key_exists($keys[5], $arr)) {
-            $this->setId($arr[$keys[5]]);
+            $this->setTipo($arr[$keys[5]]);
         }
     }
 
@@ -1197,23 +1197,23 @@ abstract class Produtos implements ActiveRecordInterface
     {
         $criteria = new Criteria(ProdutosTableMap::DATABASE_NAME);
 
-        if ($this->isColumnModified(ProdutosTableMap::COL_TIPO)) {
-            $criteria->add(ProdutosTableMap::COL_TIPO, $this->tipo);
-        }
-        if ($this->isColumnModified(ProdutosTableMap::COL_IDCLIENTE)) {
-            $criteria->add(ProdutosTableMap::COL_IDCLIENTE, $this->idcliente);
-        }
-        if ($this->isColumnModified(ProdutosTableMap::COL_IDMOEDA)) {
-            $criteria->add(ProdutosTableMap::COL_IDMOEDA, $this->idmoeda);
-        }
-        if ($this->isColumnModified(ProdutosTableMap::COL_VALOR)) {
-            $criteria->add(ProdutosTableMap::COL_VALOR, $this->valor);
+        if ($this->isColumnModified(ProdutosTableMap::COL_ID)) {
+            $criteria->add(ProdutosTableMap::COL_ID, $this->id);
         }
         if ($this->isColumnModified(ProdutosTableMap::COL_NOME)) {
             $criteria->add(ProdutosTableMap::COL_NOME, $this->nome);
         }
-        if ($this->isColumnModified(ProdutosTableMap::COL_ID)) {
-            $criteria->add(ProdutosTableMap::COL_ID, $this->id);
+        if ($this->isColumnModified(ProdutosTableMap::COL_VALOR)) {
+            $criteria->add(ProdutosTableMap::COL_VALOR, $this->valor);
+        }
+        if ($this->isColumnModified(ProdutosTableMap::COL_IDMOEDA)) {
+            $criteria->add(ProdutosTableMap::COL_IDMOEDA, $this->idmoeda);
+        }
+        if ($this->isColumnModified(ProdutosTableMap::COL_IDCLIENTE)) {
+            $criteria->add(ProdutosTableMap::COL_IDCLIENTE, $this->idcliente);
+        }
+        if ($this->isColumnModified(ProdutosTableMap::COL_TIPO)) {
+            $criteria->add(ProdutosTableMap::COL_TIPO, $this->tipo);
         }
 
         return $criteria;
@@ -1301,11 +1301,11 @@ abstract class Produtos implements ActiveRecordInterface
      */
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
-        $copyObj->setTipo($this->getTipo());
-        $copyObj->setIdcliente($this->getIdcliente());
-        $copyObj->setIdmoeda($this->getIdmoeda());
-        $copyObj->setValor($this->getValor());
         $copyObj->setNome($this->getNome());
+        $copyObj->setValor($this->getValor());
+        $copyObj->setIdmoeda($this->getIdmoeda());
+        $copyObj->setIdcliente($this->getIdcliente());
+        $copyObj->setTipo($this->getTipo());
 
         if ($deepCopy) {
             // important: temporarily setNew(false) because this affects the behavior of
@@ -1747,12 +1747,12 @@ abstract class Produtos implements ActiveRecordInterface
         if (null !== $this->aMoeda) {
             $this->aMoeda->removeProdutos($this);
         }
-        $this->tipo = null;
-        $this->idcliente = null;
-        $this->idmoeda = null;
-        $this->valor = null;
-        $this->nome = null;
         $this->id = null;
+        $this->nome = null;
+        $this->valor = null;
+        $this->idmoeda = null;
+        $this->idcliente = null;
+        $this->tipo = null;
         $this->alreadyInSave = false;
         $this->clearAllReferences();
         $this->resetModified();

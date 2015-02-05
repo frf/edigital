@@ -20,15 +20,15 @@ use Propel\Runtime\Exception\PropelException;
  *
  *
  *
- * @method     ChildDocumentosDownloadsQuery orderById($order = Criteria::ASC) Order by the id column
- * @method     ChildDocumentosDownloadsQuery orderByDtdownload($order = Criteria::ASC) Order by the dtdownload column
- * @method     ChildDocumentosDownloadsQuery orderByIdusuario($order = Criteria::ASC) Order by the idusuario column
  * @method     ChildDocumentosDownloadsQuery orderByIddocumento($order = Criteria::ASC) Order by the iddocumento column
+ * @method     ChildDocumentosDownloadsQuery orderByIdusuario($order = Criteria::ASC) Order by the idusuario column
+ * @method     ChildDocumentosDownloadsQuery orderByDtdownload($order = Criteria::ASC) Order by the dtdownload column
+ * @method     ChildDocumentosDownloadsQuery orderById($order = Criteria::ASC) Order by the id column
  *
- * @method     ChildDocumentosDownloadsQuery groupById() Group by the id column
- * @method     ChildDocumentosDownloadsQuery groupByDtdownload() Group by the dtdownload column
- * @method     ChildDocumentosDownloadsQuery groupByIdusuario() Group by the idusuario column
  * @method     ChildDocumentosDownloadsQuery groupByIddocumento() Group by the iddocumento column
+ * @method     ChildDocumentosDownloadsQuery groupByIdusuario() Group by the idusuario column
+ * @method     ChildDocumentosDownloadsQuery groupByDtdownload() Group by the dtdownload column
+ * @method     ChildDocumentosDownloadsQuery groupById() Group by the id column
  *
  * @method     ChildDocumentosDownloadsQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method     ChildDocumentosDownloadsQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
@@ -47,21 +47,30 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildDocumentosDownloads findOne(ConnectionInterface $con = null) Return the first ChildDocumentosDownloads matching the query
  * @method     ChildDocumentosDownloads findOneOrCreate(ConnectionInterface $con = null) Return the first ChildDocumentosDownloads matching the query, or a new ChildDocumentosDownloads object populated from the query conditions when no match is found
  *
- * @method     ChildDocumentosDownloads findOneById(int $id) Return the first ChildDocumentosDownloads filtered by the id column
- * @method     ChildDocumentosDownloads findOneByDtdownload(string $dtdownload) Return the first ChildDocumentosDownloads filtered by the dtdownload column
- * @method     ChildDocumentosDownloads findOneByIdusuario(int $idusuario) Return the first ChildDocumentosDownloads filtered by the idusuario column
  * @method     ChildDocumentosDownloads findOneByIddocumento(int $iddocumento) Return the first ChildDocumentosDownloads filtered by the iddocumento column
+ * @method     ChildDocumentosDownloads findOneByIdusuario(int $idusuario) Return the first ChildDocumentosDownloads filtered by the idusuario column
+ * @method     ChildDocumentosDownloads findOneByDtdownload(string $dtdownload) Return the first ChildDocumentosDownloads filtered by the dtdownload column
+ * @method     ChildDocumentosDownloads findOneById(int $id) Return the first ChildDocumentosDownloads filtered by the id column *
+
+ * @method     ChildDocumentosDownloads requirePk($key, ConnectionInterface $con = null) Return the ChildDocumentosDownloads by primary key and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildDocumentosDownloads requireOne(ConnectionInterface $con = null) Return the first ChildDocumentosDownloads matching the query and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ *
+ * @method     ChildDocumentosDownloads requireOneByIddocumento(int $iddocumento) Return the first ChildDocumentosDownloads filtered by the iddocumento column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildDocumentosDownloads requireOneByIdusuario(int $idusuario) Return the first ChildDocumentosDownloads filtered by the idusuario column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildDocumentosDownloads requireOneByDtdownload(string $dtdownload) Return the first ChildDocumentosDownloads filtered by the dtdownload column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildDocumentosDownloads requireOneById(int $id) Return the first ChildDocumentosDownloads filtered by the id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
  * @method     ChildDocumentosDownloads[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildDocumentosDownloads objects based on current ModelCriteria
- * @method     ChildDocumentosDownloads[]|ObjectCollection findById(int $id) Return ChildDocumentosDownloads objects filtered by the id column
- * @method     ChildDocumentosDownloads[]|ObjectCollection findByDtdownload(string $dtdownload) Return ChildDocumentosDownloads objects filtered by the dtdownload column
- * @method     ChildDocumentosDownloads[]|ObjectCollection findByIdusuario(int $idusuario) Return ChildDocumentosDownloads objects filtered by the idusuario column
  * @method     ChildDocumentosDownloads[]|ObjectCollection findByIddocumento(int $iddocumento) Return ChildDocumentosDownloads objects filtered by the iddocumento column
+ * @method     ChildDocumentosDownloads[]|ObjectCollection findByIdusuario(int $idusuario) Return ChildDocumentosDownloads objects filtered by the idusuario column
+ * @method     ChildDocumentosDownloads[]|ObjectCollection findByDtdownload(string $dtdownload) Return ChildDocumentosDownloads objects filtered by the dtdownload column
+ * @method     ChildDocumentosDownloads[]|ObjectCollection findById(int $id) Return ChildDocumentosDownloads objects filtered by the id column
  * @method     ChildDocumentosDownloads[]|\Propel\Runtime\Util\PropelModelPager paginate($page = 1, $maxPerPage = 10, ConnectionInterface $con = null) Issue a SELECT query based on the current ModelCriteria and uses a page and a maximum number of results per page to compute an offset and a limit
  *
  */
 abstract class DocumentosDownloadsQuery extends ModelCriteria
 {
+    protected $entityNotFoundExceptionClass = '\\Propel\\Runtime\\Exception\\EntityNotFoundException';
 
     /**
      * Initializes internal state of \Base\DocumentosDownloadsQuery object.
@@ -148,7 +157,7 @@ abstract class DocumentosDownloadsQuery extends ModelCriteria
      */
     protected function findPkSimple($key, ConnectionInterface $con)
     {
-        $sql = 'SELECT id, dtdownload, idusuario, iddocumento FROM documentos_downloads WHERE id = :p0';
+        $sql = 'SELECT iddocumento, idusuario, dtdownload, id FROM documentos_downloads WHERE id = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -239,16 +248,18 @@ abstract class DocumentosDownloadsQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query on the id column
+     * Filter the query on the iddocumento column
      *
      * Example usage:
      * <code>
-     * $query->filterById(1234); // WHERE id = 1234
-     * $query->filterById(array(12, 34)); // WHERE id IN (12, 34)
-     * $query->filterById(array('min' => 12)); // WHERE id > 12
+     * $query->filterByIddocumento(1234); // WHERE iddocumento = 1234
+     * $query->filterByIddocumento(array(12, 34)); // WHERE iddocumento IN (12, 34)
+     * $query->filterByIddocumento(array('min' => 12)); // WHERE iddocumento > 12
      * </code>
      *
-     * @param     mixed $id The value to use as filter.
+     * @see       filterByDocumentos()
+     *
+     * @param     mixed $iddocumento The value to use as filter.
      *              Use scalar values for equality.
      *              Use array values for in_array() equivalent.
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
@@ -256,16 +267,16 @@ abstract class DocumentosDownloadsQuery extends ModelCriteria
      *
      * @return $this|ChildDocumentosDownloadsQuery The current query, for fluid interface
      */
-    public function filterById($id = null, $comparison = null)
+    public function filterByIddocumento($iddocumento = null, $comparison = null)
     {
-        if (is_array($id)) {
+        if (is_array($iddocumento)) {
             $useMinMax = false;
-            if (isset($id['min'])) {
-                $this->addUsingAlias(DocumentosDownloadsTableMap::COL_ID, $id['min'], Criteria::GREATER_EQUAL);
+            if (isset($iddocumento['min'])) {
+                $this->addUsingAlias(DocumentosDownloadsTableMap::COL_IDDOCUMENTO, $iddocumento['min'], Criteria::GREATER_EQUAL);
                 $useMinMax = true;
             }
-            if (isset($id['max'])) {
-                $this->addUsingAlias(DocumentosDownloadsTableMap::COL_ID, $id['max'], Criteria::LESS_EQUAL);
+            if (isset($iddocumento['max'])) {
+                $this->addUsingAlias(DocumentosDownloadsTableMap::COL_IDDOCUMENTO, $iddocumento['max'], Criteria::LESS_EQUAL);
                 $useMinMax = true;
             }
             if ($useMinMax) {
@@ -276,50 +287,7 @@ abstract class DocumentosDownloadsQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(DocumentosDownloadsTableMap::COL_ID, $id, $comparison);
-    }
-
-    /**
-     * Filter the query on the dtdownload column
-     *
-     * Example usage:
-     * <code>
-     * $query->filterByDtdownload('2011-03-14'); // WHERE dtdownload = '2011-03-14'
-     * $query->filterByDtdownload('now'); // WHERE dtdownload = '2011-03-14'
-     * $query->filterByDtdownload(array('max' => 'yesterday')); // WHERE dtdownload > '2011-03-13'
-     * </code>
-     *
-     * @param     mixed $dtdownload The value to use as filter.
-     *              Values can be integers (unix timestamps), DateTime objects, or strings.
-     *              Empty strings are treated as NULL.
-     *              Use scalar values for equality.
-     *              Use array values for in_array() equivalent.
-     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return $this|ChildDocumentosDownloadsQuery The current query, for fluid interface
-     */
-    public function filterByDtdownload($dtdownload = null, $comparison = null)
-    {
-        if (is_array($dtdownload)) {
-            $useMinMax = false;
-            if (isset($dtdownload['min'])) {
-                $this->addUsingAlias(DocumentosDownloadsTableMap::COL_DTDOWNLOAD, $dtdownload['min'], Criteria::GREATER_EQUAL);
-                $useMinMax = true;
-            }
-            if (isset($dtdownload['max'])) {
-                $this->addUsingAlias(DocumentosDownloadsTableMap::COL_DTDOWNLOAD, $dtdownload['max'], Criteria::LESS_EQUAL);
-                $useMinMax = true;
-            }
-            if ($useMinMax) {
-                return $this;
-            }
-            if (null === $comparison) {
-                $comparison = Criteria::IN;
-            }
-        }
-
-        return $this->addUsingAlias(DocumentosDownloadsTableMap::COL_DTDOWNLOAD, $dtdownload, $comparison);
+        return $this->addUsingAlias(DocumentosDownloadsTableMap::COL_IDDOCUMENTO, $iddocumento, $comparison);
     }
 
     /**
@@ -366,18 +334,18 @@ abstract class DocumentosDownloadsQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query on the iddocumento column
+     * Filter the query on the dtdownload column
      *
      * Example usage:
      * <code>
-     * $query->filterByIddocumento(1234); // WHERE iddocumento = 1234
-     * $query->filterByIddocumento(array(12, 34)); // WHERE iddocumento IN (12, 34)
-     * $query->filterByIddocumento(array('min' => 12)); // WHERE iddocumento > 12
+     * $query->filterByDtdownload('2011-03-14'); // WHERE dtdownload = '2011-03-14'
+     * $query->filterByDtdownload('now'); // WHERE dtdownload = '2011-03-14'
+     * $query->filterByDtdownload(array('max' => 'yesterday')); // WHERE dtdownload > '2011-03-13'
      * </code>
      *
-     * @see       filterByDocumentos()
-     *
-     * @param     mixed $iddocumento The value to use as filter.
+     * @param     mixed $dtdownload The value to use as filter.
+     *              Values can be integers (unix timestamps), DateTime objects, or strings.
+     *              Empty strings are treated as NULL.
      *              Use scalar values for equality.
      *              Use array values for in_array() equivalent.
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
@@ -385,16 +353,16 @@ abstract class DocumentosDownloadsQuery extends ModelCriteria
      *
      * @return $this|ChildDocumentosDownloadsQuery The current query, for fluid interface
      */
-    public function filterByIddocumento($iddocumento = null, $comparison = null)
+    public function filterByDtdownload($dtdownload = null, $comparison = null)
     {
-        if (is_array($iddocumento)) {
+        if (is_array($dtdownload)) {
             $useMinMax = false;
-            if (isset($iddocumento['min'])) {
-                $this->addUsingAlias(DocumentosDownloadsTableMap::COL_IDDOCUMENTO, $iddocumento['min'], Criteria::GREATER_EQUAL);
+            if (isset($dtdownload['min'])) {
+                $this->addUsingAlias(DocumentosDownloadsTableMap::COL_DTDOWNLOAD, $dtdownload['min'], Criteria::GREATER_EQUAL);
                 $useMinMax = true;
             }
-            if (isset($iddocumento['max'])) {
-                $this->addUsingAlias(DocumentosDownloadsTableMap::COL_IDDOCUMENTO, $iddocumento['max'], Criteria::LESS_EQUAL);
+            if (isset($dtdownload['max'])) {
+                $this->addUsingAlias(DocumentosDownloadsTableMap::COL_DTDOWNLOAD, $dtdownload['max'], Criteria::LESS_EQUAL);
                 $useMinMax = true;
             }
             if ($useMinMax) {
@@ -405,7 +373,48 @@ abstract class DocumentosDownloadsQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(DocumentosDownloadsTableMap::COL_IDDOCUMENTO, $iddocumento, $comparison);
+        return $this->addUsingAlias(DocumentosDownloadsTableMap::COL_DTDOWNLOAD, $dtdownload, $comparison);
+    }
+
+    /**
+     * Filter the query on the id column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterById(1234); // WHERE id = 1234
+     * $query->filterById(array(12, 34)); // WHERE id IN (12, 34)
+     * $query->filterById(array('min' => 12)); // WHERE id > 12
+     * </code>
+     *
+     * @param     mixed $id The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildDocumentosDownloadsQuery The current query, for fluid interface
+     */
+    public function filterById($id = null, $comparison = null)
+    {
+        if (is_array($id)) {
+            $useMinMax = false;
+            if (isset($id['min'])) {
+                $this->addUsingAlias(DocumentosDownloadsTableMap::COL_ID, $id['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($id['max'])) {
+                $this->addUsingAlias(DocumentosDownloadsTableMap::COL_ID, $id['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(DocumentosDownloadsTableMap::COL_ID, $id, $comparison);
     }
 
     /**

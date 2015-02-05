@@ -74,7 +74,9 @@ class ClienteController extends BaseController {
               
           }
 
-          return View::make('cliente.listar-login',array('usuarios'=>$usuarios,'id'=>$id));
+          $oCliente = ClienteQuery::create()->findPk($id);
+                  
+          return View::make('cliente.listar-login',array('usuarios'=>$usuarios,'id'=>$id,'oCliente'=>$oCliente));
 	}
         public function view($id)
 	{
@@ -101,7 +103,7 @@ class ClienteController extends BaseController {
               return Redirect::to('/cliente')->with('message-erro','Nenhum cliente encontrado!');
           }
           
-          return View::make('cliente.view',array('cliente'=>$oCliente,'id'=>$id));
+          return View::make('cliente.view',array('oCliente'=>$oCliente,'id'=>$id));
 	}
         public function meusDados()
 	{
@@ -178,7 +180,7 @@ class ClienteController extends BaseController {
               return Redirect::to('/cliente')->with('message-sucess','Atualizado com sucesso!');
           }
           
-          return View::make('cliente.editar',array('cliente'=>$oCliente,'loginCliente'=>$loginCliente,'id'=>$id));
+          return View::make('cliente.editar',array('oCliente'=>$oCliente,'loginCliente'=>$loginCliente,'id'=>$id));
           
 	}
         public function novo()
@@ -238,7 +240,7 @@ class ClienteController extends BaseController {
                     $oLogin->senha = Hash::make(Input::get('senha'));
               }else{
                   Session::flash('message-erro', 'Erro senha não preenchida.');
-                  return View::make('cliente.cadastrar-login',array('cliente'=>$oCliente,'id'=>$id,'email'=>Input::get('email')));
+                  return View::make('cliente.cadastrar-login',array('oCliente'=>$oCliente,'id'=>$id,'email'=>Input::get('email')));
               }
             
               $oLogin->nome      = Input::get('nome');
@@ -265,7 +267,7 @@ class ClienteController extends BaseController {
               }
           }
           
-          return View::make('cliente.cadastrar-login',array('cliente'=>$oCliente,'id'=>$id,'email'=>Input::get('email')));
+          return View::make('cliente.cadastrar-login',array('oCliente'=>$oCliente,'id'=>$id,'email'=>Input::get('email')));
           
 	}
         

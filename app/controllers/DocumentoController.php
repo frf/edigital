@@ -63,34 +63,25 @@ class DocumentoController extends BaseController {
 		$oDocumentos = $oCliente->getDocumentoss();
                 $caminhoDoc = __DIR__.'/../storage/documento/';
                 
-		return View::make('documento.listar', compact('oCliente','oDocumentos','caminhoDoc'));
+		return View::make('documento.listar', compact('oCliente','oDocumentos','caminhoDoc','id'));
             
 	}
 
-	public function getInserir(){
+	public function getInserir($id){
 
-		$idCliente = Input::get('id');
-
-		if($idCliente == ""){
-			return Redirect::to('/documento/listar')->with('message-erro','Nenhum cliente encontrado!');
+		if($id == ""){
+                    return Redirect::to('/documento/listar')->with('message-erro','Nenhum cliente encontrado!');
 		}
+                
+                $oCliente = ClienteQuery::create()->filterById($id)->findOne();
+                $oCatategoria = CategoriasQuery::create()->filterByIdCliente($id)->orderByNomecategoria()->find();
+                foreach($oCatategoria as $cat){
+                    $aCat[$cat->getId()] = $cat->getNomecategoria();
+                }
 
-		return View::make('documento.inserir', compact('null'));
+		return View::make('documento.inserir', compact('id','oCliente','aCat'));
 	}
 
-	public function postInserir()
-	{
-		
-		$idCliente = Input::get('id');
-		
-		if($idCliente == ""){
-			return Redirect::to('/documento/listar')->with('message-erro','Nenhum cliente encontrado!');
-		}
-
-		$oCliente = ClienteQuery::create()->filterById($idCliente)->findOne();
-
-		return View::make('documento.inserir', compact('oCliente'));
-	}
 
 	public function postSave()
 	{
