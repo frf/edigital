@@ -4,7 +4,7 @@
 @section('content')
 
     <div class="jumbotron">
-        <h2>{{$nomeEmpresa}}</h2>
+        <h2>{{Config::get('edigital.nomeSistema')}} - {{Config::get('edigital.nomeEmpresa')}}</h2>
         @if(Auth::check())
             <p>{{ Lang::get('messages.welcome', array('usuario' => $nomeUsuario)) }}</p>
         @endif
