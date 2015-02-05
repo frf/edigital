@@ -19,5 +19,5 @@ return array(
         'moeda' => 1,//REAL 1 DOLLAR 2    
         'menuAdmin'=> ['atendimento'=>'Atendimento','cliente'=>'Clientes','financeiro'=>'Financeiro'],
         'menuCliente'=> ['atendimento'=>'Atendimento','cliente'=>'Empresa','financeiro'=>'Financeiro'],    
-        'moduloAtivo' => ['atendimento','cliente','financeiro']
+        'moduloAtivo' => ['atendimento','cliente','documento']
 );

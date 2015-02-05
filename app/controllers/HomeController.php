@@ -26,9 +26,15 @@ class HomeController extends BaseController {
                 
                 if(Auth::user()->tipo == 'cliente'){
                     $oCliente = Base\ClienteQuery::create()->filterById(Auth::user()->idcliente)->findOne();                    
+                    $oDocumentos = $oCliente->getDocumentoss();
+                    $caminhoDoc = __DIR__.'/../storage/documento/';
+                    
                     $header['nomeEmpresa']  = $oCliente->getNome();                    
                     $header['chamados']     = Chamado::orderBy('id', 'DESC')->paginate(3);
                     $header['pgtos']        = ClientePgtosQuery::create()->orderByIspaid()->limit(3)->orderByDtpagamento(Criteria::DESC)->find();
+                    $header['oDocumentos']  = $oDocumentos;
+                    
+                    
                 }
             }
 
