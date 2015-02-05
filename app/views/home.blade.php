@@ -85,6 +85,47 @@
       </table>
     </div>
     @endif
+    @if(in_array('documento',Config::get('edigital.moduloAtivo')))
+    <div class="table-responsive table-striped" id="no-more-tables">
+        <h4>Documentos</h4>
+	<table class="table" id="no-more-tables">
+		<thead>
+			<tr>
+				<th>Categoria</th>
+				<th>Nome documento</th>
+				<th>Descrição</th>
+				<th>Data do cadastro</th>
+				<th>Ação</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach($oDocumentos as $aDocumento)			
+			<tr>
+			    <td data-title="Categoria">{{ $aDocumento->getCategorias()->getNomecategoria() }}</td>
+			    <td data-title="Documento">{{ $aDocumento->getNomeDocumento() }}</td>
+			    <td data-title="Descriçao">@if($aDocumento->getDescricao()) 
+                                                            {{ $aDocumento->getDescricao() }} 
+                                                       @else
+                                                            {{"-"}} 
+                                                       @endif</td>
+			    <td data-title="Data">{{ $aDocumento->getDatainclusao('d/m/Y H:i') }}</td>
+                            <td data-title="Ferramentas">
+                                <a href="/documento/download-documento/{{$aDocumento->getId()}}" class="btn btn-success btn-xs">Download</a>
+                                @if(Auth::check())
+                                 @if(Auth::user()->tipo == 'admin')
+                                    <a href="/documento/excluir/{{$aDocumento->getId()}}" class="btn btn-danger btn-xs">Excluir</a>
+                                 @endif
+                                @endif
+                                 
+                            </td>
+			</tr>
+			@endforeach
+		</tbody>
+	</table>
+    </div>
+    @endif
+
+</div>
     @endif
     @endif
 @stop
