@@ -42,7 +42,7 @@
   </table>
     
     {{ Form::submit('Salvar',array('class' => 'btn btn-sm btn-success')); }}
-    <a href='/cliente/listar-login/{{ $id }}' class="btn btn-sm btn-info">Voltar</a>
+    <a href='/cliente/view/{{ $id }}' class="btn btn-sm btn-info">Voltar</a>
     {{ Form::close() }}
 </div>
 
