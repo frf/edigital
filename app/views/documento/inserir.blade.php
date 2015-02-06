@@ -4,7 +4,16 @@
 @section('content')
 
 @extends('cliente.menu')
-
+@if(Session::has('message-sucess'))
+    <div role="alert" class="alert alert-success">
+       {{ Session::get('message-sucess') }}
+    </div>
+    @endif
+    @if(Session::has('message-erro'))
+    <div role="alert" class="alert alert-danger">
+       {{ Session::get('message-erro') }}
+    </div>
+    @endif
 {{ Form::open(array('url' => '/documento/save', 'class' => 'form-horizontal', 
     'enctype'=>'multipart/form-data',
 'role' => 'form')) }}

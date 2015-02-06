@@ -9,7 +9,7 @@
     <a href="/documento/inserir/{{ $id }}" class="btn btn-primary btn-large margem"><i class="icon-white icon-plus"></i> Novo Documento</a>
 @endif
 
-@if(Session::has('message-sucess'))
+    @if(Session::has('message-sucess'))
     <div role="alert" class="alert alert-success">
        {{ Session::get('message-sucess') }}
     </div>

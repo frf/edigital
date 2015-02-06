@@ -302,11 +302,33 @@ class ClienteController extends BaseController {
            
             if(!$oCliente){
                 return Redirect::to('/cliente')->with('message-erro','Nenhum cliente encontrado!');
-            }          
-          
-            $oCliente->getClientePgtoss()->delete();
-            $oCliente->getProdutoss()->delete();
-            $oCliente->getUsuarioss()->delete();
+            }
+            
+            if($oCliente->getDocumentoss()->count()){
+                $caminhoDoc = __DIR__.'/../storage/documento/';
+
+                foreach ($oCliente->getDocumentoss() as $oDoc){
+                    @unlink($caminhoDoc.$oDoc->getCaminhodoc());
+                    
+                    if($oDoc->getDocumentosDownloadss()->count()){
+                        $oDoc->getDocumentosDownloadss()->delete();
+                    }
+                    $oDoc->delete();
+                }
+            }
+            if($oCliente->getCategoriass()->count()){            
+                $oCliente->getCategoriass()->delete();
+            }
+            if($oCliente->getClientePgtoss()->count()){            
+                $oCliente->getClientePgtoss()->delete();
+            }           
+            if($oCliente->getProdutoss()->count()){
+                $oCliente->getProdutoss()->delete();
+            }
+            if($oCliente->getUsuarioss()->count()){
+                $oCliente->getUsuarioss()->delete();
+            }
+           
             $oCliente->delete();
             
             return Redirect::to('/cliente')->with('message-sucess','Cliente excluído com sucesso!');
