@@ -1,7 +1,7 @@
 <?php
 //lista
-$username = "geral@fmsistemas.com.br";
-$password = "ch4ng3m3";
+$user = "geral@fmsistemas.com.br";
+$pass = "ch4ng3m3";
 
 @ini_set('display_errors', '0');
 #$mbox = imap_open("{pop3.$servidor/pop3:110}", $usuario . "@" . $servidor, $senha , OP_HALFOPEN);
@@ -9,6 +9,22 @@ $password = "ch4ng3m3";
 
 $hostname = '{imap.gmail.com:995/imap/ssl/novalidate-cert}'; 
 $mbox = imap_open($hostname,$username,$password) or die('Cannot connect to Gmail: ' . imap_last_error());
+
+#########
+# goggle with pop3 or imap
+# $authhost="{pop.gmail.com:995/pop3/ssl/novalidate-cert}";
+ $authhost="{imap.gmail.com:993/imap/ssl/novalidate-cert}";
+
+if ($mbox=imap_open( $authhost, $user, $pass ))
+        {
+         echo "<h1>Connected</h1>\n";
+         imap_close($mbox);
+        } else
+        {
+         echo "<h1>FAIL!</h1>\n";
+        }
+
+exit;
 
 $erro[] = imap_last_error();
 // testo se tem email no servidor
