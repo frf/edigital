@@ -92,6 +92,9 @@ class DocumentoController extends BaseController {
                  if(Input::get('idCliente') == ""){
                      return Redirect::to('/documento/listar')->with('message-erro','Cliente não encontrado!');
                  }
+                 if(!Input::hasFile('arquivo')){
+                     return Redirect::to('/documento/inserir/'.Input::get('idCliente'))->with('message-erro','Documento inexistente, por favor anexar um documento!');
+                 }
                  
 		 $documento = new Documentos();
 		 $documento->setIdCliente(Input::get('idCliente'));
