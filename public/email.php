@@ -12,8 +12,10 @@ $mbox = imap_open($hostname,$username,$password) or die('Cannot connect to Gmail
 
 #########
 # goggle with pop3 or imap
-# $authhost="{pop.gmail.com:995/pop3/ssl/novalidate-cert}";
- $authhost="{imap.gmail.com:993/imap/ssl/novalidate-cert}";
+ $authhost="{pop.gmail.com:995/pop3/ssl/novalidate-cert}";
+# $authhost="{imap.gmail.com:993/imap/ssl/novalidate-cert}";
+
+echo "ABRINDO EMAIL";
 
 if ($mbox=imap_open( $authhost, $user, $pass ))
         {
@@ -24,7 +26,7 @@ if ($mbox=imap_open( $authhost, $user, $pass ))
          echo "<h1>FAIL!</h1>\n";
         }
 
-exit;
+exit(imap_last_error());
 
 $erro[] = imap_last_error();
 // testo se tem email no servidor
