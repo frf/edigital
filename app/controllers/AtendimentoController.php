@@ -49,11 +49,13 @@ class AtendimentoController extends BaseController {
             $chamado->data = date('d/m/Y H:i:s');
             $chamado->save();
 
+            $lastId = str_pad($chamado->id, 10, "0", STR_PAD_LEFT);;
+            
             $data = array( 'nome' => "Administrador");
             
-            Mail::send('emails.cadastrochamado', $data, function($message)
+            Mail::send('emails.cadastrochamado', $data, function($message) use ($lastId)
             {
-                $message->to(Config::get('edigital.emailAdministrador'), 'Administrador Sistema')->subject('Chamado Aberto - Número: ' . $chamado->id);
+                $message->to(Config::get('edigital.emailAdministrador'), 'Administrador Sistema')->subject('Chamado Aberto - Número: ' . $lastId);
             });
             
             return Redirect::to('/atendimento')->with('success',"<strong>Sucesso!</strong> Chamado cadastrado.");
