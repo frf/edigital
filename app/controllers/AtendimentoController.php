@@ -19,6 +19,9 @@ class AtendimentoController extends BaseController {
 
     public function index()
 	{
+        
+        
+       
         $chamados = Chamado::orderBy('id', 'DESC')->paginate(10);
         $tipo_usuario = Auth::user()->tipo;
 
@@ -46,6 +49,13 @@ class AtendimentoController extends BaseController {
             $chamado->data = date('d/m/Y H:i:s');
             $chamado->save();
 
+            $data = array( 'nome' => "Administrador");
+            
+            Mail::send('emails.cadastrochamado', $data, function($message)
+            {
+                $message->to(Config::get('edigital.emailAdministrador'), 'Administrador Sistema')->subject('Chamado Aberto - Número: ' . $chamado->id);
+            });
+            
             return Redirect::to('/atendimento')->with('success',"<strong>Sucesso!</strong> Chamado cadastrado.");
         }catch (Exception $e){
 

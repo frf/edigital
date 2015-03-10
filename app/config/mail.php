@@ -54,7 +54,7 @@ return array(
 	|
 	*/
 
-	'from' => array('address' => 'contato@fsitecnologia.com.br', 'name' => 'Atendimento'),
+	'from' => array('address' => 'contato@fsitecnologia.com.br', 'name' => 'Atendimento FSI'),
 
 	/*
 	|--------------------------------------------------------------------------
@@ -80,7 +80,7 @@ return array(
 	|
 	*/
 
-	'username' => null,
+	'username' => "contato@fsitecnologia.com.br",
 
 	/*
 	|--------------------------------------------------------------------------

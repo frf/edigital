@@ -15,6 +15,8 @@ return array(
         'siglaSistema' => 'e-Digital',
         'nomeEmpresaSoftware' => 'FSI Tecnologia',
         'cnpjEmpresaSoftware' => '17.676.772.0001/40',
+        'emailAdministrador' => 'fabio@fabiofarias.com.br',
+        'emailResposta' => 'no-reply@fsitecnologia.com.br',
         'siteEmpresaSoftware' => 'http://www.fsitecnologia.com.br',
         'moeda' => 1,//REAL 1 DOLLAR 2    
         'menuAdmin'=> ['atendimento'=>'Atendimento','cliente'=>'Clientes','financeiro'=>'Financeiro'],
