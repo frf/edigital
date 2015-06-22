@@ -33,7 +33,9 @@ class AtendimentoController extends BaseController {
         $cat_cha = CatChamado::orderBy('cat_chamado', 'ASC')->paginate(10);
         $sta_cha = StatusChamado::get();
 
-        $produto = Produto::where('idcliente','=',Auth::user()->idcliente)->get();
+        $produto = Produto::where('idcliente','=',Auth::user()->idcliente)
+            ->whereNull('idpai')
+            ->get();
         $usuario    = Auth::user()->nome;
 
         return View::make('atendimento.cadastro', compact('cat_cha', 'sta_cha', 'usuario','produto'));

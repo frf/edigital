@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="56290282-4d2e-47ea-9b91-15fb37fa56f9" name="Default" comment="Modulo ativo">
+    <list default="true" id="56290282-4d2e-47ea-9b91-15fb37fa56f9" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/AtendimentoController.php" afterPath="$PROJECT_DIR$/app/controllers/AtendimentoController.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/atendimento/cadastro.blade.php" afterPath="$PROJECT_DIR$/app/views/atendimento/cadastro.blade.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -44,26 +45,26 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AtendimentoController.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="AtendimentoController.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/controllers/AtendimentoController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-17.333334" vertical-offset="216" max-vertical-offset="3564">
-              <caret line="38" column="91" selection-start-line="38" selection-start-column="91" selection-end-line="38" selection-end-column="91" />
+            <state vertical-scroll-proportion="0.65753424" vertical-offset="216" max-vertical-offset="3600">
+              <caret line="36" column="31" selection-start-line="36" selection-start-column="31" selection-end-line="36" selection-end-column="31" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="cadastro.blade.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="cadastro.blade.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/views/atendimento/cadastro.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.46567163" vertical-offset="588" max-vertical-offset="1728">
-              <caret line="55" column="29" selection-start-line="55" selection-start-column="29" selection-end-line="55" selection-end-column="29" />
+            <state vertical-scroll-proportion="-6.888889" vertical-offset="750" max-vertical-offset="1728">
+              <caret line="57" column="0" selection-start-line="57" selection-start-column="0" selection-end-line="57" selection-end-column="0" />
               <folding>
                 <element signature="e#979#1020#0#HTML" expanded="true" />
                 <element signature="e#1053#1088#0#HTML" expanded="true" />
                 <element signature="e#1608#1628#0#HTML" expanded="true" />
-                <element signature="e#2244#2264#0#HTML" expanded="true" />
+                <element signature="e#2207#2227#0#HTML" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -104,8 +105,8 @@
       <list>
         <option value="$PROJECT_DIR$/app/config/edigital.php" />
         <option value="$PROJECT_DIR$/app/models/Produto.php" />
-        <option value="$PROJECT_DIR$/app/controllers/AtendimentoController.php" />
         <option value="$PROJECT_DIR$/app/views/atendimento/cadastro.blade.php" />
+        <option value="$PROJECT_DIR$/app/controllers/AtendimentoController.php" />
       </list>
     </option>
   </component>
@@ -498,7 +499,13 @@
       <option name="project" value="LOCAL" />
       <updated>1434994726708</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Modulo ativo">
+      <created>1434994823992</created>
+      <option name="number" value="00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1434994823992</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -936,24 +943,24 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/AtendimentoController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-17.333334" vertical-offset="216" max-vertical-offset="3564">
-          <caret line="38" column="91" selection-start-line="38" selection-start-column="91" selection-end-line="38" selection-end-column="91" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/views/atendimento/cadastro.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.46567163" vertical-offset="588" max-vertical-offset="1728">
-          <caret line="55" column="29" selection-start-line="55" selection-start-column="29" selection-end-line="55" selection-end-column="29" />
+        <state vertical-scroll-proportion="-6.888889" vertical-offset="750" max-vertical-offset="1728">
+          <caret line="57" column="0" selection-start-line="57" selection-start-column="0" selection-end-line="57" selection-end-column="0" />
           <folding>
             <element signature="e#979#1020#0#HTML" expanded="true" />
             <element signature="e#1053#1088#0#HTML" expanded="true" />
             <element signature="e#1608#1628#0#HTML" expanded="true" />
-            <element signature="e#2244#2264#0#HTML" expanded="true" />
+            <element signature="e#2207#2227#0#HTML" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/AtendimentoController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.65753424" vertical-offset="216" max-vertical-offset="3600">
+          <caret line="36" column="31" selection-start-line="36" selection-start-column="31" selection-end-line="36" selection-end-column="31" />
+          <folding />
         </state>
       </provider>
     </entry>
