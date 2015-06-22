@@ -55,6 +55,22 @@
                     <td></td>
                     <td></td>
                 </tr>
+                {{$oProd->count()}}
+                @if($oProd->count()){
+                <tr style="height: 76px">
+                    <td><label>*Produto: </label></td>
+                    <td colspan="3">
+                        <select class="form-control" id="cat" name="categoria">
+                            <option value="">Selecione...</option>
+                            @foreach($produto as $oProd)
+                                <option value="{{ $oProd->id }}">{{ $oProd->nome }}</option>
+                            @endforeach
+                        </select>
+                    </td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                @endif
                 <tr>
                     <td><label>*Descrição: </label></td>
                     <td colspan="3">
