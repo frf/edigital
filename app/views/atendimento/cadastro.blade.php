@@ -55,8 +55,8 @@
                     <td></td>
                     <td></td>
                 </tr>
-                {{$oProd->count()}}
-                @if($oProd->count()){
+                {{$produto->count()}}
+                @if($produto->count()){
                 <tr style="height: 76px">
                     <td><label>*Produto: </label></td>
                     <td colspan="3">
