@@ -37,16 +37,18 @@
       <file leaf-file-name="cadastro.blade.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/views/atendimento/cadastro.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.6238806" vertical-offset="680" max-vertical-offset="1350">
-              <caret line="66" column="18" selection-start-line="66" selection-start-column="18" selection-end-line="66" selection-end-column="18" />
+            <state vertical-scroll-proportion="0.7791045" vertical-offset="702" max-vertical-offset="1494">
+              <caret line="68" column="8" selection-start-line="68" selection-start-column="8" selection-end-line="68" selection-end-column="8" />
               <folding>
-                <element signature="e#812#853#0#HTML" expanded="true" />
-                <element signature="e#878#913#0#HTML" expanded="true" />
-                <element signature="e#1453#1494#0#HTML" expanded="true" />
-                <element signature="e#1519#1554#0#HTML" expanded="true" />
-                <element signature="e#2213#2234#0#HTML" expanded="true" />
-                <element signature="e#2344#2385#0#HTML" expanded="true" />
-                <element signature="e#2410#2445#0#HTML" expanded="true" />
+                <element signature="e#6#86#0#PHP" expanded="true" />
+                <element signature="e#206#225#0#HTML" expanded="true" />
+                <element signature="e#952#993#0#HTML" expanded="true" />
+                <element signature="e#1026#1061#0#HTML" expanded="true" />
+                <element signature="e#1697#1738#0#HTML" expanded="true" />
+                <element signature="e#1771#1806#0#HTML" expanded="true" />
+                <element signature="e#2593#2614#0#HTML" expanded="true" />
+                <element signature="e#2732#2773#0#HTML" expanded="true" />
+                <element signature="e#2806#2841#0#HTML" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -439,7 +441,13 @@
       <option name="project" value="LOCAL" />
       <updated>1434995357217</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Modulo ativo">
+      <created>1434995871507</created>
+      <option name="number" value="00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1434995871507</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -887,16 +895,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/atendimento/cadastro.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6238806" vertical-offset="680" max-vertical-offset="1350">
-          <caret line="66" column="18" selection-start-line="66" selection-start-column="18" selection-end-line="66" selection-end-column="18" />
+        <state vertical-scroll-proportion="0.7791045" vertical-offset="702" max-vertical-offset="1494">
+          <caret line="68" column="8" selection-start-line="68" selection-start-column="8" selection-end-line="68" selection-end-column="8" />
           <folding>
-            <element signature="e#812#853#0#HTML" expanded="true" />
-            <element signature="e#878#913#0#HTML" expanded="true" />
-            <element signature="e#1453#1494#0#HTML" expanded="true" />
-            <element signature="e#1519#1554#0#HTML" expanded="true" />
-            <element signature="e#2213#2234#0#HTML" expanded="true" />
-            <element signature="e#2344#2385#0#HTML" expanded="true" />
-            <element signature="e#2410#2445#0#HTML" expanded="true" />
+            <element signature="e#6#86#0#PHP" expanded="true" />
+            <element signature="e#206#225#0#HTML" expanded="true" />
+            <element signature="e#952#993#0#HTML" expanded="true" />
+            <element signature="e#1026#1061#0#HTML" expanded="true" />
+            <element signature="e#1697#1738#0#HTML" expanded="true" />
+            <element signature="e#1771#1806#0#HTML" expanded="true" />
+            <element signature="e#2593#2614#0#HTML" expanded="true" />
+            <element signature="e#2732#2773#0#HTML" expanded="true" />
+            <element signature="e#2806#2841#0#HTML" expanded="true" />
           </folding>
         </state>
       </provider>
