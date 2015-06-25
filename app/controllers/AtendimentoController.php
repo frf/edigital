@@ -34,7 +34,7 @@ class AtendimentoController extends BaseController {
             $cat_cha = CatChamado::orderBy('cat_chamado', 'ASC')->paginate(10);
             $sta_cha = StatusChamado::get();
 
-            $aCliente = Clientes::get();
+            $aCliente = \Clientes::get();
 
             $produto = Produto::where('idcliente', '=', Auth::user()->idcliente)
                 ->whereNull('idpai')
