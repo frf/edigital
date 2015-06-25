@@ -34,12 +34,14 @@ class AtendimentoController extends BaseController {
             $cat_cha = CatChamado::orderBy('cat_chamado', 'ASC')->paginate(10);
             $sta_cha = StatusChamado::get();
 
+            $aCliente = Cliente::get();
+
             $produto = Produto::where('idcliente', '=', Auth::user()->idcliente)
                 ->whereNull('idpai')
                 ->get();
             $usuario = Auth::user()->nome;
 
-            return View::make('atendimento.cadastro', compact('cat_cha', 'sta_cha', 'usuario', 'produto'));
+            return View::make('atendimento.cadastro-admin', compact('cat_cha', 'sta_cha', 'usuario', 'produto','aCliente'));
 
         }else{
             return Redirect::to('/atendimento')->with('warning', "<strong>Erro!</strong> Você não é administrador.");
@@ -53,7 +55,7 @@ class AtendimentoController extends BaseController {
                 $chamado = new Chamado();
                 $chamado->categoria = Input::get('categoria');
                 $chamado->titulo = Input::get('titulo');
-                $chamado->status = Input::get('status');
+                $chamado->status = 1;
                 $chamado->idusuario = Auth::user()->id;
                 $chamado->mensagem = Input::get('mensagem');
                 $chamado->data = date('d/m/Y H:i:s');
@@ -95,7 +97,8 @@ class AtendimentoController extends BaseController {
             $chamado = new Chamado();
             $chamado->categoria = Input::get('categoria');
             $chamado->titulo = Input::get('titulo');
-            $chamado->status = Input::get('status');
+            $chamado->status = 1;
+            $chamado->idcliente = 1;
             $chamado->idusuario = Auth::user()->id;
             $chamado->mensagem = Input::get('mensagem');
             $chamado->data = date('d/m/Y H:i:s');

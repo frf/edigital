@@ -33,7 +33,18 @@
                             <i style="color: red; font-size: 10px">Selecione uma categoria.</i>
                         </div>
                     </div>
-
+                    <div class="form-group">
+                        <label for="idcliente">*Cliente: </label>
+                        <select class="form-control" id="idcliente" name="idcliente">
+                            <option value="">Selecione...</option>
+                            @foreach($cliente as $aCliente)
+                                <option value="{{ $cliente->id }}">{{ $cliente->nome }}</option>
+                            @endforeach
+                        </select>
+                        <div id="categoria_cadastro" style="position: absolute; display: none">
+                            <i style="color: red; font-size: 10px">Selecione uma categoria.</i>
+                        </div>
+                    </div>
                     <div class="form-group">
                         <label>*Título: </label>
                         <input class="form-control" type="text" id="titulo" name="titulo" />
