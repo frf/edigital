@@ -53,6 +53,10 @@ Route::group(array('before' => 'auth'), function()
     Route::get('/atendimento', 'AtendimentoController@index');
     Route::get('/atendimento/cadastrar', 'AtendimentoController@getCadastrar');
     Route::post('/atendimento/cadastrar', 'AtendimentoController@postCadastrar');
+    //ADMIN
+    Route::get('/atendimento/cadastrar-admin', 'AtendimentoController@getCadastrarAdmin');
+    Route::post('/atendimento/cadastrar-admin', 'AtendimentoController@postCadastrarAdmin');
+
     Route::get('/atendimento/cat_chamado', 'AtendimentoController@getCatChamado');
     Route::post('/atendimento/cat_chamado', 'AtendimentoController@postCatChamado');
     Route::get('/atendimento/edi_cat_chamado/{id}', 'AtendimentoController@getEdiCatChamado');

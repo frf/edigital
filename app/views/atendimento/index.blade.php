@@ -31,6 +31,9 @@
         @if(Auth::user()->tipo == 'cliente')
         <a href="/atendimento/cadastrar" class="btn btn-primary margem">Novo Chamado</a>
         @endif
+        @if(Auth::user()->tipo == 'admin')
+            <a href="/atendimento/cadastrar-admin" class="btn btn-primary margem">Novo Chamado</a>
+        @endif
         <table class="table" id="no-more-tables">
             <thead>
                 <thead>

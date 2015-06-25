@@ -27,7 +27,55 @@ class AtendimentoController extends BaseController {
 
         return View::make('atendimento.index', compact('chamados', 'tipo_usuario', 'categoria'));
 	}
+    public function getCadastrarAdmin()
+    {
+        if(Auth::user()->tipo == 'admin') {
 
+            $cat_cha = CatChamado::orderBy('cat_chamado', 'ASC')->paginate(10);
+            $sta_cha = StatusChamado::get();
+
+            $produto = Produto::where('idcliente', '=', Auth::user()->idcliente)
+                ->whereNull('idpai')
+                ->get();
+            $usuario = Auth::user()->nome;
+
+            return View::make('atendimento.cadastro', compact('cat_cha', 'sta_cha', 'usuario', 'produto'));
+
+        }else{
+            return Redirect::to('/atendimento')->with('warning', "<strong>Erro!</strong> Você não é administrador.");
+        }
+    }
+    public function postCadastrarAdmin()
+    {
+        try{
+
+            if(Auth::user()->tipo == 'admin') {
+                $chamado = new Chamado();
+                $chamado->categoria = Input::get('categoria');
+                $chamado->titulo = Input::get('titulo');
+                $chamado->status = Input::get('status');
+                $chamado->idusuario = Auth::user()->id;
+                $chamado->mensagem = Input::get('mensagem');
+                $chamado->data = date('d/m/Y H:i:s');
+                $chamado->save();
+
+                $lastId = str_pad($chamado->id, 10, "0", STR_PAD_LEFT);;
+
+                //$data = array('nome' => "Administrador");
+
+                //Mail::send('emails.cadastrochamado', $data, function ($message) use ($lastId) {
+                //    $message->to(Config::get('edigital.emailCliente'), 'Administrador Sistema')->subject('Chamado Aberto - Número: ' . $lastId);
+                //});
+
+                return Redirect::to('/atendimento')->with('success', "<strong>Sucesso!</strong> Chamado cadastrado.");
+            }else{
+                return Redirect::to('/atendimento')->with('warning', "<strong>Erro!</strong> Você não é administrador.");
+            }
+        }catch (Exception $e){
+
+            return Redirect::to('/atendimento')->with('warning',"<strong>Atenção!</strong> O Chamado não foi cadastrado." . $e->getMessage());
+        }
+    }
     public function getCadastrar()
     {
         $cat_cha = CatChamado::orderBy('cat_chamado', 'ASC')->paginate(10);
