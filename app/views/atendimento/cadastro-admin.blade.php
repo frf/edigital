@@ -37,7 +37,7 @@
                         <label for="idcliente">*Cliente: </label>
                         <select class="form-control" id="idcliente" name="idcliente">
                             <option value="">Selecione...</option>
-                            @foreach($cliente as $aCliente)
+                            @foreach($aCliente as $cliente)
                                 <option value="{{ $cliente->id }}">{{ $cliente->nome }}</option>
                             @endforeach
                         </select>
