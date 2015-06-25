@@ -6,7 +6,7 @@
  * Time: 17:12
  */
 
-class Cliente extends Eloquent
+class Clientes extends Eloquent
 {
 
     protected $table = 'cliente';
