@@ -25,8 +25,8 @@ class HomeController extends BaseController {
                 $header['nomeUsuario']  = Auth::user()->nome;
                 
                 if(Auth::user()->tipo == 'cliente'){
-                    $oCliente = Base\ClienteQuery::create()->filterById(Auth::user()->idcliente)->findOne();                    
-                    $oDocumentos = $oCliente->getDocumentoss();
+                    $oCliente = Clientes::where('id','=',Auth::user()->idcliente)->get();
+                    $oDocumentos = Documentos::where('idcliente','=',Auth::user()->idcliente)->get();
                     $caminhoDoc = __DIR__.'/../storage/documento/';
                     
                     $header['nomeEmpresa']  = $oCliente->getNome();                    
@@ -59,9 +59,9 @@ class HomeController extends BaseController {
                         'password' => Input::get('senha')
                             ), $remember)) {
                 
-                $oUsuario = UsuariosQuery::create()->findPk(Auth::user()->id);
+                $oUsuario = Usuario::find(Auth::user()->id);
                 
-                if($oUsuario->getIsdelete()){
+                if($oUsuario->isdelete){
                     return Redirect::to('entrar')
                                 ->with('flash_error','Usuário desativado.');
                 }

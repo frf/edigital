@@ -7,7 +7,6 @@
 	"require": {
 		"laravel/framework": "4.2.*",
 		"propel/propel": "2.0.*@dev",
-		"propel/propel-bundle": "1.2.*",
                 "guzzlehttp/guzzle": "~4.0"
 	},
 	"autoload": {
@@ -17,9 +16,7 @@
 			"app/models",
 			"app/database/migrations",
 			"app/database/seeds",
-			"app/tests/TestCase.php",
-                        "app/models/propel",
-                        "app/classes"
+			"app/tests/TestCase.php"
 		]
 	},
 	"scripts": {
