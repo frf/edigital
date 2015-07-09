@@ -11,14 +11,11 @@
 @extends('sidebar')
 
 @section('content')
-
-<script src="/js/atendimento.js"></script>
-
-    <div style="float: left">
+<div style="float: left">
         <h3><b>Cadastrar novo chamado</b></h3>
         <br />
         <div class="row">
-            <div class="col-sm-12"
+            <div class="col-sm-12">
                 <form method="post" id="cad_chamado">
 
                     <div class="form-group">
