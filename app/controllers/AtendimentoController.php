@@ -56,6 +56,7 @@ class AtendimentoController extends BaseController {
                 $chamado->categoria = Input::get('categoria');
                 $chamado->titulo = Input::get('titulo');
                 $chamado->status = 1;
+                $chamado->idcliente = Input::get('idcliente');
                 $chamado->idusuario = Auth::user()->id;
                 $chamado->mensagem = Input::get('mensagem');
                 $chamado->data = date('d/m/Y H:i:s');
@@ -98,7 +99,7 @@ class AtendimentoController extends BaseController {
             $chamado->categoria = Input::get('categoria');
             $chamado->titulo = Input::get('titulo');
             $chamado->status = 1;
-            $chamado->idcliente = 1;
+            $chamado->idcliente = Auth::user()->idcliente;
             $chamado->idusuario = Auth::user()->id;
             $chamado->mensagem = Input::get('mensagem');
             $chamado->data = date('d/m/Y H:i:s');
