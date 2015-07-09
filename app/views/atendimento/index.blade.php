@@ -57,12 +57,6 @@
                         <td data-title="Data" scope="row">{{ $chamado->data }}</td>
                         <td data-title="Ferramentas" scope="row">
                             <a href="/atendimento/historico/{{ $chamado->id }}" class="btn btn-xs btn-primary">Histórico</a>
-                            <button type="button" id="detalhar" onclick="info_atendimento({{ $chamado->id }})" class="btn btn-xs btn-success">Mensagem</button>
-                        </td>
-                    </tr>
-                    <tr id="info{{ $chamado->id }}" style="display: none; background-color: #CBFFD5">
-                        <td colspan="6">
-                            <b>Mensagem: </b>{{ $chamado->mensagem }}
                         </td>
                     </tr>
                  @endforeach
