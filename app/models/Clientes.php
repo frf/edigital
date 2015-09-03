@@ -28,10 +28,4 @@ class Clientes extends Eloquent
         return $this->hasMany('Produto','idcliente','id'); // this matches the Eloquent model
     }
 
-
-    public function getNome(){
-        return $this->nome;
-    }
-
-
 } 
