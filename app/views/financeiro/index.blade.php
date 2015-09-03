@@ -41,13 +41,13 @@
         @foreach ($pgtos as $pgto)
             <tr>
               @if($pgto->getIdproduto())
-                <td data-title="Descrição" scope="row">{{ $pgto->getProdutos()->getNome() }}</td>
+                <td data-title="Descrição" scope="row">{{ '$pgto->getProdutos()->getNome()' }}</td>
               @else
                 <td data-title="Descrição" scope="row">{{ $pgto->getDescricao() }}</td>
               @endif
-              <td data-title="Valor"  class="numeric" scope="row">{{ $pgto->getMoeda()->getSimbolo() }} {{ $pgto->getValor() }}</td>
-              <td data-title="Nome Cliente" scope="row">{{ $pgto->getCliente()->getNome() }}</td>
-              <td data-title="Dt Pgto" scope="row">{{ $pgto->getDtpagamento('d/m/Y H:i') }}</td>
+              <td data-title="Valor"  class="numeric" scope="row">{{ '$pgto->getMoeda()->getSimbolo()' }} {{ '$pgto->getValor()' }}</td>
+              <td data-title="Nome Cliente" scope="row">{{ $pgto->getClientes()->getNome() }}</td>
+              <td data-title="Dt Pgto" scope="row">{{ '$pgto->getDtpagamento(d/m/Y H:i)' }}</td>
               @if(Auth::user()->tipo == 'admin')
               <td data-title="Ferramenta" scope="row">
                   
