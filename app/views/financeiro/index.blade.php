@@ -51,7 +51,7 @@
               @if(Auth::user()->tipo == 'admin')
               <td data-title="Ferramenta" scope="row">
                   
-                    @if($pgto->getIsPaid())
+                    @if('$pgto->getIsPaid()')
                         <a href="/financeiro/pendente/{{ $pgto->getId() }}" class="btn btn-xs btn-success">Pago</a>
                     @else 
                         <a href="/financeiro/pago/{{ $pgto->getId() }}" class="btn btn-xs btn-warning">Pendente</a>
