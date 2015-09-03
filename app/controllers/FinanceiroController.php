@@ -19,9 +19,8 @@ class FinanceiroController extends BaseController {
        public function index()
 	{
       
-          $dados['pgtos'] = ClientePgtosQuery::create()->orderByIspaid()->orderByDtpagamento(Criteria::DESC)->find();
-          
-          
+          $dados['pgtos'] = ClientePgtos::all();
+
           return View::make('financeiro.index',$dados);
 	}
        public function efetuarPagamento($id)
