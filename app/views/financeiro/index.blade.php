@@ -40,7 +40,7 @@
         <tbody>
         @foreach ($pgtos as $pgto)
             <tr>
-              @if($pgto->getIdproduto())
+              @if('$pgto->getIdproduto()')
                 <td data-title="Descrição" scope="row">{{ '$pgto->getProdutos()->getNome()' }}</td>
               @else
                 <td data-title="Descrição" scope="row">{{ $pgto->getDescricao() }}</td>
