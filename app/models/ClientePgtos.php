@@ -12,7 +12,7 @@ class ClientePgtos extends Eloquent
     protected $table = 'cliente_pgtos';
 
     public function getClientes(){
-        return $this->hasMany('Cliente','idcliente','id'); // this matches the Eloquent model
+        return $this->hasMany('Clientes','idcliente','id'); // this matches the Eloquent model
     }
 
     public function getId(){
