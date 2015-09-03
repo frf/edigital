@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="56290282-4d2e-47ea-9b91-15fb37fa56f9" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/ClientePgtos.php" afterPath="$PROJECT_DIR$/app/models/ClientePgtos.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/Clientes.php" afterPath="$PROJECT_DIR$/app/models/Clientes.php" />
     </list>
     <ignored path="edigital.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -43,38 +43,28 @@
       <file leaf-file-name="index.blade.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/views/financeiro/index.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-28.0">
-              <caret line="42" column="41" selection-start-line="42" selection-start-column="41" selection-end-line="42" selection-end-column="41" />
+            <state vertical-scroll-proportion="-18.0">
+              <caret line="48" column="88" selection-start-line="48" selection-start-column="81" selection-end-line="48" selection-end-column="88" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Clientes.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Clientes.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/models/Clientes.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-6.0">
-              <caret line="14" column="4" selection-start-line="14" selection-start-column="4" selection-end-line="16" selection-end-column="5" />
+            <state vertical-scroll-proportion="0.72537315">
+              <caret line="32" column="27" selection-start-line="32" selection-start-column="27" selection-end-line="32" selection-end-column="27" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ClientePgtos.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ClientePgtos.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/models/ClientePgtos.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.24179104">
+            <state vertical-scroll-proportion="-6.0">
               <caret line="14" column="39" selection-start-line="14" selection-start-column="39" selection-end-line="14" selection-end-column="39" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="cliente.blade.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/views/cliente/cliente.blade.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-11.814815">
-              <caret line="45" column="65" selection-start-line="45" selection-start-column="65" selection-end-line="45" selection-end-column="65" />
               <folding />
             </state>
           </provider>
@@ -109,7 +99,6 @@
         <option value="$PROJECT_DIR$/app/models/DocumentosDownloads.php" />
         <option value="$PROJECT_DIR$/app/models/Documentos.php" />
         <option value="$PROJECT_DIR$/app/models/Categorias.php" />
-        <option value="$PROJECT_DIR$/app/models/Clientes.php" />
         <option value="$PROJECT_DIR$/app/controllers/ClienteController.php" />
         <option value="$PROJECT_DIR$/public/js/atendimento.js" />
         <option value="$PROJECT_DIR$/app/views/atendimento/cadastro-admin.blade.php" />
@@ -118,6 +107,7 @@
         <option value="$PROJECT_DIR$/app/controllers/FinanceiroController.php" />
         <option value="$PROJECT_DIR$/app/views/financeiro/index.blade.php" />
         <option value="$PROJECT_DIR$/app/models/ClientePgtos.php" />
+        <option value="$PROJECT_DIR$/app/models/Clientes.php" />
       </list>
     </option>
   </component>
@@ -916,32 +906,32 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/cliente/cliente.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-11.814815">
+        <state vertical-scroll-proportion="0.4761194">
           <caret line="45" column="65" selection-start-line="45" selection-start-column="65" selection-end-line="45" selection-end-column="65" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/financeiro/index.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-28.0">
-          <caret line="42" column="41" selection-start-line="42" selection-start-column="41" selection-end-line="42" selection-end-column="41" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/Clientes.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-6.0">
-          <caret line="14" column="4" selection-start-line="14" selection-start-column="4" selection-end-line="16" selection-end-column="5" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/models/ClientePgtos.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.24179104">
+        <state vertical-scroll-proportion="-6.0">
           <caret line="14" column="39" selection-start-line="14" selection-start-column="39" selection-end-line="14" selection-end-column="39" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/financeiro/index.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-18.0">
+          <caret line="48" column="88" selection-start-line="48" selection-start-column="81" selection-end-line="48" selection-end-column="88" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/Clientes.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.72537315">
+          <caret line="32" column="27" selection-start-line="32" selection-start-column="27" selection-end-line="32" selection-end-column="27" />
           <folding />
         </state>
       </provider>

@@ -29,6 +29,9 @@ class Clientes extends Eloquent
     }
 
 
+    public function getNome(){
+        return $this->nome;
+    }
 
 
 } 
